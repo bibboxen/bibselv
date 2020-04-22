@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './Initial.css';
+import Button from 'react-bootstrap/Button';
+import {Container, Row, Col} from 'react-bootstrap';
 
 class Initial extends Component {
     constructor (props) {
@@ -7,12 +8,16 @@ class Initial extends Component {
     }
 
     render () {
-        const {color} = this.props;
         const {actionHandler} = this.props;
         return (
-            <div className={'initial-container'} style={{backgroundColor: color, color: 'white'}}>
-                <button onClick={() => actionHandler('EnterBorrowFlow', {})}>Lån</button>
-            </div>
+            <Container>
+                <h1>Vælg handling</h1>
+                <Row>
+                    <Col>
+                        <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'borrow' })}>Lån</Button>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

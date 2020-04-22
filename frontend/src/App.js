@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import socketIOClient from 'socket.io-client';
 import Initial from './Steps/Initial';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Alert} from 'react-bootstrap';
+import ScanLogin from './Steps/ScanLogin';
+import Borrow from './Steps/Borrow';
 
 class App extends Component {
     constructor (props) {
@@ -16,10 +20,11 @@ class App extends Component {
             machineId: machineId,
             machineState: {},
             // @TODO: Make configurable.
-            endpoint: 'http://0.0.0.0:8010'
+            endpoint: 'http://bibbox-website.local.itkdev.dk:8010'
         };
 
         this.handleAction = this.handleAction.bind(this);
+        this.handleReset = this.handleReset.bind(this);
     }
 
     componentDidMount () {
@@ -27,7 +32,11 @@ class App extends Component {
         const socket = socketIOClient(endpoint);
         this.socket = socket;
         socket.emit('StartMachine', this.state.machineId);
-        socket.on('UpdateState', data => this.setState({machineState: data}));
+        socket.on('UpdateState', data => {
+            this.setState({machineState: data}, () => {
+                console.log("UpdateState", this.state.machineState);
+            });
+        });
     }
 
     handleAction (action, data) {
@@ -39,20 +48,27 @@ class App extends Component {
         );
     }
 
+    handleReset () {
+        this.socket.emit('Reset');
+    }
+
     renderStep (step, machineState) {
         switch (step) {
             case 'initial':
-                return <Initial color={machineState.color} actionHandler={this.handleAction} />;
+                return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
             case 'chooseLogin':
-                return <div>ChooseLogin</div>;
+                return <div>@TODO: chooseLogin</div>;
             case 'loginScan':
-                return <div>LoginScan</div>;
-            case 'loading':
+                return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+            case 'borrow':
+                return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
             default:
                 return (
                     <div className={'app-default'}
                          style={{textAlign: 'center'}}>
-                        Please wait...
+                        <Alert variant={'warning'}>
+                            Please wait...
+                        </Alert>
                     </div>
                 );
         }

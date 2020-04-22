@@ -34,6 +34,8 @@ const loadClient = (token, socketId) => {
 };
 
 io.on("connection", socket => {
+    let client = loadClient(123, socket.id);
+
     console.log("Client connected with socket id: " + socket.id);
 
     socket.on('StartMachine', (token) => {
@@ -42,15 +44,55 @@ io.on("connection", socket => {
         // @TODO: Load config for client.
         // @TODO: Send config to client.
 
-        let client = loadClient(token, socket.id);
         bibbox.reset(client);
 
         socket.emit("UpdateState", client.state);
     });
 
+    socket.on('Reset', () => {
+        client = bibbox.reset(client);
+        socket.emit("UpdateState", client.state);
+    });
+
     socket.on('Action', (data) => {
         console.log('Action', data);
-        bibbox.action(data.action, data.data);
+
+        // @TODO: Replace with login call to FBS.
+        if (data.action === 'login') {
+            console.log('Fake login');
+            client = bibbox.action(client, 'loginSuccess', {
+                user: {
+                    'name': 'Logged in user'
+                }
+            });
+
+            socket.emit("UpdateState", client.state);
+            return;
+        }
+
+        // @TODO: Replace with call to FBS.
+        if (data.action === 'borrowMaterial') {
+            console.log('Fake borrow');
+
+            client = bibbox.action(client, 'materialUpdate', {
+                id: data.data.id,
+                status: 'inProgress'
+            });
+            socket.emit("UpdateState", client.state);
+
+            setTimeout(() => {
+                client = bibbox.action(client, 'materialUpdate', {
+                    id: data.data.id,
+                    status: 'borrowed'
+                });
+                socket.emit("UpdateState", client.state);
+            }, 1500);
+
+            return;
+        }
+
+        bibbox.action(client, data.action, data.data);
+        socket.emit("UpdateState", client.state);
     });
 
     socket.on("disconnect", () => console.log("Client disconnected"));
