@@ -1,24 +1,14 @@
 {
-  "name": "engine",
-  "version": "1.0.0",
-  "description": "The engine that bibbox instances communicated with.",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bibboxen/bibbox-website.git"
-  },
-  "author": "Troels Ugilt Jensen",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/bibboxen/bibbox-website/issues"
-  },
-  "homepage": "https://github.com/bibboxen/bibbox-website#readme",
+  "name": "bibbox",
+  "description": "Library box - automatic borrower",
+  "version": "1.4.2",
+  "private": true,
   "dependencies": {
-    "express": "^4.17.1",
-    "machina": "^4.0.2",
-    "socket.io": "^2.3.0"
+    "architect": "^0.1.13",
+    "debug": "^4.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "run": "node app.js"
   }
 }

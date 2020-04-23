@@ -1,101 +1,92 @@
-const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
-const bibbox = require('./bibbox.js').bibbox;
-
-const port = process.env.PORT || 3000;
-const router = express.Router();
-const app = express();
-
-router.get("/", (req, res) => {
-    res.send({ response: "Ok" }).status(200);
-});
-app.use(router);
-
-const server = http.createServer(app);
-const io = socketIo(server);
+#!/usr/bin/env node
 
 /**
- * Load the client from token and socketId.
- *
- * @param token
- *   The unique token for the given client
- * @param socketId
- *   The current socket id
- * @return object
+ * @file
+ * This is the main application that uses architect to build the application
+ * base on plugins.
  */
-const loadClient = (token, socketId) => {
-    // @TODO: Get client from redis.
-    return {
-        'id': 'test',
-        'token': token,
-        'socketId': socketId
-    };
+'use strict';
+
+const path = require('path');
+const architect = require('architect');
+const debug = require('debug')('bibbox:APP');
+
+// @TODO: Should this be configurable?
+const eventTimeout = 1000;
+
+/**
+ * Check if a given event message has expired.
+ *
+ * @param {int} timestamp
+ *   Unit timestamp to compare.
+ * @param {function} debug
+ *   Debug function used to display debug messages.
+ * @param {string} eventName
+ *   The name of the event (used for debugging).
+ *
+ * @returns {boolean}
+ *   If expire true else false.
+ */
+const isEventExpired = function isEventExpired(timestamp, debug, eventName) {
+  const current = new Date().getTime();
+  eventName = eventName || 'Unknown';
+
+  if (Number(timestamp) + eventTimeout < current) {
+    debug('EVENT ' + eventName + ' is expired (' + ((Number(timestamp) + eventTimeout) - current) + ').');
+    return true;
+  }
+
+  debug('EVENT ' + eventName + ' message not expired (' + ((Number(timestamp) + eventTimeout) - current) + ').');
+  return false;
 };
 
-io.on("connection", socket => {
-    let client = loadClient(123, socket.id);
+// Configure the plugins.
+const plugins = [
+  {
+    packagePath: './plugins/bus',
+    isEventExpired: isEventExpired
+  },
+  {
+    packagePath: './plugins/state_machine',
+    isEventExpired: isEventExpired
+  },
+  {
+    packagePath: './plugins/server',
+    port: 8010,
+    path: path.join(__dirname, 'public'),
+    isEventExpired: isEventExpired
+  }
+];
 
-    console.log("Client connected with socket id: " + socket.id);
-
-    socket.on('StartMachine', (token) => {
-        console.log('StartMachine', token);
-        // @TODO: Make sure the client is allowed access.
-        // @TODO: Load config for client.
-        // @TODO: Send config to client.
-
-        bibbox.reset(client);
-
-        socket.emit("UpdateState", client.state);
-    });
-
-    socket.on('Reset', () => {
-        client = bibbox.reset(client);
-        socket.emit("UpdateState", client.state);
-    });
-
-    socket.on('Action', (data) => {
-        console.log('Action', data);
-
-        // @TODO: Replace with login call to FBS.
-        if (data.action === 'login') {
-            console.log('Fake login');
-            client = bibbox.action(client, 'loginSuccess', {
-                user: {
-                    'name': 'Logged in user'
-                }
-            });
-
-            socket.emit("UpdateState", client.state);
-            return;
-        }
-
-        // @TODO: Replace with call to FBS.
-        if (data.action === 'borrowMaterial') {
-            console.log('Fake borrow');
-
-            client = bibbox.action(client, 'materialUpdate', {
-                id: data.data.id,
-                status: 'inProgress'
-            });
-            socket.emit("UpdateState", client.state);
-
-            setTimeout(() => {
-                client = bibbox.action(client, 'materialUpdate', {
-                    id: data.data.id,
-                    status: 'borrowed'
-                });
-                socket.emit("UpdateState", client.state);
-            }, 1500);
-
-            return;
-        }
-
-        bibbox.action(client, data.action, data.data);
-        socket.emit("UpdateState", client.state);
-    });
-
-    socket.on("disconnect", () => console.log("Client disconnected"));
+// User the configuration to start the application.
+var appConfig = architect.resolveConfig(plugins, __dirname);
+architect.createApp(appConfig, function (err, app) {
+  if (err) {
+    console.error(err.stack);
+  }
+  else {
+    debug('Architect plugins successfully bootstrapped.');
+  }
 });
 
-server.listen(port, () => console.log(`Listening on port ${port}`));
+process.on('uncaughtException', function (error) {
+  console.error(error.stack);
+});
+
+// Ensure proper process exit when killed in term.
+process.once('SIGINT', function () { process.exit(); });
+process.once('SIGTERM', function () { process.exit(); });
+
+// If process is forked from bootstrap send keep-alive events back.
+if (process.send) {
+  setInterval(function () {
+    process.send({
+      ping: new Date().getTime()
+    });
+  }, 10000);
+
+  // Inform bootstrap that it's ready.
+  process.send({
+    ready: true
+  });
+}

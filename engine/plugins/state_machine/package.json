@@ -1,0 +1,19 @@
+{
+    "name": "state_machine",
+    "description": "The state machine that clients move through.",
+    "version": "1.0.0",
+    "main": "state_machine.js",
+    "private": true,
+    "plugin": {
+        "consumes": [
+            "bus"
+        ],
+        "provides": [
+            "state_machine"
+        ]
+    },
+    "dependencies": {
+        "debug": "^4.1.1",
+        "machina": "^4.0.2"
+    }
+}

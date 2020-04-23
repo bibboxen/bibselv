@@ -12,12 +12,12 @@ class App extends Component {
         super(props);
 
         const urlParams = new URLSearchParams(window.location.search);
-        const machineId = urlParams.get('machineId');
+        const token = urlParams.get('token');
 
         this.socket = null;
 
         this.state = {
-            machineId: machineId,
+            token: token,
             machineState: {},
             // @TODO: Make configurable.
             endpoint: 'http://bibbox-website.local.itkdev.dk:8010'
@@ -31,7 +31,10 @@ class App extends Component {
         const {endpoint} = this.state;
         const socket = socketIOClient(endpoint);
         this.socket = socket;
-        socket.emit('StartMachine', this.state.machineId);
+        socket.emit('ClientEvent', {
+            name: 'Reset',
+            token: this.state.token
+        });
         socket.on('UpdateState', data => {
             this.setState({machineState: data}, () => {
                 console.log("UpdateState", this.state.machineState);
@@ -41,15 +44,19 @@ class App extends Component {
 
     handleAction (action, data) {
         console.log('handleAction', action, data);
-        this.socket.emit('Action', {
-                action: action,
-                data: data
-            }
-        );
+        this.socket.emit('ClientEvent', {
+            name: 'Action',
+            token: this.state.token,
+            action: action,
+            data: data
+        });
     }
 
     handleReset () {
-        this.socket.emit('Reset');
+        this.socket.emit('ClientEvent', {
+            name: 'Reset',
+            token: this.state.token
+        });
     }
 
     renderStep (step, machineState) {
