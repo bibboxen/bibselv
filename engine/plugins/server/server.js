@@ -40,90 +40,45 @@ module.exports = function (options, imports, register) {
     io.on("connection", socket => {
         debug("Client connected with socket id: " + socket.id);
 
-        socket.on('ClientEvent', (data) => {
-            debug('ClientEvent', data);
+        const busEvent = uniqid('state_machine.up.');
+        let clientEvent = null;
 
-            // @TODO: Load client state from bus event.
+        bus.once(busEvent, (client) => {
+            debug(busEvent, client);
 
-            const busEvent = uniqid('state_machine.event.');
+            clientEvent = 'state_machine.state_update.' + client.token;
+            console.log('CLIENT_EVENT', clientEvent);
 
             // Register event listener.
-            bus.once(busEvent, function (data) {
-                debug(busEvent, data);
+            bus.on(clientEvent, (newState) => {
+                debug(clientEvent, newState);
 
                 // Emit new state to client.
-                socket.emit('UpdateState', data);
+                socket.emit('UpdateState', newState);
             });
 
+            // Emit new state to client.
+            socket.emit('UpdateState', client.state);
+        });
+
+        socket.on('ClientReady', (data) => {
             // Emit event to state machine.
-            bus.emit('state_machine.event', {
-                event: data,
+            bus.emit('state_machine.start', {
+                token: data.token,
                 busEvent: busEvent
             });
         });
 
-        /*
-        socket.on('StartMachine', (data) => {
-            console.log('StartMachine', data.token);
-            // @TODO: Make sure the client is allowed access.
-            // @TODO: Load config for client.
-            // @TODO: Send config to client.
+        socket.on('ClientEvent', (data) => {
+            debug('ClientEvent', data);
 
-            bibbox.reset(client);
-            saveClient(data.token, client);
-            socket.emit("UpdateState", client.state);
+            bus.emit('state_machine.event', data);
         });
 
-        socket.on('Reset', (data) => {
-            client = bibbox.reset(client);
-            saveClient(data.token, client);
-            socket.emit("UpdateState", client.state);
+        socket.on("disconnect", () => {
+            debug("Client disconnected");
+            bus.off(clientEvent);
         });
-
-        socket.on('Action', (data) => {
-            console.log('Action', data);
-
-            // @TODO: Replace with login call to FBS.
-            if (data.action === 'login') {
-                console.log('Fake login');
-                client = bibbox.action(client, 'loginSuccess', {
-                    user: {
-                        'name': 'Logged in user'
-                    }
-                });
-
-                socket.emit("UpdateState", client.state);
-                return;
-            }
-
-            // @TODO: Replace with call to FBS.
-            if (data.action === 'borrowMaterial') {
-                console.log('Fake borrow');
-
-                client = bibbox.action(client, 'materialUpdate', {
-                    id: data.data.id,
-                    status: 'inProgress'
-                });
-                socket.emit("UpdateState", client.state);
-
-                setTimeout(() => {
-                    client = bibbox.action(client, 'materialUpdate', {
-                        id: data.data.id,
-                        status: 'borrowed'
-                    });
-                    socket.emit("UpdateState", client.state);
-                }, 1500);
-
-                return;
-            }
-
-            bibbox.action(client, data.action, data.data);
-            socket.emit("UpdateState", client.state);
-        });
-
-         */
-
-        socket.on("disconnect", () => debug("Client disconnected"));
     });
 
     // Start the server.

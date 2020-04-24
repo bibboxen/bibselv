@@ -20,6 +20,7 @@ const debug = require('debug')('bibbox:STATE_MACHINE:main');
  */
 module.exports = function (options, imports, register) {
     const bus = imports.bus;
+    const clientModule = imports.client;
 
     // See http://machina-js.org/ for information about machina fsm.
 
@@ -86,6 +87,17 @@ module.exports = function (options, imports, register) {
                 _reset: function (client) {
                     this.transition(client, 'initial');
                 },
+                login: function (client) {
+                    const loginData = client.actionData;
+
+                    // @TODO: Login with fbs plugin.
+                    client.actionData = {
+                        user: {
+                            name: "Test user"
+                        }
+                    };
+                    this.handle(client, 'loginSuccess');
+                },
                 loginError: function (client) {
                     debug('Triggered loginError on client: ' + client.id, client.actionData);
                     client.state.loginError = client.actionData;
@@ -107,6 +119,21 @@ module.exports = function (options, imports, register) {
                 _reset: function (client) {
                     this.transition(client, 'initial');
                 },
+                borrowMaterial: function (client) {
+                    // @TODO: Send to fbs.
+                    client.actionData.status = 'inProgress';
+                    stateMachine.action(client, 'materialUpdate', client.actionData);
+
+                    let material = client.actionData;
+                    setTimeout(() => {
+                        material.status = 'borrowed';
+                        handleEvent({
+                            token: client.token,
+                            action: 'materialUpdate',
+                            data: material
+                        })
+                    }, 2500);
+                },
                 materialUpdate: function (client) {
                     debug('Triggered materialUpdate on client: ' + client.id, client.actionData);
 
@@ -127,44 +154,52 @@ module.exports = function (options, imports, register) {
         },
 
         reset: function (client) {
-            debug('Reset on client: ' + client.id);
+            debug('Reset on client: ' + client.token);
             this.handle(client, '_reset');
             return client;
         },
         action: function (client, action, data) {
-            debug('Action ' + action + ' on client: ' + client.id);
+            debug('Action ' + action + ' on client: ' + client.token);
             client.actionData = data;
             this.handle(client, action);
             return client;
         }
     });
 
-    // Listener for events in the state machine.
-    bus.on('state_machine.event', (event) => {
-        debug('Received event "state_machine.event"', event);
-
-        // @TODO: Load client
-        let client = {
-            id: 'test',
-            state: {
-                test: 't'
-            }
-        };
-        stateMachine.reset(client);
+    const handleEvent = function (event) {
+        let client = clientModule.load(event.token);
 
         switch (event.name) {
             case 'Reset':
-                stateMachine.reset(client);
+                client = stateMachine.reset(client);
                 break;
             case 'Action':
-                stateMachine.action(client, event.action, event.data);
+                client = stateMachine.action(client, event.action, event.data);
                 break;
         }
 
-        // @TODO: Save client
+        client.actionData = null;
+        clientModule.save(event.token, client);
 
         // Emit new client state.
-        bus.emit(event.busEvent, client.state);
+        bus.emit('state_machine.state_update.' + client.token, client.state);
+    };
+
+    // Listener for events in the state machine.
+    bus.on('state_machine.event', (event) => {
+        debug('Received event "state_machine.event"', event);
+        handleEvent(event);
+    });
+
+    bus.on('state_machine.start', (data) => {
+        debug('state_machine.start', data);
+
+        let client = clientModule.load(data.token);
+        client = stateMachine.reset(client);
+
+        clientModule.save(data.token, client);
+
+        bus.emit(data.busEvent, client);
     });
 
     // Register exposed function with architect.

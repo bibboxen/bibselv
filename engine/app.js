@@ -47,6 +47,10 @@ const plugins = [
     isEventExpired: isEventExpired
   },
   {
+    packagePath: './plugins/client',
+    isEventExpired: isEventExpired
+  },
+  {
     packagePath: './plugins/state_machine',
     isEventExpired: isEventExpired
   },
