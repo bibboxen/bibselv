@@ -40,7 +40,7 @@ class Borrow extends Component {
                         <h2>Materials</h2>
                         {
                             this.props.machineState.materials && this.props.machineState.materials.map(
-                                el => <div key={'material-'+el.id}><span>ID: {el.id}</span><span>Status: {el.status}</span></div>
+                                el => <div key={'material-'+el.id}><span>ID: {el.id}</span> - <span>Status: {el.status}</span></div>
                             )
                         }
                     </Col>

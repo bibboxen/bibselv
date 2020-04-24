@@ -31,14 +31,14 @@ class App extends Component {
         const {endpoint} = this.state;
         const socket = socketIOClient(endpoint);
         this.socket = socket;
-        socket.emit('ClientEvent', {
-            name: 'Reset',
-            token: this.state.token
-        });
         socket.on('UpdateState', data => {
             this.setState({machineState: data}, () => {
                 console.log("UpdateState", this.state.machineState);
             });
+        });
+        // Ready
+        socket.emit('ClientReady', {
+            token: this.state.token
         });
     }
 
