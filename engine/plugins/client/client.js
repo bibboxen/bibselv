@@ -20,10 +20,10 @@ const Client = function Client () {
 
 Client.prototype.load = (token) => {
     if (!clients.hasOwnProperty(token)) {
-        this.save(token, {
+        clients[token] = {
             token: token,
             state: {}
-        });
+        };
     }
 
     debug('Loading client: ' + token, clients[token]);
