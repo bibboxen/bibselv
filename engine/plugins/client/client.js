@@ -14,14 +14,16 @@ let clients = {};
  *
  * @constructor
  */
-const Client = function Client () {};
+const Client = function Client () {
+    // @TODO: Load clients from redis.
+};
 
 Client.prototype.load = (token) => {
     if (!clients.hasOwnProperty(token)) {
-        clients[token] = {
+        this.save(token, {
             token: token,
             state: {}
-        };
+        });
     }
 
     debug('Loading client: ' + token, clients[token]);
@@ -31,6 +33,7 @@ Client.prototype.load = (token) => {
 Client.prototype.save = (token, client) => {
     debug('Saving client: ' + token, client);
     clients[token] = client;
+    // @TODO: Save client to redis.
 };
 
 /**

@@ -62,6 +62,9 @@ module.exports = function (options, imports, register) {
         });
 
         socket.on('ClientReady', (data) => {
+            // @TODO: Make sure only one socket is open pr. client.
+            // @TODO: Validate token.
+
             // Emit event to state machine.
             bus.emit('state_machine.start', {
                 token: data.token,
@@ -84,16 +87,6 @@ module.exports = function (options, imports, register) {
     // Start the server.
     server.listen(port, function () {
         bus.emit('logger.info', { 'type': 'Server', 'message': 'Listening on port ' + port });
-    });
-
-    bus.on('server.request_config.error', function (err) {
-        console.error('Server', err);
-    });
-
-    // Request the config.
-    bus.emit('ctrl.config.config', {
-        busEvent: 'server.request_config',
-        errorEvent: 'server.request_config.error'
     });
 
     // Register exposed function with architect.
