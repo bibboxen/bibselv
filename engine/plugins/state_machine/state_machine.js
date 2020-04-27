@@ -7,6 +7,7 @@
 
 const machina = require('machina');
 const debug = require('debug')('bibbox:STATE_MACHINE:main');
+const uniqid = require('uniqid');
 
 /**
  * Register the plugin.
@@ -21,6 +22,7 @@ const debug = require('debug')('bibbox:STATE_MACHINE:main');
 module.exports = function (options, imports, register) {
     const bus = imports.bus;
     const clientModule = imports.client;
+    const fbs = imports.fbs;
 
     // See http://machina-js.org/ for information about machina fsm.
 
@@ -30,7 +32,7 @@ module.exports = function (options, imports, register) {
         states: {
             uninitialized: {
                 _onEnter: function (client) {
-                    debug('Entered uninitialized on client: ' + client.id);
+                    debug('Entered uninitialized on client: ' + client.token);
                 },
                 _onExit: function (client) {
                     client.actionData = null;
@@ -43,7 +45,7 @@ module.exports = function (options, imports, register) {
             },
             initial: {
                 _onEnter: function (client) {
-                    debug('Entered initial on client: ' + client.id);
+                    debug('Entered initial on client: ' + client.token);
                     client.state = {
                         step: 'initial'
                     };
@@ -55,14 +57,14 @@ module.exports = function (options, imports, register) {
                     this.transition(client, 'initial');
                 },
                 enterFlow: function (client) {
-                    debug('Triggered enterFlow on client: ' + client.id, client.actionData);
+                    debug('Triggered enterFlow on client: ' + client.token, client.actionData);
                     client.state.flow = client.actionData.flow;
                     this.transition(client, 'chooseLogin');
                 }
             },
             chooseLogin: {
                 _onEnter: function (client) {
-                    debug('Entered chooseLogin on client: ' + client.id);
+                    debug('Entered chooseLogin on client: ' + client.token);
                     client.state.step = 'chooseLogin';
                     this.transition(client, 'loginScan');
                 },
@@ -78,7 +80,7 @@ module.exports = function (options, imports, register) {
             },
             loginScan: {
                 _onEnter: function (client) {
-                    debug('Entered loginScan on client: ' + client.id);
+                    debug('Entered loginScan on client: ' + client.token);
                     client.state.step = 'loginScan';
                 },
                 _onExit: function (client) {
@@ -88,7 +90,27 @@ module.exports = function (options, imports, register) {
                     this.transition(client, 'initial');
                 },
                 login: function (client) {
+                    debug('Triggered login on client: ' + client.token, client.actionData);
+
                     const loginData = client.actionData;
+
+                    const busEvent = uniqid('fbs.login.');
+                    const errEvent = uniqid('fbs.login.err.');
+
+                    bus.once(busEvent, (resp) => {
+                        debug("Login success", resp);
+                    });
+
+                    bus.once(errEvent, (resp) => {
+                        debug("Login error", resp);
+                    });
+
+                    bus.emit('fbs.login', {
+                        busEvent: busEvent,
+                        errorEvent: errEvent,
+                        username: loginData.username,
+                        password: loginData.password
+                    });
 
                     // @TODO: Login with fbs plugin.
                     client.actionData = {
@@ -96,21 +118,21 @@ module.exports = function (options, imports, register) {
                             name: "Test user"
                         }
                     };
-                    this.handle(client, 'loginSuccess');
+                    //this.handle(client, 'loginSuccess');
                 },
                 loginError: function (client) {
-                    debug('Triggered loginError on client: ' + client.id, client.actionData);
+                    debug('Triggered loginError on client: ' + client.token, client.actionData);
                     client.state.loginError = client.actionData;
                 },
                 loginSuccess: function (client) {
-                    debug('Triggered loginSuccess on client: ' + client.id, client.actionData);
+                    debug('Triggered loginSuccess on client: ' + client.token, client.actionData);
                     client.state.user = client.actionData.user;
                     this.transition(client, client.state.flow);
                 }
             },
             borrow: {
                 _onEnter: function (client) {
-                    debug('Entered borrow on client: ' + client.id);
+                    debug('Entered borrow on client: ' + client.token);
                     client.state.step = 'borrow';
                 },
                 _onExit: function (client) {
@@ -120,6 +142,7 @@ module.exports = function (options, imports, register) {
                     this.transition(client, 'initial');
                 },
                 borrowMaterial: function (client) {
+                    // @TODO: Make sure material is not already borrowed.
                     // @TODO: Send to fbs.
                     client.actionData.status = 'inProgress';
                     stateMachine.action(client, 'materialUpdate', client.actionData);
@@ -135,7 +158,7 @@ module.exports = function (options, imports, register) {
                     }, 2500);
                 },
                 materialUpdate: function (client) {
-                    debug('Triggered materialUpdate on client: ' + client.id, client.actionData);
+                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
 
                     if (!client.state.materials) {
                         client.state.materials = [];

@@ -32,6 +32,9 @@ module.exports = function (options, imports, register) {
     router.get("/", (req, res) => {
         res.send({ response: "Ok" }).status(200);
     });
+    router.post('/', (req, res) => {
+        res.send({ response: "Ok"}).status(200);
+    });
     app.use(router);
 
     const server = http.createServer(app);
@@ -80,7 +83,7 @@ module.exports = function (options, imports, register) {
 
         socket.on("disconnect", () => {
             debug("Client disconnected");
-            bus.off(clientEvent);
+            bus.offAny(clientEvent);
         });
     });
 

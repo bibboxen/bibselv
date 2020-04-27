@@ -9,10 +9,10 @@
 
 const path = require('path');
 const architect = require('architect');
-const debug = require('debug')('bibbox:APP');
+const debug = require('debug')('bibbox:ENGINE');
 
-// @TODO: Should this be configurable?
-const eventTimeout = 1000;
+// Load config file.
+const config = require(__dirname + '/config.json');
 
 /**
  * Check if a given event message has expired.
@@ -27,16 +27,16 @@ const eventTimeout = 1000;
  * @returns {boolean}
  *   If expire true else false.
  */
-const isEventExpired = function isEventExpired(timestamp, debug, eventName) {
+const isEventExpired = (timestamp, debug, eventName) => {
   const current = new Date().getTime();
   eventName = eventName || 'Unknown';
 
-  if (Number(timestamp) + eventTimeout < current) {
-    debug('EVENT ' + eventName + ' is expired (' + ((Number(timestamp) + eventTimeout) - current) + ').');
+  if (Number(timestamp) + config.eventTimeout < current) {
+    debug('EVENT ' + eventName + ' is expired (' + ((Number(timestamp) + config.eventTimeout) - current) + ').');
     return true;
   }
 
-  debug('EVENT ' + eventName + ' message not expired (' + ((Number(timestamp) + eventTimeout) - current) + ').');
+  debug('EVENT ' + eventName + ' message not expired (' + ((Number(timestamp) + config.eventTimeout) - current) + ').');
   return false;
 };
 
@@ -44,6 +44,18 @@ const isEventExpired = function isEventExpired(timestamp, debug, eventName) {
 const plugins = [
   {
     packagePath: './plugins/bus',
+    isEventExpired: isEventExpired
+  },
+  {
+    packagePath: './plugins/network',
+    isEventExpired: isEventExpired
+  },
+  {
+    packagePath: './plugins/ctrl',
+    isEventExpired: isEventExpired
+  },
+  {
+    packagePath: './plugins/fbs',
     isEventExpired: isEventExpired
   },
   {
@@ -63,8 +75,9 @@ const plugins = [
 ];
 
 // User the configuration to start the application.
-var appConfig = architect.resolveConfig(plugins, __dirname);
-architect.createApp(appConfig, function (err, app) {
+const appConfig = architect.resolveConfig(plugins, __dirname);
+
+architect.createApp(appConfig, (err, app) => {
   if (err) {
     console.error(err.stack);
   }
@@ -73,17 +86,17 @@ architect.createApp(appConfig, function (err, app) {
   }
 });
 
-process.on('uncaughtException', function (error) {
+process.on('uncaughtException', error => {
   console.error(error.stack);
 });
 
 // Ensure proper process exit when killed in term.
-process.once('SIGINT', function () { process.exit(); });
-process.once('SIGTERM', function () { process.exit(); });
+process.once('SIGINT', () => { process.exit(); });
+process.once('SIGTERM', () => { process.exit(); });
 
 // If process is forked from bootstrap send keep-alive events back.
 if (process.send) {
-  setInterval(function () {
+  setInterval(() => {
     process.send({
       ping: new Date().getTime()
     });
