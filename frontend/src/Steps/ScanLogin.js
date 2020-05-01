@@ -1,60 +1,38 @@
-import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Container } from 'react-bootstrap';
+import BarcodeScanner from './BarcodeScanner';
 
-class ScanLogin extends Component {
-    constructor (props) {
-        super(props);
+function ScanLogin(props) {
+    const barcodeScanner = new BarcodeScanner(400);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const stateRef = useRef({});
 
-        this.state = {
-            username: '',
-            password: ''
-        };
+    stateRef.current.username = username;
+    stateRef.current.password = username;
 
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        if (this.state.username.length === 8 && this.state.password.length === 8) {
-            return;
+    const barcodeCallback = code => {
+        if (stateRef.current.username === '') {
+            setUsername(code);
+            props.actionHandler('login', {
+                username: code,
+                password: ''
+            });
         }
+    };
 
-        const key = event.target.id;
-        this.setState({[key]: event.target.value}, () => {
-            if (this.state.username.length === 8 && this.state.password.length === 8) {
-                this.props.actionHandler('login', {
-                    username: this.state.username,
-                    password: this.state.password
-                });
-            }
-        });
-    }
+    useEffect(() => {
+        barcodeScanner.start(barcodeCallback);
+        return () => barcodeScanner.stop();
+    }, []);
 
-    render () {
-        const username = this.state.username;
-        const password = this.state.password;
+    return (
+        <Container>
+            <h1>ScanLogin</h1>
 
-        return (
-            <Container>
-                <h1>ScanLogin</h1>
-
-                {username.length < 8 ?
-                    <Alert variant={'info'}>Skan brugernavn</Alert> :
-                    password.length < 8 ?
-                        <Alert variant={'info'}>Skan kode</Alert>
-                        :
-                        <Alert variant={'warning'}>Behandler...</Alert>
-                }
-
-                {username.length < 8 &&
-                    <input id={'username'} type={'text'} onChange={this.handleChange}  />
-                }
-                {username.length === 8 && password.length < 8 &&
-                    <input id={'password'} type={'text'} onChange={this.handleChange}/>
-                }
-            </Container>
-        );
-    }
+            <div>Username: {username}</div>
+        </Container>
+    );
 }
 
 export default ScanLogin;

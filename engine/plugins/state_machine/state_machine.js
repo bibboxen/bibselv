@@ -49,6 +49,7 @@ module.exports = function (options, imports, register) {
                     client.state = {
                         step: 'initial'
                     };
+                    client.internal = {};
                 },
                 _onExit: function (client) {
                     client.actionData = null;
@@ -91,34 +92,48 @@ module.exports = function (options, imports, register) {
                 },
                 login: function (client) {
                     debug('Triggered login on client: ' + client.token, client.actionData);
-
                     const loginData = client.actionData;
 
-                    const busEvent = uniqid('fbs.login.');
-                    const errEvent = uniqid('fbs.login.err.');
+                    const busEvent = uniqid('fbs.patron.');
+                    const errEvent = uniqid('fbs.patron.err.');
 
-                    bus.once(busEvent, (resp) => {
-                        debug("Login success", resp);
+                    bus.once(busEvent, resp => {
+                        debug("Login success");
+
+                        const user = resp.patron;
+                        const names = user.personalName.split(' ');
+                        const birthday = user.PB;
+
+                        const actionData = {
+                            user: {
+                                name: names[0],
+                                birthday: birthday.substr(6,7) + '/' + birthday.substr(4,5),
+                            },
+                            internal: {
+                                username: loginData.username,
+                                password: loginData.password,
+                                user: user
+                            }
+                        };
+
+                        handleEvent({
+                            name: 'Action',
+                            token: client.token,
+                            action: 'loginSuccess',
+                            data: actionData
+                        })
                     });
 
                     bus.once(errEvent, (resp) => {
                         debug("Login error", resp);
                     });
 
-                    bus.emit('fbs.login', {
+                    bus.emit('fbs.patron', {
                         busEvent: busEvent,
                         errorEvent: errEvent,
                         username: loginData.username,
                         password: loginData.password
                     });
-
-                    // @TODO: Login with fbs plugin.
-                    client.actionData = {
-                        user: {
-                            name: "Test user"
-                        }
-                    };
-                    //this.handle(client, 'loginSuccess');
                 },
                 loginError: function (client) {
                     debug('Triggered loginError on client: ' + client.token, client.actionData);
@@ -127,6 +142,7 @@ module.exports = function (options, imports, register) {
                 loginSuccess: function (client) {
                     debug('Triggered loginSuccess on client: ' + client.token, client.actionData);
                     client.state.user = client.actionData.user;
+                    client.internal = client.actionData.internal;
                     this.transition(client, client.state.flow);
                 }
             },
@@ -142,20 +158,51 @@ module.exports = function (options, imports, register) {
                     this.transition(client, 'initial');
                 },
                 borrowMaterial: function (client) {
-                    // @TODO: Make sure material is not already borrowed.
-                    // @TODO: Send to fbs.
-                    client.actionData.status = 'inProgress';
-                    stateMachine.action(client, 'materialUpdate', client.actionData);
+                    debug('Triggered borrowMaterial on client: ' + client.token, client);
 
-                    let material = client.actionData;
-                    setTimeout(() => {
-                        material.status = 'borrowed';
+                    let newMaterial = client.actionData;
+
+                    // Ignore material if it is already borrowed or inProgress.
+                    // @TODO: Handle retry case.
+                    if (client.state.materials) {
+                        let oldMaterials = client.state.materials.filter(material => {
+                            return material.itemIdentifier === newMaterial.itemIdentifier && !['borrowed', 'inProgress'].includes(material.status)
+                        });
+
+                        if (oldMaterials.length > 0) {
+                            return;
+                        }
+                    }
+
+                    newMaterial.status = 'inProgress';
+                    stateMachine.action(client, 'materialUpdate', newMaterial);
+
+                    const busEvent = uniqid('fbs.checkout.');
+                    const errEvent = uniqid('fbs.checkout.err.');
+
+                    bus.once(busEvent, resp => {
+                        debug("Checkout success", resp);
+/*
                         handleEvent({
+                            name: 'Action',
                             token: client.token,
                             action: 'materialUpdate',
-                            data: material
+                            data: actionData
                         })
-                    }, 2500);
+ */
+                    });
+
+                    bus.once(errEvent, (resp) => {
+                        debug("Checkout error", resp);
+                    });
+
+                    bus.emit('fbs.checkout', {
+                        busEvent: busEvent,
+                        errorEvent: errEvent,
+                        itemIdentifier: newMaterial.itemIdentifier,
+                        username: client.internal.username,
+                        password: client.internal.password,
+                    });
                 },
                 materialUpdate: function (client) {
                     debug('Triggered materialUpdate on client: ' + client.token, client.actionData);

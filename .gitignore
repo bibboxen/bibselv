@@ -18,6 +18,4 @@
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
 
-frontend/node_modules/
-engine/node_modules/
 oldBibbox/

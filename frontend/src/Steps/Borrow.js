@@ -1,58 +1,50 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-import {Container, Row, Col} from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
+import BarcodeScanner from './BarcodeScanner';
 
-class Borrow extends Component {
-    constructor (props) {
-        super(props);
+function Borrow (props) {
+    const barcodeScanner = new BarcodeScanner(400);
 
-        this.state = {
-            materialId: ''
-        };
-
-        this.handleBorrow = this.handleBorrow.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleBorrow () {
-        this.props.actionHandler('borrowMaterial', {
-            id: this.state.materialId
+    const barcodeCallback = code => {
+        props.actionHandler('borrowMaterial', {
+            itemIdentifier: code
         });
-    }
+    };
 
-    handleChange(event) {
-        const key = event.target.id;
-        this.setState({[key]: event.target.value});
-    }
+    useEffect(() => {
+        barcodeScanner.start(barcodeCallback);
+        return () => barcodeScanner.stop();
+    }, []);
 
-    render () {
-        return (
-            <Container>
-                <h1>Borrow</h1>
-                <Row>
-                    <Col>
-                        <input id={'materialId'} onChange={this.handleChange} />
-                        <Button variant={'primary'} onClick={this.handleBorrow}>Send</Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h2>Materials</h2>
-                        {
-                            this.props.machineState.materials && this.props.machineState.materials.map(
-                                el => <div key={'material-'+el.id}><span>ID: {el.id}</span> - <span>Status: {el.status}</span></div>
-                            )
-                        }
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Button variant={'primary'} onClick={this.props.handleReset}>Gå tilbage til menuen</Button>
-                    </Col>
-                </Row>
-            </Container>
-        );
-    }
+    return (
+        <Container>
+            <h1>Borrow</h1>
+
+            <p>Hej {props.machineState.user.name}</p>
+            <p>med fødselsdato {props.machineState.user.birthday}</p>
+            <Row>
+                <Col>
+                    <Alert variant={'info'}>Skan materialer</Alert>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <h2>Materials</h2>
+                    {
+                        props.machineState.materials && props.machineState.materials.map(
+                            el => <div key={'material-'+el.itemIdentifier}><span>ID: {el.itemIdentifier}</span> - <span>Status: {el.status}</span></div>
+                        )
+                    }
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Button variant={'primary'} onClick={props.handleReset}>Gå tilbage til menuen</Button>
+                </Col>
+            </Row>
+        </Container>
+    );
 }
 
 export default Borrow;
