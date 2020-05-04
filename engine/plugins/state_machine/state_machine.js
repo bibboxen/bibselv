@@ -110,14 +110,19 @@ module.exports = function (options, imports, register) {
                     bus.once(busEvent, resp => {
                         debug("Login success");
 
+                        const now = new Date();
+
                         const user = resp.patron;
                         const names = user.personalName.split(' ');
                         const birthday = user.PB;
+                        const birthdayToday =
+                            now.getDate().toString() === birthday.substr(6,7) &&
+                            now.getMonth().toString() === birthday.substr(4,5);
 
                         const actionData = {
                             user: {
                                 name: names[0],
-                                birthday: birthday.substr(6,7) + '/' + birthday.substr(4,5),
+                                birthdayToday: birthdayToday,
                             },
                             internal: {
                                 username: loginData.username,

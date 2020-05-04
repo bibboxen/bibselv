@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import { Container, Row, Col, Alert, Table } from 'react-bootstrap';
+import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function Borrow (props) {
@@ -30,7 +29,9 @@ function Borrow (props) {
             <h1>Borrow</h1>
 
             <p>Hej {props.machineState.user.name}</p>
-            <p>med fødselsdato {props.machineState.user.birthday}</p>
+            {props.machineState.user.birthdayToday &&
+                <p>Tillykke med fødselsdagen</p>
+            }
             <Row>
                 <Col>
                     <Alert variant={'info'}>Skan materialer</Alert>

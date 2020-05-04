@@ -1,6 +1,5 @@
-import React, { Component, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Container, Row, Col, Alert, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function Initial(props) {

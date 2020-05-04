@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function ScanLogin(props) {
     const barcodeScanner = new BarcodeScanner(400);
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const stateRef = useRef({});
 
     stateRef.current.username = username;
-    stateRef.current.password = username;
 
     const barcodeCallback = code => {
         if (stateRef.current.username === '') {
             setUsername(code);
+            setLoading(true);
             props.actionHandler('login', {
                 username: code,
                 password: ''
@@ -31,6 +31,10 @@ function ScanLogin(props) {
             <h1>ScanLogin</h1>
 
             <div>Username: {username}</div>
+
+            {loading &&
+                <Spinner animation={'grow'} size={'m'} variant={'primary'} />
+            }
         </Container>
     );
 }
