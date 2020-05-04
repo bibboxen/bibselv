@@ -7,6 +7,14 @@ function Borrow (props) {
     const barcodeScanner = new BarcodeScanner(400);
 
     const barcodeCallback = code => {
+        // Commands are 5 characters long.
+        if (code.length <= 5) {
+            if (code === '03006') {
+                props.handleReset();
+            }
+            return;
+        }
+
         props.actionHandler('borrowMaterial', {
             itemIdentifier: code
         });
@@ -62,7 +70,9 @@ function Borrow (props) {
             </Row>
             <Row>
                 <Col>
-                    <Button variant={'primary'} onClick={props.handleReset}>Gå tilbage til menuen</Button>
+                    <Button variant={'primary'} onClick={props.handleReset}>
+                        Tilbage
+                    </Button>
                 </Col>
             </Row>
         </Container>
