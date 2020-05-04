@@ -1,4 +1,4 @@
-const pattern = /^(!BA11|!BA)(?<code>.+)!C$/;
+const pattern = /^(!BA11|!BA10|!BA)(?<code>.+)!C$/;
 
 /**
  * Class to receive results from a barcode scanner.

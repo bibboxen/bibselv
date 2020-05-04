@@ -22,7 +22,17 @@ const uniqid = require('uniqid');
 module.exports = function (options, imports, register) {
     const bus = imports.bus;
     const clientModule = imports.client;
-    const fbs = imports.fbs;
+    let defaultPassword = null;
+
+    const fbsConfigEvent = uniqid('ctrl.config.fbs.');
+
+    bus.on(fbsConfigEvent, config => {
+        defaultPassword = config.defaultPassword
+    });
+
+    bus.emit('ctrl.config.fbs', {
+        busEvent: fbsConfigEvent,
+    });
 
     // See http://machina-js.org/ for information about machina fsm.
 
@@ -132,7 +142,8 @@ module.exports = function (options, imports, register) {
                         busEvent: busEvent,
                         errorEvent: errEvent,
                         username: loginData.username,
-                        password: loginData.password
+                        password: defaultPassword
+                        //password: loginData.password
                     });
                 },
                 loginError: function (client) {
@@ -181,15 +192,38 @@ module.exports = function (options, imports, register) {
                     const errEvent = uniqid('fbs.checkout.err.');
 
                     bus.once(busEvent, resp => {
-                        debug("Checkout success", resp);
-/*
-                        handleEvent({
-                            name: 'Action',
-                            token: client.token,
-                            action: 'materialUpdate',
-                            data: actionData
-                        })
- */
+                        debug("Checkout success");
+
+                        const result = resp.result;
+
+                        let material = {
+                            itemIdentifier: result.itemIdentifier,
+                            title: result.itemProperties.title,
+                            author: result.itemProperties.author,
+                            renewalOk: result.renewalOk ? 'Ja' : 'Nej',
+                            message: result.screenMessage,
+                        };
+
+                        if (resp.ok === '1') {
+                            material.status = 'borrowed';
+
+                            handleEvent({
+                                name: 'Action',
+                                token: client.token,
+                                action: 'materialUpdate',
+                                data: material
+                            });
+                        }
+                        else {
+                            material.status = 'error';
+
+                            handleEvent({
+                                name: 'Action',
+                                token: client.token,
+                                action: 'materialUpdate',
+                                data: material
+                            });
+                        }
                     });
 
                     bus.once(errEvent, (resp) => {
@@ -201,7 +235,8 @@ module.exports = function (options, imports, register) {
                         errorEvent: errEvent,
                         itemIdentifier: newMaterial.itemIdentifier,
                         username: client.internal.username,
-                        password: client.internal.password,
+                        password: defaultPassword,
+                        // password: client.internal.password,
                     });
                 },
                 materialUpdate: function (client) {
@@ -211,7 +246,7 @@ module.exports = function (options, imports, register) {
                         client.state.materials = [];
                     }
 
-                    const materialIndex = client.state.materials.findIndex((material) => material.id === client.actionData.id);
+                    const materialIndex = client.state.materials.findIndex((material) => material.itemIdentifier === client.actionData.itemIdentifier);
 
                     if (materialIndex === -1) {
                         client.state.materials.push(client.actionData);
@@ -237,6 +272,8 @@ module.exports = function (options, imports, register) {
     });
 
     const handleEvent = function (event) {
+        debug('handleEvent', event);
+
         let client = clientModule.load(event.token);
 
         switch (event.name) {

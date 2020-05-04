@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert, Table } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function Borrow (props) {
@@ -31,11 +31,33 @@ function Borrow (props) {
             <Row>
                 <Col>
                     <h2>Materials</h2>
-                    {
-                        props.machineState.materials && props.machineState.materials.map(
-                            el => <div key={'material-'+el.itemIdentifier}><span>ID: {el.itemIdentifier}</span> - <span>Status: {el.status}</span></div>
-                        )
-                    }
+
+                    <Table striped={true} bordered={true}>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>title</th>
+                                <th>author</th>
+                                <th>status</th>
+                                <th>renewalOk</th>
+                                <th>message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            props.machineState.materials && props.machineState.materials.map(
+                                el => <tr key={'material-'+el.itemIdentifier}>
+                                    <td>{el.itemIdentifier}</td>
+                                    <td>{el.title}</td>
+                                    <td>{el.author}</td>
+                                    <td>{el.status}</td>
+                                    <td>{el.renewalOk}</td>
+                                    <td>{el.message}</td>
+                                </tr>
+                            )
+                        }
+                        </tbody>
+                    </Table>
                 </Col>
             </Row>
             <Row>
