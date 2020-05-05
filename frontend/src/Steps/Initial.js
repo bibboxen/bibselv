@@ -3,28 +3,29 @@ import { Container, Row, Col, Alert, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function Initial(props) {
-    const barcodeScanner = new BarcodeScanner(400);
-
-    const enterFlow = (flow) => {
-        props.actionHandler('enterFlow', {
-            flow: flow
-        });
-    };
+    const { actionHandler } = props;
 
     useEffect(() => {
         console.log('use effect');
+
+        const barcodeScanner = new BarcodeScanner(400);
+
         const barcodeCallback = code => {
+            console.log('barcodeCallback');
+
             // Commands are 5 characters long.
             if (code.length <= 5) {
                 if (code === '03009') {
-                    enterFlow('borrow');
+                    actionHandler('enterFlow', {
+                        flow: 'borrow'
+                    });
                 }
             }
         };
 
         barcodeScanner.start(barcodeCallback);
         return () => barcodeScanner.stop();
-    }, [barcodeScanner]);
+    }, [actionHandler]);
 
     return (
         <Container>
@@ -37,7 +38,7 @@ function Initial(props) {
             </Row>
             <Row>
                 <Col>
-                    <Button type={'primary'} onClick={() => enterFlow('borrow')}>
+                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'borrow' }) }>
                         Lån
                     </Button>
                 </Col>

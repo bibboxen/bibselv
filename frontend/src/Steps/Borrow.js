@@ -3,14 +3,16 @@ import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function Borrow (props) {
-    const barcodeScanner = new BarcodeScanner(400);
-
     const { actionHandler, handleReset } = props;
 
     useEffect(() => {
         console.log('use effect');
 
+        let barcodeScanner = new BarcodeScanner(400);
+
         const barcodeCallback = code => {
+            console.log('barcodeCallback');
+
             // Commands are 5 characters long.
             if (code.length <= 5) {
                 if (code === '03006') {
@@ -25,8 +27,10 @@ function Borrow (props) {
         };
 
         barcodeScanner.start(barcodeCallback);
-        return () => barcodeScanner.stop();
-    }, [barcodeScanner, actionHandler, handleReset]);
+        return () => {
+            barcodeScanner.stop();
+        }
+    }, [actionHandler, handleReset]);
 
     return (
         <Container>

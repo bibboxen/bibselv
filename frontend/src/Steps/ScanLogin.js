@@ -3,17 +3,21 @@ import { Container, Spinner } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function ScanLogin(props) {
-    const barcodeScanner = new BarcodeScanner(400);
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(false);
     const stateRef = useRef({});
+    const { actionHandler } = props;
 
     stateRef.current.username = username;
 
     useEffect(() => {
         console.log('use effect');
 
+        const barcodeScanner = new BarcodeScanner(400);
+
         const barcodeCallback = code => {
+            console.log('barcodeCallback');
+
             if (stateRef.current.username === '') {
                 setUsername(code);
                 setLoading(true);
@@ -26,7 +30,7 @@ function ScanLogin(props) {
 
         barcodeScanner.start(barcodeCallback);
         return () => barcodeScanner.stop();
-    }, [barcodeScanner, actionHandler]);
+    }, [actionHandler, setLoading, setUsername]);
 
     return (
         <Container>
