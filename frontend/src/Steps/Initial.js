@@ -11,19 +11,20 @@ function Initial(props) {
         });
     };
 
-    const barcodeCallback = code => {
-        // Commands are 5 characters long.
-        if (code.length <= 5) {
-            if (code === '03009') {
-                enterFlow('borrow');
-            }
-        }
-    };
-
     useEffect(() => {
+        console.log('use effect');
+        const barcodeCallback = code => {
+            // Commands are 5 characters long.
+            if (code.length <= 5) {
+                if (code === '03009') {
+                    enterFlow('borrow');
+                }
+            }
+        };
+
         barcodeScanner.start(barcodeCallback);
         return () => barcodeScanner.stop();
-    }, []);
+    }, [barcodeScanner]);
 
     return (
         <Container>

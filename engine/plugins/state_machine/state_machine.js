@@ -136,11 +136,22 @@ module.exports = function (options, imports, register) {
                             token: client.token,
                             action: 'loginSuccess',
                             data: actionData
-                        })
+                        });
                     });
 
                     bus.once(errEvent, (resp) => {
                         debug("Login error", resp);
+
+                        const result = resp.result;
+
+                        handleEvent({
+                            name: 'Action',
+                            token: client.token,
+                            action: 'loginError',
+                            data: {
+                                error: result.displayMessage
+                            }
+                        });
                     });
 
                     bus.emit('fbs.patron', {
@@ -153,7 +164,7 @@ module.exports = function (options, imports, register) {
                 },
                 loginError: function (client) {
                     debug('Triggered loginError on client: ' + client.token, client.actionData);
-                    client.state.loginError = client.actionData;
+                    client.state.loginError = client.actionData.error;
                 },
                 loginSuccess: function (client) {
                     debug('Triggered loginSuccess on client: ' + client.token, client.actionData);

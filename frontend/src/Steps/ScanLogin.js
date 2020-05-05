@@ -10,21 +10,23 @@ function ScanLogin(props) {
 
     stateRef.current.username = username;
 
-    const barcodeCallback = code => {
-        if (stateRef.current.username === '') {
-            setUsername(code);
-            setLoading(true);
-            props.actionHandler('login', {
-                username: code,
-                password: ''
-            });
-        }
-    };
-
     useEffect(() => {
+        console.log('use effect');
+
+        const barcodeCallback = code => {
+            if (stateRef.current.username === '') {
+                setUsername(code);
+                setLoading(true);
+                actionHandler('login', {
+                    username: code,
+                    password: ''
+                });
+            }
+        };
+
         barcodeScanner.start(barcodeCallback);
         return () => barcodeScanner.stop();
-    }, []);
+    }, [barcodeScanner, actionHandler]);
 
     return (
         <Container>

@@ -5,24 +5,28 @@ import BarcodeScanner from './BarcodeScanner';
 function Borrow (props) {
     const barcodeScanner = new BarcodeScanner(400);
 
-    const barcodeCallback = code => {
-        // Commands are 5 characters long.
-        if (code.length <= 5) {
-            if (code === '03006') {
-                props.handleReset();
-            }
-            return;
-        }
-
-        props.actionHandler('borrowMaterial', {
-            itemIdentifier: code
-        });
-    };
+    const { actionHandler, handleReset } = props;
 
     useEffect(() => {
+        console.log('use effect');
+
+        const barcodeCallback = code => {
+            // Commands are 5 characters long.
+            if (code.length <= 5) {
+                if (code === '03006') {
+                    handleReset();
+                }
+                return;
+            }
+
+            actionHandler('borrowMaterial', {
+                itemIdentifier: code
+            });
+        };
+
         barcodeScanner.start(barcodeCallback);
         return () => barcodeScanner.stop();
-    }, []);
+    }, [barcodeScanner, actionHandler, handleReset]);
 
     return (
         <Container>
