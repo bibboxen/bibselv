@@ -3,26 +3,34 @@ import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function Borrow (props) {
-    const barcodeScanner = new BarcodeScanner(400);
-
-    const barcodeCallback = code => {
-        // Commands are 5 characters long.
-        if (code.length <= 5) {
-            if (code === '03006') {
-                props.handleReset();
-            }
-            return;
-        }
-
-        props.actionHandler('borrowMaterial', {
-            itemIdentifier: code
-        });
-    };
+    const { actionHandler, handleReset } = props;
 
     useEffect(() => {
+        console.log('use effect');
+
+        let barcodeScanner = new BarcodeScanner(400);
+
+        const barcodeCallback = code => {
+            console.log('barcodeCallback');
+
+            // Commands are 5 characters long.
+            if (code.length <= 5) {
+                if (code === '03006') {
+                    handleReset();
+                }
+                return;
+            }
+
+            actionHandler('borrowMaterial', {
+                itemIdentifier: code
+            });
+        };
+
         barcodeScanner.start(barcodeCallback);
-        return () => barcodeScanner.stop();
-    }, []);
+        return () => {
+            barcodeScanner.stop();
+        }
+    }, [actionHandler, handleReset]);
 
     return (
         <Container>
