@@ -8,6 +8,7 @@
 const machina = require('machina');
 const debug = require('debug')('bibbox:STATE_MACHINE:main');
 const uniqid = require('uniqid');
+const ActionHandler = require('./actions.js');
 
 /**
  * Register the plugin.
@@ -30,12 +31,12 @@ module.exports = function (options, imports, register) {
         defaultPassword = config.defaultPassword
     });
 
+    // Request config.
     bus.emit('ctrl.config.fbs', {
         busEvent: fbsConfigEvent,
     });
 
     // See http://machina-js.org/ for information about machina fsm.
-
     const stateMachine = new machina.BehavioralFsm({
         namespace: 'bibbox',
         initialState: 'uninitialized',
@@ -102,65 +103,8 @@ module.exports = function (options, imports, register) {
                 },
                 login: function (client) {
                     debug('Triggered login on client: ' + client.token, client.actionData);
-                    const loginData = client.actionData;
-
-                    const busEvent = uniqid('fbs.patron.');
-                    const errEvent = uniqid('fbs.patron.err.');
-
-                    bus.once(busEvent, resp => {
-                        debug("Login success");
-
-                        const now = new Date();
-
-                        const user = resp.patron;
-                        const names = user.personalName.split(' ');
-                        const birthday = user.PB;
-                        const birthdayToday =
-                            now.getDate().toString() === birthday.substr(6,7) &&
-                            now.getMonth().toString() === birthday.substr(4,5);
-
-                        const actionData = {
-                            user: {
-                                name: names[0],
-                                birthdayToday: birthdayToday,
-                            },
-                            internal: {
-                                username: loginData.username,
-                                password: loginData.password,
-                                user: user
-                            }
-                        };
-
-                        handleEvent({
-                            name: 'Action',
-                            token: client.token,
-                            action: 'loginSuccess',
-                            data: actionData
-                        });
-                    });
-
-                    bus.once(errEvent, (resp) => {
-                        debug("Login error", resp);
-
-                        const result = resp.result;
-
-                        handleEvent({
-                            name: 'Action',
-                            token: client.token,
-                            action: 'loginError',
-                            data: {
-                                error: result.displayMessage
-                            }
-                        });
-                    });
-
-                    bus.emit('fbs.patron', {
-                        busEvent: busEvent,
-                        errorEvent: errEvent,
-                        username: loginData.username,
-                        password: defaultPassword
-                        //password: loginData.password
-                    });
+                    client.actionData.password = defaultPassword;
+                    actionHandler.login(client);
                 },
                 loginError: function (client) {
                     debug('Triggered loginError on client: ' + client.token, client.actionData);
@@ -186,90 +130,11 @@ module.exports = function (options, imports, register) {
                 },
                 borrowMaterial: function (client) {
                     debug('Triggered borrowMaterial on client: ' + client.token, client);
-
-                    let newMaterial = client.actionData;
-
-                    // Ignore material if it is already borrowed or inProgress.
-                    // @TODO: Handle retry case.
-                    if (client.state.materials) {
-                        let oldMaterials = client.state.materials.filter(material => {
-                            return material.itemIdentifier === newMaterial.itemIdentifier && !['borrowed', 'inProgress'].includes(material.status)
-                        });
-
-                        if (oldMaterials.length > 0) {
-                            return;
-                        }
-                    }
-
-                    newMaterial.status = 'inProgress';
-                    stateMachine.action(client, 'materialUpdate', newMaterial);
-
-                    const busEvent = uniqid('fbs.checkout.');
-                    const errEvent = uniqid('fbs.checkout.err.');
-
-                    bus.once(busEvent, resp => {
-                        debug("Checkout success");
-
-                        const result = resp.result;
-
-                        let material = {
-                            itemIdentifier: result.itemIdentifier,
-                            title: result.itemProperties.title,
-                            author: result.itemProperties.author,
-                            renewalOk: result.renewalOk ? 'Ja' : 'Nej',
-                            message: result.screenMessage,
-                        };
-
-                        if (resp.ok === '1') {
-                            material.status = 'borrowed';
-
-                            handleEvent({
-                                name: 'Action',
-                                token: client.token,
-                                action: 'materialUpdate',
-                                data: material
-                            });
-                        }
-                        else {
-                            material.status = 'error';
-
-                            handleEvent({
-                                name: 'Action',
-                                token: client.token,
-                                action: 'materialUpdate',
-                                data: material
-                            });
-                        }
-                    });
-
-                    bus.once(errEvent, (resp) => {
-                        debug("Checkout error", resp);
-                    });
-
-                    bus.emit('fbs.checkout', {
-                        busEvent: busEvent,
-                        errorEvent: errEvent,
-                        itemIdentifier: newMaterial.itemIdentifier,
-                        username: client.internal.username,
-                        password: defaultPassword,
-                        // password: client.internal.password,
-                    });
+                    actionHandler.borrowMaterial(client);
                 },
                 materialUpdate: function (client) {
                     debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
-
-                    if (!client.state.materials) {
-                        client.state.materials = [];
-                    }
-
-                    const materialIndex = client.state.materials.findIndex((material) => material.itemIdentifier === client.actionData.itemIdentifier);
-
-                    if (materialIndex === -1) {
-                        client.state.materials.push(client.actionData);
-                    }
-                    else {
-                        client.state.materials[materialIndex] = client.actionData;
-                    }
+                    actionHandler.materialUpdate(client);
                 }
             }
         },
@@ -279,6 +144,7 @@ module.exports = function (options, imports, register) {
             this.handle(client, '_reset');
             return client;
         },
+
         action: function (client, action, data) {
             debug('Action ' + action + ' on client: ' + client.token);
             client.actionData = data;
@@ -287,8 +153,14 @@ module.exports = function (options, imports, register) {
         }
     });
 
+    /**
+     * Handle a state machine event.
+     *
+     * @param event
+     */
     const handleEvent = function (event) {
-        debug('handleEvent', event);
+        debug('handleEvent');
+        debug(event);
 
         let client = clientModule.load(event.token);
 
@@ -308,12 +180,15 @@ module.exports = function (options, imports, register) {
         bus.emit('state_machine.state_update.' + client.token, client.state);
     };
 
+    const actionHandler = new ActionHandler(bus, handleEvent, stateMachine);
+
     // Listener for events in the state machine.
     bus.on('state_machine.event', (event) => {
         debug('Received event "state_machine.event"', event);
         handleEvent(event);
     });
 
+    // Listener for start event.
     bus.on('state_machine.start', (data) => {
         debug('state_machine.start', data);
 
