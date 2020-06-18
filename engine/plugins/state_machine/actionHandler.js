@@ -2,12 +2,27 @@ const debug = require('debug')('bibbox:STATE_MACHINE:actions');
 const uniqid = require('uniqid');
 
 class ActionHandler {
+    /**
+     * ActionHandler constructor.
+     *
+     * @param bus
+     *   The event bus.
+     * @param handleEvent
+     *   The function used
+     * @param stateMachine
+     */
     constructor (bus, handleEvent, stateMachine) {
         this.bus = bus;
         this.handleEvent = handleEvent;
         this.stateMachine = stateMachine;
     }
 
+    /**
+     * Borrow material for the client.
+     *
+     * @param client
+     *   The client.
+     */
     borrowMaterial (client) {
         let newMaterial = client.actionData;
 
@@ -46,7 +61,12 @@ class ActionHandler {
             };
 
             if (result.ok === '1') {
-                material.status = 'borrowed';
+                if (result.renewalOk) {
+                    material.status = 'renewed';
+                }
+                else {
+                    material.status = 'borrowed';
+                }
 
                 this.handleEvent({
                     name: 'Action',
@@ -80,6 +100,12 @@ class ActionHandler {
         });
     }
 
+    /**
+     * Login the client.
+     *
+     * @param client
+     *   The client.
+     */
     login (client) {
         const loginData = client.actionData;
 
@@ -141,6 +167,12 @@ class ActionHandler {
         });
     }
 
+    /**
+     * Update information for material for the client.
+     *
+     * @param client
+     *   The client.
+     */
     materialUpdate (client) {
         if (!client.state.materials) {
             client.state.materials = [];

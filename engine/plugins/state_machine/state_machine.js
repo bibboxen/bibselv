@@ -8,7 +8,7 @@
 const machina = require('machina');
 const debug = require('debug')('bibbox:STATE_MACHINE:main');
 const uniqid = require('uniqid');
-const ActionHandler = require('./actions.js');
+const ActionHandler = require('./actionHandler.js');
 
 /**
  * Register the plugin.
