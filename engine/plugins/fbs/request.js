@@ -5,12 +5,12 @@
 
 'use strict';
 
-var handlebars = require('handlebars');
-var fs = require('fs');
-var uniqid = require('uniqid');
-var debug = require('debug')('bibbox:FBS:request');
-
-var Response = require('./response.js');
+const handlebars = require('handlebars');
+const fs = require('fs');
+const uniqid = require('uniqid');
+const debug = require('debug')('bibbox:FBS:request');
+const path = require('path');
+const Response = require('./response.js');
 
 /**
  * Request object.
@@ -34,7 +34,7 @@ var Request = function Request(bus, config) {
     self.agency = config.agency;
     self.location = config.location;
     self.enableOnlineChecks = config.enableOnlineChecks;
-    self.ignoreAvailability = config.hasOwnProperty('ignoreAvailability') ? config.ignoreAvailability : false;
+    self.ignoreAvailability = Object.prototype.hasOwnProperty.call(config, 'ignoreAvailability') ? config.ignoreAvailability : false;
 };
 
 /**

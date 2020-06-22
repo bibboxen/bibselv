@@ -19,7 +19,7 @@ const Client = function Client() {
 };
 
 Client.prototype.load = (token) => {
-    if (!clients.hasOwnProperty(token)) {
+    if (!Object.prototype.hasOwnProperty.call(clients, token)) {
         clients[token] = {
             token: token,
             state: {}

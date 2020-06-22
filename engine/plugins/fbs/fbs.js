@@ -355,16 +355,16 @@ module.exports = function(options, imports, register) {
         FBS.create(bus).then(function(fbs) {
             // Update configuration - It's done here to ensure it reflects updated
             // configuration from the admin UI.
-            onlineState.threshold = fbs.config.hasOwnProperty('onlineState') ? fbs.config.onlineState.threshold : onlineState.threshold;
-            onlineState.onlineTimeout = fbs.config.hasOwnProperty('onlineState') ? fbs.config.onlineState.onlineTimeout : onlineState.onlineTimeout;
-            onlineState.offlineTimeout = fbs.config.hasOwnProperty('onlineState') ? fbs.config.onlineState.offlineTimeout : onlineState.offlineTimeout;
+            onlineState.threshold = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.threshold : onlineState.threshold;
+            onlineState.onlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.onlineTimeout : onlineState.onlineTimeout;
+            onlineState.offlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.offlineTimeout : onlineState.offlineTimeout;
 
             // Check that config exists.
-            if (fbs.config && fbs.config.hasOwnProperty('endpoint')) {
+            if (fbs.config && Object.prototype.hasOwnProperty.call(fbs, 'endpoint')) {
                 fbs.libraryStatus().then(
                     res => {
                         // Listen to online check event send below.
-                        if (res.hasOwnProperty('onlineStatus') && res.onlineStatus) {
+                        if (Object.prototype.hasOwnProperty.call(res, 'onlineState') && res.onlineStatus) {
                             if (onlineState.successfulOnlineChecks >= onlineState.threshold) {
                                 // FBS is online and threshold has been reached, so state online.
                                 checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.onlineTimeout);
@@ -389,7 +389,7 @@ module.exports = function(options, imports, register) {
                             online: onlineState
                         });
                     },
-                    err => {
+                    () => {
                         // Error connecting to FBS.
                         onlineState.online = false;
                         onlineState.successfulOnlineChecks = 0;
@@ -411,7 +411,7 @@ module.exports = function(options, imports, register) {
                 });
             }
         },
-        err => {
+        () => {
             bus.emit('logger.info', 'checkOnlineState: FBS.create(bus) promise failed. Retrying.');
 
             // Retry check.
@@ -494,14 +494,14 @@ module.exports = function(options, imports, register) {
         // Set noBlock due date if not set. This due data is ignored if the noBlock
         // field is false. So we set it to expire in 31 days into the future, so if
         // this gets into the offline queue and gets noBlocked the date is set.
-        if (!data.hasOwnProperty('noBlockDueDate')) {
+        if (!Object.prototype.hasOwnProperty.call(data, 'noBlockDueDate')) {
             data.noBlockDueDate = new Date().getTime() + 2678400000;
         }
 
         // Ensure that the noBlock parameter to FBS is set to 'N' as default.
         // NoBlock have been added in a later release an may not be in all
         // request.
-        const noBlock = data.hasOwnProperty('noBlock') ? data.noBlock : false;
+        const noBlock = Object.prototype.hasOwnProperty.call(data, 'noBlock') ? data.noBlock : false;
 
         // Set transaction date if not set already (offline queued item will have
         // the date already).
@@ -594,7 +594,7 @@ module.exports = function(options, imports, register) {
             // Ensure that the noBlock parameter to FBS is set to 'N' as default.
             // NoBlock have been added in a later release an may not the be in all
             // request.
-            const noBlock = data.hasOwnProperty('noBlock') ? data.noBlock : false;
+            const noBlock = Object.prototype.hasOwnProperty.call(data, 'noBlock') ? data.noBlock : false;
 
             // Perform the checking request.
             fbs.checkIn(

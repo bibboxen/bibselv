@@ -5,12 +5,9 @@
 
 'use strict';
 
-var util = require('util');
-var eventEmitter = require('events').EventEmitter;
-
-var debug = require('debug')('bibbox:FBS:response');
-
-var Entities = require('html-entities').AllHtmlEntities;
+const util = require('util');
+const eventEmitter = require('events').EventEmitter;
+const Entities = require('html-entities').AllHtmlEntities;
 
 /**
  * Response object.
@@ -21,7 +18,7 @@ var Entities = require('html-entities').AllHtmlEntities;
  *   The name of the first variable.
  *   @TODO: First variable of what? Do you mean the root element of the XML, or?
  */
-var Response = function Response(xml, firstVariableName) {
+const Response = function Response(xml, firstVariableName) {
     this.xml = xml;
     this.firstVariableName = firstVariableName;
 
@@ -31,7 +28,7 @@ var Response = function Response(xml, firstVariableName) {
     this.parseXML();
 
     if (!this.hasError()) {
-    // Extract variables.
+        // Extract variables.
         this.parseVariables();
 
         // Parse chars before variables in message.
@@ -321,7 +318,7 @@ Response.prototype.variablesResponseTranslation = function variablesResponseTran
         CL: 'sortBin'
     };
 
-    if (codes.hasOwnProperty(code)) {
+    if (Object.prototype.hasOwnProperty.call(codes, code)) {
         return codes[code];
     }
 
@@ -351,7 +348,7 @@ Response.prototype.parseVariables = function parseVariables() {
             var val = str.substr(2);
 
             // Init the field as an array.
-            if (!self.hasOwnProperty(keyTrans)) {
+            if (!Object.prototype.hasOwnProperty.call(self, keyTrans)) {
                 self[keyTrans] = [];
             }
 

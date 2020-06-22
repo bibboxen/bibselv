@@ -38,7 +38,7 @@ var Bus = function Bus() {
    *   Event type to remove.
    */
     this.removeEvent = function removeEvent(type) {
-        if (events.hasOwnProperty(type)) {
+        if (Object.prototype.hasOwnProperty.call(events, type)) {
             var eventName = events[type];
 
             // Clean up book keeping books.
@@ -62,7 +62,8 @@ var Bus = function Bus() {
    */
     emitter.emitBibboxWrapper = function(type, data) {
         if (Object.prototype.toString.call(data) === '[object Object]') {
-            if (data.hasOwnProperty('busEvent') && data.hasOwnProperty('errorEvent')) {
+            if (Object.prototype.hasOwnProperty.call(data, 'busEvent') &&
+                Object.prototype.hasOwnProperty.call(data, 'errorEvent')) {
                 // We use the same pattern to send events into the bus. So we do some
                 // book keeping to be able to remove the unused event handler and free
                 // memory.
