@@ -5,7 +5,7 @@
 'use strict';
 
 var CTRL = function CTRL(bus) {
-  this.bus = bus;
+    this.bus = bus;
 };
 
 /**
@@ -18,19 +18,19 @@ var CTRL = function CTRL(bus) {
  * @param {function} register
  *   Callback function used to register this plugin.
  */
-module.exports = function (options, imports, register) {
-  const bus = imports.bus;
-  const ctrl = new CTRL(bus);
-  const config = require(__dirname + '/config.json');
+module.exports = function(options, imports, register) {
+    const bus = imports.bus;
+    const ctrl = new CTRL(bus);
+    const config = require(__dirname + '/config.json');
 
-  /**
+    /**
    * Handle fbs config events.
    */
-  bus.on('ctrl.config.fbs', function (data) {
-    bus.emit(data.busEvent, config);
-  });
+    bus.on('ctrl.config.fbs', function(data) {
+        bus.emit(data.busEvent, config);
+    });
 
-  register(null, {
-    ctrl: ctrl
-  });
+    register(null, {
+        ctrl: ctrl
+    });
 };

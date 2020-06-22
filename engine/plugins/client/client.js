@@ -7,14 +7,14 @@
 
 const debug = require('debug')('bibbox:CLIENT:main');
 
-let clients = {};
+const clients = {};
 
 /**
  * The Client object.
  *
  * @constructor
  */
-const Client = function Client () {
+const Client = function Client() {
     // @TODO: Load clients from redis.
 };
 
@@ -46,7 +46,7 @@ Client.prototype.save = (token, client) => {
  * @param {function} register
  *   Callback function used to register this plugin.
  */
-module.exports = function (options, imports, register) {
+module.exports = function(options, imports, register) {
     const client = new Client();
 
     register(null, {

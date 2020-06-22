@@ -6,9 +6,9 @@
  * Provide socket connection to clients.
  */
 
-const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 const debug = require('debug')('bibbox:SERVER:main');
 const uniqid = require('uniqid');
 
@@ -22,26 +22,26 @@ const uniqid = require('uniqid');
  * @param {function} register
  *   Callback function used to register this plugin.
  */
-module.exports = function (options, imports, register) {
+module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const port = options.port || 3000;
 
     const router = express.Router();
     const app = express();
 
-    router.get("/", (req, res) => {
-        res.send({ response: "Ok" }).status(200);
+    router.get('/', (req, res) => {
+        res.send({ response: 'Ok' }).status(200);
     });
     router.post('/', (req, res) => {
-        res.send({ response: "Ok"}).status(200);
+        res.send({ response: 'Ok' }).status(200);
     });
     app.use(router);
 
     const server = http.createServer(app);
     const io = socketIo(server);
 
-    io.on("connection", socket => {
-        debug("Client connected with socket id: " + socket.id);
+    io.on('connection', socket => {
+        debug('Client connected with socket id: ' + socket.id);
 
         const busEvent = uniqid('state_machine.up.');
         let clientEvent = null;
@@ -81,21 +81,21 @@ module.exports = function (options, imports, register) {
             bus.emit('state_machine.event', data);
         });
 
-        socket.on("disconnect", () => {
-            debug("Client disconnected");
+        socket.on('disconnect', () => {
+            debug('Client disconnected');
             bus.offAny(clientEvent);
         });
     });
 
     // Start the server.
-    server.listen(port, function () {
-        bus.emit('logger.info', { 'type': 'Server', 'message': 'Listening on port ' + port });
+    server.listen(port, function() {
+        bus.emit('logger.info', { type: 'Server', message: 'Listening on port ' + port });
     });
 
     // Register exposed function with architect.
     register(null, {
-        'onDestroy': function (callback) {
-            bus.emit('logger.info', { 'type': 'Server', 'message': 'Stopped' });
+        onDestroy: function(callback) {
+            bus.emit('logger.info', { type: 'Server', message: 'Stopped' });
             server.close(callback);
         },
         app: app,

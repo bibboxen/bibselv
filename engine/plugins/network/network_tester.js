@@ -20,36 +20,36 @@ socket.connect(port, host);
 /**
  * Connected to remote host.
  */
-socket.on('connect', function () {
-  socket.destroy();
-  process.send({
-    error: false
-  });
+socket.on('connect', function() {
+    socket.destroy();
+    process.send({
+        error: false
+    });
 });
 
 /**
  * Connection error.
  */
-socket.on('error', function (err) {
-  var msg = err && err.message || 'connect ECONNREFUSED';
-  socket.destroy();
-  process.send({
-    error: true,
-    message: msg
-  });
+socket.on('error', function(err) {
+    var msg = err ? err.message : 'connect ECONNREFUSED';
+    socket.destroy();
+    process.send({
+        error: true,
+        message: msg
+    });
 });
 
 /**
  * Connection timed out.
  */
-socket.on('timeout', function (err) {
-  socket.destroy();
-  process.send({
-    error: true,
-    message: 'Timed-out: ' + connectTimeout
-  });
+socket.on('timeout', function() {
+    socket.destroy();
+    process.send({
+        error: true,
+        message: 'Timed-out: ' + connectTimeout
+    });
 
-  // As the process will hang until the OS times out the socket... this program
-  // will not exit before that. So we force that exit with a ctrl+c.
-  process.kill(process.pid, 'SIGINT');
+    // As the process will hang until the OS times out the socket... this program
+    // will not exit before that. So we force that exit with a ctrl+c.
+    process.kill(process.pid, 'SIGINT');
 });
