@@ -535,10 +535,10 @@ module.exports = function(options, imports, register) {
                         dueDate: data.noBlockDueDate
                     };
 
-                    bus.once('fbs.checkout.offline.stored' + data.itemIdentifier, res => {
+                    bus.once('fbs.checkout.offline.stored' + data.itemIdentifier, () => {
                         bus.emit(data.busEvent, {
                             timestamp: new Date().getTime(),
-                            result: res
+                            result: material
                         });
                     });
 
