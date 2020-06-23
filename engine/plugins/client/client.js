@@ -7,7 +7,7 @@
 
 const debug = require('debug')('bibbox:CLIENT:main');
 
-let clients = {};
+const clients = {};
 
 /**
  * The Client object.
