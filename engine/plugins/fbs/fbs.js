@@ -538,7 +538,7 @@ module.exports = function(options, imports, register) {
                     bus.once('fbs.checkout.offline.stored' + data.itemIdentifier, res => {
                         bus.emit(data.busEvent, {
                             timestamp: new Date().getTime(),
-                            result: material
+                            result: res
                         });
                     });
 
