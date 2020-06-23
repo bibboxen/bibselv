@@ -1,0 +1,15 @@
+{
+  "name": "bus",
+  "description": "Event bus to send and receive event between plugins",
+  "version": "0.0.1",
+  "main": "bus.js",
+  "private": true,
+  "plugin": {
+    "provides": [
+      "bus"
+    ]
+  },
+  "dependencies": {
+    "eventemitter2": "^2.1.3"
+  }
+}
