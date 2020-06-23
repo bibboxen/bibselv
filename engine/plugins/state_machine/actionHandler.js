@@ -11,7 +11,7 @@ class ActionHandler {
      *   The function used
      * @param stateMachine
      */
-    constructor (bus, handleEvent, stateMachine) {
+    constructor(bus, handleEvent, stateMachine) {
         this.bus = bus;
         this.handleEvent = handleEvent;
         this.stateMachine = stateMachine;
@@ -23,13 +23,13 @@ class ActionHandler {
      * @param client
      *   The client.
      */
-    borrowMaterial (client) {
-        let newMaterial = client.actionData;
+    borrowMaterial(client) {
+        const newMaterial = client.actionData;
 
         // Ignore material if it is already borrowed or inProgress.
         // @TODO: Handle retry case.
         if (client.state.materials) {
-            let oldMaterials = client.state.materials.filter(material => {
+            const oldMaterials = client.state.materials.filter(material => {
                 return material.itemIdentifier === newMaterial.itemIdentifier && !['borrowed', 'inProgress'].includes(material.status);
             });
 
@@ -52,19 +52,18 @@ class ActionHandler {
             debug(resp);
             debug(result);
 
-            let material = {
+            const material = {
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties.title,
                 author: result.itemProperties.author,
                 renewalOk: result.renewalOk ? 'Ja' : 'Nej',
-                message: result.screenMessage,
+                message: result.screenMessage
             };
 
             if (result.ok === '1') {
                 if (result.renewalOk) {
                     material.status = 'renewed';
-                }
-                else {
+                } else {
                     material.status = 'borrowed';
                 }
 
@@ -74,8 +73,7 @@ class ActionHandler {
                     action: 'materialUpdate',
                     data: material
                 });
-            }
-            else {
+            } else {
                 material.status = 'error';
 
                 this.handleEvent({
@@ -96,7 +94,7 @@ class ActionHandler {
             errorEvent: errEvent,
             itemIdentifier: newMaterial.itemIdentifier,
             username: client.internal.username,
-            password: client.internal.password,
+            password: client.internal.password
         });
     }
 
@@ -106,14 +104,14 @@ class ActionHandler {
      * @param client
      *   The client.
      */
-    login (client) {
+    login(client) {
         const loginData = client.actionData;
 
         const busEvent = uniqid('fbs.patron.');
         const errEvent = uniqid('fbs.patron.err.');
 
         this.bus.once(busEvent, resp => {
-            debug("Login success");
+            debug('Login success');
 
             const now = new Date();
 
@@ -121,13 +119,13 @@ class ActionHandler {
             const names = user.personalName.split(' ');
             const birthday = user.PB;
             const birthdayToday =
-                now.getDate().toString() === birthday.substr(6,7) &&
-                now.getMonth().toString() === birthday.substr(4,5);
+                now.getDate().toString() === birthday.substr(6, 7) &&
+                now.getMonth().toString() === birthday.substr(4, 5);
 
             const actionData = {
                 user: {
                     name: names[0],
-                    birthdayToday: birthdayToday,
+                    birthdayToday: birthdayToday
                 },
                 internal: {
                     username: loginData.username,
@@ -145,7 +143,7 @@ class ActionHandler {
         });
 
         this.bus.once(errEvent, (resp) => {
-            debug("Login error", resp);
+            debug('Login error', resp);
 
             const result = resp.result;
 
@@ -173,7 +171,7 @@ class ActionHandler {
      * @param client
      *   The client.
      */
-    materialUpdate (client) {
+    materialUpdate(client) {
         if (!client.state.materials) {
             client.state.materials = [];
         }
@@ -182,8 +180,7 @@ class ActionHandler {
 
         if (materialIndex === -1) {
             client.state.materials.push(client.actionData);
-        }
-        else {
+        } else {
             client.state.materials[materialIndex] = client.actionData;
         }
     }
