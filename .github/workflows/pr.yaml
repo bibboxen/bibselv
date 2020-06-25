@@ -24,9 +24,12 @@ jobs:
             -   uses: actions/setup-node@v1
                 with:
                     node-version: '10.x'
-            -   name: install
+            -   name: install plugins
                 working-directory: engine
                 run: npm run test-install
+            -   name: install
+                working-directory: engine
+                run: npm install
             -   name: JS tests
                 working-directory: engine
                 run: npm test

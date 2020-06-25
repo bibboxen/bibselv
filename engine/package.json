@@ -41,8 +41,8 @@
         "apply-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js' --fix",
         "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
         "apply-coding-standards": "npm run apply-coding-standards-js",
-        "test": "cd test; ../node_modules/mocha/bin/mocha",
+        "test": "cd test; ../node_modules/.bin/mocha",
         "test-install": "./scripts/install.sh",
-        "test-live": "cd test; LIVE=1 ../node_modules/mocha/bin/mocha"
+        "test-live": "cd test; LIVE=1 ../node_modules/.bin/mocha"
     }
 }
