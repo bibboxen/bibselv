@@ -16,6 +16,9 @@ require('should');
 
 global.server = supertest.agent('http://localhost:3010');
 
+// Set timezone to Copenhagen.
+process.env.TZ = 'Europe/Copenhagen';
+
 /**
  * Helper to setup to minimal app with plugins.
  *
