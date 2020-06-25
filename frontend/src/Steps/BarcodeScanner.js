@@ -5,7 +5,11 @@ const pattern = /^(!BA11|!BA10|!BA)(?<code>.+)!C$/;
  * Based on the method from https://stackoverflow.com/a/55251571
  */
 export class BarcodeScanner {
-    constructor (timeoutLimit) {
+    constructor (timeoutLimit = null) {
+        if (timeoutLimit !== null && !Number.isInteger(timeoutLimit)) {
+            throw 'timeoutLimit must be an integer'
+        }
+
         this.code = '';
         this.timeoutLimit = timeoutLimit;
         this.resultCallback = null;
