@@ -13,6 +13,7 @@
         "eslint": "^7.2.0",
         "eslint-config-standard": "^14.1.1",
         "eslint-plugin-import": "^2.21.2",
+        "eslint-plugin-jasmine": "^4.1.1",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.1",
@@ -35,12 +36,13 @@
     "scripts": {
         "run": "node app.js",
         "check-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js'",
-        "check-coding-standards-js": "yarn run check-coding-standards-eslint",
-        "check-coding-standards": "yarn run check-coding-standards-js",
+        "check-coding-standards-js": "npm run check-coding-standards-eslint",
+        "check-coding-standards": "npm run check-coding-standards-js",
         "apply-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js' --fix",
-        "apply-coding-standards-js": "yarn run apply-coding-standards-eslint",
-        "apply-coding-standards": "yarn run apply-coding-standards-js",
+        "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
+        "apply-coding-standards": "npm run apply-coding-standards-js",
         "test": "cd test; ../node_modules/.bin/mocha",
+        "test-install": "./scripts/install.sh",
         "test-live": "cd test; LIVE=1 ../node_modules/.bin/mocha"
     }
 }

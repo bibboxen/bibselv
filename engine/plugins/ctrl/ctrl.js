@@ -4,8 +4,6 @@
  */
 'use strict';
 
-const path = require('path');
-
 const CTRL = function CTRL(bus) {
     this.bus = bus;
 };

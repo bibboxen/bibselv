@@ -5,11 +5,14 @@
  * Mocks see http://sinonjs.org/
  */
 
+/* global before, after */
+
 'use strict';
 
 const record = require('./record');
 const supertest = require('supertest');
-const should = require('should');
+const path = require('path');
+require('should');
 
 global.server = supertest.agent('http://localhost:3010');
 
@@ -24,7 +27,7 @@ global.server = supertest.agent('http://localhost:3010');
  * @return {*|promise}
  *    Promise that's resolved when the app is loaded.
  */
-global.setupArchitect = function setupArchitect (plugins, config) {
+global.setupArchitect = function setupArchitect(plugins, config) {
     const Q = require('q');
     const deferred = Q.defer();
 
@@ -32,11 +35,10 @@ global.setupArchitect = function setupArchitect (plugins, config) {
 
     // User the configuration to start the application.
     config = architect.resolveConfig(plugins, __dirname);
-    architect.createApp(config, function (err, app) {
+    architect.createApp(config, function(err, app) {
         if (err) {
             deferred.reject(err);
-        }
-        else {
+        } else {
             deferred.resolve(app);
         }
     });
@@ -57,11 +59,11 @@ global.setupArchitect = function setupArchitect (plugins, config) {
  * @returns {boolean}
  *   If expire true else false.
  */
-global.isEventExpired = function isEventExpired (timestamp, debug, eventName) {
+global.isEventExpired = function isEventExpired(timestamp, debug, eventName) {
     const current = new Date().getTime();
     eventName = eventName || 'Unknown';
 
-    const config = require(__dirname + '/config.json');
+    const config = require(path.join(__dirname, 'config_architect.json'));
 
     if (Number(timestamp) + config.eventTimeout < current) {
         debug('EVENT ' + eventName + ' is expired (' + ((Number(timestamp) + config.eventTimeout) - current) + ').');
@@ -81,8 +83,8 @@ global.isEventExpired = function isEventExpired (timestamp, debug, eventName) {
  *   The file to require.
  * @param recordName
  */
-function importTest (name, file, recordName) {
-    describe(name, function () {
+function importTest(name, file, recordName) {
+    describe(name, function() {
         const recorder = record(recordName);
 
         if (recordName !== undefined) {
