@@ -1,27 +1,46 @@
 {
-  "name": "bibbox",
-  "description": "Library box - automatic borrower",
-  "version": "1.4.2",
-  "private": true,
-  "dependencies": {
-    "architect": "^0.1.13",
-    "debug": "^4.1.1"
-  },
-  "devDependencies": {
-    "eslint": "^7.2.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.21.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
-  },
-  "scripts": {
-    "run": "node app.js",
-    "check-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js'",
-    "check-coding-standards-js": "yarn run check-coding-standards-eslint",
-    "check-coding-standards": "yarn run check-coding-standards-js",
-    "apply-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js' --fix",
-    "apply-coding-standards-js": "yarn run apply-coding-standards-eslint",
-    "apply-coding-standards": "yarn run apply-coding-standards-js"
-  }
+    "name": "bibbox",
+    "description": "Library box - automatic borrower",
+    "version": "1.4.2",
+    "private": true,
+    "dependencies": {
+        "architect": "^0.1.13",
+        "debug": "^4.1.1"
+    },
+    "devDependencies": {
+        "assert": "^2.0.0",
+        "chai": "^4.2.0",
+        "eslint": "^7.2.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.21.2",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1",
+        "istanbul": "^0.4.5",
+        "karma": "^5.1.0",
+        "karma-coverage": "^2.0.2",
+        "karma-mocha": "^2.0.1",
+        "karma-ng-html2js-preprocessor": "^1.0.0",
+        "karma-phantomjs-launcher": "^1.0.4",
+        "karma-sinon-chai": "^2.0.2",
+        "mocha": "^8.0.1",
+        "nock": "^9.6.1",
+        "nodemon": "^2.0.4",
+        "q": "^1.5.1",
+        "should": "^13.2.3",
+        "sinon": "^9.0.2",
+        "sinon-chai": "^3.5.0",
+        "supertest": "^4.0.2"
+    },
+    "scripts": {
+        "run": "node app.js",
+        "check-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js'",
+        "check-coding-standards-js": "yarn run check-coding-standards-eslint",
+        "check-coding-standards": "yarn run check-coding-standards-js",
+        "apply-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js' --fix",
+        "apply-coding-standards-js": "yarn run apply-coding-standards-eslint",
+        "apply-coding-standards": "yarn run apply-coding-standards-js",
+        "test": "cd test; ../node_modules/.bin/mocha",
+        "test-live": "cd test; LIVE=1 ../node_modules/.bin/mocha"
+    }
 }
