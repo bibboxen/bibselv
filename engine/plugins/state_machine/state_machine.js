@@ -150,7 +150,7 @@ module.exports = function(options, imports, register) {
             client.actionData = data;
             this.handle(client, action);
             return client;
-        }
+        },
     });
 
     /**
@@ -178,8 +178,10 @@ module.exports = function(options, imports, register) {
 
         // Emit new client state.
         bus.emit('state_machine.state_update.' + client.token, client.state);
+        return client;
     };
 
+    stateMachine.handleEvent = handleEvent;
     const actionHandler = new ActionHandler(bus, handleEvent, stateMachine);
 
     // Listener for events in the state machine.
