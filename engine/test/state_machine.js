@@ -46,7 +46,7 @@ const setup = () => {
 it('Smoke test', done => {
     setup().then(app => {
         done();
-    });
+    }).catch(done.fail);
 });
 
 it('Test that reset can be called', done => {
@@ -57,7 +57,7 @@ it('Test that reset can be called', done => {
     setup().then(app => {
         client = app.services.state_machine.reset(client);
         client.state.step.should.equal('initial');
-    }).then(done);
+    }).then(done).catch(done.fail);
 });
 
 it('Test that the borrow flow can be entered from initial state', done => {
@@ -72,7 +72,7 @@ it('Test that the borrow flow can be entered from initial state', done => {
         });
         client.state.step.should.equal('loginScan');
         client.state.flow.should.equal('borrow');
-    }).then(done);
+    }).then(done).catch(done.fail);
 });
 
 it('Test that test user can log in', done => {
@@ -116,6 +116,5 @@ it('Test that test user can log in', done => {
 
             done();
         }, 400);
-    });
+    }).catch(done.fail);
 });
-

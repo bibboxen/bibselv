@@ -150,7 +150,7 @@ module.exports = function(options, imports, register) {
             client.actionData = data;
             this.handle(client, action);
             return client;
-        },
+        }
     });
 
     /**
