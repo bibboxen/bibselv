@@ -19,7 +19,7 @@ A user can load a machine by a unique URL that is tied to a machine configuratio
 
 * Node.js 14.x
 * Symfony 5.x
-* PHP 7.3
+* PHP 7.4
 * React 16.x
 * Redis
 * Docker
