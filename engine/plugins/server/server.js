@@ -88,7 +88,7 @@ module.exports = function(options, imports, register) {
     });
 
     // Start the server.
-    server.listen(port, function() {
+    server.listen(port, '0.0.0.0', function() {
         bus.emit('logger.info', { type: 'Server', message: 'Listening on port ' + port });
     });
 

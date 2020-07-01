@@ -68,7 +68,7 @@ const plugins = [
     },
     {
         packagePath: './plugins/server',
-        port: 8010,
+        port: 3000,
         path: path.join(__dirname, 'public'),
         isEventExpired: isEventExpired
     }

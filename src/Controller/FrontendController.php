@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("", name="default_")
+ * @Route("", name="frontend_")
  */
-class DefaultController extends AbstractController
+class FrontendController extends AbstractController
 {
     /**
      * @Route("/", name="index")
@@ -16,7 +16,7 @@ class DefaultController extends AbstractController
     public function index()
     {
         return $this->render(
-            'index.html.twig'
+            'frontend.html.twig'
         );
     }
 }

@@ -21,7 +21,7 @@ services:
       - MYSQL_DATABASE=db
 
   phpfpm:
-    image: itkdev/php7.2-fpm:latest
+    image: itkdev/php7.3-fpm:latest
     networks:
       - app
     environment:
@@ -55,11 +55,17 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`)"
 
   engine:
-    build: .docker/engine
-    command: node app.js
+    image: node:14
     networks:
       - app
-    ports:
-      - '8010:3000'
+    user: "node"
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - nginx
     volumes:
-      - ./engine/:/app:delegated
+      - ./engine:/app:delegated
+    ports:
+      - "8010:3000"
+    command: "npm run docker"
