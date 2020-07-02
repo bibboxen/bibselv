@@ -5,7 +5,7 @@ const pattern = /^(!BA11|!BA10|!BA)(?<code>.+)!C$/;
  * Based on the method from https://stackoverflow.com/a/55251571
  */
 export class BarcodeScanner {
-    constructor (timeoutLimit) {
+    constructor(timeoutLimit) {
         this.code = '';
         this.timeoutLimit = timeoutLimit;
         this.resultCallback = null;
@@ -25,14 +25,13 @@ export class BarcodeScanner {
         }
 
         if (this.code.length > 0) {
-            let matches = pattern.exec(this.code);
+            const matches = pattern.exec(this.code);
 
             if (matches !== null && matches.groups.code) {
                 this.resultCallback(matches.groups.code);
                 this.code = '';
             }
-        }
-        else {
+        } else {
             this.code = '';
         }
     }

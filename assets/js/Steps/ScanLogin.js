@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Spinner } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
+import PropTypes from 'prop-types';
 
 function ScanLogin(props) {
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(false);
     const stateRef = useRef({});
-    const { actionHandler } = props;
+    const { actionHandler } = props;
 
     stateRef.current.username = username;
 
@@ -44,5 +45,9 @@ function ScanLogin(props) {
         </Container>
     );
 }
+
+ScanLogin.propTypes = {
+    actionHandler: PropTypes.func.isRequired
+};
 
 export default ScanLogin;

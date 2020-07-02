@@ -41,6 +41,32 @@ To watch for changes in the assets folder, run:
 npm run dev
 ```
 
+## Code Linting
+
+When PRs are created towards the develop branch all coding styles are checked by Github Actions.
+
+### Frontend
+
+To check for coding standards, run the following:
+
+```
+npm run check-coding-standards
+```
+
+To automatically apply coding standards, run:
+
+```
+npm run apply-coding-standards
+```
+
+### Engine
+
+The same commands apply as frontend, be should be run from the `engine/` folder.
+
+### Symfony
+
+@TODO: Setup coding standards for the Symfony/PHP code.
+
 ## Production
 
 ### Build production assets for the frontend
