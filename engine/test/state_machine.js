@@ -82,7 +82,7 @@ it('Test that test user can log in', done => {
     };
 
     setup().then(app => {
-        sinon.spy(app.services.state_machine, "handleEvent");
+        sinon.spy(app.services.state_machine, 'handleEvent');
 
         client = app.services.state_machine.handleEvent({
             token: '123',
@@ -126,9 +126,8 @@ it('Test that test user can log in', done => {
                 }
             });
 
-
             setTimeout(() => {
-                let spyCall = app.services.state_machine.handleEvent.getCall(3);
+                const spyCall = app.services.state_machine.handleEvent.getCall(3);
                 spyCall.firstArg.action.should.equal('borrowMaterial');
 
                 client = app.services.client.load('123');
