@@ -1,26 +1,40 @@
 on: pull_request
 name: Review
 jobs:
-    js-coding-standards:
-        name: JS coding standards (PHP ${{ matrix.php }})
+    engine-coding-standards:
+        name: Engine coding standards
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                php: ['7.3']
         steps:
             - uses: actions/checkout@master
             - uses: actions/setup-node@v1
               with:
-                  node-version: '10.x'
+                  node-version: '14.x'
             - name: install
               working-directory: engine
-              run: yarn install
+              run: npm install
             - name: JS coding standards
               working-directory: engine
-              run: yarn check-coding-standards
+              run: npm run check-coding-standards
 
-    frontend-testing:
+    engine-tests:
+        name: JS engine tests
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@master
+            -   uses: actions/setup-node@v1
+                with:
+                    node-version: '14.x'
+            -   name: install plugins
+                working-directory: engine
+                run: npm run test-install
+            -   name: install
+                working-directory: engine
+                run: npm install
+            -   name: JS tests
+                working-directory: engine
+                run: npm test
+
+    frontend-tests:
         name: Frontend tests
         runs-on: ubuntu-latest
         steps:
@@ -29,8 +43,6 @@ jobs:
               with:
                   node-version: '14.x'
             - name: install
-              working-directory: frontend
-              run: yarn install
+              run: npm install
             - name: Run tests
-              working-directory: frontend
-              run: yarn test-ci
+              run: npm run test-ci

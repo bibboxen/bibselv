@@ -4,8 +4,6 @@
  */
 'use strict';
 
-const path = require('path');
-
 const CTRL = function CTRL(bus) {
     this.bus = bus;
 };
@@ -22,8 +20,9 @@ const CTRL = function CTRL(bus) {
  */
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
+    const configPath = options.configPath;
     const ctrl = new CTRL(bus);
-    const config = require(path.join(__dirname, 'config.json'));
+    const config = require(configPath);
 
     /**
    * Handle fbs config events.

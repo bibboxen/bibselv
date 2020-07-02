@@ -56,12 +56,12 @@ class ActionHandler {
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties.title,
                 author: result.itemProperties.author,
-                renewalOk: result.renewalOk ? 'Ja' : 'Nej',
+                renewalOk: result.renewalOk === 'Y',
                 message: result.screenMessage
             };
 
             if (result.ok === '1') {
-                if (result.renewalOk) {
+                if (result.renewalOk === 'Y') {
                     material.status = 'renewed';
                 } else {
                     material.status = 'borrowed';
