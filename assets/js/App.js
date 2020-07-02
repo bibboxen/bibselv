@@ -7,6 +7,7 @@ import { Alert } from 'react-bootstrap';
 import ScanLogin from './Steps/ScanLogin';
 import Borrow from './Steps/Borrow';
 
+// @TODO: Rewrite as functional component.
 class App extends Component {
     constructor(props) {
         super(props);

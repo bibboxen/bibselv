@@ -15,6 +15,12 @@ A user can load a machine by a unique URL that is tied to a machine configuratio
 
 ![alt text](docs/architecture.png "Architecture")
 
+The frontend communicates with the engine through a web socket.
+The machine state flows from the engine to the frontend.
+The frontend reflects the given machine state.
+User actions are sent from the frontend to the engine.
+The engine then changes the machines state and sends it back to the frontend.
+
 ## Tech stack
 
 * Node.js 14.x
@@ -69,7 +75,7 @@ The same commands apply as frontend, be should be run from the `engine/` folder.
 
 ## Production
 
-### Build production assets for the frontend
+### Building production assets for the frontend
 
 ```
 npm run build
