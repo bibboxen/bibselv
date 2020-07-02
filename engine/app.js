@@ -52,6 +52,7 @@ const plugins = [
     },
     {
         packagePath: './plugins/ctrl',
+        configPath: path.join(__dirname, 'plugins/ctrl/config.json'),
         isEventExpired: isEventExpired
     },
     {

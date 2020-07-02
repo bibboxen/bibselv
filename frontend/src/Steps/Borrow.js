@@ -68,7 +68,7 @@ function Borrow (props) {
                                     <td>{el.title}</td>
                                     <td>{el.author}</td>
                                     <td>{el.status}</td>
-                                    <td>{el.renewalOk}</td>
+                                    <td>{el.renewalOk ? 'Yes' : 'No'}</td>
                                     <td>{el.message}</td>
                                 </tr>
                             )
