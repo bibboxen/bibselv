@@ -1,8 +1,8 @@
 on: pull_request
 name: Review
 jobs:
-    js-coding-standards:
-        name: JS coding standards
+    engine-coding-standards:
+        name: Engine coding standards
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
@@ -16,7 +16,7 @@ jobs:
               working-directory: engine
               run: npm run check-coding-standards
 
-    js-engine-tests:
+    engine-tests:
         name: JS engine tests
         runs-on: ubuntu-latest
         steps:
@@ -33,3 +33,16 @@ jobs:
             -   name: JS tests
                 working-directory: engine
                 run: npm test
+
+    frontend-tests:
+        name: Frontend tests
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@master
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '14.x'
+            - name: install
+              run: npm install
+            - name: Run tests
+              run: npm run test-ci

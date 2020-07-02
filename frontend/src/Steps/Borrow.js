@@ -32,13 +32,22 @@ function Borrow (props) {
         }
     }, [actionHandler, handleReset]);
 
+    // Return nothing if no machineState is set.
+    if (!Object.prototype.hasOwnProperty.call(props, 'machineState')) {
+        return;
+    }
+
     return (
         <Container>
             <h1>Borrow</h1>
 
-            <p>Hej {props.machineState.user.name}</p>
-            {props.machineState.user.birthdayToday &&
-                <p>Tillykke med fødselsdagen</p>
+            {props.machineState.user &&
+                <div>
+                    <p>Hej {props.machineState.user.name}</p>
+                    {props.machineState.user.birthdayToday &&
+                    <p>Tillykke med fødselsdagen</p>
+                    }
+                </div>
             }
             <Row>
                 <Col>
