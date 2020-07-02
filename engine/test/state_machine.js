@@ -7,6 +7,7 @@
 
 const path = require('path');
 const config = require(path.join(__dirname, 'config_test.json'));
+const sinon = require('sinon');
 
 let app = null;
 const setup = () => {
@@ -81,6 +82,8 @@ it('Test that test user can log in', done => {
     };
 
     setup().then(app => {
+        sinon.spy(app.services.state_machine, "handleEvent");
+
         client = app.services.state_machine.handleEvent({
             token: '123',
             name: 'Reset'
@@ -114,7 +117,29 @@ it('Test that test user can log in', done => {
             client.internal.username.should.equal('3210000000');
             client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
 
-            done();
+            app.services.state_machine.handleEvent({
+                token: '123',
+                name: 'Action',
+                action: 'borrowMaterial',
+                data: {
+                    itemIdentifier: '3274626533'
+                }
+            });
+
+
+            setTimeout(() => {
+                let spyCall = app.services.state_machine.handleEvent.getCall(3);
+                spyCall.firstArg.action.should.equal('borrowMaterial');
+
+                client = app.services.client.load('123');
+
+                client.state.materials.length.should.equal(1);
+                client.state.materials[0].itemIdentifier.should.equal('3274626533');
+                client.state.materials[0].title.should.equal('Helbred dit liv');
+                client.state.materials[0].status.should.equal('borrowed');
+
+                done();
+            }, 400);
         }, 400);
     }).catch(done.fail);
 });
