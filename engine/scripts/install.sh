@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 # Install main modules
+echo
+echo '-----------------------'
+echo "==> ."
+echo '-----------------------'
 npm install --${1:-production}
 
 # Install plugin dependencies.
