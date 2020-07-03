@@ -73,6 +73,28 @@ The same commands apply as frontend, be should be run from the `engine/` folder.
 
 @TODO: Setup coding standards for the Symfony/PHP code.
 
+## Testing
+
+All tests runs with Github Actions for each PR to develop.
+
+### Frontend
+
+Frontend tests runs with jest.
+
+```
+npm test
+```
+
+### Engine
+
+Engine tests runs with mocha from the `engine/` directory. The tests that
+call FBS are mocked with nock recordings.
+
+```
+cd engine
+npm test
+```
+
 ## Production
 
 ### Building production assets for the frontend
