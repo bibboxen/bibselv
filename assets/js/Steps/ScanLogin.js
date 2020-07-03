@@ -39,7 +39,7 @@ function ScanLogin(props) {
 
             <div>Username: {username}</div>
 
-            {machineState.fake &&
+            {machineState && machineState.fake &&
                 <Button variant={'warning'} onClick={() => actionHandler('login', { username: '1234567890', password: '12345' }) }>
                     Fake login
                 </Button>
