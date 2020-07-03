@@ -1,6 +1,7 @@
 import React from 'react';
 import ScanLogin from './ScanLogin';
 import { shallow } from 'enzyme';
+import { expect, it } from '@jest/globals';
 
 it('renders without crashing', () => {
     shallow(<ScanLogin />);

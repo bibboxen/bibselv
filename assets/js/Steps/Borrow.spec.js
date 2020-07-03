@@ -1,6 +1,7 @@
 import React from 'react';
 import Borrow from './Borrow';
 import { shallow } from 'enzyme';
+import { expect, it } from '@jest/globals';
 
 it('renders without crashing without machineState', () => {
     shallow(<Borrow />);
@@ -28,4 +29,3 @@ it('renders the name of the user', () => {
 
     expect(wrapper).toContainReact(<p>Hej TestName</p>);
 });
-

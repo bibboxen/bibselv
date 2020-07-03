@@ -1,15 +1,16 @@
 import BarcodeScanner from './BarcodeScanner';
+import { expect, it } from '@jest/globals';
 
 it('can be created', () => {
-    new BarcodeScanner();
+    BarcodeScanner.constructor();
 });
 
 it('can be created with a timeout limit', () => {
-    new BarcodeScanner(1000);
+    BarcodeScanner.constructor(1000);
 });
 
 it('can not be created with string', () => {
     expect(() => {
-        new BarcodeScanner('test')
+        BarcodeScanner.constructor('test');
     }).toThrow('timeoutLimit must be an integer');
 });

@@ -123,5 +123,8 @@
         "presets": [
             "react-app"
         ]
+    },
+    "dependencies": {
+        "@jest/globals": "^26.1.0"
     }
 }

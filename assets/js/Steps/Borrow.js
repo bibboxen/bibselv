@@ -71,18 +71,18 @@ function Borrow(props) {
                             </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.materials && props.machineState.materials.map(
-                                el => <tr key={'material-'+el.itemIdentifier}>
-                                    <td>{el.itemIdentifier}</td>
-                                    <td>{el.title}</td>
-                                    <td>{el.author}</td>
-                                    <td>{el.status}</td>
-                                    <td>{el.renewalOk ? 'Yes' : 'No'}</td>
-                                    <td>{el.message}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.materials && props.machineState.materials.map(
+                                    el => <tr key={'material-' + el.itemIdentifier}>
+                                        <td>{el.itemIdentifier}</td>
+                                        <td>{el.title}</td>
+                                        <td>{el.author}</td>
+                                        <td>{el.status}</td>
+                                        <td>{el.renewalOk ? 'Yes' : 'No'}</td>
+                                        <td>{el.message}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>
