@@ -1,10 +1,7 @@
 import React from 'react';
 import Borrow from './Borrow';
 import { shallow } from 'enzyme';
-
-it('renders without crashing without machineState', () => {
-    shallow(<Borrow />);
-});
+import ScanLogin from './ScanLogin';
 
 it('renders without crashing', () => {
     const machineState = {
@@ -13,7 +10,7 @@ it('renders without crashing', () => {
         },
         materials: []
     };
-    shallow(<Borrow machineState={machineState} />);
+    shallow(<Borrow actionHandler={() => {}} handleReset={() => {}} machineState={machineState} />);
 });
 
 it('renders the name of the user', () => {
@@ -24,7 +21,7 @@ it('renders the name of the user', () => {
         materials: []
     };
 
-    const wrapper = shallow(<Borrow machineState={machineState} />);
+    const wrapper = shallow(<Borrow actionHandler={() => {}} handleReset={() => {}} machineState={machineState} />);
 
     expect(wrapper).toContainReact(<p>Hej TestName</p>);
 });
