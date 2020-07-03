@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Alert} from 'react-bootstrap';
 import ScanLogin from './Steps/ScanLogin';
 import Borrow from './Steps/Borrow';
+import ActionFaker from './actionFaker';
 
 class App extends Component {
     constructor (props) {
@@ -17,6 +18,7 @@ class App extends Component {
         this.socket = null;
 
         this.state = {
+            fake: true,
             token: token,
             machineState: {},
             // @TODO: Make configurable.
@@ -25,38 +27,84 @@ class App extends Component {
 
         this.handleAction = this.handleAction.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.setMachineState = this.setMachineState.bind(this);
+        this.getMachineState = this.getMachineState.bind(this);
+    }
+
+    setMachineState(data) {
+        this.setState({machineState: data}, () => {
+            console.log('UpdateState', this.state.machineState);
+        });
+    }
+
+    getMachineState() {
+        return this.state.machineState;
     }
 
     componentDidMount () {
-        const {endpoint} = this.state;
-        const socket = socketIOClient(endpoint);
-        this.socket = socket;
-        socket.on('UpdateState', data => {
-            this.setState({machineState: data}, () => {
-                console.log("UpdateState", this.state.machineState);
+        const { endpoint } = this.state;
+        const { fake } = this.state;
+
+        if (fake) {
+            this.actionFaker = new ActionFaker(this.getMachineState, this.setMachineState);
+        }
+
+        if (!fake) {
+            const socket = socketIOClient(endpoint, {
+                transports: ['websocket', 'polling'],
             });
-        });
-        // Ready
-        socket.emit('ClientReady', {
-            token: this.state.token
-        });
+            this.socket = socket;
+            socket.on('UpdateState', data => {
+                this.setMachineState(data)
+            });
+            // Ready
+            socket.emit('ClientReady', {
+                token: this.state.token
+            });
+        }
+        else {
+            console.log('Running with fake content.');
+
+            this.setState({
+                machineState: {
+                    step: 'initial'
+                }
+            });
+        }
     }
 
     handleAction (action, data) {
         console.log('handleAction', action, data);
-        this.socket.emit('ClientEvent', {
-            name: 'Action',
-            token: this.state.token,
-            action: action,
-            data: data
-        });
+
+        const { fake } = this.state;
+
+        if (!fake) {
+            this.socket.emit('ClientEvent', {
+                name: 'Action',
+                token: this.state.token,
+                action: action,
+                data: data
+            });
+        }
+        else {
+            this.actionFaker.handleAction(action, data);
+        }
     }
 
     handleReset () {
-        this.socket.emit('ClientEvent', {
-            name: 'Reset',
-            token: this.state.token
-        });
+        console.log('handleReset');
+
+        const {fake} = this.state;
+
+        if (!fake) {
+            this.socket.emit('ClientEvent', {
+                name: 'Reset',
+                token: this.state.token
+            });
+        }
+        else {
+            this.actionFaker.handleReset();
+        }
     }
 
     renderStep (step, machineState) {
@@ -82,7 +130,7 @@ class App extends Component {
     }
 
     render () {
-        const {machineState} = this.state;
+        const { machineState } = this.state;
 
         return (
             <div className={'app-container'}>

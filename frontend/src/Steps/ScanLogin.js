@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Spinner } from 'react-bootstrap';
+import { Button, Col, Container, Spinner } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
 function ScanLogin(props) {
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(false);
     const stateRef = useRef({});
-    const { actionHandler } = props;
+    const { actionHandler, machineState } = props;
+    console.log(machineState);
 
     stateRef.current.username = username;
 
@@ -38,11 +39,22 @@ function ScanLogin(props) {
 
             <div>Username: {username}</div>
 
+            {machineState.fake &&
+                <Button variant={'warning'} onClick={() => actionHandler('login', { username: '1234567890', password: '12345' }) }>
+                    Fake login
+                </Button>
+            }
+
             {loading &&
                 <Spinner animation={'grow'} size={'m'} variant={'primary'} />
             }
         </Container>
     );
 }
+
+ScanLogin.propTypes = {
+    actionHandler: PropTypes.func.isRequired,
+    machineState: PropTypes.object
+};
 
 export default ScanLogin;

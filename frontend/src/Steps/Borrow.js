@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 
-function Borrow (props) {
-    const { actionHandler, handleReset } = props;
+function Borrow(props) {
+    const { actionHandler, handleReset, machineState } = props;
 
     useEffect(() => {
         console.log('use effect');
@@ -91,6 +91,20 @@ function Borrow (props) {
                     <Button variant={'primary'} onClick={props.handleReset}>
                         Tilbage
                     </Button>
+
+                    {machineState.fake &&
+                        <div>
+                            <Button variant={'warning'} onClick={() => actionHandler('borrowMaterial', { itemIdentifier: '1234567890' }) }>
+                                Fake material 1
+                            </Button>
+                            <Button variant={'warning'} onClick={() => actionHandler('borrowMaterial', { itemIdentifier: '2345678901' }) }>
+                                Fake material 2
+                            </Button>
+                            <Button variant={'warning'} onClick={() => actionHandler('borrowMaterial', { itemIdentifier: '3456789012' }) }>
+                                Fake material 3
+                            </Button>
+                        </div>
+                    }
                 </Col>
             </Row>
         </Container>
