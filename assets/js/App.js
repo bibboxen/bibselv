@@ -3,12 +3,13 @@ import './App.css';
 import socketIOClient from 'socket.io-client';
 import Initial from './Steps/Initial';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Alert} from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import ScanLogin from './Steps/ScanLogin';
 import Borrow from './Steps/Borrow';
 
+// @TODO: Rewrite as functional component.
 class App extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -27,13 +28,13 @@ class App extends Component {
         this.handleReset = this.handleReset.bind(this);
     }
 
-    componentDidMount () {
-        const {endpoint} = this.state;
+    componentDidMount() {
+        const { endpoint } = this.state;
         const socket = socketIOClient(endpoint);
         this.socket = socket;
         socket.on('UpdateState', data => {
-            this.setState({machineState: data}, () => {
-                console.log("UpdateState", this.state.machineState);
+            this.setState({ machineState: data }, () => {
+                console.log('UpdateState', this.state.machineState);
             });
         });
         // Ready
@@ -42,7 +43,7 @@ class App extends Component {
         });
     }
 
-    handleAction (action, data) {
+    handleAction(action, data) {
         console.log('handleAction', action, data);
         this.socket.emit('ClientEvent', {
             name: 'Action',
@@ -52,37 +53,37 @@ class App extends Component {
         });
     }
 
-    handleReset () {
+    handleReset() {
         this.socket.emit('ClientEvent', {
             name: 'Reset',
             token: this.state.token
         });
     }
 
-    renderStep (step, machineState) {
+    renderStep(step, machineState) {
         switch (step) {
-            case 'initial':
-                return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'chooseLogin':
-                return <div>@TODO: chooseLogin</div>;
-            case 'loginScan':
-                return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'borrow':
-                return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            default:
-                return (
-                    <div className={'app-default'}
-                         style={{textAlign: 'center'}}>
-                        <Alert variant={'warning'}>
+        case 'initial':
+            return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+        case 'chooseLogin':
+            return <div>@TODO: chooseLogin</div>;
+        case 'loginScan':
+            return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+        case 'borrow':
+            return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+        default:
+            return (
+                <div className={'app-default'}
+                    style={{ textAlign: 'center' }}>
+                    <Alert variant={'warning'}>
                             Please wait...
-                        </Alert>
-                    </div>
-                );
+                    </Alert>
+                </div>
+            );
         }
     }
 
-    render () {
-        const {machineState} = this.state;
+    render() {
+        const { machineState } = this.state;
 
         return (
             <div className={'app-container'}>

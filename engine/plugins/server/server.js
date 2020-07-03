@@ -25,6 +25,7 @@ const uniqid = require('uniqid');
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const port = options.port || 3000;
+    const host = options.host || '0.0.0.0';
 
     const router = express.Router();
     const app = express();
@@ -88,7 +89,7 @@ module.exports = function(options, imports, register) {
     });
 
     // Start the server.
-    server.listen(port, function() {
+    server.listen(port, host, function() {
         bus.emit('logger.info', { type: 'Server', message: 'Listening on port ' + port });
     });
 
