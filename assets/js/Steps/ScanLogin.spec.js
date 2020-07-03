@@ -3,11 +3,11 @@ import ScanLogin from './ScanLogin';
 import { shallow } from 'enzyme';
 
 it('renders without crashing', () => {
-    shallow(<ScanLogin actionHandler={() => {}} />);
+    shallow(<ScanLogin />);
 });
 
 it('contains a h1', () => {
-    const wrapper = shallow(<ScanLogin actionHandler={() => {}} />);
+    const wrapper = shallow(<ScanLogin />);
     const welcome = <h1>ScanLogin</h1>;
 
     expect(wrapper).toContainReact(welcome);
