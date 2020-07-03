@@ -1,0 +1,130 @@
+{
+    "name": "frontend",
+    "version": "0.1.0",
+    "devDependencies": {
+        "@babel/core": "7.9.0",
+        "@svgr/webpack": "4.3.3",
+        "@babel/preset-env": "^7.10.4",
+        "@babel/preset-react": "^7.10.4",
+        "@symfony/webpack-encore": "^0.30.0",
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
+        "babel-jest": "^26.1.0",
+        "bootstrap": "^4.4.1",
+        "core-js": "^3.0.0",
+        "enzyme": "^3.11.0",
+        "enzyme-adapter-react-16": "^1.15.2",
+        "eslint": "^6.6.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.22.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-react": "^7.20.3",
+        "eslint-plugin-standard": "^4.0.1",
+        "jest": "^26.1.0",
+        "jest-enzyme": "^7.1.2",
+        "prop-types": "^15.7.2",
+        "react": "^16.13.1",
+        "react-bootstrap": "^1.0.0",
+        "react-dom": "^16.13.1",
+        "react-scripts": "3.4.1",
+        "react-test-renderer": "^16.13.1",
+        "regenerator-runtime": "^0.13.2",
+        "socket.io-client": "^2.3.0",
+        "webpack-notifier": "^1.6.0",
+        "jest-environment-jsdom-fourteen": "1.0.1",
+        "jest-resolve": "24.9.0",
+        "jest-watch-typeahead": "0.4.2",
+        "babel-preset-react-app": "^9.1.2"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress",
+        "test": "node assets/js/scripts/test.js",
+        "test-ci": "CI=true node assets/js/scripts/test.js",
+        "check-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js'",
+        "check-coding-standards-js": "yarn run check-coding-standards-eslint",
+        "check-coding-standards": "yarn run check-coding-standards-js",
+        "apply-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js' --fix",
+        "apply-coding-standards-js": "yarn run apply-coding-standards-eslint",
+        "apply-coding-standards": "yarn run apply-coding-standards-js"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "jest": {
+        "roots": [
+            "<rootDir>/assets/js"
+        ],
+        "collectCoverageFrom": [
+            "assets/js/**/*.{js,jsx,ts,tsx}",
+            "!assets/js/**/*.d.ts"
+        ],
+        "setupFiles": [
+            "react-app-polyfill/jsdom"
+        ],
+        "setupFilesAfterEnv": [
+            "<rootDir>/assets/js/setupTests.js"
+        ],
+        "testMatch": [
+            "<rootDir>/assets/js/**/__tests__/**/*.{js,jsx,ts,tsx}",
+            "<rootDir>/assets/js/**/*.{spec,test}.{js,jsx,ts,tsx}"
+        ],
+        "testEnvironment": "jest-environment-jsdom-fourteen",
+        "transform": {
+            "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+            "^.+\\.css$": "<rootDir>/assets/js/config/jest/cssTransform.js",
+            "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/assets/js/config/jest/fileTransform.js"
+        },
+        "transformIgnorePatterns": [
+            "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
+            "^.+\\.module\\.(css|sass|scss)$"
+        ],
+        "modulePaths": [],
+        "moduleNameMapper": {
+            "^react-native$": "react-native-web",
+            "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+        },
+        "moduleFileExtensions": [
+            "web.js",
+            "js",
+            "web.ts",
+            "ts",
+            "web.tsx",
+            "tsx",
+            "json",
+            "web.jsx",
+            "jsx",
+            "node"
+        ],
+        "watchPlugins": [
+            "jest-watch-typeahead/filename",
+            "jest-watch-typeahead/testname"
+        ]
+    },
+    "babel": {
+        "presets": [
+            "react-app"
+        ]
+    },
+    "dependencies": {
+        "@jest/globals": "^26.1.0"
+    }
+}

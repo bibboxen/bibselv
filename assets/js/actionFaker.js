@@ -5,25 +5,24 @@ class ActionFaker {
     }
 
     handleAction(action, data) {
-        console.log(data);
+        console.log('fake handleAction', action, data);
 
         if (action === 'enterFlow') {
-            this.setMachineState({
-                fake: true,
-                flow: data.flow,
-                step: 'loginScan'
-            });
+            let state = this.getMachineState();
+            state.step = 'loginScan';
+            state.flow = data.flow;
+
+            this.setMachineState(state);
         }
         else if (action === 'login') {
-            this.setMachineState({
-                fake: true,
-                step: 'borrow',
-                flow: 'borrow',
-                user: {
-                    name: 'Peter'
-                },
-                materials: []
-            });
+            let state = this.getMachineState();
+            state.step = 'borrow';
+            state.user = {
+                name: 'Peter'
+            };
+            state.materials = [];
+
+            this.setMachineState(state);
         }
         else if (action === 'borrowMaterial') {
             console.log('borrowMaterial', action, data);

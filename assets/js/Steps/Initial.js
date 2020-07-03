@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Alert, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
+import PropTypes from 'prop-types';
 
 function Initial(props) {
-    const { actionHandler } = props;
+    const { actionHandler } = props;
 
     useEffect(() => {
         console.log('use effect');
@@ -46,5 +47,9 @@ function Initial(props) {
         </Container>
     );
 }
+
+Initial.propTypes = {
+    actionHandler: PropTypes.func.isRequired
+};
 
 export default Initial;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Col, Container, Spinner } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
+import PropTypes from 'prop-types';
 
 function ScanLogin(props) {
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(false);
     const stateRef = useRef({});
     const { actionHandler, machineState } = props;
-    console.log(machineState);
 
     stateRef.current.username = username;
 

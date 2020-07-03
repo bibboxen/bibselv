@@ -3,13 +3,14 @@ import './App.css';
 import socketIOClient from 'socket.io-client';
 import Initial from './Steps/Initial';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Alert} from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import ScanLogin from './Steps/ScanLogin';
 import Borrow from './Steps/Borrow';
 import ActionFaker from './actionFaker';
 
+// @TODO: Rewrite as functional component.
 class App extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -73,7 +74,7 @@ class App extends Component {
         }
     }
 
-    handleAction (action, data) {
+    handleAction(action, data) {
         console.log('handleAction', action, data);
 
         const { fake } = this.state;
@@ -107,29 +108,29 @@ class App extends Component {
         }
     }
 
-    renderStep (step, machineState) {
+    renderStep(step, machineState) {
         switch (step) {
-            case 'initial':
-                return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'chooseLogin':
-                return <div>@TODO: chooseLogin</div>;
-            case 'loginScan':
-                return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'borrow':
-                return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            default:
-                return (
-                    <div className={'app-default'}
-                         style={{textAlign: 'center'}}>
-                        <Alert variant={'warning'}>
+        case 'initial':
+            return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+        case 'chooseLogin':
+            return <div>@TODO: chooseLogin</div>;
+        case 'loginScan':
+            return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+        case 'borrow':
+            return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+        default:
+            return (
+                <div className={'app-default'}
+                    style={{ textAlign: 'center' }}>
+                    <Alert variant={'warning'}>
                             Please wait...
-                        </Alert>
-                    </div>
-                );
+                    </Alert>
+                </div>
+            );
         }
     }
 
-    render () {
+    render() {
         const { machineState } = this.state;
 
         return (

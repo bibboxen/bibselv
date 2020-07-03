@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
+import PropTypes from 'prop-types';
 
 function Borrow(props) {
     const { actionHandler, handleReset, machineState } = props;
@@ -8,7 +9,7 @@ function Borrow(props) {
     useEffect(() => {
         console.log('use effect');
 
-        let barcodeScanner = new BarcodeScanner(400);
+        const barcodeScanner = new BarcodeScanner(400);
 
         const barcodeCallback = code => {
             console.log('barcodeCallback');
@@ -29,7 +30,7 @@ function Borrow(props) {
         barcodeScanner.start(barcodeCallback);
         return () => {
             barcodeScanner.stop();
-        }
+        };
     }, [actionHandler, handleReset]);
 
     // Return nothing if no machineState is set.
@@ -70,18 +71,18 @@ function Borrow(props) {
                             </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.materials && props.machineState.materials.map(
-                                el => <tr key={'material-'+el.itemIdentifier}>
-                                    <td>{el.itemIdentifier}</td>
-                                    <td>{el.title}</td>
-                                    <td>{el.author}</td>
-                                    <td>{el.status}</td>
-                                    <td>{el.renewalOk ? 'Yes' : 'No'}</td>
-                                    <td>{el.message}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.materials && props.machineState.materials.map(
+                                    el => <tr key={'material-' + el.itemIdentifier}>
+                                        <td>{el.itemIdentifier}</td>
+                                        <td>{el.title}</td>
+                                        <td>{el.author}</td>
+                                        <td>{el.status}</td>
+                                        <td>{el.renewalOk ? 'Yes' : 'No'}</td>
+                                        <td>{el.message}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>
@@ -110,5 +111,11 @@ function Borrow(props) {
         </Container>
     );
 }
+
+Borrow.propTypes = {
+    actionHandler: PropTypes.func.isRequired,
+    handleReset: PropTypes.func.isRequired,
+    machineState: PropTypes.object.isRequired
+};
 
 export default Borrow;
