@@ -1,4 +1,4 @@
-# bibbox-website
+# Bibbox Website
 
 Bibbox from a website.
 
@@ -7,9 +7,9 @@ Bibbox from a website.
 This project a provides library self-service from a website. It consists of the
 following parts:
 
+- A frontend that exposes the library functions available to the user (React).
 - An administration interface (for configuring machines) and website provider for the frontend (Symfony/PHP).
-- A frontend (React) that exposes the library functions available to the user.
-- An engine (Node.js) that handles communication between the frontend and FBS and handles state for each machine (Fælles bibliotekssystem).
+- An engine that handles communication between the frontend and FBS (Fælles bibliotekssystem) and handles state for each machine (Node.js).
 
 A user can load a machine by a unique URL that is tied to a machine configuration.
 
@@ -18,7 +18,7 @@ A user can load a machine by a unique URL that is tied to a machine configuratio
 The frontend communicates with the engine through a web socket.
 The machine state flows from the engine to the frontend.
 The frontend reflects the given machine state.
-User actions are sent from the frontend to the engine.
+User actions passes from the frontend to the engine.
 The engine then changes the machines state and sends it back to the frontend.
 
 ## Tech stack
@@ -27,7 +27,6 @@ The engine then changes the machines state and sends it back to the frontend.
 * Symfony 5.x
 * PHP 7.4
 * React 16.x
-* Redis
 * Docker
 
 ## Development setup
@@ -42,7 +41,8 @@ This will start the engine and the frontend.
 
 To install assets for the frontend we use Encore.
 
-To watch for changes in the assets folder, run:
+To watch for changes in the `assets/` folder, run:
+
 ```
 npm run dev
 ```
@@ -94,6 +94,10 @@ call FBS are mocked with nock recordings.
 cd engine
 npm test
 ```
+
+### Symfony
+
+@TODO: Setup tests for the Symfony/PHP code.
 
 ## Production
 
