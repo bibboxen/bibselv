@@ -33,7 +33,7 @@ class App extends Component {
     }
 
     setMachineState(data) {
-        this.setState({machineState: data}, () => {
+        this.setState({ machineState: data }, () => {
             console.log('UpdateState', this.state.machineState);
         });
     }
@@ -42,29 +42,26 @@ class App extends Component {
         return this.state.machineState;
     }
 
-    componentDidMount () {
+    componentDidMount() {
         const { endpoint } = this.state;
         const { fake } = this.state;
 
-        if (fake) {
-            this.actionFaker = new ActionFaker(this.getMachineState, this.setMachineState);
-        }
-
         if (!fake) {
             const socket = socketIOClient(endpoint, {
-                transports: ['websocket', 'polling'],
+                transports: ['websocket', 'polling']
             });
             this.socket = socket;
             socket.on('UpdateState', data => {
-                this.setMachineState(data)
+                this.setMachineState(data);
             });
             // Ready
             socket.emit('ClientReady', {
                 token: this.state.token
             });
-        }
-        else {
+        } else {
             console.log('Running with fake content.');
+
+            this.actionFaker = new ActionFaker(this.getMachineState, this.setMachineState);
 
             this.setState({
                 machineState: {
@@ -86,24 +83,22 @@ class App extends Component {
                 action: action,
                 data: data
             });
-        }
-        else {
+        } else {
             this.actionFaker.handleAction(action, data);
         }
     }
 
-    handleReset () {
+    handleReset() {
         console.log('handleReset');
 
-        const {fake} = this.state;
+        const { fake } = this.state;
 
         if (!fake) {
             this.socket.emit('ClientEvent', {
                 name: 'Reset',
                 token: this.state.token
             });
-        }
-        else {
+        } else {
             this.actionFaker.handleReset();
         }
     }

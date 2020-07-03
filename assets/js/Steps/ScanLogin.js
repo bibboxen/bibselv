@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Col, Container, Spinner } from 'react-bootstrap';
+import { Button, Container, Spinner } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
 
