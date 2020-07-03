@@ -3,10 +3,6 @@ import Borrow from './Borrow';
 import { shallow } from 'enzyme';
 import { expect, it } from '@jest/globals';
 
-it('renders without crashing without machineState', () => {
-    shallow(<Borrow />);
-});
-
 it('renders without crashing', () => {
     const machineState = {
         user: {
@@ -14,7 +10,7 @@ it('renders without crashing', () => {
         },
         materials: []
     };
-    shallow(<Borrow machineState={machineState} />);
+    shallow(<Borrow actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />);
 });
 
 it('renders the name of the user', () => {
@@ -25,7 +21,7 @@ it('renders the name of the user', () => {
         materials: []
     };
 
-    const wrapper = shallow(<Borrow machineState={machineState} />);
+    const wrapper = shallow(<Borrow actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />);
 
     expect(wrapper).toContainReact(<p>Hej TestName</p>);
 });

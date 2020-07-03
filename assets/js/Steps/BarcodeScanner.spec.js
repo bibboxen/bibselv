@@ -2,15 +2,18 @@ import BarcodeScanner from './BarcodeScanner';
 import { expect, it } from '@jest/globals';
 
 it('can be created', () => {
-    BarcodeScanner.constructor();
+    // eslint-disable-next-line no-unused-vars
+    const barcodeScanner = new BarcodeScanner();
 });
 
 it('can be created with a timeout limit', () => {
-    BarcodeScanner.constructor(1000);
+    // eslint-disable-next-line no-unused-vars
+    const barcodeScanner = new BarcodeScanner(1000);
 });
 
 it('can not be created with string', () => {
     expect(() => {
-        BarcodeScanner.constructor('test');
-    }).toThrow('timeoutLimit must be an integer');
+        // eslint-disable-next-line no-unused-vars
+        const barcodeScanner = new BarcodeScanner('test');
+    }).toThrowError(Error('timeoutLimit must be an integer'));
 });
