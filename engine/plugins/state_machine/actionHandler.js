@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @TODO: What is this action handler and why is it here?
+ */
+
 const debug = require('debug')('bibbox:STATE_MACHINE:actions');
 const uniqid = require('uniqid');
 
@@ -60,6 +65,7 @@ class ActionHandler {
                 message: result.screenMessage
             };
 
+            // @TODO: Magic value "1"?
             if (result.ok === '1') {
                 if (result.renewalOk === 'Y') {
                     material.status = 'renewed';
@@ -85,10 +91,12 @@ class ActionHandler {
             }
         });
 
+        // @TODO: function documentation?
         this.bus.once(errEvent, (resp) => {
             debug('Checkout error', resp);
         });
 
+        // @TODO: function documentation?
         this.bus.emit('fbs.checkout', {
             busEvent: busEvent,
             errorEvent: errEvent,
@@ -110,6 +118,7 @@ class ActionHandler {
         const busEvent = uniqid('fbs.patron.');
         const errEvent = uniqid('fbs.patron.err.');
 
+        // @TODO: function documentation?
         this.bus.once(busEvent, resp => {
             debug('Login success');
 
@@ -118,6 +127,7 @@ class ActionHandler {
             const user = resp.patron;
             const names = user.personalName.split(' ');
             const birthday = user.PB;
+            // @TODO: why the extra call to now, why not store now (also to ensure it don't change).
             const birthdayToday =
                 now.getDate().toString() === birthday.substr(6, 7) &&
                 now.getMonth().toString() === birthday.substr(4, 5);
@@ -142,6 +152,7 @@ class ActionHandler {
             });
         });
 
+        // @TODO: function documentation?
         this.bus.once(errEvent, (resp) => {
             debug('Login error', resp);
 
@@ -157,6 +168,7 @@ class ActionHandler {
             });
         });
 
+        // @TODO: function documentation?
         this.bus.emit('fbs.patron', {
             busEvent: busEvent,
             errorEvent: errEvent,
@@ -178,6 +190,7 @@ class ActionHandler {
 
         const materialIndex = client.state.materials.findIndex((material) => material.itemIdentifier === client.actionData.itemIdentifier);
 
+        // @TODO: Magic value "-1" ?
         if (materialIndex === -1) {
             client.state.materials.push(client.actionData);
         } else {

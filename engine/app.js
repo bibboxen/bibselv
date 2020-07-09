@@ -96,6 +96,10 @@ process.once('SIGTERM', () => { process.exit(); });
 
 // If process is forked from bootstrap send keep-alive events back.
 if (process.send) {
+    //
+    // @TODO: This project don't currently have an bootstrap script for remote resstart etc. so maybe remove this
+    //        part of the code.
+    //
     setInterval(() => {
         process.send({
             ping: new Date().getTime()
