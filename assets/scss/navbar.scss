@@ -1,0 +1,20 @@
+@import "variables";
+.navbar {
+    background-color: $white;
+    height: 70px;
+    padding-left: 50px;
+    display: flex;
+    align-items: center;
+    color: $font-color;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin-bottom: 50px;
+    &.initial {
+        background-color: transparent;
+    }
+    .username {
+        font-weight: 700;
+        margin-left: 40px;
+    }
+}

@@ -4,43 +4,44 @@ import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
 
 function Borrow(props) {
-    const { actionHandler, handleReset, machineState } = props;
+    // const { actionHandler, handleReset, machineState } = props;
 
-    useEffect(() => {
-        console.log('use effect');
+    // useEffect(() => {
+    //     console.log('use effect');
 
-        const barcodeScanner = new BarcodeScanner(400);
+    //     const barcodeScanner = new BarcodeScanner(400);
 
-        const barcodeCallback = code => {
-            console.log('barcodeCallback');
+    //     const barcodeCallback = code => {
+    //         console.log('barcodeCallback');
 
-            // Commands are 5 characters long.
-            if (code.length <= 5) {
-                if (code === '03006') {
-                    handleReset();
-                }
-                return;
-            }
+    //         // Commands are 5 characters long.
+    //         if (code.length <= 5) {
+    //             if (code === '03006') {
+    //                 handleReset();
+    //             }
+    //             return;
+    //         }
 
-            actionHandler('borrowMaterial', {
-                itemIdentifier: code
-            });
-        };
+    //         actionHandler('borrowMaterial', {
+    //             itemIdentifier: code
+    //         });
+    //     };
 
-        barcodeScanner.start(barcodeCallback);
-        return () => {
-            barcodeScanner.stop();
-        };
-    }, [actionHandler, handleReset]);
+    //     barcodeScanner.start(barcodeCallback);
+    //     return () => {
+    //         barcodeScanner.stop();
+    //     };
+    // }, [actionHandler, handleReset]);
 
-    // Return nothing if no machineState is set.
-    if (!Object.prototype.hasOwnProperty.call(props, 'machineState')) {
-        return;
-    }
+    // // Return nothing if no machineState is set.
+    // if (!Object.prototype.hasOwnProperty.call(props, 'machineState')) {
+    //     return;
+    // }
 
     return (
         <Container>
-            <h1>Borrow</h1>
+            sdf
+            {/* <h1>Borrow</h1>
 
             {props.machineState.user &&
                 <div>
@@ -107,7 +108,7 @@ function Borrow(props) {
                         </div>
                     }
                 </Col>
-            </Row>
+            </Row> */}
         </Container>
     );
 }

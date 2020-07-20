@@ -1,0 +1,20 @@
+@import "variables";
+
+.content {
+    height: 250px;
+    width: 470px;
+    font-size: 100px;
+    background-color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    border: 1px solid $font-color;
+    margin-left: 130px;
+    @include box-shadow();
+}
+
+.content-with-numpad {
+    width: 470px;
+    margin-left: 130px;
+}
