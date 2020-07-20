@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MachineStateContext from "../../context/machineStateContext";
-import "../../../scss/icon-bubble.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookReader,
   faInfoCircle,
   faBook,
   faSignInAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import "../../../scss/icon-bubble.scss";
+
 function IconBubble() {
   const context = useContext(MachineStateContext);
   function renderStep(step) {
@@ -28,7 +29,6 @@ function IconBubble() {
       );
     }
   }
-
 
   return <>{renderStep(context.step.get)}</>;
 }

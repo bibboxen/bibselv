@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import socketIOClient from "socket.io-client";
-import Initial from "./Steps/Initial";
+import Initial from "./steps/Initial";
 import { Alert } from "react-bootstrap";
-import Login from "./Steps/login";
-import Status from "./Steps/status";
-import Handin from "./Steps/handin";
+import Login from "./steps/login";
+import Status from "./steps/status";
+import Handin from "./steps/handin";
 import ActionFaker from "./actionFaker";
-import Borrow from "./Steps/borrow";
-import NavBar from "./Steps/components/navbar";
+import Borrow from "./steps/borrow";
+import NavBar from "./steps/components/navbar";
 import MachineStateContext from "./context/machineStateContext";
 
 // @TODO: Rewrite as functional component.

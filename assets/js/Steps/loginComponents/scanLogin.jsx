@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import MachineStateContext from "../context/machineStateContext";
-import HelpBox from "./components/helpBox";
-import Header from "./components/header";
+import MachineStateContext from "../../context/machineStateContext";
+import HelpBox from "../components/helpBox";
+import Header from "../components/header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBarcode } from "@fortawesome/free-solid-svg-icons";
-import "../../scss/login.scss";
+
 
 function ScanLogin() {
   const context = useContext(MachineStateContext);

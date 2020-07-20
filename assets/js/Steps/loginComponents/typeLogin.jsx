@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import MachineStateContext from "../context/machineStateContext";
-import "../../scss/login.scss";
-import Header from "./components/header";
-import Input from "./components/input";
-import HelpBox from "./components/helpBox";
-import NumPad from "./components/numPad";
-import Button from "./components/button";
+import MachineStateContext from "../../context/machineStateContext";
+import Header from "../components/header";
+import Input from "../components/input";
+import HelpBox from "../components/helpBox";
+import NumPad from "../components/numPad";
+import Button from "../components/button";
 import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
 function ScanLogin() {
