@@ -1,0 +1,70 @@
+@import "variables";
+
+h1 {
+    color: $font-color;
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 5%;
+}
+
+.initial-container {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+
+    .bubble {
+        height: 220px;
+        width: 220px;
+        background-color: $white;
+        border-radius: 50%;
+        align-items: center;
+        color: $font-color;
+        font-size: 40px;
+        font-weight: bold;
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        @include box-shadow();
+    }
+
+    .barcode {
+        height: 100px;
+        background-color: $white;
+        width: 200px;
+        position: relative;
+        margin-top: 5%;
+        border-radius: 15px;
+
+        &:after {
+            content: "";
+            background: url("images/barcode.png");
+            background-size: cover;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+        }
+    }
+
+    .blue {
+        border: 20px solid $blue;
+        .icon {
+            color: $blue;
+        }
+    }
+
+    .purple {
+        border: 20px solid $purple;
+        .icon {
+            color: $purple;
+        }
+    }
+
+    .yellow {
+        border: 20px solid $yellow;
+        .icon {
+            color: $yellow;
+        }
+    }
+}
