@@ -118,22 +118,10 @@ function App() {
                     return <div>@TODO: chooseLogin</div>;
                 case "borrow":
                     return <Borrow />;
-                case "handing":
-                    return (
-                        <Handin
-                            machineState={machineState}
-                            actionHandler={this.handleAction}
-                            handleReset={this.handleReset}
-                        />
-                    );
+                case "handin":
+                    return <Handin />;
                 case "status":
-                    return (
-                        <Status
-                            machineState={machineState}
-                            actionHandler={this.handleAction}
-                            handleReset={this.handleReset}
-                        />
-                    );
+                    return <Status />;
                 default:
                     return (
                         <div
@@ -150,9 +138,9 @@ function App() {
     }
 
     const [machineState, setMachineState] = useState();
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [step, setStep] = useState("initial");
-    const [username, setUsername] = useState();
+    const [loggedIn, setLoggedIn] = useState(true);
+    const [step, setStep] = useState("handin");
+    const [username, setUsername] = useState("sine");
     const [loginConfig, setLoginConfig] = useState("type");
     const store = {
         machineState: { get: machineState, set: setMachineState },
