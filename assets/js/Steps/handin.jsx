@@ -4,84 +4,73 @@ import HelpBox from "./components/helpBox";
 import BannerList from "./components/bannerList";
 import Header from "./components/header";
 import Input from "./components/input";
-import bannerStatus from "./components/bannerStatus";
-import {
-  faCheck,
-  faSpinner,
-  faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
-let booksLoaned = [
-  {
-    bookTitle: "Den lille café i København",
-    barcodeNumber: 123456789,
-    writer: "Julie Caplin",
-  },
-  {
-    bookTitle: "Tusind stjerner og dig",
-    barcodeNumber: 234234,
-    writer: "Isabelle Broom",
-  },
-  {
-    bookTitle: "Kød og fred",
-    barcodeNumber: 11,
-    writer: "Anders Morgenthaler",
-  },
-  { bookTitle: "Papirbryllup", barcodeNumber: 76543, writer: "Julie Caplin" },
-  {
-    bookTitle: "Den lille café i København",
-    barcodeNumber: 98765432,
-    writer: "Laura Ringo",
-    waiting: true,
-  },
-  {
-    bookTitle: "Krukke : en biografi om Suzanne Brøgger",
-    barcodeNumber: 333333,
-    writer: "Louise Zeuthen",
-    error: true,
-  },
-];
+import bookStatus from "./components/bookStatus";
 
 function Handin() {
-  const [loanedBooks, setLoanBooks] = useState([]);
+  const context = useContext(MachineStateContext);
+  let loanedBooks = context.loanedBooks.get;
   const [scannedBarcode, setScannedBarcode] = useState("");
+  const [handedInBooks, setHandedInBooks] = useState([]);
   const [bibedWithSuccess, setBibedWithSuccess] = useState(false);
   let infoString = bibedWithSuccess
     ? `Bogen blev registreret. Klar til næste`
     : ``;
   function getRandomBook() {
     let bookToReturn =
-      booksLoaned[Math.floor(Math.random() * booksLoaned.length)];
-    booksLoaned = booksLoaned.filter(
-      (book) => book.barcodeNumber !== bookToReturn.barcodeNumber
+      loanedBooks[Math.floor(Math.random() * loanedBooks.length)];
+    loanedBooks = loanedBooks.filter(
+      (book) => book.id !== bookToReturn.id
     );
     return bookToReturn;
   }
+  function getRandomStatus() {
+    let statusses = [
+      bookStatus.HANDED_IN,
+      bookStatus.HANDED_IN,
+      bookStatus.HANDED_IN,
+      bookStatus.RESERVED_FOR_SOMEONE_ELSE,
+    ];
+    let statusToReturn =
+      statusses[Math.floor(Math.random() * statusses.length)];
+    return statusToReturn;
+  }
+  function handleBookHandin(book) {
+    book.status = getRandomStatus();
+    let remainingLoanedBooks = context.loanedBooks.get;
+    remainingLoanedBooks = remainingLoanedBooks.filter(
+      (fakeBook) => book.id !== fakeBook.id
+    );
+    context.loanedBooks.set(remainingLoanedBooks);
+    if (book.status === bookStatus.RESERVED_FOR_SOMEONE_ELSE) {
+      book.text = `${book.title} af ${book.writer}`;
+      book.bannerTitle = "Denne bog er reserveret, læg den tilbage på hylden";
+    } else {
+      book.text = `${book.title} af ${book.writer}`;
+      book.bannerTitle = "Bogen er afleveret";
+    }
+    let handedInBooksCopy = handedInBooks;
+    
+    handedInBooksCopy = handedInBooksCopy.filter(
+      (fakeBook) => book.id !== book.id
+    );
+    handedInBooksCopy.push(book);
+
+    setHandedInBooks(handedInBooksCopy);
+  }
+
   function fakebib() {
     setBibedWithSuccess(true);
     let book = getRandomBook();
-    if (book.error) {
-      book.status = {
-        bannerTitle: "Reserveret, stil bogen tilbage",
-        status: bannerStatus.ERROR,
-        icon: faExclamationTriangle,
-      };
-    } else if (book.waiting) {
-      book.status = {
-        bannerTitle: "Henter informationer",
-        status: bannerStatus.WAITINGINFO,
-        icon: faSpinner,
-      };
-    } else {
-      book.status = {
-        bannerTitle: "Lånt",
-        status: bannerStatus.SUCCESS,
-        icon: faCheck,
-      };
-    }
-    setScannedBarcode(book.barcodeNumber);
-    let loanedBooksCopy = loanedBooks;
-    loanedBooksCopy.push(book);
-    setLoanBooks(loanedBooksCopy);
+    setScannedBarcode(book.id);
+    book.status = bookStatus.WAITING_FOR_INFO;
+    book.text = book.id;
+    book.bannerTitle = "Henter informationer";
+
+    let handedInBooksCopy = handedInBooks;
+    handedInBooksCopy.push(book);
+    setHandedInBooks(handedInBooksCopy);
+
+    setTimeout(handleBookHandin, 2000, book);
   }
 
   return (
@@ -101,12 +90,14 @@ function Handin() {
               readOnly
             ></Input>
             <button onClick={() => fakebib()}>fake bib</button>
-            <BannerList items={loanedBooks}></BannerList>
+            <BannerList items={handedInBooks}></BannerList>
           </div>
         </div>
         <div className="flex-container">
           <HelpBox
-            text={"Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer."}
+            text={
+              "Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer."
+            }
           ></HelpBox>
         </div>
       </div>

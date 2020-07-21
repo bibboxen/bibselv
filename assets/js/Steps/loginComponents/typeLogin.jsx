@@ -56,7 +56,7 @@ function ScanLogin() {
           <NumPad handleNumpadPress={onNumPadPress}></NumPad>
         </div>
       </div>
-      <div className="flex-container">
+      <div className="flex-container space-between">
         <HelpBox
           text={"Indtast dit lånernummer med knapperne her på skærmen."}
         ></HelpBox>

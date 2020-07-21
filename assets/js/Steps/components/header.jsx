@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import IconBubble from "./iconBubble";
-import "../../../scss/header.scss";
 function Header({ header, text }) {
   return (
     <div className="flex-container-row">

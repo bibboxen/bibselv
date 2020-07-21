@@ -1,78 +1,36 @@
-import React, { useContext, useState } from "react";
-import MachineStateContext from "../context/machineStateContext";
-import HelpBox from "./components/helpBox";
+import React, { useContext } from "react";
 import BannerList from "./components/bannerList";
 import Header from "./components/header";
-import Input from "./components/input";
-import bannerStatus from "./components/bannerStatus";
-let booksLoaned = [
-  {
-    bookTitle: "Tusind stjerner og dig",
-    barcodeNumber: 234234,
-    writer: "Isabelle Broom",
-    status: {
-      bannerTitle: "Tusind stjerner og dig",
-      status: bannerStatus.NEUTRAL,
-      bannerText: "Af Isabelle Broom",
-    },
-  },
-  {
-    bookTitle: "Kød og fred",
-    barcodeNumber: 11,
-    writer: "Anders Morgenthaler",
-    status: {
-      bannerTitle: "Aflevering overskredet",
-      status: bannerStatus.ERROR,
-      bannerText: "Kød og fred",
-    },
-  },
-];
+import MachineStateContext from "../context/machineStateContext";
+import bookStatus from "./components/bookStatus";
 
-let booksReserved = [
-  {
-    bookTitle: "Krukke : en biografi om Suzanne Brøgger",
-    barcodeNumber: 333333,
-    writer: "Louise Zeuthen",
-    status: {
-      bannerTitle: "Krukke : en biografi om Suzanne Brøgger",
-      status: bannerStatus.NEUTRAL,
-      bannerText: "Louise Zeuthen",
-    },
-  },
-];
-let booksReadyForPickup = [
-  {
-    bookTitle: "Den lille café i København",
-    barcodeNumber: 123456789,
-    writer: "Julie Caplin",
-    status: {
-      bannerTitle: "Den lille café i København",
-      status: bannerStatus.SUCCESS,
-      bannerText: "Den lille café i København",
-    },
-  },
-  {
-    bookTitle: "Papirbryllup",
-    barcodeNumber: 76543,
-    writer: "Julie Caplin",
-    status: {
-      bannerTitle: "Papirbryllup",
-      status: bannerStatus.SUCCESS,
-      bannerText: "Julie Caplin",
-    },
-  },
-  {
-    bookTitle: "Den lille café i København",
-    barcodeNumber: 98765432,
-    writer: "Laura Ringo",
-    status: {
-      bannerTitle: "Den lille café i København",
-      status: bannerStatus.SUCCESS,
-      bannerText: "Laura Ringo",
-    },
-  },
-];
 function Status() {
+  const context = useContext(MachineStateContext);
+
+  let booksLoaned = context.loanedBooks.get;
+  let booksReserved = context.reservedBooks.get;
+  let booksReadyForPickup = booksReserved.filter(
+    (book) => book.status === bookStatus.READY_FOR_PICKUP
+  );
+  booksReserved = booksReserved.filter(
+    (book) => book.status === bookStatus.RESERVED
+  );
+  booksReadyForPickup.forEach((book) => {
+    book.text = `${book.title} af ${book.writer}`;
+    book.bannerTitle = "Reserveret - klar til afhentning";
+  });
+  booksReserved.forEach((book) => {
+    book.text = `Af ${book.writer}`;
+    book.bannerTitle = book.title;
+  });
+  booksLoaned.forEach((book) => {
+    book.text =`${book.title} af ${book.writer}`;
+    book.bannerTitle = "Lånt";
+    if (booksLoaned.status === bookStatus.OVERDUE) {
+      book.text = `${book.title} af ${book.writer}`;
+      book.bannerTitle = "Aflevering overskredet";
+    }
+  });
   return (
     <>
       <div className="flex-container-row">
@@ -83,13 +41,22 @@ function Status() {
           ></Header>
           <div className="flex-container-row">
             <div className="flex-container m">
-              <BannerList title={"Aktuelle lån"} items={booksLoaned}></BannerList>
+              <BannerList
+                title={"Aktuelle lån"}
+                items={booksLoaned}
+              ></BannerList>
             </div>
             <div className="flex-container m">
-              <BannerList title={"Reservationer"} items={booksReserved}></BannerList>
+              <BannerList
+                title={"Reservationer"}
+                items={booksReserved}
+              ></BannerList>
             </div>
             <div className="flex-container m">
-              <BannerList title={"Klar til afhentning"} items={booksReadyForPickup}></BannerList>
+              <BannerList
+                title={"Klar til afhentning"}
+                items={booksReadyForPickup}
+              ></BannerList>
             </div>
           </div>
         </div>

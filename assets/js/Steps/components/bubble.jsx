@@ -1,17 +1,13 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MachineStateContext from '../../context/machineStateContext';
+import MachineStateContext from "../../context/machineStateContext";
 
-
-function Bubble({ color, which, label, icon,actionHandler }) {
+function Bubble({ color, which, label, icon, actionHandler }) {
   let classes = `bubble ${color}`;
   const context = useContext(MachineStateContext);
   return (
-    <div
-      className={classes}
-      onClick={() => context.step.set("borrow")}
-    >
+    <div className={classes} onClick={() => context.step.set(which)}>
       <div className="icon">
         <FontAwesomeIcon icon={icon} />
       </div>

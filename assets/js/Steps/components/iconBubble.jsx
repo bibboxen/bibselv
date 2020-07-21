@@ -7,7 +7,6 @@ import {
   faBook,
   faSignInAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import "../../../scss/icon-bubble.scss";
 
 function IconBubble() {
   const context = useContext(MachineStateContext);

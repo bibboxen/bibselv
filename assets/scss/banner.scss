@@ -1,15 +1,11 @@
-@import "variables";
 .banner {
     background-color: $grey;
     border-color: $grey-border;
     display: flex;
     color: $font-color;
     margin: 10px 0 10px 0;
-    padding: 10px 0 10px 0;
+    padding: 15px;
     font-family: "Roboto", sans-serif;
-    padding-right: 15px;
-    min-height: 80px;
-    padding-right: 15px;
     border-radius: 2px;
     .header {
         font-size: 20px;
@@ -29,7 +25,7 @@
 
     .banner-icon {
         font-size: 30px;
-        margin: 0 15px;
+        margin-right: 15px;
         display: flex;
         align-items: center;
     }
@@ -51,11 +47,11 @@
     }
 }
 
-@keyframes spinner {
+@keyframes banner-spinner {
     to {
         transform: rotate(360deg);
     }
 }
 .fa-spinner {
-    animation: spinner 3s linear infinite;
+    animation: banner-spinner 3s linear infinite;
 }

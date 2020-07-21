@@ -1,23 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MachineStateContext from "../../context/machineStateContext";
-import "../../../scss/banner.scss";
-import bannerStatus from "./bannerStatus";
+import bookStatus from "./bookStatus";
 import {
   faCheck,
   faSpinner,
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
-function Banner({ text, status }) {
+function Banner({ title, text, status }) {
   let classes = "banner ";
-  let icon = {};
-  if (status.status === bannerStatus.ERROR) {
+  let icon;
+  if (status === bookStatus.OVERDUE || status === bookStatus.RESERVED_FOR_SOMEONE_ELSE) {
     classes += "danger";
     icon = faExclamationTriangle;
-  } else if (status.status === bannerStatus.WAITINGINFO) {
+  } else if (status === bookStatus.WAITING_FOR_INFO) {
     icon = faSpinner;
-  } else if (status.status === bannerStatus.SUCCESS) {
+  } else if (status === bookStatus.READY_FOR_PICKUP|| status === bookStatus.HANDED_IN) {
     classes += "success";
     icon = faCheck;
   }
@@ -29,15 +27,16 @@ function Banner({ text, status }) {
         </div>
       )}
       <div className="flex-container">
-        <div className="header">{status.bannerTitle}</div>
+        <div className="header">{title}</div>
         <div>{text}</div>
       </div>
     </div>
   );
 }
 Banner.propTypes = {
+  title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  status: PropTypes.object.isRequired,
+  status: PropTypes.number.isRequired,
 };
 
 export default Banner;

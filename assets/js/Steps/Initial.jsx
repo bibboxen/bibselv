@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import BarcodeScanner from "./BarcodeScanner";
 import PropTypes from "prop-types";
-import "../../scss/initial.scss";
 import {
   faBookReader,
   faInfoCircle,

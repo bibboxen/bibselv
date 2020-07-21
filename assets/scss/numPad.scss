@@ -1,8 +1,5 @@
-@import "variables";
-
-
 .num-pad {
-    margin-top:15px;
+    margin-top: 15px;
     display: grid;
     grid-template-columns: 150px 150px 150px;
     width: 450px;
@@ -17,7 +14,7 @@
         font-size: 30px;
         justify-content: center;
         align-items: center;
-        display:flex;
+        display: flex;
         font-family: "Roboto", sans-serif;
         @include box-shadow(3px, 3px, 6px, 1px, rgba(0, 0, 0, 0.4));
     }

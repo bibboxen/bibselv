@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import "../../../scss/numPad.scss";
 function NumPad({ handleNumpadPress }) {
   let buttons = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "#", "0", "C"];
   return (

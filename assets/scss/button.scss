@@ -1,0 +1,40 @@
+
+.button {
+    color: $white;
+    margin: 5px;
+    border-radius: 3px;
+    min-height: 50px;
+    min-width: 150px;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    &.green {
+        border: 1px solid $green-border;
+        background-color: $green;
+    }
+    &.yellow {
+        border: 1px solid $yellow;
+        background-color: $yellow;
+        color: $font-color;
+    }
+    &.purple {
+        border: 1px solid $purple;
+        background-color: $purple;
+        color: $white;
+    }
+    &.red {
+        border: 1px solid $red;
+        background-color: $red;
+        margin-left: 20px;
+        color: $white;
+    }
+
+    &.blue {
+        border: 1px solid $blue;
+        background-color: $blue;
+        color: $white;
+    }
+
+    .icon {
+        margin-left: 10px;
+    }
+}

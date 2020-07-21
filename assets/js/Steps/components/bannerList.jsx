@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 
 function BannerList({ items, title }) {
   function compare(a, b) {
-    if (a.status.status > b.status.status) {
+    if (a.status > b.status) {
       return -1;
     }
-    if (a.status.status < b.status.status) {
+    if (a.status < b.status) {
       return 1;
     }
     return 0;
@@ -22,12 +22,8 @@ function BannerList({ items, title }) {
           {title} <div className="counter">{items.length}</div>
         </div>
       )}
-      {items.map((book) => (
-        <Banner
-          status={book.status}
-          key={book.barcodeNumber}
-          text={`${book.bookTitle} af ${book.writer}`}
-        ></Banner>
+      {items.map((item) => (
+        <Banner title={item.bannerTitle} text={item.text} status={item.status} key={item.id}></Banner>
       ))}
     </>
   );

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import "../../../scss/navbar.scss";
 import MachineStateContext from "../../context/machineStateContext";
 import Button from "../components/button";
 import {

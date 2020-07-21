@@ -1,4 +1,14 @@
 @import "variables";
+@import "banner";
+@import "button";
+@import "header";
+@import "help-box";
+@import "icon-bubble";
+@import "initial";
+@import "input";
+@import "login";
+@import "navbar";
+@import "numpad";
 html {
     height: 100%;
     width: 100%;
@@ -6,13 +16,6 @@ html {
 
 body {
     margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    height: 100%;
-    width: 100%;
-}
-
-.root {
     height: 100%;
     width: 100%;
 }
@@ -41,7 +44,10 @@ body {
 .flex-container {
     display: flex;
     flex-direction: column;
-    // justify-content: space-between;
+
+    &.space-between {
+        justify-content: space-between;
+    }
 }
 .flex-container-row {
     display: flex;
@@ -50,86 +56,4 @@ body {
 
 .m {
     margin: 0 15px;
-}
-
-.input {
-    &.info {
-        .info-banner {
-            background-color: $yellow;
-            padding: 10px 0 10px 5px;
-            font-family: "Roboto", sans-serif;
-            font-size: 15px;
-            .info-banner-icon {
-                margin: 0 10px;
-            }
-        }
-        input {
-            border-color: $yellow;
-            border-style: double;
-        }
-
-        &.purple {
-            .info-banner {
-                background-color: $purple;
-                color:$white;
-            }
-            input {
-                border-color: $purple;
-            }
-        }
-    }
-}
-
-input {
-    height: 60px;
-    color: $font-color;
-    font-size: 30px;
-    padding: 15px;
-    box-sizing: border-box;
-    width: 100%;
-}
-label {
-    font-family: "Roboto", sans-serif;
-    font-size: 25px;
-    font-weight: 300;
-}
-
-.button {
-    color: $white;
-    margin: 5px;
-    border-radius: 3px;
-    min-height: 50px;
-    min-width: 150px;
-    font-family: "Roboto", sans-serif;
-    font-size: 20px;
-    &.green {
-        border: 1px solid $green-border;
-        background-color: $green;
-    }
-    &.yellow {
-        border: 1px solid $yellow;
-        background-color: $yellow;
-        color: $font-color;
-    }
-    &.purple {
-        border: 1px solid $purple;
-        background-color: $purple;
-        color: $white;
-    }
-    &.red {
-        border: 1px solid $red;
-        background-color: $red;
-        margin-left: 20px;
-        color: $white;
-    }
-
-    &.blue {
-        border: 1px solid $blue;
-        background-color: $blue;
-        color: $white;
-    }
-
-    .icon {
-        margin-left: 10px;
-    }
 }

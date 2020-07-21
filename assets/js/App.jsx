@@ -9,156 +9,176 @@ import ActionFaker from "./actionFaker";
 import Borrow from "./steps/borrow";
 import NavBar from "./steps/components/navbar";
 import MachineStateContext from "./context/machineStateContext";
-
+import bookStatus from "./steps/components/bookStatus";
 // @TODO: Rewrite as functional component.
 function App() {
-    // constructor(props) {
-    //     super(props);
+  // constructor(props) {
+  //     super(props);
 
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const token = urlParams.get("token");
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     const token = urlParams.get("token");
 
-    //     this.socket = null;
+  //     this.socket = null;
 
-    //     this.state = {
-    //         fake: true,
-    //         token: token,
-    //         machineState: {},
-    //         // @TODO: Make configurable.
-    //         endpoint: "http://bibbox-website.local.itkdev.dk:8010",
-    //     };
+  //     this.state = {
+  //         fake: true,
+  //         token: token,
+  //         machineState: {},
+  //         // @TODO: Make configurable.
+  //         endpoint: "http://bibbox-website.local.itkdev.dk:8010",
+  //     };
 
-    //     this.handleAction = this.handleAction.bind(this);
-    //     this.handleReset = this.handleReset.bind(this);
-    //     this.setMachineState = this.setMachineState.bind(this);
-    //     this.getMachineState = this.getMachineState.bind(this);
-    // }
+  //     this.handleAction = this.handleAction.bind(this);
+  //     this.handleReset = this.handleReset.bind(this);
+  //     this.setMachineState = this.setMachineState.bind(this);
+  //     this.getMachineState = this.getMachineState.bind(this);
+  // }
 
-    // setMachineState(data) {
-    //     this.setState({ machineState: data }, () => {
-    //         console.log("UpdateState", this.state.machineState);
-    //     });
-    // }
+  // setMachineState(data) {
+  //     this.setState({ machineState: data }, () => {
+  //         console.log("UpdateState", this.state.machineState);
+  //     });
+  // }
 
-    // getMachineState() {
-    //     return this.state.machineState;
-    // }
+  // getMachineState() {
+  //     return this.state.machineState;
+  // }
 
-    // componentDidMount() {
-    //     const { endpoint } = this.state;
-    //     const { fake } = this.state;
+  // componentDidMount() {
+  //     const { endpoint } = this.state;
+  //     const { fake } = this.state;
 
-    //     if (!fake) {
-    //         const socket = socketIOClient(endpoint, {
-    //             transports: ["websocket", "polling"],
-    //         });
-    //         this.socket = socket;
-    //         socket.on("UpdateState", (data) => {
-    //             this.setMachineState(data);
-    //         });
-    //         // Ready
-    //         socket.emit("ClientReady", {
-    //             token: this.state.token,
-    //         });
-    //     } else {
-    //         console.log("Running with fake content.");
+  //     if (!fake) {
+  //         const socket = socketIOClient(endpoint, {
+  //             transports: ["websocket", "polling"],
+  //         });
+  //         this.socket = socket;
+  //         socket.on("UpdateState", (data) => {
+  //             this.setMachineState(data);
+  //         });
+  //         // Ready
+  //         socket.emit("ClientReady", {
+  //             token: this.state.token,
+  //         });
+  //     } else {
+  //         console.log("Running with fake content.");
 
-    //         this.actionFaker = new ActionFaker(
-    //             this.getMachineState,
-    //             this.setMachineState
-    //         );
+  //         this.actionFaker = new ActionFaker(
+  //             this.getMachineState,
+  //             this.setMachineState
+  //         );
 
-    //         this.setState({
-    //             machineState: {
-    //                 step: "initial",
-    //             },
-    //         });
-    //     }
-    // }
+  //         this.setState({
+  //             machineState: {
+  //                 step: "initial",
+  //             },
+  //         });
+  //     }
+  // }
 
-    // function handleAction(action, data) {
-    //     console.log("handleAction", action, data);
+  // function handleAction(action, data) {
+  //     console.log("handleAction", action, data);
 
-    //     const { fake } = this.state;
+  //     const { fake } = this.state;
 
-    //     if (!fake) {
-    //         this.socket.emit("ClientEvent", {
-    //             name: "Action",
-    //             token: this.state.token,
-    //             action: action,
-    //             data: data,
-    //         });
-    //     } else {
-    //         this.actionFaker.handleAction(action, data);
-    //     }
-    // }
+  //     if (!fake) {
+  //         this.socket.emit("ClientEvent", {
+  //             name: "Action",
+  //             token: this.state.token,
+  //             action: action,
+  //             data: data,
+  //         });
+  //     } else {
+  //         this.actionFaker.handleAction(action, data);
+  //     }
+  // }
 
-    // handleReset() {
-    //     console.log("handleReset");
+  // handleReset() {
+  //     console.log("handleReset");
 
-    //     const { fake } = this.state;
+  //     const { fake } = this.state;
 
-    //     if (!fake) {
-    //         this.socket.emit("ClientEvent", {
-    //             name: "Reset",
-    //             token: this.state.token,
-    //         });
-    //     } else {
-    //         this.actionFaker.handleReset();
-    //     }
-    // }
+  //     if (!fake) {
+  //         this.socket.emit("ClientEvent", {
+  //             name: "Reset",
+  //             token: this.state.token,
+  //         });
+  //     } else {
+  //         this.actionFaker.handleReset();
+  //     }
+  // }
 
-    function renderStep(step, machineState) {
-        if (step === "initial") {
-            return <Initial />;
-        }
-        if (loggedIn) {
-            switch (step) {
-                case "chooseLogin":
-                    return <div>@TODO: chooseLogin</div>;
-                case "borrow":
-                    return <Borrow />;
-                case "handin":
-                    return <Handin />;
-                case "status":
-                    return <Status />;
-                default:
-                    return (
-                        <div
-                            className={"app-default"}
-                            style={{ textAlign: "center" }}
-                        >
-                            <Alert variant={"warning"}>Please wait...</Alert>
-                        </div>
-                    );
-            }
-        } else {
-            return <Login></Login>;
-        }
+  function renderStep(step, machineState) {
+    if (step === "initial") {
+      return <Initial />;
     }
+    if (loggedIn) {
+      switch (step) {
+        case "chooseLogin":
+          return <div>@TODO: chooseLogin</div>;
+        case "borrow":
+          return <Borrow />;
+        case "handin":
+          return <Handin />;
+        case "status":
+          return <Status />;
+        default:
+          return (
+            <div className={"app-default"} style={{ textAlign: "center" }}>
+              <Alert variant={"warning"}>Please wait...</Alert>
+            </div>
+          );
+      }
+    } else {
+      return <Login></Login>;
+    }
+  }
 
-    const [machineState, setMachineState] = useState();
-    const [loggedIn, setLoggedIn] = useState(true);
-    const [step, setStep] = useState("handin");
-    const [username, setUsername] = useState("sine");
-    const [loginConfig, setLoginConfig] = useState("type");
-    const store = {
-        machineState: { get: machineState, set: setMachineState },
-        step: { get: step, set: setStep },
-        loggedIn: { get: loggedIn, set: setLoggedIn },
-        username: { get: username, set: setUsername },
-        loginConfig: { get: loginConfig },
-    };
-    return (
-        <>
-            <MachineStateContext.Provider value={store}>
-                <NavBar></NavBar>
-                <div className="container">
-                    {renderStep(step, machineState)}
-                </div>
-            </MachineStateContext.Provider>
-        </>
-    );
+  const [machineState, setMachineState] = useState();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [step, setStep] = useState("initial");
+  const [username, setUsername] = useState();
+  const [loginConfig] = useState("uni");
+  const [reservedBooks] = useState([
+    {
+      id: "835535966-6",
+      writer: "Sofie Boysen",
+      title: "Pigerne mod drengene",
+      status: bookStatus.RESERVED,
+    },
+    {
+      id: "294155315-0",
+      writer: "Sara Ejersbo",
+      title: "Den magiske sommer",
+      status: bookStatus.RESERVED,
+    },
+    ,
+    {
+      id: "104128583-3",
+      writer: "Åsa Larsson",
+      title: "Maren",
+      status: bookStatus.READY_FOR_PICKUP,
+    },
+  ]);
+
+  const [loanedBooks, setLoanedBooks] = useState([]);
+  const store = {
+    machineState: { get: machineState, set: setMachineState },
+    step: { get: step, set: setStep },
+    loggedIn: { get: loggedIn, set: setLoggedIn },
+    username: { get: username, set: setUsername },
+    loginConfig: { get: loginConfig },
+    reservedBooks: { get: reservedBooks },
+    loanedBooks: { get: loanedBooks, set: setLoanedBooks },
+  };
+  return (
+    <>
+      <MachineStateContext.Provider value={store}>
+        <NavBar></NavBar>
+        <div className="container">{renderStep(step, machineState)}</div>
+      </MachineStateContext.Provider>
+    </>
+  );
 }
 
 export default App;

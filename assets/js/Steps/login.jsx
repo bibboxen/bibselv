@@ -3,7 +3,6 @@ import MachineStateContext from "../context/machineStateContext";
 import ScanLogin from "./loginComponents/scanLogin";
 import TypeLogin from "./loginComponents/typeLogin";
 import UniLogin from "./loginComponents/uniLogin";
-import "../../scss/login.scss";
 
 function Login() {
   const context = useContext(MachineStateContext);
