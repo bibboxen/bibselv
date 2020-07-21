@@ -15,15 +15,27 @@ function IconBubble() {
     if (context.loggedIn.get) {
       switch (step) {
         case "borrow":
-          return <></>;
+          return (
+            <div className="header-icon yellow">
+              <FontAwesomeIcon icon={faBookReader} />
+            </div>
+          );
         case "handin":
-          return <></>;
+          return (
+            <div className="header-icon purple">
+              <FontAwesomeIcon icon={faBook} />
+            </div>
+          );
         case "status":
-          return <></>;
+          return (
+            <div className="header-icon blue">
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </div>
+          );
       }
     } else {
       return (
-        <div className="login-icon">
+        <div className="header-icon">
           <FontAwesomeIcon icon={faSignInAlt} />
         </div>
       );

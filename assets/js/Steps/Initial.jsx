@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import BarcodeScanner from "./BarcodeScanner";
 import PropTypes from "prop-types";
 import "../../scss/initial.scss";
@@ -12,7 +12,6 @@ import Bubble from "./components/bubble";
 import Barcode from "./components/barcode";
 
 function Initial() {
-
   const COMMAND_LENGTH = 5;
   const components = [
     {

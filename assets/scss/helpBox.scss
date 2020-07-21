@@ -6,10 +6,8 @@ p {
     background-color: $white;
     border: 1px solid $font-color;
     color: $font-color;
-    height: 130px;
     width: 270px;
     padding: 15px;
-    margin-left: 130px;
     @include box-shadow();
 
     .header {

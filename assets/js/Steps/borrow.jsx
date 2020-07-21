@@ -1,122 +1,117 @@
-import React, { useEffect } from 'react';
-import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
-import BarcodeScanner from './BarcodeScanner';
-import PropTypes from 'prop-types';
+import React, { useContext, useState } from "react";
+import MachineStateContext from "../context/machineStateContext";
+import HelpBox from "./components/helpBox";
+import BannerList from "./components/bannerList";
+import Header from "./components/header";
+import Input from "./components/input";
+import bannerStatus from "./components/bannerStatus";
+import {
+  faCheck,
+  faSpinner,
+  faExclamationTriangle,
+} from "@fortawesome/free-solid-svg-icons";
+let booksLoaned = [
+  {
+    bookTitle: "Den lille café i København",
+    barcodeNumber: 123456789,
+    writer: "Julie Caplin",
+  },
+  {
+    bookTitle: "Tusind stjerner og dig",
+    barcodeNumber: 234234,
+    writer: "Isabelle Broom",
+  },
+  {
+    bookTitle: "Kød og fred",
+    barcodeNumber: 11,
+    writer: "Anders Morgenthaler",
+  },
+  { bookTitle: "Papirbryllup", barcodeNumber: 76543, writer: "Julie Caplin" },
+  {
+    bookTitle: "Den lille café i København",
+    barcodeNumber: 98765432,
+    writer: "Laura Ringo",
+    waiting: true,
+  },
+  {
+    bookTitle: "Krukke : en biografi om Suzanne Brøgger",
+    barcodeNumber: 333333,
+    writer: "Louise Zeuthen",
+    error: true,
+  },
+];
 
-function Borrow(props) {
-    // const { actionHandler, handleReset, machineState } = props;
-
-    // useEffect(() => {
-    //     console.log('use effect');
-
-    //     const barcodeScanner = new BarcodeScanner(400);
-
-    //     const barcodeCallback = code => {
-    //         console.log('barcodeCallback');
-
-    //         // Commands are 5 characters long.
-    //         if (code.length <= 5) {
-    //             if (code === '03006') {
-    //                 handleReset();
-    //             }
-    //             return;
-    //         }
-
-    //         actionHandler('borrowMaterial', {
-    //             itemIdentifier: code
-    //         });
-    //     };
-
-    //     barcodeScanner.start(barcodeCallback);
-    //     return () => {
-    //         barcodeScanner.stop();
-    //     };
-    // }, [actionHandler, handleReset]);
-
-    // // Return nothing if no machineState is set.
-    // if (!Object.prototype.hasOwnProperty.call(props, 'machineState')) {
-    //     return;
-    // }
-
-    return (
-        <Container>
-            sdf
-            {/* <h1>Borrow</h1>
-
-            {props.machineState.user &&
-                <div>
-                    <p>Hej {props.machineState.user.name}</p>
-                    {props.machineState.user.birthdayToday &&
-                    <p>Tillykke med fødselsdagen</p>
-                    }
-                </div>
-            }
-            <Row>
-                <Col>
-                    <Alert variant={'info'}>Skan materialer</Alert>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <h2>Materials</h2>
-
-                    <Table striped={true} bordered={true}>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>title</th>
-                                <th>author</th>
-                                <th>status</th>
-                                <th>renewalOk</th>
-                                <th>message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                props.machineState.materials && props.machineState.materials.map(
-                                    el => <tr key={'material-' + el.itemIdentifier}>
-                                        <td>{el.itemIdentifier}</td>
-                                        <td>{el.title}</td>
-                                        <td>{el.author}</td>
-                                        <td>{el.status}</td>
-                                        <td>{el.renewalOk ? 'Yes' : 'No'}</td>
-                                        <td>{el.message}</td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Button variant={'primary'} onClick={props.handleReset}>
-                        Tilbage
-                    </Button>
-
-                    {machineState.fake &&
-                        <div>
-                            <Button variant={'warning'} onClick={() => actionHandler('borrowMaterial', { itemIdentifier: '1234567890' }) }>
-                                Fake material 1
-                            </Button>
-                            <Button variant={'warning'} onClick={() => actionHandler('borrowMaterial', { itemIdentifier: '2345678901' }) }>
-                                Fake material 2
-                            </Button>
-                            <Button variant={'warning'} onClick={() => actionHandler('borrowMaterial', { itemIdentifier: '3456789012' }) }>
-                                Fake material 3
-                            </Button>
-                        </div>
-                    }
-                </Col>
-            </Row> */}
-        </Container>
+function Borrow() {
+  const [loanedBooks, setLoanBooks] = useState([]);
+  const [scannedBarcode, setScannedBarcode] = useState("");
+  const [bibedWithSuccess, setBibedWithSuccess] = useState(false);
+  let infoString = bibedWithSuccess
+    ? `Bogen blev registreret. Klar til næste`
+    : ``;
+  function getRandomBook() {
+    let bookToReturn =
+      booksLoaned[Math.floor(Math.random() * booksLoaned.length)];
+    booksLoaned = booksLoaned.filter(
+      (book) => book.barcodeNumber !== bookToReturn.barcodeNumber
     );
-}
+    return bookToReturn;
+  }
+  function fakebib() {
+    setBibedWithSuccess(true);
+    let book = getRandomBook();
+    if (book.error) {
+      book.status = {
+        bannerTitle: "Reserveret, stil bogen tilbage",
+        status: bannerStatus.ERROR,
+        icon: faExclamationTriangle,
+      };
+    } else if (book.waiting) {
+      book.status = {
+        bannerTitle: "Henter informationer",
+        status: bannerStatus.WAITINGINFO,
+        icon: faSpinner,
+      };
+    } else {
+      book.status = {
+        bannerTitle: "Lånt",
+        status: bannerStatus.SUCCESS,
+        icon: faCheck,
+      };
+    }
+    setScannedBarcode(book.barcodeNumber);
+    let loanedBooksCopy = loanedBooks;
+    loanedBooksCopy.push(book);
+    setLoanBooks(loanedBooksCopy);
+  }
 
-Borrow.propTypes = {
-    actionHandler: PropTypes.func.isRequired,
-    handleReset: PropTypes.func.isRequired,
-    machineState: PropTypes.object.isRequired
-};
+  return (
+    <>
+      <div className="flex-container-row">
+        <div className="flex-container">
+          <Header
+            header="Lån"
+            text="Scan stregkoden på bogen du vil låne"
+          ></Header>
+          <div className="content-with-numpad">
+            <Input
+              name="barcode"
+              label="Stregkode"
+              value={scannedBarcode}
+              info={infoString}
+              readOnly
+            ></Input>
+            <button onClick={() => fakebib()}>fake bib</button>
+            <BannerList items={loanedBooks}></BannerList>
+          </div>
+        </div>
+        <div className="flex-container">
+          <HelpBox
+            text={"Brug håndscanneren til at scanne stregkoden på bogen."}
+          ></HelpBox>
+        </div>
+      </div>
+    </>
+  );
+}
 
 export default Borrow;

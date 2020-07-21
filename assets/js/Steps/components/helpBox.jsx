@@ -19,7 +19,7 @@ function HelpBox({ text }) {
 }
 
 HelpBox.propTypes = {
-    text: PropTypes.string.isRequired,
-  };
-  
+  text: PropTypes.string.isRequired,
+};
+
 export default HelpBox;

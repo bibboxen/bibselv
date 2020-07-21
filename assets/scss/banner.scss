@@ -1,0 +1,61 @@
+@import "variables";
+.banner {
+    background-color: $grey;
+    border-color: $grey-border;
+    display: flex;
+    color: $font-color;
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
+    font-family: "Roboto", sans-serif;
+    padding-right: 15px;
+    min-height: 80px;
+    padding-right: 15px;
+    border-radius: 2px;
+    .header {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    &.danger {
+        background-color: $red;
+        border-color: $red;
+        color: $white;
+    }
+
+    &.success {
+        background-color: $light-green;
+        border: 1px solid $green-border;
+    }
+
+    .banner-icon {
+        font-size: 30px;
+        margin: 0 15px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.banner-list-header {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    display: inline-flex;
+
+    .counter {
+        height: 24px;
+        width: 24px;
+        background-color: $blue;
+        color: white;
+        border-radius: 50%;
+        margin-left:5px;
+        text-align: center;
+    }
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.fa-spinner {
+    animation: spinner 3s linear infinite;
+}
