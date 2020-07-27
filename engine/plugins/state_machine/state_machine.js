@@ -165,12 +165,12 @@ module.exports = function(options, imports, register) {
         let client = clientModule.load(event.token);
 
         switch (event.name) {
-        case 'Reset':
-            client = stateMachine.reset(client);
-            break;
-        case 'Action':
-            client = stateMachine.action(client, event.action, event.data);
-            break;
+            case 'Reset':
+                client = stateMachine.reset(client);
+                break;
+            case 'Action':
+                client = stateMachine.action(client, event.action, event.data);
+                break;
         }
 
         client.actionData = null;

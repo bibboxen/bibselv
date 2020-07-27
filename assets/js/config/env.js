@@ -60,6 +60,12 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 // injected into the application via DefinePlugin in webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+/**
+ * Get the client environment.
+ *
+ * @param publicUrl
+ * @return {{raw, stringified: {'process.env'}}}
+ */
 function getClientEnvironment(publicUrl) {
     const raw = Object.keys(process.env)
         .filter(key => REACT_APP.test(key))
