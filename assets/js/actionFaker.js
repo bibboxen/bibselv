@@ -78,7 +78,8 @@ class ActionFaker {
 
     handleReset() {
         this.setMachineState({
-            step: 'initial'
+            step: 'initial',
+            fake: true
         });
     }
 }

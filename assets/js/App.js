@@ -63,11 +63,7 @@ class App extends Component {
 
             this.actionFaker = new ActionFaker(this.getMachineState, this.setMachineState);
 
-            this.setState({
-                machineState: {
-                    step: 'initial'
-                }
-            });
+            this.handleReset();
         }
     }
 
