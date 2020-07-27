@@ -1,12 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import PropTypes from 'prop-types';
 function Barcode({ color }) {
-  let classes = `barcode ${color}`;
-  return <div className={classes}></div>;
+    const classes = `barcode ${color}`;
+    return <div className={classes}></div>;
 }
 Barcode.propTypes = {
-  color: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired
 };
 
 export default Barcode;
