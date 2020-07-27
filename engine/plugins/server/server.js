@@ -30,6 +30,7 @@ module.exports = function(options, imports, register) {
     const router = express.Router();
     const app = express();
 
+    // @TODO: ??? response "Ok"?
     router.get('/', (req, res) => {
         res.send({ response: 'Ok' }).status(200);
     });
@@ -44,6 +45,7 @@ module.exports = function(options, imports, register) {
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
+        // @TODO: Why prefix the uniq id?
         const busEvent = uniqid('state_machine.up.');
         let clientEvent = null;
 
@@ -76,12 +78,14 @@ module.exports = function(options, imports, register) {
             });
         });
 
+        // @TODO: Missing documentation?
         socket.on('ClientEvent', (data) => {
             debug('ClientEvent', data);
 
             bus.emit('state_machine.event', data);
         });
 
+        // @TODO: Missing documentation?
         socket.on('disconnect', () => {
             debug('Client disconnected');
             bus.offAny(clientEvent);

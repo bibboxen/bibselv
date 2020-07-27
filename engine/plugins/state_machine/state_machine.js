@@ -27,6 +27,7 @@ module.exports = function(options, imports, register) {
 
     const fbsConfigEvent = uniqid('ctrl.config.fbs.');
 
+    // @TODO: What is the default password and why can it be NULL as default?
     bus.on(fbsConfigEvent, config => {
         defaultPassword = config.defaultPassword;
     });
@@ -36,11 +37,13 @@ module.exports = function(options, imports, register) {
         busEvent: fbsConfigEvent
     });
 
+    // @TODO: Maybe this comment below should be in the @file documentation block.
     // See http://machina-js.org/ for information about machina fsm.
     const stateMachine = new machina.BehavioralFsm({
         namespace: 'bibbox',
         initialState: 'uninitialized',
         states: {
+            // @TODO: Maybe an comment about each state and what this state is used for?
             uninitialized: {
                 _onEnter: function(client) {
                     debug('Entered uninitialized on client: ' + client.token);
@@ -178,6 +181,7 @@ module.exports = function(options, imports, register) {
 
         // Emit new client state.
         bus.emit('state_machine.state_update.' + client.token, client.state);
+
         return client;
     };
 
