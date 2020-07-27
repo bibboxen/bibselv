@@ -33,19 +33,40 @@ The engine then changes the machines state and sends it back to the frontend.
 
 A docker based development setup is provided with the project.
 
+Install composer packages.
+```sh
+docker-compose run phpfpm composer install
 ```
-docker-compose up -d
+
+Install node js modules.
+```sh
+docker-compose run engine npm install
+```
+
+Edit engine configuration file(s).
+
+```sh
+cp engine/example_config.json engine/config.json
+cp engine/plugins/ctrl/example_config.json engine/plugins/ctrl/config.json
 ```
 
 This will start the engine and the frontend.
+```sh
+docker-compose up -d
+```
 
+*Install assets*
 To install assets for the frontend we use Encore.
 
 To watch for changes in the `assets/` folder, run:
 
 ```
-npm run dev
+docker run --volume $PWD:/app:delegated --workdir /app node:14 npm install
+docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run dev
 ```
+
+@TODO: When trying to run `npm run dev` above -> npm ERR! code ELIFECYCLE --> npm ERR! errno 1
+@TODO: Error: The "callback" argument of configureBabelPresetEnv() will not be used because your app already provides an external Babel configuration (e.g. a ".bab  elrc" or "babel.config.js" file or "babel" key in "package.json").
 
 ## Code Linting
 
@@ -55,14 +76,16 @@ When PRs are created towards the develop branch all coding styles are checked by
 
 To check for coding standards, run the following:
 
+```sh
+docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run check-coding-standards
 ```
-npm run check-coding-standards
-```
+
+@TODO: Warning: React version not specified in eslint-plugin-react settings
 
 To automatically apply coding standards, run:
 
-```
-npm run apply-coding-standards
+```sh
+docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run apply-coding-standards
 ```
 
 ### Engine
@@ -82,7 +105,7 @@ All tests runs with Github Actions for each PR to develop.
 Frontend tests runs with jest.
 
 ```
-npm test
+docker run --volume $PWD:/app:delegated --workdir /app node:14 npm test
 ```
 
 ### Engine
@@ -91,8 +114,7 @@ Engine tests runs with mocha from the `engine/` directory. The tests that
 call FBS are mocked with nock recordings.
 
 ```
-cd engine
-npm test
+docker-compose exec engine npm test
 ```
 
 ### Symfony
@@ -104,5 +126,8 @@ npm test
 ### Building production assets for the frontend
 
 ```
-npm run build
+docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run build
 ```
+
+@TODO: When trying to run `npm run build` above -> npm ERR! code ELIFECYCLE --> npm ERR! errno 1
+@TODO: Error: The "callback" argument of configureBabelPresetEnv() will not be used because your app already provides an external Babel configuration (e.g. a ".bab  elrc" or "babel.config.js" file or "babel" key in "package.json").

@@ -1,6 +1,8 @@
 /**
  * @file
  * Provides config.
+ *
+ * @TODO: Why the hidden configuration file with FBS config inside this plugin?
  */
 'use strict';
 
@@ -25,8 +27,8 @@ module.exports = function(options, imports, register) {
     const config = require(configPath);
 
     /**
-   * Handle fbs config events.
-   */
+     * Handle fbs config events.
+     */
     bus.on('ctrl.config.fbs', function(data) {
         bus.emit(data.busEvent, config);
     });
