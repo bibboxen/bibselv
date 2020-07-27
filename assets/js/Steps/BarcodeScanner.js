@@ -1,3 +1,4 @@
+// Barcode pattern.
 const pattern = /^(!BA11|!BA10|!BA)(?<code>.+)!C$/;
 
 /**
@@ -5,6 +6,12 @@ const pattern = /^(!BA11|!BA10|!BA)(?<code>.+)!C$/;
  * Based on the method from https://stackoverflow.com/a/55251571
  */
 export class BarcodeScanner {
+    /**
+     * BarcodeScanner constructor.
+     *
+     * @param timeoutLimit {int|null}
+     * @constructor
+     */
     constructor(timeoutLimit = null) {
         if (timeoutLimit !== null && !Number.isInteger(timeoutLimit)) {
             throw new Error('timeoutLimit must be an integer');
@@ -19,6 +26,9 @@ export class BarcodeScanner {
         this.result = this.result.bind(this);
     }
 
+    /**
+     * Handles result of scanning.
+     */
     result() {
         if (this.resultCallback === null) {
             return;
@@ -40,6 +50,11 @@ export class BarcodeScanner {
         }
     }
 
+    /**
+     * Registers key presses.
+     *
+     * @param event
+     */
     handleKeypress(event) {
         this.code += event.key;
 
@@ -49,12 +64,21 @@ export class BarcodeScanner {
         this.timeout = setTimeout(this.result, this.timeoutLimit);
     }
 
+    /**
+     * Start listening for key presses.
+     *
+     * @param resultCallback
+     *   The callback function to invoke when a result has been registered.
+     */
     start(resultCallback) {
         this.code = '';
         this.resultCallback = resultCallback;
         document.addEventListener('keypress', this.handleKeypress);
     }
 
+    /**
+     * Stop listening for key presses.
+     */
     stop() {
         document.removeEventListener('keypress', this.handleKeypress);
         this.resultCallback = null;
