@@ -1,6 +1,7 @@
 on: pull_request
     paths:
         - '**.php'
+        - '**.yaml'
         - 'composer.json'
         - 'composer.lock'
 name: Review JS

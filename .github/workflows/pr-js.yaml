@@ -1,6 +1,7 @@
 on: pull_request
     paths:
         - '**.js'
+        - '**.yaml'
         - 'package.json'
         - 'package-lock.json'
 name: Review JS
