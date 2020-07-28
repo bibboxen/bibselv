@@ -17,6 +17,8 @@
         "symfony/yaml": "5.0.*"
     },
     "require-dev": {
+        "escapestudios/symfony2-coding-standard": "^3.11",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "symfony/maker-bundle": "^1.15"
     },
     "config": {
@@ -54,6 +56,32 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "apply-coding-standards": [
+            "@apply-coding-standards/php-cs-fixer",
+            "@apply-coding-standards/phpcs"
+        ],
+        "check-coding-standards": [
+            "@check-coding-standards/php-cs-fixer",
+            "@check-coding-standards/phpcs"
+        ],
+        "check-coding-standards/php-cs-fixer": [
+            "php-cs-fixer --config=.php_cs.dist fix --dry-run --format=checkstyle"
+        ],
+        "check-coding-standards/phpcs": [
+            "phpcs --standard=phpcs.xml.dist"
+        ],
+        "apply-coding-standards/php-cs-fixer": [
+            "php-cs-fixer --config=.php_cs.dist fix"
+        ],
+        "apply-coding-standards/phpcs": [
+            "phpcbf --standard=phpcs.xml.dist"
+        ],
+        "actions/phpcs": [
+            "phpcs --standard=phpcs.xml.dist --report=checkstyle"
+        ],
+        "actions/phpcsfixer": [
+            "php-cs-fixer --config=.php_cs.dist fix --dry-run --diff --diff-format=udiff"
         ]
     },
     "conflict": {
@@ -61,7 +89,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "5.1.*"
         }
     }
