@@ -32,6 +32,7 @@ h1 {
         position: relative;
         margin-top: 5%;
         border-radius: 15px;
+        @include box-shadow();
 
         &:after {
             content: "";

@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
-import MachineStateContext from '../../context/machineStateContext';
+import React from 'react';
 import HelpBox from '../components/helpBox';
 import Header from '../components/header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
 
 function ScanLogin() {
-    const context = useContext(MachineStateContext);
 
     return (
         <>
@@ -24,8 +22,5 @@ function ScanLogin() {
         </>
     );
 }
-
-// ScanLogin.propTypes = {
-// };
 
 export default ScanLogin;

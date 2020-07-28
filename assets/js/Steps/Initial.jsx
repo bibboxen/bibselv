@@ -1,5 +1,4 @@
 import React from 'react';
-import BarcodeScanner from './BarcodeScanner';
 import {
     faBookReader,
     faInfoCircle,
@@ -8,9 +7,9 @@ import {
 
 import Bubble from './components/bubble';
 import Barcode from './components/barcode';
+import PropTypes from 'prop-types';
 
-function Initial() {
-    const COMMAND_LENGTH = 5;
+function Initial({actionHandler}) {
     const components = [
         {
             which: 'borrow',
@@ -26,22 +25,6 @@ function Initial() {
         },
         { which: 'handin', color: 'purple', label: 'Aflever', icon: faBook }
     ];
-    // useEffect(() => {
-    //   const barcodeScanner = new BarcodeScanner(400);
-
-    //   const barcodeCallback = (code) => {
-    //     if (code.length <= COMMAND_LENGTH) {
-    //       if (code === "03009") {
-    //         actionHandler("enterFlow", {
-    //           flow: "borrow",
-    //         });
-    //       }
-    //     }
-    //   };
-
-    //   barcodeScanner.start(barcodeCallback);
-    //   return () => barcodeScanner.stop();
-    // }, [actionHandler]);
 
     return (
         <>
@@ -54,6 +37,7 @@ function Initial() {
                         color={component.color}
                         label={component.label}
                         icon={component.icon}
+                        actionHandler={actionHandler} 
                     />
                 ))}
             </div>
@@ -65,5 +49,8 @@ function Initial() {
         </>
     );
 }
+Initial.propTypes = {
+    actionHandler: PropTypes.func.isRequired
+};
 
 export default Initial;

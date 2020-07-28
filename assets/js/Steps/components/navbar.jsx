@@ -7,18 +7,11 @@ import {
     faBook,
     faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
-function NavBar() {
+import PropTypes from 'prop-types';
+function NavBar({actionHandler}) {
     const context = useContext(MachineStateContext);
     const classes = context.step.get === 'initial' ? 'navbar initial' : 'navbar';
-    function login() {
-        if (context.loggedIn.get) {
-            context.username.set();
-            context.loggedIn.set(false);
-        } else {
-            context.username.set('Rick Sanchez');
-            context.loggedIn.set(true);
-        }
-    }
+
     const components = [
         {
             which: 'borrow',
@@ -37,13 +30,7 @@ function NavBar() {
     ];
 
     function onButtonPress(which) {
-        if (which === 'logout') {
-            context.username.set('');
-            context.loggedIn.set(false);
-            context.step.set('initial');
-        } else {
-            context.step.set(which);
-        }
+        actionHandler(which,context);
     }
 
     return (
@@ -53,7 +40,6 @@ function NavBar() {
                 {context.loggedIn && (
                     <span className="username">{context.username.get}</span>
                 )}
-                <button onClick={() => login()}>Login logout</button>
             </div>
             <div className="flex-container-row">
                 {context.loggedIn.get &&
@@ -71,6 +57,8 @@ function NavBar() {
         </div>
     );
 }
-NavBar.propTypes = {};
+NavBar.propTypes = {
+    actionHandler: PropTypes.func.isRequired,
+};
 
 export default NavBar;

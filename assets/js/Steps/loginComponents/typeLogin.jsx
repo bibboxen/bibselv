@@ -6,8 +6,9 @@ import HelpBox from '../components/helpBox';
 import NumPad from '../components/numPad';
 import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
+import PropTypes from 'prop-types';
 
-function ScanLogin() {
+function TypeLogin({actionHandler}) {
     const [loanNumber, setLoanNumber] = useState('');
     const [password, setPassword] = useState('');
     const [loanNumberEntering, setLoanNumberEntering] = useState(true);
@@ -27,9 +28,7 @@ function ScanLogin() {
         if (loanNumberEntering) {
             setLoanNumberEntering(false);
         } else {
-            // some validation
-            context.loggedIn.set(true);
-            context.username.set(loanNumber);
+            actionHandler("login",context)
         }
     }
     return (
@@ -70,8 +69,8 @@ function ScanLogin() {
         </div>
     );
 }
+TypeLogin.propTypes = {
+    actionHandler: PropTypes.func.isRequired
+};
 
-// ScanLogin.propTypes = {
-// };
-
-export default ScanLogin;
+export default TypeLogin;

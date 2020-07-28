@@ -1,17 +1,19 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import MachineStateContext from '../../context/machineStateContext';
 import HelpBox from '../components/helpBox';
 import Header from '../components/header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSchool } from '@fortawesome/free-solid-svg-icons';
-
-function ScanLogin() {
+import PropTypes from 'prop-types';
+function UniLogin({actionHandler}) {
+    const context = useContext(MachineStateContext);
 
     return (
         <>
             <div className="flex-container-row">
                 <div className="flex-container">
                     <Header header="Login" text="Login med Unilogin"></Header>
-                    <div className="content">
+                    <div className="content" onClick={() => actionHandler("login",context)}>
                         <FontAwesomeIcon icon={faSchool} />
                     </div>
                 </div>
@@ -27,7 +29,8 @@ function ScanLogin() {
     );
 }
 
-// ScanLogin.propTypes = {
-// };
+UniLogin.propTypes = {
+    actionHandler: PropTypes.func.isRequired
+};
 
-export default ScanLogin;
+export default UniLogin;

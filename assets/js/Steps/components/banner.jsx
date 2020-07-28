@@ -7,18 +7,31 @@ import {
     faSpinner,
     faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
-function Banner({ title, text, status }) {
+function Banner({ item }) {
     let classes = 'banner ';
-    let icon;
-    if (status === bookStatus.OVERDUE || status === bookStatus.RESERVED_FOR_SOMEONE_ELSE) {
-        classes += 'danger';
-        icon = faExclamationTriangle;
-    } else if (status === bookStatus.WAITING_FOR_INFO) {
-        icon = faSpinner;
-    } else if (status === bookStatus.READY_FOR_PICKUP || status === bookStatus.HANDED_IN) {
-        classes += 'success';
-        icon = faCheck;
+    let icon = ""
+    let title = item.title
+    let text = `af ${item.writer}`;
+    debugger
+    switch(item.status) {
+            
+        case bookStatus.OVERDUE || bookStatus.RESERVED_FOR_SOMEONE_ELSE:
+            classes += 'danger';
+            icon = faExclamationTriangle;
+            title = status === bookStatus.OVERDUE ? "Skal afleveres" : "Denne bog er reserveret til en anden"
+            text = `${item.title} af ${item.writer}`;
+        break;
+        case bookStatus.WAITING_FOR_INFO:
+            icon = faSpinner;
+            title = "Afventer informationer"
+            text = `${item.title} af ${item.writer}`;
+        break;
+        case bookStatus.READY_FOR_PICKUP || status === bookStatus.HANDED_IN:
+            classes = 'banner success';
+            icon = faCheck;
+        break;
     }
+
     return (
         <div className={classes}>
             {icon && (
@@ -34,9 +47,7 @@ function Banner({ title, text, status }) {
     );
 }
 Banner.propTypes = {
-    title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    status: PropTypes.number.isRequired
+    item: PropTypes.object.isRequired,
 };
 
 export default Banner;

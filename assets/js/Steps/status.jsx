@@ -15,22 +15,7 @@ function Status() {
     booksReserved = booksReserved.filter(
         (book) => book.status === bookStatus.RESERVED
     );
-    booksReadyForPickup.forEach((book) => {
-        book.text = `${book.title} af ${book.writer}`;
-        book.bannerTitle = 'Reserveret - klar til afhentning';
-    });
-    booksReserved.forEach((book) => {
-        book.text = `Af ${book.writer}`;
-        book.bannerTitle = book.title;
-    });
-    booksLoaned.forEach((book) => {
-        book.text = `${book.title} af ${book.writer}`;
-        book.bannerTitle = 'Lånt';
-        if (booksLoaned.status === bookStatus.OVERDUE) {
-            book.text = `${book.title} af ${book.writer}`;
-            book.bannerTitle = 'Aflevering overskredet';
-        }
-    });
+    debugger
     return (
         <>
             <div className="flex-container-row">

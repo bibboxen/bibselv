@@ -5,117 +5,36 @@ import { Alert } from 'react-bootstrap';
 import Login from './steps/login';
 import Status from './steps/status';
 import Handin from './steps/handin';
-import ActionFaker from './actionFaker';
+import {fakeHandleAction} from './actionFaker';
 import Borrow from './steps/borrow';
 import NavBar from './steps/components/navbar';
 import MachineStateContext from './context/machineStateContext';
 import bookStatus from './steps/components/bookStatus';
-// @TODO: Rewrite as functional component.
-function App() {
-    // constructor(props) {
-    //     super(props);
+import DebugBar from './steps/components/debugBar';
 
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const token = urlParams.get("token");
+function App(){
+    function handleAction(action, data) {
 
-    //     this.socket = null;
+        if (false) {
+            this.socket.emit("ClientEvent", {
+                name: "Action",
+                token: this.state.token,
+                action: action,
+                data: data,
+            });
+        } else {
+          fakeHandleAction(action, data);
+        }
+    }
 
-    //     this.state = {
-    //         fake: true,
-    //         token: token,
-    //         machineState: {},
-    //         // @TODO: Make configurable.
-    //         endpoint: "http://bibbox-website.local.itkdev.dk:8010",
-    //     };
-
-    //     this.handleAction = this.handleAction.bind(this);
-    //     this.handleReset = this.handleReset.bind(this);
-    //     this.setMachineState = this.setMachineState.bind(this);
-    //     this.getMachineState = this.getMachineState.bind(this);
-    // }
-
-    // setMachineState(data) {
-    //     this.setState({ machineState: data }, () => {
-    //         console.log("UpdateState", this.state.machineState);
-    //     });
-    // }
-
-    // getMachineState() {
-    //     return this.state.machineState;
-    // }
-
-    // componentDidMount() {
-    //     const { endpoint } = this.state;
-    //     const { fake } = this.state;
-
-    //     if (!fake) {
-    //         const socket = socketIOClient(endpoint, {
-    //             transports: ["websocket", "polling"],
-    //         });
-    //         this.socket = socket;
-    //         socket.on("UpdateState", (data) => {
-    //             this.setMachineState(data);
-    //         });
-    //         // Ready
-    //         socket.emit("ClientReady", {
-    //             token: this.state.token,
-    //         });
-    //     } else {
-    //         console.log("Running with fake content.");
-
-    //         this.actionFaker = new ActionFaker(
-    //             this.getMachineState,
-    //             this.setMachineState
-    //         );
-
-    //         this.setState({
-    //             machineState: {
-    //                 step: "initial",
-    //             },
-    //         });
-    //     }
-    // }
-
-    // function handleAction(action, data) {
-    //     console.log("handleAction", action, data);
-
-    //     const { fake } = this.state;
-
-    //     if (!fake) {
-    //         this.socket.emit("ClientEvent", {
-    //             name: "Action",
-    //             token: this.state.token,
-    //             action: action,
-    //             data: data,
-    //         });
-    //     } else {
-    //         this.actionFaker.handleAction(action, data);
-    //     }
-    // }
-
-    // handleReset() {
-    //     console.log("handleReset");
-
-    //     const { fake } = this.state;
-
-    //     if (!fake) {
-    //         this.socket.emit("ClientEvent", {
-    //             name: "Reset",
-    //             token: this.state.token,
-    //         });
-    //     } else {
-    //         this.actionFaker.handleReset();
-    //     }
-    // }
+ 
 
     function renderStep(step, machineState) {
         if (step === 'initial') {
-            return <Initial />;
+            return <Initial actionHandler={handleAction}  />;
         }
         if (loggedIn) {
             switch (step) {
-            case 'chooseLogin':
-                return <div>@TODO: chooseLogin</div>;
             case 'borrow':
                 return <Borrow />;
             case 'handin':
@@ -123,22 +42,19 @@ function App() {
             case 'status':
                 return <Status />;
             default:
-                return (
-                    <div className={'app-default'} style={{ textAlign: 'center' }}>
-                        <Alert variant={'warning'}>Please wait...</Alert>
-                    </div>
-                );
+                return <Initial actionHandler={handleAction} />;
             }
         } else {
-            return <Login></Login>;
+            return <Login actionHandler={handleAction}></Login>;
         }
     }
 
     const [machineState, setMachineState] = useState();
+    const [flow, setFlow] = useState();
     const [loggedIn, setLoggedIn] = useState(false);
     const [step, setStep] = useState('initial');
     const [username, setUsername] = useState();
-    const [loginConfig] = useState('uni');
+    const [loginConfig] = useState('type');
     const [reservedBooks] = useState([
         {
             id: '835535966-6',
@@ -161,6 +77,9 @@ function App() {
     ]);
 
     const [loanedBooks, setLoanedBooks] = useState([]);
+    const [justLoanedBooks, setJustLoanedBooks] = useState([]);
+    const [justHandedInBooks, setJustHandedInBooks] = useState([]);
+    const [scannedBarcode, setScannedBarcode] = useState("");
     const store = {
         machineState: { get: machineState, set: setMachineState },
         step: { get: step, set: setStep },
@@ -168,13 +87,18 @@ function App() {
         username: { get: username, set: setUsername },
         loginConfig: { get: loginConfig },
         reservedBooks: { get: reservedBooks },
-        loanedBooks: { get: loanedBooks, set: setLoanedBooks }
+        loanedBooks: { get: loanedBooks, set: setLoanedBooks },
+        flow: { get: flow, set: setFlow },
+        scannedBarcode: { get: scannedBarcode, set: setScannedBarcode},
+        justLoanedBooks: { get: justLoanedBooks, set: setJustLoanedBooks},
+        justHandedInBooks: { get: justHandedInBooks, set: setJustHandedInBooks}
     };
     return (
         <>
             <MachineStateContext.Provider value={store}>
-                <NavBar></NavBar>
+                <NavBar actionHandler={handleAction}></NavBar>
                 <div className="container">{renderStep(step, machineState)}</div>
+                <DebugBar actionHandler={handleAction}></DebugBar>
             </MachineStateContext.Provider>
         </>
     );

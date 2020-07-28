@@ -12,7 +12,6 @@ function BannerList({ items, title }) {
         }
         return 0;
     }
-
     items.reverse();
     items.sort(compare);
     return (
@@ -23,7 +22,7 @@ function BannerList({ items, title }) {
                 </div>
             )}
             {items.map((item) => (
-                <Banner title={item.bannerTitle} text={item.text} status={item.status} key={item.id}></Banner>
+                <Banner item={item} key={item.id}></Banner>
             ))}
         </>
     );

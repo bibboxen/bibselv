@@ -3,18 +3,18 @@ import MachineStateContext from '../context/machineStateContext';
 import ScanLogin from './loginComponents/scanLogin';
 import TypeLogin from './loginComponents/typeLogin';
 import UniLogin from './loginComponents/uniLogin';
-
-function Login() {
+import PropTypes from 'prop-types';
+function Login({actionHandler}) {
     const context = useContext(MachineStateContext);
 
     function renderStep(loginConfig) {
         switch (loginConfig) {
         case 'scan':
-            return <ScanLogin></ScanLogin>;
+            return <ScanLogin actionHandler={actionHandler} ></ScanLogin>;
         case 'type':
-            return <TypeLogin></TypeLogin>;
+            return <TypeLogin actionHandler={actionHandler} ></TypeLogin>;
         case 'uni':
-            return <UniLogin></UniLogin>;
+            return <UniLogin actionHandler={actionHandler} ></UniLogin>;
         default:
             return <span>Loginmetode er ikke konfigureret</span>;
         }
@@ -22,5 +22,10 @@ function Login() {
 
     return <>{renderStep(context.loginConfig.get)}</>;
 }
+
+Login.propTypes = {
+    actionHandler: PropTypes.func.isRequired
+};
+
 
 export default Login;
