@@ -70,7 +70,7 @@ services:
       - "8010:3000"
     command: "npm run docker"
 
-  frontend_build:
+  frontend:
     image: node:14
     networks:
       - app

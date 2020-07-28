@@ -52,7 +52,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'"
     },
     "conflict": {
         "symfony/symfony": "*"
