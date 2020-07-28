@@ -11,7 +11,7 @@ jobs:
         name: Engine coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
                   node-version: '14.x'
@@ -37,7 +37,7 @@ jobs:
         name: Engine tests
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@master
+            -   uses: actions/checkout@v2
             -   uses: actions/setup-node@v1
                 with:
                     node-version: '14.x'
@@ -66,7 +66,7 @@ jobs:
         name: Frontend coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
                   node-version: '14.x'
@@ -90,7 +90,7 @@ jobs:
         name: Frontend tests
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
                   node-version: '14.x'
