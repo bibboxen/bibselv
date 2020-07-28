@@ -2,7 +2,7 @@ on: pull_request
 name: Review
 jobs:
     engine-coding-standards:
-        name: Engine coding standards
+        name: JS - Engine coding standards
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
@@ -28,7 +28,7 @@ jobs:
               run: npm run check-coding-standards
 
     engine-tests:
-        name: JS engine tests
+        name: JS - Engine tests
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@master
@@ -57,7 +57,7 @@ jobs:
                 run: npm test
 
     frontend-coding-standards:
-        name: Frontend coding standards
+        name: JS - Frontend coding standards
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
@@ -81,7 +81,7 @@ jobs:
               run: npm run check-coding-standards
 
     frontend-tests:
-        name: Frontend tests
+        name: JS - Frontend tests
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
