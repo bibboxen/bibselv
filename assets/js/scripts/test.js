@@ -49,5 +49,3 @@ if (
 }
 
 jest.run(argv);
-
-// TEST GITHUB ACTION
