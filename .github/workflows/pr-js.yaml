@@ -8,7 +8,7 @@ on:
 name: Review JS
 jobs:
     engine-coding-standards:
-        name: JS - Engine coding standards
+        name: Engine coding standards
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
@@ -34,7 +34,7 @@ jobs:
               run: npm run check-coding-standards
 
     engine-tests:
-        name: JS - Engine tests
+        name: Engine tests
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@master
@@ -63,7 +63,7 @@ jobs:
                 run: npm test
 
     frontend-coding-standards:
-        name: JS - Frontend coding standards
+        name: Frontend coding standards
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
@@ -87,7 +87,7 @@ jobs:
               run: npm run check-coding-standards
 
     frontend-tests:
-        name: JS - Frontend tests
+        name: Frontend tests
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
