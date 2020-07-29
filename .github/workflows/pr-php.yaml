@@ -156,14 +156,9 @@ jobs:
               env:
                   MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
               run: |
-                while ! mysqladmin ping -h"127.0.0.1" -P"MARIA_DB_PORT" --silent; do
+                while ! mysqladmin ping -h"127.0.0.1" -P"$MARIA_DB_PORT" --silent; do
                     sleep 1
                 done
-
-            - name: Setup tmate session
-              env:
-                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-              uses: mxschmitt/action-tmate@v2
 
             - name: Run Doctrine Migrations
               env:
