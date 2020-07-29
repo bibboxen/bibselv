@@ -62,23 +62,23 @@ class App extends Component {
 
     renderStep(step, machineState) {
         switch (step) {
-        case 'initial':
-            return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-        case 'chooseLogin':
-            return <div>@TODO: chooseLogin</div>;
-        case 'loginScan':
-            return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-        case 'borrow':
-            return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-        default:
-            return (
-                <div className={'app-default'}
-                    style={{ textAlign: 'center' }}>
-                    <Alert variant={'warning'}>
-                            Please wait...
-                    </Alert>
-                </div>
-            );
+            case 'initial':
+                return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+            case 'chooseLogin':
+                return <div>@TODO: chooseLogin</div>;
+            case 'loginScan':
+                return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+            case 'borrow':
+                return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+            default:
+                return (
+                    <div className={'app-default'}
+                        style={{ textAlign: 'center' }}>
+                        <Alert variant={'warning'}>
+                                Please wait...
+                        </Alert>
+                    </div>
+                );
         }
     }
 

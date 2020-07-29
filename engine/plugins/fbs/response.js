@@ -100,136 +100,136 @@ Response.prototype.parseEncoding = function parseEncoding() {
     // Mapping array ['label', 'length', 'name']
     var mappings = [];
     switch (self.id) {
-    // Check-in Response.
-    case '10':
-        mappings.push(['ok', 1]);
-        mappings.push(['resensitize', 1]);
-        mappings.push(['magneticMedia', 1]);
-        mappings.push(['alert', 1]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Check-in Response.
+        case '10':
+            mappings.push(['ok', 1]);
+            mappings.push(['resensitize', 1]);
+            mappings.push(['magneticMedia', 1]);
+            mappings.push(['alert', 1]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Checkout Response.
-    case '12':
-        mappings.push(['ok', 1]);
-        mappings.push(['renewalOk', 1]);
-        mappings.push(['magneticMedia', 1]);
-        mappings.push(['desensitize', 1]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Checkout Response.
+        case '12':
+            mappings.push(['ok', 1]);
+            mappings.push(['renewalOk', 1]);
+            mappings.push(['magneticMedia', 1]);
+            mappings.push(['desensitize', 1]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Hold Response (may have a expiration date BW).
-    case '16':
-        mappings.push(['ok', 1]);
-        mappings.push(['available', 1]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Hold Response (may have a expiration date BW).
+        case '16':
+            mappings.push(['ok', 1]);
+            mappings.push(['available', 1]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Item Information Response.
-    case '18':
-        mappings.push(['circulationStatus', 2]);
-        mappings.push(['securityMarker', 2]);
-        mappings.push(['feeType', 2]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Item Information Response.
+        case '18':
+            mappings.push(['circulationStatus', 2]);
+            mappings.push(['securityMarker', 2]);
+            mappings.push(['feeType', 2]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Patron Status Response.
-    case '24':
-        mappings.push(['patronStatus', 14, 'patronStatus']);
-        mappings.push(['language', 3]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Patron Status Response.
+        case '24':
+            mappings.push(['patronStatus', 14, 'patronStatus']);
+            mappings.push(['language', 3]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Renew Response.
-    case '30':
-        mappings.push(['ok', 1]);
-        mappings.push(['renewalOk', 1]);
-        mappings.push(['magneticMedia', 1]);
-        mappings.push(['desensitize', 1]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Renew Response.
+        case '30':
+            mappings.push(['ok', 1]);
+            mappings.push(['renewalOk', 1]);
+            mappings.push(['magneticMedia', 1]);
+            mappings.push(['desensitize', 1]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // End Session Response,
-    case '36':
-        mappings.push(['endSession', 1]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // End Session Response,
+        case '36':
+            mappings.push(['endSession', 1]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Fee Paid Response.
-    case '38':
-        mappings.push(['paymentAccepted', 1]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Fee Paid Response.
+        case '38':
+            mappings.push(['paymentAccepted', 1]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Patron Information Response (might not be decode correctly as it has
-    // mixed variable and encoded data.).
-    case '64':
-        mappings.push(['patronStatus', 14, 'patronStatus']);
-        mappings.push(['language', 3]);
-        mappings.push(['transactionDate', 18]);
-        mappings.push(['holdItemsCount', 4]);
-        mappings.push(['overdueItemsCount', 4]);
-        mappings.push(['chargedItemsCount', 4]);
-        mappings.push(['fineItemsCount', 4]);
-        mappings.push(['recallItemsCount', 4]);
-        mappings.push(['unavailableHoldCount', 4]);
-        break;
+        // Patron Information Response (might not be decode correctly as it has
+        // mixed variable and encoded data.).
+        case '64':
+            mappings.push(['patronStatus', 14, 'patronStatus']);
+            mappings.push(['language', 3]);
+            mappings.push(['transactionDate', 18]);
+            mappings.push(['holdItemsCount', 4]);
+            mappings.push(['overdueItemsCount', 4]);
+            mappings.push(['chargedItemsCount', 4]);
+            mappings.push(['fineItemsCount', 4]);
+            mappings.push(['recallItemsCount', 4]);
+            mappings.push(['unavailableHoldCount', 4]);
+            break;
 
-    // Renew All Response.
-    case '66':
-        mappings.push(['ok', 1]);
-        mappings.push(['renewedCount', 4]);
-        mappings.push(['unrenewedCount', 4]);
-        mappings.push(['transactionDate', 18]);
-        break;
+        // Renew All Response.
+        case '66':
+            mappings.push(['ok', 1]);
+            mappings.push(['renewedCount', 4]);
+            mappings.push(['unrenewedCount', 4]);
+            mappings.push(['transactionDate', 18]);
+            break;
 
-    // Login Response.
-    case '94':
-        mappings.push(['ok', 1]);
-        break;
+        // Login Response.
+        case '94':
+            mappings.push(['ok', 1]);
+            break;
 
-    // ACS Status Response.
-    case '98':
-        mappings.push(['onlineStatus', 1]);
-        mappings.push(['checkIn', 1]);
-        mappings.push(['checkOut', 1]);
-        mappings.push(['statusUpdate', 1]);
-        mappings.push(['offline', 1]);
-        mappings.push(['timeoutPeriod', 3]);
-        mappings.push(['retriesAllowed', 3]);
-        mappings.push(['datetimeSync', 18]);
-        mappings.push(['protocolVersion', 1]);
-        break;
+        // ACS Status Response.
+        case '98':
+            mappings.push(['onlineStatus', 1]);
+            mappings.push(['checkIn', 1]);
+            mappings.push(['checkOut', 1]);
+            mappings.push(['statusUpdate', 1]);
+            mappings.push(['offline', 1]);
+            mappings.push(['timeoutPeriod', 3]);
+            mappings.push(['retriesAllowed', 3]);
+            mappings.push(['datetimeSync', 18]);
+            mappings.push(['protocolVersion', 1]);
+            break;
     }
 
     mappings.map(function(conf) {
         if (conf.length > 2) {
             // Parse sub-fields.
             switch (conf[2]) {
-            case 'patronStatus':
-                self[conf[0]] = {};
-                var subDecoder = new Decoder(decode.consume(conf[1]));
-                var map = [
-                    ['chargePrivDenied', 1],
-                    ['renewalPrivDenied', 1],
-                    ['recallPrivDenied', 1],
-                    ['holdPrivDenied', 1],
-                    ['cardReportedLost', 1],
-                    ['tooManyItemsCharged', 1],
-                    ['tooManyItemOverdue', 1],
-                    ['tooManyRenewals', 1],
-                    ['tooManyClaimsOfItemReturned', 1],
-                    ['tooManyItemsLost', 1],
-                    ['excessiveOutstandingFines', 1],
-                    ['excessiveOutstandingFees', 1],
-                    ['recallOverdue', 1],
-                    ['tooManyItemsBilled', 1]
-                ];
-                map.map(function(items) {
-                    var val = subDecoder.consume(items[1]);
-                    self[conf[0]][items[0]] = (val === 'Y');
-                });
-                break;
+                case 'patronStatus':
+                    self[conf[0]] = {};
+                    var subDecoder = new Decoder(decode.consume(conf[1]));
+                    var map = [
+                        ['chargePrivDenied', 1],
+                        ['renewalPrivDenied', 1],
+                        ['recallPrivDenied', 1],
+                        ['holdPrivDenied', 1],
+                        ['cardReportedLost', 1],
+                        ['tooManyItemsCharged', 1],
+                        ['tooManyItemOverdue', 1],
+                        ['tooManyRenewals', 1],
+                        ['tooManyClaimsOfItemReturned', 1],
+                        ['tooManyItemsLost', 1],
+                        ['excessiveOutstandingFines', 1],
+                        ['excessiveOutstandingFees', 1],
+                        ['recallOverdue', 1],
+                        ['tooManyItemsBilled', 1]
+                    ];
+                    map.map(function(items) {
+                        var val = subDecoder.consume(items[1]);
+                        self[conf[0]][items[0]] = (val === 'Y');
+                    });
+                    break;
             }
         } else {
             // Convert dates.
@@ -353,178 +353,178 @@ Response.prototype.parseVariables = function parseVariables() {
             }
 
             switch (key) {
-            // Home address.
-            case 'BD':
-                val = val.split('%');
-                self[keyTrans] = {
-                    street: entities.decode(val.shift()),
-                    postalCode: val.shift(),
-                    city: val.shift(),
-                    country: val.shift()
-                };
-                break;
+                // Home address.
+                case 'BD':
+                    val = val.split('%');
+                    self[keyTrans] = {
+                        street: entities.decode(val.shift()),
+                        postalCode: val.shift(),
+                        city: val.shift(),
+                        country: val.shift()
+                    };
+                    break;
 
                 // Renewed items.
-            case 'BM':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        id: val.shift(),
-                        dueDate: self.parseDate(val.shift()),
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    });
-                }
-                break;
+                case 'BM':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            id: val.shift(),
+                            dueDate: self.parseDate(val.shift()),
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        });
+                    }
+                    break;
 
                 // Unrenewed items.
-            case 'BN':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        id: val.shift(),
-                        reason: entities.decode(val.shift()),
-                        dueDate: self.parseDate(val.shift()),
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    });
-                }
-                break;
+                case 'BN':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            id: val.shift(),
+                            reason: entities.decode(val.shift()),
+                            dueDate: self.parseDate(val.shift()),
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        });
+                    }
+                    break;
 
                 // Pick-up location.
-            case 'BS':
-                // Filter out agency ('DK|FBS-123456') from pickup location.
-                self[keyTrans] = val.match(/\w{2,3}-\d{6}\s-\s(.*)/)[1];
-                break;
+                case 'BS':
+                    // Filter out agency ('DK|FBS-123456') from pickup location.
+                    self[keyTrans] = val.match(/\w{2,3}-\d{6}\s-\s(.*)/)[1];
+                    break;
 
                 // Hold items.
-            case 'AS':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        bibliographicId: val.shift(),
-                        id: val.shift(),
-                        pickupId: val.shift(),
-                        pickupDate: self.parseDate(val.shift()),
-                        pickupLocation: val.shift().match(/\w{2,3}-\d{6}\s-\s(.*)/)[1],
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    });
-                }
-                break;
+                case 'AS':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            bibliographicId: val.shift(),
+                            id: val.shift(),
+                            pickupId: val.shift(),
+                            pickupDate: self.parseDate(val.shift()),
+                            pickupLocation: val.shift().match(/\w{2,3}-\d{6}\s-\s(.*)/)[1],
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        });
+                    }
+                    break;
 
                 // Overdue items.
-            case 'AT':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        id: val.shift(),
-                        dueDate: self.parseDate(val.shift()),
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    });
-                }
-                break;
+                case 'AT':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            id: val.shift(),
+                            dueDate: self.parseDate(val.shift()),
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        });
+                    }
+                    break;
 
                 // Fine items.
-            case 'AV':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        id: val.shift(),
-                        fineId: val.shift(),
-                        fineDate: self.parseDate(val.shift()),
-                        fineAmount: val.shift(),
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    });
-                }
-                break;
+                case 'AV':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            id: val.shift(),
+                            fineId: val.shift(),
+                            fineDate: self.parseDate(val.shift()),
+                            fineAmount: val.shift(),
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        });
+                    }
+                    break;
 
                 // Recall items.
-            case 'BU':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        id: val.shift(),
-                        recallDate: self.parseDate(val.shift()),
-                        title: val.shift(),
-                        author: val.shift(),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    });
-                }
-                break;
+                case 'BU':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            id: val.shift(),
+                            recallDate: self.parseDate(val.shift()),
+                            title: val.shift(),
+                            author: val.shift(),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        });
+                    }
+                    break;
 
                 // Unavailable hold items.
-            case 'CD':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        bibliographicId: val.shift(),
-                        id: val.shift(),
-                        interestDate: self.parseDate(val.shift()),
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    });
-                }
-                break;
+                case 'CD':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            bibliographicId: val.shift(),
+                            id: val.shift(),
+                            interestDate: self.parseDate(val.shift()),
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        });
+                    }
+                    break;
 
                 // Charged items.
-            case 'AU':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans].push({
-                        id: val.shift(),
-                        returnDate: self.parseDate(val.shift()),
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift()
-                    });
-                }
-                break;
+                case 'AU':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans].push({
+                            id: val.shift(),
+                            returnDate: self.parseDate(val.shift()),
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift()
+                        });
+                    }
+                    break;
 
                 // Items properties.
-            case 'CH':
-                val = val.split('%');
-                if (val.length > 1) {
-                    self[keyTrans] = {
-                        title: entities.decode(val.shift()),
-                        author: entities.decode(val.shift()),
-                        GMB: val.shift(),
-                        SMB: val.shift(),
-                        DK5: val.shift()
-                    };
-                }
-                break;
+                case 'CH':
+                    val = val.split('%');
+                    if (val.length > 1) {
+                        self[keyTrans] = {
+                            title: entities.decode(val.shift()),
+                            author: entities.decode(val.shift()),
+                            GMB: val.shift(),
+                            SMB: val.shift(),
+                            DK5: val.shift()
+                        };
+                    }
+                    break;
 
                 // Due date.
-            case 'AH':
-                self[keyTrans] = self.parseDate(val);
-                break;
+                case 'AH':
+                    self[keyTrans] = self.parseDate(val);
+                    break;
 
-            default:
-                self[keyTrans] = val;
+                default:
+                    self[keyTrans] = val;
             }
         }
     });

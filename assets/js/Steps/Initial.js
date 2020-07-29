@@ -3,9 +3,19 @@ import { Container, Row, Col, Alert, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
 
+/**
+ * Initial component.
+ *
+ * Supplies a front page.
+ *
+ * @param props
+ * @return {*}
+ * @constructor
+ */
 function Initial(props) {
     const { actionHandler } = props;
 
+    // Setup component.
     useEffect(() => {
         console.log('use effect');
 
@@ -25,6 +35,8 @@ function Initial(props) {
         };
 
         barcodeScanner.start(barcodeCallback);
+
+        // Stop scanning when component is unmounted.
         return () => barcodeScanner.stop();
     }, [actionHandler]);
 

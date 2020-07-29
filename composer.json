@@ -82,7 +82,8 @@
         ],
         "actions/phpcsfixer": [
             "php-cs-fixer --config=.php_cs.dist fix --dry-run --diff --diff-format=udiff"
-        ]
+        ],
+        "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'"
     },
     "conflict": {
         "symfony/symfony": "*"
