@@ -2,7 +2,7 @@
     "name": "bibboxen/bibbox-configuration-management",
     "description": "Application to manage configuration for chromebox bibbox machines.",
     "type": "project",
-    "license": "proprietary",
+    "license": "AGPL-3.0-or-later",
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
