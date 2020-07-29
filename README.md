@@ -50,6 +50,13 @@ cp engine/example_config.json engine/config.json
 cp engine/plugins/ctrl/example_config.json engine/plugins/ctrl/config.json
 ```
 
+Install dependencies for engine and frontend.
+
+```
+docker-compose run engine bash -c './scripts/install.sh'
+docker-compose run frontend bash -c 'npm install'
+```
+
 This will start the engine and the frontend.
 ```sh
 docker-compose up -d

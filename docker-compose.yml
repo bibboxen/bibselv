@@ -68,7 +68,7 @@ services:
       - ./engine:/app:delegated
     ports:
       - "8010:3000"
-    command: "npm run docker"
+    command: npm run dev
 
   frontend:
     image: node:14
@@ -80,4 +80,4 @@ services:
       - NODE_ENV=development
     volumes:
       - .:/app:delegated
-    command: npm run docker
+    command: npm run dev
