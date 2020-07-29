@@ -53,7 +53,6 @@ module.exports = function(options, imports, register) {
             debug(busEvent, client);
 
             clientEvent = 'state_machine.state_update.' + client.token;
-            console.log('CLIENT_EVENT', clientEvent);
 
             // Register event listener.
             bus.on(clientEvent, (newState) => {
