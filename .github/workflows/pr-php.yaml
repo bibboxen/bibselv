@@ -6,6 +6,7 @@ on:
             - 'composer.json'
             - 'composer.lock'
             - '!engine/**'
+            - '!.github/workflows/pr-js.yaml'
 name: Review PHP
 jobs:
     php-test-composer-install:

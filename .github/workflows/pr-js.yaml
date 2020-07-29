@@ -6,6 +6,7 @@ on:
             - '!config/**'
             - 'package.json'
             - 'package-lock.json'
+            - '!.github/workflows/pr-php.yaml'
 name: Review JS
 jobs:
     engine-coding-standards:
