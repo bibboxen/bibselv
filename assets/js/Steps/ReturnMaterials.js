@@ -58,26 +58,26 @@ function ReturnMaterials(props) {
 
                     <Table striped={true} bordered={true}>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>title</th>
-                            <th>author</th>
-                            <th>status</th>
-                            <th>message</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>title</th>
+                                <th>author</th>
+                                <th>status</th>
+                                <th>message</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.materials && props.machineState.materials.map(
-                                el => <tr key={'material-' + el.itemIdentifier}>
-                                    <td>{el.itemIdentifier}</td>
-                                    <td>{el.title}</td>
-                                    <td>{el.author}</td>
-                                    <td>{el.status}</td>
-                                    <td>{el.message}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.materials && props.machineState.materials.map(
+                                    el => <tr key={'material-' + el.itemIdentifier}>
+                                        <td>{el.itemIdentifier}</td>
+                                        <td>{el.title}</td>
+                                        <td>{el.author}</td>
+                                        <td>{el.status}</td>
+                                        <td>{el.message}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>

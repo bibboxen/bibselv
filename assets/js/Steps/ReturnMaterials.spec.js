@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect, it } from '@jest/globals';
+import { it } from '@jest/globals';
 import ReturnMaterials from './Return';
 
 it('renders without crashing', () => {
