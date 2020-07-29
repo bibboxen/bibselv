@@ -130,8 +130,6 @@ jobs:
             matrix:
                 php: ['7.4']
         name: Validate database schema (${{ matrix.php }})
-        env:
-            MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         steps:
             - uses: actions/checkout@v2
 
@@ -155,16 +153,24 @@ jobs:
               run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
             - name: Verify MariaDB connection
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
               run: |
                 while ! mysqladmin ping -h"127.0.0.1" -P"MARIA_DB_PORT" --silent; do
                     sleep 1
                 done
 
             - name: Setup tmate session
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
               uses: mxschmitt/action-tmate@v2
 
             - name: Run Doctrine Migrations
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
               run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:migrations:migrate --no-interaction
 
             - name: Validate DB schema
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
               run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:schema:validate
