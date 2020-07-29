@@ -3,7 +3,6 @@
     <description>The coding standard.</description>
 
     <file>src/</file>
-    <file>tests/</file>
 
     <exclude-pattern>src/Kernel.php</exclude-pattern>
 
