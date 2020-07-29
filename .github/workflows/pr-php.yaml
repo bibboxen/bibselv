@@ -160,8 +160,11 @@ jobs:
                     sleep 1
                 done
 
+            - name: Setup tmate session
+              uses: mxschmitt/action-tmate@v2
+
             - name: Run Doctrine Migrations
-              run: DATABASE_URL=mysql://db:db@127.0.0.1:$PORT/db php bin/console doctrine:migrations:migrate
+              run: DATABASE_URL=mysql://db:db@127.0.0.1:$PORT/db php bin/console doctrine:migrations:migrate --no-interaction
 
             - name: Validate DB schema
               run: DATABASE_URL=mysql://db:db@127.0.0.1:$PORT/db php bin/console doctrine:schema:validate
