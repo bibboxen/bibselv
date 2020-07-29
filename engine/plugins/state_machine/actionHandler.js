@@ -107,6 +107,89 @@ class ActionHandler {
     }
 
     /**
+     * Return material for the client.
+     *
+     * @param client
+     *   The client.
+     */
+    returnMaterial(client) {
+        const newMaterial = client.actionData;
+
+        // Ignore material if it is already returned or inProgress.
+        // @TODO: Handle retry case.
+        if (client.state.materials) {
+            const oldMaterials = client.state.materials.filter(material => {
+                return material.itemIdentifier === newMaterial.itemIdentifier && !['returned', 'inProgress'].includes(material.status);
+            });
+
+            if (oldMaterials.length > 0) {
+                return;
+            }
+        }
+
+        newMaterial.status = 'inProgress';
+        this.stateMachine.action(client, 'materialUpdate', newMaterial);
+
+        const busEvent = uniqid('fbs.checkin.');
+        const errEvent = uniqid('fbs.checkin.err.');
+
+        this.bus.once(busEvent, resp => {
+            debug('Checkin success');
+
+            const result = resp.result;
+
+            debug(resp);
+            debug(result);
+
+            const material = {
+                itemIdentifier: result.itemIdentifier,
+                title: result.itemProperties.title,
+                author: result.itemProperties.author,
+                message: result.screenMessage
+            };
+
+            // FBS value of 1 equals success.
+            if (result.ok === '1') {
+                material.status = 'returned';
+
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'materialUpdate',
+                    data: material
+                });
+            } else {
+                material.status = 'error';
+
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'materialUpdate',
+                    data: material
+                });
+            }
+        });
+
+        /**
+         * Listen for checkin error.
+         */
+        this.bus.once(errEvent, (resp) => {
+            debug('Checkin error', resp);
+        });
+
+        /**
+         * Emit the checkin event.
+         */
+        this.bus.emit('fbs.checkin', {
+            busEvent: busEvent,
+            errorEvent: errEvent,
+            itemIdentifier: newMaterial.itemIdentifier,
+            username: client.internal.username,
+            password: client.internal.password
+        });
+    }
+
+    /**
      * Login the client.
      *
      * @param client

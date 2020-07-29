@@ -139,6 +139,26 @@ module.exports = function(options, imports, register) {
                     debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
                     actionHandler.materialUpdate(client);
                 }
+            },
+            returnMaterials: {
+                _onEnter: function(client) {
+                    debug('Entered returnMaterials on client: ' + client.token);
+                    client.state.step = 'returnMaterials';
+                },
+                _onExit: function(client) {
+                    client.actionData = null;
+                },
+                _reset: function(client) {
+                    this.transition(client, 'initial');
+                },
+                returnMaterial: function(client) {
+                    debug('Triggered returnMaterial on client: ' + client.token, client);
+                    actionHandler.returnMaterial(client);
+                },
+                materialUpdate: function(client) {
+                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
+                    actionHandler.materialUpdate(client);
+                }
             }
         },
 
