@@ -3,6 +3,7 @@ on:
         paths:
             - '**.js'
             - '**.yaml'
+            - '!config/**'
             - 'package.json'
             - 'package-lock.json'
 name: Review JS
