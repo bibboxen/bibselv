@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 /**
  * Return component.
  *
- * Supplies a page for borrowing materials.
+ * Supplies a page for returning materials.
  *
  * @param props
  * @return {*}
