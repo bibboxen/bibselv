@@ -3,6 +3,15 @@ import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
 
+/**
+ * Borrow component.
+ *
+ * Supplies a page for borrowing materials.
+ *
+ * @param props
+ * @return {*}
+ * @constructor
+ */
 function Borrow(props) {
     const { actionHandler, handleReset } = props;
 

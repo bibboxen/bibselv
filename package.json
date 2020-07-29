@@ -41,6 +41,7 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
+        "docker": "npm install && npm run watch",
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
@@ -51,7 +52,7 @@
         "check-coding-standards-js": "npm run check-coding-standards-eslint",
         "check-coding-standards": "npm run check-coding-standards-js",
         "apply-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js' --fix",
-        "apply-coding-standards-js": "yarn run apply-coding-standards-eslint",
+        "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
         "apply-coding-standards": "npm run apply-coding-standards-js"
     },
     "eslintConfig": {

@@ -171,7 +171,6 @@ module.exports = function(options, imports, register) {
             case 'Reset':
                 client = stateMachine.reset(client);
                 break;
-
             case 'Action':
                 client = stateMachine.action(client, event.action, event.data);
                 break;

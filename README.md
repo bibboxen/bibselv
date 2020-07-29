@@ -58,15 +58,7 @@ docker-compose up -d
 *Install assets*
 To install assets for the frontend we use Encore.
 
-To watch for changes in the `assets/` folder, run:
-
-```
-docker run --volume $PWD:/app:delegated --workdir /app node:14 npm install
-docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run dev
-```
-
-@TODO: When trying to run `npm run dev` above -> npm ERR! code ELIFECYCLE --> npm ERR! errno 1
-@TODO: Error: The "callback" argument of configureBabelPresetEnv() will not be used because your app already provides an external Babel configuration (e.g. a ".bab  elrc" or "babel.config.js" file or "babel" key in "package.json").
+A docker container is started that watches for changes in the assets/js folder.
 
 ## Code Linting
 
@@ -77,15 +69,13 @@ When PRs are created towards the develop branch all coding styles are checked by
 To check for coding standards, run the following:
 
 ```sh
-docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run check-coding-standards
+docker-compose exec frontend bash -c 'npm run check-coding-standards'
 ```
-
-@TODO: Warning: React version not specified in eslint-plugin-react settings
 
 To automatically apply coding standards, run:
 
 ```sh
-docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run apply-coding-standards
+docker-compose exec frontend bash -c 'npm run apply-coding-standards'
 ```
 
 ### Engine
@@ -105,7 +95,7 @@ All tests runs with Github Actions for each PR to develop.
 Frontend tests runs with jest.
 
 ```
-docker run --volume $PWD:/app:delegated --workdir /app node:14 npm test
+docker-compose exec frontend bash -c 'npm test'
 ```
 
 ### Engine
@@ -126,8 +116,5 @@ docker-compose exec engine npm test
 ### Building production assets for the frontend
 
 ```
-docker run --volume $PWD:/app:delegated --workdir /app node:14 npm run build
+docker-compose exec frontend bash -c 'npm run build'
 ```
-
-@TODO: When trying to run `npm run build` above -> npm ERR! code ELIFECYCLE --> npm ERR! errno 1
-@TODO: Error: The "callback" argument of configureBabelPresetEnv() will not be used because your app already provides an external Babel configuration (e.g. a ".bab  elrc" or "babel.config.js" file or "babel" key in "package.json").

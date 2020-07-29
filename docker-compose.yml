@@ -69,3 +69,15 @@ services:
     ports:
       - "8010:3000"
     command: "npm run docker"
+
+  frontend:
+    image: node:14
+    networks:
+      - app
+    user: "node"
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app:delegated
+    command: npm run docker
