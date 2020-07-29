@@ -72,8 +72,6 @@ To check for coding standards, run the following:
 docker-compose exec frontend bash -c 'npm run check-coding-standards'
 ```
 
-@TODO: Warning: React version not specified in eslint-plugin-react settings
-
 To automatically apply coding standards, run:
 
 ```sh

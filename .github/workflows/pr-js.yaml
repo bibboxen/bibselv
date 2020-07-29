@@ -1,11 +1,17 @@
-on: pull_request
-name: Review
+on:
+    pull_request:
+        paths:
+            - '**.js'
+            - '**.yaml'
+            - 'package.json'
+            - 'package-lock.json'
+name: Review JS
 jobs:
     engine-coding-standards:
         name: Engine coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
                   node-version: '14.x'
@@ -28,10 +34,10 @@ jobs:
               run: npm run check-coding-standards
 
     engine-tests:
-        name: JS engine tests
+        name: Engine tests
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@master
+            -   uses: actions/checkout@v2
             -   uses: actions/setup-node@v1
                 with:
                     node-version: '14.x'
@@ -60,7 +66,7 @@ jobs:
         name: Frontend coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
                   node-version: '14.x'
@@ -84,7 +90,7 @@ jobs:
         name: Frontend tests
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v2
             - uses: actions/setup-node@v1
               with:
                   node-version: '14.x'

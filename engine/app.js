@@ -93,21 +93,3 @@ process.on('uncaughtException', error => {
 // Ensure proper process exit when killed in term.
 process.once('SIGINT', () => { process.exit(); });
 process.once('SIGTERM', () => { process.exit(); });
-
-// If process is forked from bootstrap send keep-alive events back.
-if (process.send) {
-    //
-    // @TODO: This project don't currently have an bootstrap script for remote resstart etc. so maybe remove this
-    //        part of the code.
-    //
-    setInterval(() => {
-        process.send({
-            ping: new Date().getTime()
-        });
-    }, 10000);
-
-    // Inform bootstrap that it's ready.
-    process.send({
-        ready: true
-    });
-}
