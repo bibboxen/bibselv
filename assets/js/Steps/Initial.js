@@ -17,18 +17,20 @@ function Initial(props) {
 
     // Setup component.
     useEffect(() => {
-        console.log('use effect');
-
         const barcodeScanner = new BarcodeScanner(400);
 
         const barcodeCallback = code => {
-            console.log('barcodeCallback');
-
             // Commands are 5 characters long.
-            if (code.length <= 5) {
+            if (code.length === 5) {
                 if (code === '03009') {
                     actionHandler('enterFlow', {
                         flow: 'borrow'
+                    });
+                }
+
+                if (code === '03010') {
+                    actionHandler('enterFlow', {
+                        flow: 'returnMaterials'
                     });
                 }
             }

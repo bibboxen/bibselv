@@ -16,13 +16,9 @@ function Borrow(props) {
     const { actionHandler, handleReset } = props;
 
     useEffect(() => {
-        console.log('use effect');
-
         const barcodeScanner = new BarcodeScanner(400);
 
         const barcodeCallback = code => {
-            console.log('barcodeCallback');
-
             // Commands are 5 characters long.
             if (code.length <= 5) {
                 if (code === '03006') {

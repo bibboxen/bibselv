@@ -22,13 +22,9 @@ function ScanLogin(props) {
 
     // Setup component.
     useEffect(() => {
-        console.log('use effect');
-
         const barcodeScanner = new BarcodeScanner(400);
 
         const barcodeCallback = code => {
-            console.log('barcodeCallback');
-
             if (stateRef.current.username === '') {
                 setUsername(code);
                 setLoading(true);

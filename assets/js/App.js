@@ -34,9 +34,7 @@ class App extends Component {
         const socket = socketIOClient(endpoint);
         this.socket = socket;
         socket.on('UpdateState', data => {
-            this.setState({ machineState: data }, () => {
-                console.log('UpdateState', this.state.machineState);
-            });
+            this.setState({ machineState: data });
         });
         // Ready
         socket.emit('ClientReady', {
@@ -45,7 +43,6 @@ class App extends Component {
     }
 
     handleAction(action, data) {
-        console.log('handleAction', action, data);
         this.socket.emit('ClientEvent', {
             name: 'Action',
             token: this.state.token,
