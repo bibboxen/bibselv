@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Alert } from 'react-bootstrap';
 import ScanLogin from './Steps/ScanLogin';
 import Borrow from './Steps/Borrow';
+import ReturnMaterials from './Steps/ReturnMaterials';
 
 // @TODO: Rewrite as functional component.
 class App extends Component {
@@ -70,6 +71,8 @@ class App extends Component {
                 return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
             case 'borrow':
                 return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+            case 'returnMaterials':
+                return <ReturnMaterials machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
             default:
                 return (
                     <div className={'app-default'}

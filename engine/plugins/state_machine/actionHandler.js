@@ -1,11 +1,16 @@
 /**
  * @file
- * @TODO: What is this action handler and why is it here?
+ * Action handler for state machine.
  */
 
 const debug = require('debug')('bibbox:STATE_MACHINE:actions');
 const uniqid = require('uniqid');
 
+/**
+ * ActionHandler.
+ *
+ * Contains actions for the state machine.
+ */
 class ActionHandler {
     /**
      * ActionHandler constructor.
@@ -20,6 +25,16 @@ class ActionHandler {
         this.bus = bus;
         this.handleEvent = handleEvent;
         this.stateMachine = stateMachine;
+    }
+
+    enterFlow(client, flow) {
+        client.state.flow = client.actionData.flow;
+
+        if (flow === 'returnMaterials') {
+            this.stateMachine.transition(client, 'returnMaterials');
+        } else {
+            this.stateMachine.transition(client, 'chooseLogin');
+        }
     }
 
     /**
@@ -183,9 +198,7 @@ class ActionHandler {
         this.bus.emit('fbs.checkin', {
             busEvent: busEvent,
             errorEvent: errEvent,
-            itemIdentifier: newMaterial.itemIdentifier,
-            username: client.internal.username,
-            password: client.internal.password
+            itemIdentifier: newMaterial.itemIdentifier
         });
     }
 

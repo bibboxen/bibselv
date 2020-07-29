@@ -73,8 +73,7 @@ module.exports = function(options, imports, register) {
                 },
                 enterFlow: function(client) {
                     debug('Triggered enterFlow on client: ' + client.token, client.actionData);
-                    client.state.flow = client.actionData.flow;
-                    this.transition(client, 'chooseLogin');
+                    actionHandler.enterFlow(client, client.actionData.flow);
                 }
             },
             chooseLogin: {

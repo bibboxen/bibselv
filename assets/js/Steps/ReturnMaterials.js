@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
  * @return {*}
  * @constructor
  */
-function Return(props) {
+function ReturnMaterials(props) {
     const { actionHandler, handleReset } = props;
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function Return(props) {
                 return;
             }
 
-            actionHandler('borrowMaterial', {
+            actionHandler('returnMaterial', {
                 itemIdentifier: code
             });
         };
@@ -97,10 +97,10 @@ function Return(props) {
     );
 }
 
-Return.propTypes = {
+ReturnMaterials.propTypes = {
     actionHandler: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired,
     machineState: PropTypes.object.isRequired
 };
 
-export default Return;
+export default ReturnMaterials;

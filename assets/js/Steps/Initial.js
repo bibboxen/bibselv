@@ -55,6 +55,11 @@ function Initial(props) {
                         Lån
                     </Button>
                 </Col>
+                <Col>
+                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'returnMaterials' }) }>
+                        Aflevér
+                    </Button>
+                </Col>
             </Row>
         </Container>
     );
