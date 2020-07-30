@@ -1,16 +1,15 @@
 p {
-    font-size: 20px;
+    font-size: 1rem;
 }
 .help-box {
     background-color: $white;
     border: 1px solid $font-color;
     color: $font-color;
-    width: 270px;
-    padding: 15px;
+    padding: 8%;
     @include box-shadow();
 
     .header {
-        font-size: 30px;
+        font-size: 1.5rem;
 
         .icon-helpbox {
             margin-right: 15px;

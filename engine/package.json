@@ -36,10 +36,10 @@
     "scripts": {
         "dev": "DEBUG=* node app.js",
         "docker": "./scripts/install.sh && DEBUG=* node app.js",
-        "check-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js'",
+        "check-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.jsx'",
         "check-coding-standards-js": "npm run check-coding-standards-eslint",
         "check-coding-standards": "npm run check-coding-standards-js",
-        "apply-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js' --fix",
+        "apply-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.jsx' --fix",
         "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
         "apply-coding-standards": "npm run apply-coding-standards-js",
         "test": "cd test; ../node_modules/.bin/mocha",

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import BannerList from './components/bannerList';
 import Header from './components/header';
-import MachineStateContext from '../context/machineStateContext';
 import bookStatus from './components/bookStatus';
+import MachineStateContext from '../context/machineStateContext';
 
 function Status() {
     const context = useContext(MachineStateContext);
@@ -15,38 +15,35 @@ function Status() {
     booksReserved = booksReserved.filter(
         (book) => book.status === bookStatus.RESERVED
     );
-    debugger
     return (
-        <>
-            <div className="flex-container-row">
-                <div className="flex-container">
-                    <Header
+        <div className="col-md">
+        <div className="col-md-9" style={{paddingLeft:"0"}}>
+        <Header
                         header="Status"
                         text="Dine aktuelle lån og reserveringer"
                     ></Header>
-                    <div className="flex-container-row">
-                        <div className="flex-container m">
+</div>
+          <div className="row">
+                        <div className="col-md-4 mt-4">
                             <BannerList
                                 title={'Aktuelle lån'}
                                 items={booksLoaned}
                             ></BannerList>
                         </div>
-                        <div className="flex-container m">
+                        <div className="col-md-4 mt-4">
                             <BannerList
                                 title={'Reservationer'}
                                 items={booksReserved}
                             ></BannerList>
                         </div>
-                        <div className="flex-container m">
+                        <div className="col-md-4 mt-4">
                             <BannerList
                                 title={'Klar til afhentning'}
                                 items={booksReadyForPickup}
                             ></BannerList>
-                        </div>
                     </div>
                 </div>
             </div>
-        </>
     );
 }
 

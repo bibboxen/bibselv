@@ -8,10 +8,12 @@ function Bubble({ color, which, label, icon, actionHandler }) {
     const context = useContext(MachineStateContext);
     return (
         <div className={classes} onClick={() => actionHandler(which,context)}>
-            <div className="icon">
-                <FontAwesomeIcon icon={icon} />
-            </div>
-            {label}
+            <div className="inner-bubble">
+                <div className="text-and-icon">
+                    <div className="icon">
+                        <FontAwesomeIcon icon={icon} />
+                    </div>
+                    {label}</div></div>
         </div>
     );
 }

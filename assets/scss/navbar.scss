@@ -1,20 +1,31 @@
 .navbar {
     background-color: $white;
-    height: 60px;
-    padding-left: 50px;
+    min-height: 80px;
+    margin-bottom: 5%;
     display: flex;
     align-items: center;
-    color: $font-color;
-    font-family: "Roboto", sans-serif;
-    font-weight: 300;
-    font-size: 20px;
-    margin-bottom: 50px;
     justify-content: space-between;
     &.initial {
         background-color: transparent;
     }
-    .username {
-        font-weight: 700;
-        margin-left: 40px;
+    .text-container {
+        width: 30%;
+        > .text {
+            color: $font-color;
+            font-family: "Roboto", sans-serif;
+            font-weight: 300;
+            font-size: 1.5rem;
+            margin-left: 5%;
+        }
+
+        > .bold {
+            font-weight: 700;
+        }
+    }
+
+    .button-container {
+        width: 70%;
+        display: flex;
+        justify-content: flex-end;
     }
 }

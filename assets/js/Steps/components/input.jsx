@@ -29,6 +29,6 @@ Input.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     error: PropTypes.array,
-    info: PropTypes.string,
+    info: PropTypes.string
 };
 export default Input;

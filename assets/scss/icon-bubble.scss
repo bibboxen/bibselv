@@ -1,16 +1,28 @@
 @import "variables.scss";
 .header-icon {
-    height: 100px;
-    width: 100px;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
     background-color: $green;
     border-radius: 50%;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 50px;
-    margin-right: 30px;
+    margin-right: 5%;
     @include box-shadow();
+    position: relative;
+    
+    >.icon {
+    font-size: 2rem;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    margin-top: 50%;
+    text-align: center;
+}
 
     &.yellow {
         background-color: $yellow;

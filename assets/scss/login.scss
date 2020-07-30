@@ -1,18 +1,17 @@
 .content {
-    height: 250px;
-    width: 470px;
     font-size: 100px;
+    padding:15%;
     background-color: $white;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 80px 130px 0 130px;
     border: 1px solid $font-color;
+    margin-right: 10%;
     @include box-shadow();
 }
 
 .content-with-numpad {
-    width: 470px;
-    margin: 0 130px 0 130px;
+    margin-right: 10%;
+    margin: 0 15%;
 }
 
