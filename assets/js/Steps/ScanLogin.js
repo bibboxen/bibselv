@@ -60,7 +60,8 @@ function ScanLogin(props) {
 }
 
 ScanLogin.propTypes = {
-    actionHandler: PropTypes.func.isRequired
+    actionHandler: PropTypes.func.isRequired,
+    handleReset: PropTypes.func.isRequired
 };
 
 export default ScanLogin;
