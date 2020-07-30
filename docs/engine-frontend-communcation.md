@@ -81,7 +81,7 @@ This document contains "schemas" for each message that can be sent through the w
 # Login scan
 {
     "step": "loginScan",
-    "flow": "[the flow the user is in]",
+    "flow": "[the flow the user is in: checkinMaterials, checkoutMaterials, status]",
     "error": "[if a login attempt failed]"
 }
 
