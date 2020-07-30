@@ -8,6 +8,7 @@ This document contains "schemas" for each message that can be sent through the w
 
 ```
 # Websocket Event: ClientReady
+# ----------------------------
 
 # Signals that the client is ready
 {
@@ -17,6 +18,7 @@ This document contains "schemas" for each message that can be sent through the w
 
 ```
 # Websocket Event: ClientEvent
+# ----------------------------
 
 # Reset machine
 {
@@ -34,26 +36,6 @@ This document contains "schemas" for each message that can be sent through the w
     }
 }
 
-# Borrow a material
-{
-    "name": "Action",
-    "token": "[token for the given machine]",
-    "action": "borrowMaterial",
-    "data": {
-        "itemIdentifier": "[material code]"
-    }
-}
-
-# Return a material
-{
-    "name": "Action",
-    "token": "[token for the given machine]",
-    "action": "returnMaterial",
-    "data": {
-        "itemIdentifier": "[material code]"
-    }
-}
-
 # Login
 {
     "name": "Action",
@@ -64,12 +46,33 @@ This document contains "schemas" for each message that can be sent through the w
         "password": "[password|null]"
     }
 }
+
+# Check out a material (borrow from the library)
+{
+    "name": "Action",
+    "token": "[token for the given machine]",
+    "action": "borrowMaterial",
+    "data": {
+        "itemIdentifier": "[material code]"
+    }
+}
+
+# Check in a material (return to the library)
+{
+    "name": "Action",
+    "token": "[token for the given machine]",
+    "action": "returnMaterial",
+    "data": {
+        "itemIdentifier": "[material code]"
+    }
+}
 ```
 
 ## Engine -> Frontend
 
 ```
 # Websocket Event: UpdateState
+# ----------------------------
 
 # The object contains the new machine state for the client.
 
