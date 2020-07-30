@@ -61,7 +61,7 @@ it('Test that reset can be called', done => {
     }).then(done).catch(done.fail);
 });
 
-it('Test that the borrow flow can be entered from initial state', done => {
+it('Test that the checkOutItems flow can be entered from initial state', done => {
     let client = {
         token: '123'
     };
@@ -69,14 +69,14 @@ it('Test that the borrow flow can be entered from initial state', done => {
     setup().then(app => {
         client = app.services.state_machine.reset(client);
         client = app.services.state_machine.action(client, 'enterFlow', {
-            flow: 'borrow'
+            flow: 'checkOutItems'
         });
         client.state.step.should.equal('loginScan');
-        client.state.flow.should.equal('borrow');
+        client.state.flow.should.equal('checkOutItems');
     }).then(done).catch(done.fail);
 });
 
-it('Test that test user can log in', done => {
+it('Test that test user can log in and check out an item', done => {
     let client = {
         token: '123'
     };
@@ -93,7 +93,7 @@ it('Test that test user can log in', done => {
             name: 'Action',
             action: 'enterFlow',
             data: {
-                flow: 'borrow'
+                flow: 'checkOutItems'
             }
         });
         client = app.services.state_machine.handleEvent({
@@ -110,8 +110,8 @@ it('Test that test user can log in', done => {
         setTimeout(() => {
             client = app.services.client.load('123');
 
-            client.state.step.should.equal('borrow');
-            client.state.flow.should.equal('borrow');
+            client.state.step.should.equal('checkOutItems');
+            client.state.flow.should.equal('checkOutItems');
 
             client.state.user.name.should.equal('Testkort');
             client.internal.username.should.equal('3210000000');
@@ -120,7 +120,7 @@ it('Test that test user can log in', done => {
             app.services.state_machine.handleEvent({
                 token: '123',
                 name: 'Action',
-                action: 'borrowMaterial',
+                action: 'checkOutItem',
                 data: {
                     itemIdentifier: '3274626533'
                 }
@@ -128,14 +128,14 @@ it('Test that test user can log in', done => {
 
             setTimeout(() => {
                 const spyCall = app.services.state_machine.handleEvent.getCall(3);
-                spyCall.firstArg.action.should.equal('borrowMaterial');
+                spyCall.firstArg.action.should.equal('checkOutItem');
 
                 client = app.services.client.load('123');
 
-                client.state.materials.length.should.equal(1);
-                client.state.materials[0].itemIdentifier.should.equal('3274626533');
-                client.state.materials[0].title.should.equal('Helbred dit liv');
-                client.state.materials[0].status.should.equal('borrowed');
+                client.state.items.length.should.equal(1);
+                client.state.items[0].itemIdentifier.should.equal('3274626533');
+                client.state.items[0].title.should.equal('Helbred dit liv');
+                client.state.items[0].status.should.equal('checkedOut');
 
                 // Remove spy.
                 spy.restore();
@@ -146,7 +146,7 @@ it('Test that test user can log in', done => {
     }).catch(done.fail);
 });
 
-it('Test that the return flow can be entered from initial state', done => {
+it('Test that the checkInItems flow can be entered from initial state', done => {
     let client = {
         token: '123'
     };
@@ -154,14 +154,14 @@ it('Test that the return flow can be entered from initial state', done => {
     setup().then(app => {
         client = app.services.state_machine.reset(client);
         client = app.services.state_machine.action(client, 'enterFlow', {
-            flow: 'returnMaterials'
+            flow: 'checkInItems'
         });
-        client.state.step.should.equal('returnMaterials');
-        client.state.flow.should.equal('returnMaterials');
+        client.state.step.should.equal('checkInItems');
+        client.state.flow.should.equal('checkInItems');
     }).then(done).catch(done.fail);
 });
 
-it('Test that a material can be returned', done => {
+it('Test that an item can be checked in', done => {
     let client = {
         token: '123'
     };
@@ -173,17 +173,17 @@ it('Test that a material can be returned', done => {
         });
 
         client = app.services.state_machine.action(client, 'enterFlow', {
-            flow: 'returnMaterials'
+            flow: 'checkInItems'
         });
-        client.state.step.should.equal('returnMaterials');
-        client.state.flow.should.equal('returnMaterials');
+        client.state.step.should.equal('checkInItems');
+        client.state.flow.should.equal('checkInItems');
 
         const spy = sinon.spy(app.services.state_machine, 'handleEvent');
 
         app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
-            action: 'returnMaterial',
+            action: 'checkInItem',
             data: {
                 itemIdentifier: '3274626533'
             }
@@ -191,14 +191,14 @@ it('Test that a material can be returned', done => {
 
         setTimeout(() => {
             const spyCall = app.services.state_machine.handleEvent.getCall(0);
-            spyCall.firstArg.action.should.equal('returnMaterial');
+            spyCall.firstArg.action.should.equal('checkInItem');
 
             client = app.services.client.load('123');
 
-            client.state.materials.length.should.equal(1);
-            client.state.materials[0].itemIdentifier.should.equal('3274626533');
-            client.state.materials[0].title.should.equal('Helbred dit liv');
-            client.state.materials[0].status.should.equal('returned');
+            client.state.items.length.should.equal(1);
+            client.state.items[0].itemIdentifier.should.equal('3274626533');
+            client.state.items[0].title.should.equal('Helbred dit liv');
+            client.state.items[0].status.should.equal('checkedIn');
 
             // Remove spy.
             spy.restore();
