@@ -1,6 +1,8 @@
 /**
  * @file
- * Provide the state machine.
+ * Provides a state machine for each physical machine.
+ *
+ * See http://machina-js.org/ for information about machina fsm.
  */
 
 'use strict';
@@ -8,7 +10,7 @@
 const machina = require('machina');
 const debug = require('debug')('bibbox:STATE_MACHINE:main');
 const uniqid = require('uniqid');
-const ActionHandler = require('./actionHandler.js');
+const ActionHandler = require('./action_handler.js');
 
 /**
  * Register the plugin.
@@ -37,8 +39,7 @@ module.exports = function(options, imports, register) {
         busEvent: fbsConfigEvent
     });
 
-    // @TODO: Maybe this comment below should be in the @file documentation block.
-    // See http://machina-js.org/ for information about machina fsm.
+    // Setup state machine.
     const stateMachine = new machina.BehavioralFsm({
         namespace: 'bibbox',
         initialState: 'uninitialized',
@@ -87,9 +88,6 @@ module.exports = function(options, imports, register) {
                 },
                 _reset: function(client) {
                     this.transition(client, 'initial');
-                },
-                '*': function(client) {
-                    console.log('chooseLogin: *', client);
                 }
             },
             loginScan: {
