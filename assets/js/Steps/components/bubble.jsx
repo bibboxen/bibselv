@@ -7,7 +7,7 @@ function Bubble({ color, which, label, icon, actionHandler }) {
     const classes = `bubble ${color}`;
     const context = useContext(MachineStateContext);
     return (
-        <div className={classes} onClick={() => actionHandler(which,context)}>
+        <div className={classes} onClick={() => actionHandler(which, context)}>
             <div className="inner-bubble">
                 <div className="text-and-icon">
                     <div className="icon">

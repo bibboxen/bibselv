@@ -4,7 +4,7 @@ import ScanLogin from './loginComponents/scanLogin';
 import TypeLogin from './loginComponents/typeLogin';
 import UniLogin from './loginComponents/uniLogin';
 import PropTypes from 'prop-types';
-function Login({actionHandler}) {
+function Login({ actionHandler }) {
     const context = useContext(MachineStateContext);
 
     function renderStep(loginConfig) {
@@ -26,6 +26,5 @@ function Login({actionHandler}) {
 Login.propTypes = {
     actionHandler: PropTypes.func.isRequired
 };
-
 
 export default Login;
