@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Spinner } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
+import { BARCODE_COMMAND_FINISH, BARCODE_SCANNING_TIMEOUT } from '../constants';
 
 /**
  * Scan login component.
@@ -16,15 +17,19 @@ function ScanLogin(props) {
     const [username, setUsername] = useState('');
     const [loading, setLoading] = useState(false);
     const stateRef = useRef({});
-    const { actionHandler } = props;
+    const { actionHandler, handleReset } = props;
 
     stateRef.current.username = username;
 
     // Setup component.
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(400);
+        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = code => {
+            if (code === BARCODE_COMMAND_FINISH) {
+                handleReset();
+            }
+
             if (stateRef.current.username === '') {
                 setUsername(code);
                 setLoading(true);

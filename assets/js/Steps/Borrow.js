@@ -2,6 +2,11 @@ import React, { useEffect } from 'react';
 import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
+import {
+    BARCODE_COMMAND_FINISH,
+    BARCODE_COMMAND_LENGTH,
+    BARCODE_SCANNING_TIMEOUT
+} from '../constants';
 
 /**
  * Borrow component.
@@ -16,12 +21,11 @@ function Borrow(props) {
     const { actionHandler, handleReset } = props;
 
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(400);
+        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = code => {
-            // Commands are 5 characters long.
-            if (code.length <= 5) {
-                if (code === '03006') {
+            if (code.length === BARCODE_COMMAND_LENGTH) {
+                if (code === BARCODE_COMMAND_FINISH) {
                     handleReset();
                 }
                 return;
