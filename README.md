@@ -108,10 +108,10 @@ docker-compose exec frontend bash -c 'npm test'
 ### Engine
 
 Engine tests runs with mocha from the `engine/` directory. The tests that
-call FBS are mocked with nock recordings.
+call FBS are mocked with nock recordings (see the `test/fixtures` folder).
 
 ```
-docker-compose exec engine npm test
+docker-compose exec engine bash -c 'npm test'
 ```
 
 ### Symfony
