@@ -223,7 +223,7 @@ class ActionHandler {
             const names = user.personalName.split(' ');
             let birthdayToday = false;
 
-            if (user.hasOwnProperty('PB')) {
+            if (Object.prototype.hasOwnProperty.call(user, 'PB')) {
                 const nowDate = new Date();
                 const birthday = user.PB;
 
