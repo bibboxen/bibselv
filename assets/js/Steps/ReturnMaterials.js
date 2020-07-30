@@ -9,15 +9,15 @@ import {
 } from '../constants';
 
 /**
- * Borrow component.
+ * Return component.
  *
- * Supplies a page for borrowing materials.
+ * Supplies a page for returning materials.
  *
  * @param props
  * @return {*}
  * @constructor
  */
-function Borrow(props) {
+function ReturnMaterials(props) {
     const { actionHandler, handleReset } = props;
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function Borrow(props) {
                 return;
             }
 
-            actionHandler('borrowMaterial', {
+            actionHandler('returnMaterial', {
                 itemIdentifier: code
             });
         };
@@ -49,16 +49,8 @@ function Borrow(props) {
 
     return (
         <Container>
-            <h1>Borrow</h1>
+            <h1>Return</h1>
 
-            {props.machineState.user &&
-                <div>
-                    <p>Hej {props.machineState.user.name}</p>
-                    {props.machineState.user.birthdayToday &&
-                    <p>Tillykke med fødselsdagen</p>
-                    }
-                </div>
-            }
             <Row>
                 <Col>
                     <Alert variant={'info'}>Skan materialer</Alert>
@@ -75,7 +67,6 @@ function Borrow(props) {
                                 <th>title</th>
                                 <th>author</th>
                                 <th>status</th>
-                                <th>renewalOk</th>
                                 <th>message</th>
                             </tr>
                         </thead>
@@ -87,7 +78,6 @@ function Borrow(props) {
                                         <td>{el.title}</td>
                                         <td>{el.author}</td>
                                         <td>{el.status}</td>
-                                        <td>{el.renewalOk ? 'Yes' : 'No'}</td>
                                         <td>{el.message}</td>
                                     </tr>
                                 )
@@ -107,10 +97,10 @@ function Borrow(props) {
     );
 }
 
-Borrow.propTypes = {
+ReturnMaterials.propTypes = {
     actionHandler: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired,
     machineState: PropTypes.object.isRequired
 };
 
-export default Borrow;
+export default ReturnMaterials;
