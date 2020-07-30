@@ -1,6 +1,8 @@
 /**
  * @file
- * Provide the state machine.
+ * Provides a state machine for each physical machine.
+ *
+ * See http://machina-js.org/ for information about machina fsm.
  */
 
 'use strict';
@@ -8,7 +10,7 @@
 const machina = require('machina');
 const debug = require('debug')('bibbox:STATE_MACHINE:main');
 const uniqid = require('uniqid');
-const ActionHandler = require('./actionHandler.js');
+const ActionHandler = require('./action_handler.js');
 
 /**
  * Register the plugin.
@@ -37,8 +39,7 @@ module.exports = function(options, imports, register) {
         busEvent: fbsConfigEvent
     });
 
-    // @TODO: Maybe this comment below should be in the @file documentation block.
-    // See http://machina-js.org/ for information about machina fsm.
+    // Setup state machine.
     const stateMachine = new machina.BehavioralFsm({
         namespace: 'bibbox',
         initialState: 'uninitialized',
@@ -73,8 +74,7 @@ module.exports = function(options, imports, register) {
                 },
                 enterFlow: function(client) {
                     debug('Triggered enterFlow on client: ' + client.token, client.actionData);
-                    client.state.flow = client.actionData.flow;
-                    this.transition(client, 'chooseLogin');
+                    actionHandler.enterFlow(client, client.actionData.flow);
                 }
             },
             chooseLogin: {
@@ -88,9 +88,6 @@ module.exports = function(options, imports, register) {
                 },
                 _reset: function(client) {
                     this.transition(client, 'initial');
-                },
-                '*': function(client) {
-                    console.log('chooseLogin: *', client);
                 }
             },
             loginScan: {
@@ -134,6 +131,26 @@ module.exports = function(options, imports, register) {
                 borrowMaterial: function(client) {
                     debug('Triggered borrowMaterial on client: ' + client.token, client);
                     actionHandler.borrowMaterial(client);
+                },
+                materialUpdate: function(client) {
+                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
+                    actionHandler.materialUpdate(client);
+                }
+            },
+            returnMaterials: {
+                _onEnter: function(client) {
+                    debug('Entered returnMaterials on client: ' + client.token);
+                    client.state.step = 'returnMaterials';
+                },
+                _onExit: function(client) {
+                    client.actionData = null;
+                },
+                _reset: function(client) {
+                    this.transition(client, 'initial');
+                },
+                returnMaterial: function(client) {
+                    debug('Triggered returnMaterial on client: ' + client.token, client);
+                    actionHandler.returnMaterial(client);
                 },
                 materialUpdate: function(client) {
                     debug('Triggered materialUpdate on client: ' + client.token, client.actionData);

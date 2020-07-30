@@ -82,7 +82,7 @@ it('Test that test user can log in', done => {
     };
 
     setup().then(app => {
-        sinon.spy(app.services.state_machine, 'handleEvent');
+        const spy = sinon.spy(app.services.state_machine, 'handleEvent');
 
         client = app.services.state_machine.handleEvent({
             token: '123',
@@ -137,8 +137,73 @@ it('Test that test user can log in', done => {
                 client.state.materials[0].title.should.equal('Helbred dit liv');
                 client.state.materials[0].status.should.equal('borrowed');
 
+                // Remove spy.
+                spy.restore();
+
                 done();
             }, 400);
         }, 400);
+    }).catch(done.fail);
+});
+
+it('Test that the return flow can be entered from initial state', done => {
+    let client = {
+        token: '123'
+    };
+
+    setup().then(app => {
+        client = app.services.state_machine.reset(client);
+        client = app.services.state_machine.action(client, 'enterFlow', {
+            flow: 'returnMaterials'
+        });
+        client.state.step.should.equal('returnMaterials');
+        client.state.flow.should.equal('returnMaterials');
+    }).then(done).catch(done.fail);
+});
+
+it('Test that a material can be returned', done => {
+    let client = {
+        token: '123'
+    };
+
+    setup().then(app => {
+        client = app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Reset'
+        });
+
+        client = app.services.state_machine.action(client, 'enterFlow', {
+            flow: 'returnMaterials'
+        });
+        client.state.step.should.equal('returnMaterials');
+        client.state.flow.should.equal('returnMaterials');
+
+        const spy = sinon.spy(app.services.state_machine, 'handleEvent');
+
+        app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Action',
+            action: 'returnMaterial',
+            data: {
+                itemIdentifier: '3274626533'
+            }
+        });
+
+        setTimeout(() => {
+            const spyCall = app.services.state_machine.handleEvent.getCall(0);
+            spyCall.firstArg.action.should.equal('returnMaterial');
+
+            client = app.services.client.load('123');
+
+            client.state.materials.length.should.equal(1);
+            client.state.materials[0].itemIdentifier.should.equal('3274626533');
+            client.state.materials[0].title.should.equal('Helbred dit liv');
+            client.state.materials[0].status.should.equal('returned');
+
+            // Remove spy.
+            spy.restore();
+
+            done();
+        }, 500);
     }).catch(done.fail);
 });
