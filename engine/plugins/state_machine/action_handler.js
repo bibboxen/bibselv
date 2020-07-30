@@ -27,9 +27,18 @@ class ActionHandler {
         this.stateMachine = stateMachine;
     }
 
+    /**
+     * Enter a flow for the client.
+     *
+     * @param client
+     *   The client.
+     * @param flow
+     *   The name of the flow to start.
+     */
     enterFlow(client, flow) {
         client.state.flow = client.actionData.flow;
 
+        // Return flow does not require that the user is logged in.
         if (flow === 'returnMaterials') {
             this.stateMachine.transition(client, 'returnMaterials');
         } else {
@@ -64,8 +73,11 @@ class ActionHandler {
         const busEvent = uniqid('fbs.checkout.');
         const errEvent = uniqid('fbs.checkout.err.');
 
+        /**
+         * Listen for check out success event.
+         */
         this.bus.once(busEvent, resp => {
-            debug('Checkout success');
+            debug('Check out success');
 
             const result = resp.result;
 
@@ -76,12 +88,14 @@ class ActionHandler {
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties.title,
                 author: result.itemProperties.author,
+                // FBS value of Y equals that the item is renewed.
                 renewalOk: result.renewalOk === 'Y',
                 message: result.screenMessage
             };
 
-            // @TODO: Magic value "1"?
+            // FBS value of 1 equals success.
             if (result.ok === '1') {
+                // FBS value of Y equals that the item is renewed.
                 if (result.renewalOk === 'Y') {
                     material.status = 'renewed';
                 } else {
@@ -106,12 +120,16 @@ class ActionHandler {
             }
         });
 
-        // @TODO: function documentation?
+        /**
+         * Listen for check out error event.
+         */
         this.bus.once(errEvent, (resp) => {
             debug('Checkout error', resp);
         });
 
-        // @TODO: function documentation?
+        /**
+         * Emit the check out event.
+         */
         this.bus.emit('fbs.checkout', {
             busEvent: busEvent,
             errorEvent: errEvent,
@@ -148,8 +166,11 @@ class ActionHandler {
         const busEvent = uniqid('fbs.checkin.');
         const errEvent = uniqid('fbs.checkin.err.');
 
+        /**
+         * Listen for check in success event.
+         */
         this.bus.once(busEvent, resp => {
-            debug('Checkin success');
+            debug('Check in success');
 
             const result = resp.result;
 
@@ -186,14 +207,14 @@ class ActionHandler {
         });
 
         /**
-         * Listen for checkin error.
+         * Listen for check in error event.
          */
         this.bus.once(errEvent, (resp) => {
             debug('Checkin error', resp);
         });
 
         /**
-         * Emit the checkin event.
+         * Emit the check in event.
          */
         this.bus.emit('fbs.checkin', {
             busEvent: busEvent,
@@ -214,7 +235,9 @@ class ActionHandler {
         const busEvent = uniqid('fbs.patron.');
         const errEvent = uniqid('fbs.patron.err.');
 
-        // @TODO: function documentation?
+        /**
+         * Listen for login success event.
+         */
         this.bus.once(busEvent, resp => {
             debug('Login success');
             debug(resp);
@@ -252,7 +275,9 @@ class ActionHandler {
             });
         });
 
-        // @TODO: function documentation?
+        /**
+         * Listen for login error event.
+         */
         this.bus.once(errEvent, (resp) => {
             debug('Login error', resp);
 
@@ -268,7 +293,9 @@ class ActionHandler {
             });
         });
 
-        // @TODO: function documentation?
+        /**
+         * Emit login event.
+         */
         this.bus.emit('fbs.patron', {
             busEvent: busEvent,
             errorEvent: errEvent,
@@ -290,8 +317,8 @@ class ActionHandler {
 
         const materialIndex = client.state.materials.findIndex((material) => material.itemIdentifier === client.actionData.itemIdentifier);
 
-        // @TODO: Magic value "-1" ?
         if (materialIndex === -1) {
+            // Item was not found.
             client.state.materials.push(client.actionData);
         } else {
             client.state.materials[materialIndex] = client.actionData;
