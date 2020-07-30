@@ -2,6 +2,13 @@ import React, { useEffect } from 'react';
 import { Container, Row, Col, Alert, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
+import {
+    BARCODE_COMMAND_CHECKIN,
+    BARCODE_COMMAND_CHECKOUT,
+    BARCODE_COMMAND_LENGTH,
+    BARCODE_COMMAND_STATUS,
+    BARCODE_SCANNING_TIMEOUT
+} from '../constants';
 
 /**
  * Initial component.
@@ -17,18 +24,26 @@ function Initial(props) {
 
     // Setup component.
     useEffect(() => {
-        console.log('use effect');
-
-        const barcodeScanner = new BarcodeScanner(400);
+        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = code => {
-            console.log('barcodeCallback');
-
             // Commands are 5 characters long.
-            if (code.length <= 5) {
-                if (code === '03009') {
+            if (code.length === BARCODE_COMMAND_LENGTH) {
+                if (code === BARCODE_COMMAND_CHECKOUT) {
                     actionHandler('enterFlow', {
                         flow: 'borrow'
+                    });
+                }
+
+                if (code === BARCODE_COMMAND_CHECKIN) {
+                    actionHandler('enterFlow', {
+                        flow: 'returnMaterials'
+                    });
+                }
+
+                if (code === BARCODE_COMMAND_STATUS) {
+                    actionHandler('enterFlow', {
+                        flow: 'status'
                     });
                 }
             }
@@ -53,6 +68,16 @@ function Initial(props) {
                 <Col>
                     <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'borrow' }) }>
                         Lån
+                    </Button>
+                </Col>
+                <Col>
+                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'status' }) }>
+                        Status
+                    </Button>
+                </Col>
+                <Col>
+                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'returnMaterials' }) }>
+                        Aflevér
                     </Button>
                 </Col>
             </Row>
