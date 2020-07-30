@@ -49,7 +49,6 @@ function NavBar({ actionHandler }) {
                   label={button.label}
                   icon={button.icon}
                   handleButtonPress={onButtonPress}
-                  color={button.color}
                   which={button.which}
               ></Button>
           ))}

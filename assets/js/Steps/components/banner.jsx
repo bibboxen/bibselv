@@ -18,8 +18,8 @@ function Banner({ item }) {
         classes += 'danger';
         icon = faExclamationTriangle;
         title = bookStatus.OVERDUE
-            ? 'Skal afleveres'
-            : 'Denne bog er reserveret til en anden';
+            ? 'Denne bog er reserveret til en anden'
+            : 'Skal afleveres';
         text = `${item.title} af ${item.writer}`;
         break;
     case bookStatus.WAITING_FOR_INFO:
@@ -38,7 +38,7 @@ function Banner({ item }) {
     return (
         <div className={classes}>
             {icon && (
-                <div className="banner-icon">
+                <div className="icon">
                     <FontAwesomeIcon icon={icon} />
                 </div>
             )}

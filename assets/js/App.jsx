@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import Initial from './steps/Initial';
 import Login from './steps/login';
@@ -12,8 +12,20 @@ import bookStatus from './steps/components/bookStatus';
 import DebugBar from './steps/components/debugBar';
 
 function App() {
+    const fake = true;
+    
+    useEffect(() => {
+        const socket = socketIOClient('http://bibbox-website.local.itkdev.dk:8010');
+        socket.on('UpdateState', data => {
+            debugger
+        });
+        // Ready
+        socket.emit('ClientReady', {
+        });
+    });
+
     function handleAction(action, data) {
-        if (false) {
+        if (!fake) {
             this.socket.emit('ClientEvent', {
                 name: 'Action',
                 token: this.state.token,
@@ -48,9 +60,9 @@ function App() {
     const [machineState, setMachineState] = useState();
     const [flow, setFlow] = useState();
     const [loggedIn, setLoggedIn] = useState(false);
-    const [step, setStep] = useState('login');
+    const [step, setStep] = useState('initial');
     const [username, setUsername] = useState();
-    const [loginConfig] = useState('scan');
+    const [loginConfig] = useState('type');
     const [reservedBooks] = useState([
         {
             id: '835535966-6',
@@ -100,7 +112,7 @@ function App() {
                         {renderStep(step, machineState)}
                     </div>
                 </div>
-                <DebugBar actionHandler={handleAction}></DebugBar>
+                 {fake &&<DebugBar actionHandler={handleAction}></DebugBar>}
             </MachineStateContext.Provider>
         </>
     );

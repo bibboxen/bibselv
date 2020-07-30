@@ -13,17 +13,17 @@ function Initial({ actionHandler }) {
     const components = [
         {
             which: 'borrow',
-            color: 'yellow',
+            type: 'borrow',
             label: 'Lån',
             icon: faBookReader
         },
         {
             which: 'status',
-            color: 'blue',
+            type: 'status',
             label: 'Status',
             icon: faInfoCircle
         },
-        { which: 'handin', color: 'purple', label: 'Aflever', icon: faBook }
+        { which: 'handin', type: 'handin', label: 'Aflever', icon: faBook }
     ];
 
     return (
@@ -33,9 +33,7 @@ function Initial({ actionHandler }) {
                 {components.map((component) => (
                     <div key={component.which} className="col-md-3">
                         <Bubble
-
                             which={component.which}
-                            color={component.color}
                             label={component.label}
                             icon={component.icon}
                             actionHandler={actionHandler}
@@ -46,7 +44,7 @@ function Initial({ actionHandler }) {
             <div className="row justify-content-center mt-5">
                 {components.map((component) => (
                     <div className="col-md-3" key={component.which} >
-                        <Barcode key={component.color} color={component.color} />
+                        <Barcode key={component.color} which={component.which} />
                     </div>
                 ))}
             </div>

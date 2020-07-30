@@ -67,7 +67,7 @@ function TypeLogin({ actionHandler }) {
                     label={'Fortsæt'}
                     icon={faArrowAltCircleRight}
                     handleButtonPress={onButtonPress}
-                    color="green"
+                    which="login-button"
                 ></Button>
             </div>
         </>

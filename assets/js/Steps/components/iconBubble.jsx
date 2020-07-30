@@ -15,7 +15,7 @@ function IconBubble() {
             switch (step) {
             case 'borrow':
                 return (
-                    <div className="header-icon yellow">
+                    <div className="header-icon borrow">
                         <div className="icon">
                             <FontAwesomeIcon icon={faBookReader} />
                         </div>
@@ -23,7 +23,7 @@ function IconBubble() {
                 );
             case 'handin':
                 return (
-                    <div className="header-icon purple">
+                    <div className="header-icon handin">
                         <div className="icon">
                             <FontAwesomeIcon icon={faBook} />
                         </div>
@@ -31,7 +31,7 @@ function IconBubble() {
                 );
             case 'status':
                 return (
-                    <div className="header-icon blue">
+                    <div className="header-icon status">
                         <div className="icon">
                             <FontAwesomeIcon icon={faInfoCircle} />
                         </div>
@@ -40,7 +40,7 @@ function IconBubble() {
             }
         } else {
             return (
-                <div className="header-icon">
+                <div className="header-icon login">
                     <div className="icon">
                         <FontAwesomeIcon icon={faSignInAlt} />
                     </div>

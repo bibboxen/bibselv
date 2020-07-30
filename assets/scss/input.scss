@@ -2,25 +2,35 @@
 .input {
     &.info {
         .info-banner {
-            background-color: $yellow;
+            // Display & position
             padding: 10px 0 10px 5px;
+            // Color
+            background-color: $yellow;
+
+            // Text
             font-family: "Roboto", sans-serif;
             font-size: 15px;
+
             .info-banner-icon {
+                // Display & position
                 margin: 0 10px;
             }
         }
         input {
-            border-color: $yellow;
+            // Display & position
             border-style: double;
+            // Color
+            border-color: $yellow;
         }
 
         &.purple {
             .info-banner {
+                // Color
                 background-color: $purple;
                 color: $white;
             }
             input {
+                // Color
                 border-color: $purple;
             }
         }
@@ -28,13 +38,19 @@
 }
 
 input {
-    color: $font-color;
+    // Display & position
     padding: 5%;
     box-sizing: border-box;
     width: 100%;
+
+    // Color
+    color: $font-color;
+
+    // Text
     font-size: 1.5rem;
 }
 label {
+    // Text
     font-family: "Roboto", sans-serif;
     font-size: 1.5rem;
     font-weight: 300;

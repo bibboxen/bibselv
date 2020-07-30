@@ -1,38 +1,52 @@
 @import "variables.scss";
 .header-icon {
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    background-color: $green;
-    border-radius: 50%;
-    color: white;
+    // Display & position
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 5%;
-    @include box-shadow();
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    border-radius: 50%;
     position: relative;
+
+    // Color
+    color: $white;
+
+    // Shadow
+    @include box-shadow();
     
     >.icon {
-    font-size: 2rem;
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    margin-top: 50%;
-    text-align: center;
-}
+        // Display & position
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        margin-top: 50%;
 
-    &.yellow {
+        // Text
+        font-size: 2rem;
+        text-align: center;
+    }
+    &.borrow {
+        // Color
         background-color: $yellow;
     }
-
-    &.blue {
+    
+    &.status {
+        // Color
         background-color: $blue;
     }
-
-    &.purple {
+    
+    &.handin {
+        // Color
         background-color: $purple;
+    }
+
+    &.login {
+        // Color
+        background-color: $green;
     }
 }

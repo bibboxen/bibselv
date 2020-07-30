@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Button = ({ label, color, icon, handleButtonPress, which, ...rest }) => {
-    const classes = `button ${color}`;
+const Button = ({ label, icon, handleButtonPress, which, ...rest }) => {
+    const classes = `button ${which}`;
 
     return (
         <button
@@ -21,7 +21,6 @@ const Button = ({ label, color, icon, handleButtonPress, which, ...rest }) => {
 
 Button.propTypes = {
     label: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
     icon: PropTypes.object.isRequired,
     which: PropTypes.string,
     handleButtonPress: PropTypes.func.isRequired
