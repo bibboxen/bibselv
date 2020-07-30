@@ -38,11 +38,6 @@ Install composer packages.
 docker-compose run phpfpm composer install
 ```
 
-Install node js modules.
-```sh
-docker-compose run engine npm install
-```
-
 Edit engine configuration file(s).
 
 ```sh
@@ -53,6 +48,7 @@ cp engine/plugins/ctrl/example_config.json engine/plugins/ctrl/config.json
 Install dependencies for engine and frontend.
 
 ```
+docker-compose run engine npm install
 docker-compose run engine bash -c './scripts/install.sh'
 docker-compose run frontend bash -c 'npm install'
 ```
