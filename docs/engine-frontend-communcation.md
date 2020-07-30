@@ -32,7 +32,7 @@ This document contains "schemas" for each message that can be sent through the w
     "token": "[token for the given machine]",
     "action": "enterFlow",
     "data": {
-        "flow": "borrow"
+        "flow": "[checkOutItems|checkInItems|status]"
     }
 }
 
@@ -47,23 +47,23 @@ This document contains "schemas" for each message that can be sent through the w
     }
 }
 
-# Check out a material (borrow from the library)
+# Check out an item (borrow from the library)
 {
     "name": "Action",
     "token": "[token for the given machine]",
-    "action": "borrowMaterial",
+    "action": "checkOutItem",
     "data": {
-        "itemIdentifier": "[material code]"
+        "itemIdentifier": "[item code]"
     }
 }
 
-# Check in a material (return to the library)
+# Check in an item (return to the library)
 {
     "name": "Action",
     "token": "[token for the given machine]",
-    "action": "returnMaterial",
+    "action": "checkÍnItem",
     "data": {
-        "itemIdentifier": "[material code]"
+        "itemIdentifier": "[item code]"
     }
 }
 ```
@@ -84,23 +84,23 @@ This document contains "schemas" for each message that can be sent through the w
 # Login scan
 {
     "step": "loginScan",
-    "flow": "[the flow the user is in: checkinMaterials, checkoutMaterials, status]",
+    "flow": "[the flow the user is in: checkInItems, checkOutItems, status]",
     "error": "[if a login attempt failed]"
 }
 
-# Check out material (borrow from the library)
+# Check out an item (borrow from the library)
 {
-    "flow": "checkoutMaterials",
-    "step": "checkoutMaterials",
+    "flow": "checkOutItems",
+    "step": "checkOutItems",
     "user": {
         "name": "[First name of user]",
         "birthdayToday": "[is it the user's birthday today]"
     },
-    "materials": [
+    "items": [
        {
-            "itemIdentifier": "[material identifier]",
-            "title": "[material title]",
-            "author": "[material author]",
+            "itemIdentifier": "[item identifier]",
+            "title": "[item title]",
+            "author": "[item author]",
             "renewalOk": "[if already checked out by user, is it renewed]",
             "message": "[message about check out]"
        },
@@ -108,15 +108,15 @@ This document contains "schemas" for each message that can be sent through the w
     ]
 }
 
-# Check in material (return to the library)
+# Check in an item (return to the library)
 {
-    "flow": "checkinMaterials",
-    "step": "checkinMaterials",
-    "materials": [
+    "flow": "checkInItems",
+    "step": "checkInItems",
+    "items": [
        {
-            "itemIdentifier": "[material identifier]",
-            "title": "[material title]",
-            "author": "[material author]",
+            "itemIdentifier": "[item identifier]",
+            "title": "[item title]",
+            "author": "[item author]",
             "message": "[message about check in]"
        },
        ...
