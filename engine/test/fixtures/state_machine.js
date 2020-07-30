@@ -41,3 +41,24 @@ nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
         'Set-Cookie',
         'f5avrbbbbbbbbbbbbbbbb=IAMDMKMNEKADJKFMEALFOFFKAGEPDLKDKPICKGLLONEBGKJLDAOLBJLEEPOLJLLDKLIDDJMICAMFOBPIHBEACAJCBLFPBHKIPADKGOFEMKFCEOHEMNIOGDDLDBGNNBNG; HttpOnly; secure'
     ]);
+
+nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
+    .post('/rest/sip2/DK-775100', /^.+<request>09N\d{8}\s{4}\d{6}\d{8}\s{4}\d{6}\|APhb\|AODK-775100\|AB3274626533\|AC\|CH\|<\/request>.+$/)
+    .reply(200, '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>101YUN20170619    125154AODK-775100|AB3274626533|AQHovedbiblioteket%Voksen%%|AJ06850537|AALN:C0016351730|CHHelbred dit liv%Hay, Louise L.%a%xx%61.36|</response></ns2:sip>', [
+        'Connection',
+        'close',
+        'Server',
+        'fbs-1',
+        'Content-Type',
+        'application/xml;charset=UTF-8',
+        'Content-Length',
+        '289',
+        'X-RequestId',
+        'be83630e-b25d-4128-b5a9-814985787de2',
+        'Date',
+        'Mon, 19 Jun 2017 11:07:11 GMT',
+        'Strict-Transport-Security',
+        'max-age=15552000;',
+        'Set-Cookie',
+        'f5avrbbbbbbbbbbbbbbbb=AHCONMACMJGEBPOMMOBPBKLBPODJBGPEIOMAJIFMEAEEEJHLBPKJEKHPLDPCDABDFAADOHHKEAILHMJNLALAPMOPBLMJADEPLKFFCKBHKFLOOCAHILDNGKNBNMDAMFAH; HttpOnly; secure'
+    ]);

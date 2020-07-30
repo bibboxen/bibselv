@@ -6,7 +6,6 @@
 'use strict';
 
 const debug = require('debug')('bibbox:CLIENT:main');
-
 const clients = {};
 
 /**
@@ -18,6 +17,7 @@ const Client = function Client() {
     // @TODO: Load clients from redis.
 };
 
+// @TODO: function documentation?
 Client.prototype.load = (token) => {
     if (!Object.prototype.hasOwnProperty.call(clients, token)) {
         clients[token] = {
@@ -30,6 +30,7 @@ Client.prototype.load = (token) => {
     return clients[token];
 };
 
+// @TODO: function documentation?
 Client.prototype.save = (token, client) => {
     debug('Saving client: ' + token, client);
     clients[token] = client;

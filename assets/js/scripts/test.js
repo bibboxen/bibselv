@@ -19,6 +19,11 @@ const jest = require('jest');
 const execSync = require('child_process').execSync;
 const argv = process.argv.slice(2);
 
+/**
+ * isInGitRepository.
+ *
+ * @return {boolean}
+ */
 function isInGitRepository() {
     try {
         execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
@@ -28,6 +33,11 @@ function isInGitRepository() {
     }
 }
 
+/**
+ * isInMercurialRepository.
+ *
+ * @return {boolean}
+ */
 function isInMercurialRepository() {
     try {
         execSync('hg --cwd . root', { stdio: 'ignore' });

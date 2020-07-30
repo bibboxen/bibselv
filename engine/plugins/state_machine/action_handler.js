@@ -1,6 +1,16 @@
+/**
+ * @file
+ * Action handler for state machine.
+ */
+
 const debug = require('debug')('bibbox:STATE_MACHINE:actions');
 const uniqid = require('uniqid');
 
+/**
+ * ActionHandler.
+ *
+ * Contains actions for the state machine.
+ */
 class ActionHandler {
     /**
      * ActionHandler constructor.
@@ -15,6 +25,16 @@ class ActionHandler {
         this.bus = bus;
         this.handleEvent = handleEvent;
         this.stateMachine = stateMachine;
+    }
+
+    enterFlow(client, flow) {
+        client.state.flow = client.actionData.flow;
+
+        if (flow === 'returnMaterials') {
+            this.stateMachine.transition(client, 'returnMaterials');
+        } else {
+            this.stateMachine.transition(client, 'chooseLogin');
+        }
     }
 
     /**
@@ -60,6 +80,7 @@ class ActionHandler {
                 message: result.screenMessage
             };
 
+            // @TODO: Magic value "1"?
             if (result.ok === '1') {
                 if (result.renewalOk === 'Y') {
                     material.status = 'renewed';
@@ -85,16 +106,99 @@ class ActionHandler {
             }
         });
 
+        // @TODO: function documentation?
         this.bus.once(errEvent, (resp) => {
             debug('Checkout error', resp);
         });
 
+        // @TODO: function documentation?
         this.bus.emit('fbs.checkout', {
             busEvent: busEvent,
             errorEvent: errEvent,
             itemIdentifier: newMaterial.itemIdentifier,
             username: client.internal.username,
             password: client.internal.password
+        });
+    }
+
+    /**
+     * Return material for the client.
+     *
+     * @param client
+     *   The client.
+     */
+    returnMaterial(client) {
+        const newMaterial = client.actionData;
+
+        // Ignore material if it is already returned or inProgress.
+        // @TODO: Handle retry case.
+        if (client.state.materials) {
+            const oldMaterials = client.state.materials.filter(material => {
+                return material.itemIdentifier === newMaterial.itemIdentifier && !['returned', 'inProgress'].includes(material.status);
+            });
+
+            if (oldMaterials.length > 0) {
+                return;
+            }
+        }
+
+        newMaterial.status = 'inProgress';
+        this.stateMachine.action(client, 'materialUpdate', newMaterial);
+
+        const busEvent = uniqid('fbs.checkin.');
+        const errEvent = uniqid('fbs.checkin.err.');
+
+        this.bus.once(busEvent, resp => {
+            debug('Checkin success');
+
+            const result = resp.result;
+
+            debug(resp);
+            debug(result);
+
+            const material = {
+                itemIdentifier: result.itemIdentifier,
+                title: result.itemProperties.title,
+                author: result.itemProperties.author,
+                message: result.screenMessage
+            };
+
+            // FBS value of 1 equals success.
+            if (result.ok === '1') {
+                material.status = 'returned';
+
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'materialUpdate',
+                    data: material
+                });
+            } else {
+                material.status = 'error';
+
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'materialUpdate',
+                    data: material
+                });
+            }
+        });
+
+        /**
+         * Listen for checkin error.
+         */
+        this.bus.once(errEvent, (resp) => {
+            debug('Checkin error', resp);
+        });
+
+        /**
+         * Emit the checkin event.
+         */
+        this.bus.emit('fbs.checkin', {
+            busEvent: busEvent,
+            errorEvent: errEvent,
+            itemIdentifier: newMaterial.itemIdentifier
         });
     }
 
@@ -110,6 +214,7 @@ class ActionHandler {
         const busEvent = uniqid('fbs.patron.');
         const errEvent = uniqid('fbs.patron.err.');
 
+        // @TODO: function documentation?
         this.bus.once(busEvent, resp => {
             debug('Login success');
 
@@ -118,6 +223,7 @@ class ActionHandler {
             const user = resp.patron;
             const names = user.personalName.split(' ');
             const birthday = user.PB;
+            // @TODO: why the extra call to now, why not store now (also to ensure it don't change).
             const birthdayToday =
                 now.getDate().toString() === birthday.substr(6, 7) &&
                 now.getMonth().toString() === birthday.substr(4, 5);
@@ -142,6 +248,7 @@ class ActionHandler {
             });
         });
 
+        // @TODO: function documentation?
         this.bus.once(errEvent, (resp) => {
             debug('Login error', resp);
 
@@ -157,6 +264,7 @@ class ActionHandler {
             });
         });
 
+        // @TODO: function documentation?
         this.bus.emit('fbs.patron', {
             busEvent: busEvent,
             errorEvent: errEvent,
@@ -178,6 +286,7 @@ class ActionHandler {
 
         const materialIndex = client.state.materials.findIndex((material) => material.itemIdentifier === client.actionData.itemIdentifier);
 
+        // @TODO: Magic value "-1" ?
         if (materialIndex === -1) {
             client.state.materials.push(client.actionData);
         } else {

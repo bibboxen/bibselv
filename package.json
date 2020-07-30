@@ -52,12 +52,12 @@
         "build": "encore production --progress",
         "test": "node assets/js/scripts/test.js",
         "test-ci": "CI=true node assets/js/scripts/test.js",
-        "check-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.jsx'",
-        "check-coding-standards-js": "yarn run check-coding-standards-eslint",
-        "check-coding-standards": "yarn run check-coding-standards-js",
-        "apply-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.jsx' --fix",
-        "apply-coding-standards-js": "yarn run apply-coding-standards-eslint",
-        "apply-coding-standards": "yarn run apply-coding-standards-js"
+        "check-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js'",
+        "check-coding-standards-js": "npm run check-coding-standards-eslint",
+        "check-coding-standards": "npm run check-coding-standards-js",
+        "apply-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js' --fix",
+        "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
+        "apply-coding-standards": "npm run apply-coding-standards-js"
     },
     "eslintConfig": {
         "extends": "react-app"

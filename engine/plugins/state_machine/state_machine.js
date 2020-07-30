@@ -1,6 +1,8 @@
 /**
  * @file
- * Provide the state machine.
+ * Provides a state machine for each physical machine.
+ *
+ * See http://machina-js.org/ for information about machina fsm.
  */
 
 'use strict';
@@ -8,7 +10,7 @@
 const machina = require('machina');
 const debug = require('debug')('bibbox:STATE_MACHINE:main');
 const uniqid = require('uniqid');
-const ActionHandler = require('./actionHandler.js');
+const ActionHandler = require('./action_handler.js');
 
 /**
  * Register the plugin.
@@ -27,6 +29,7 @@ module.exports = function(options, imports, register) {
 
     const fbsConfigEvent = uniqid('ctrl.config.fbs.');
 
+    // @TODO: What is the default password and why can it be NULL as default?
     bus.on(fbsConfigEvent, config => {
         defaultPassword = config.defaultPassword;
     });
@@ -36,11 +39,12 @@ module.exports = function(options, imports, register) {
         busEvent: fbsConfigEvent
     });
 
-    // See http://machina-js.org/ for information about machina fsm.
+    // Setup state machine.
     const stateMachine = new machina.BehavioralFsm({
         namespace: 'bibbox',
         initialState: 'uninitialized',
         states: {
+            // @TODO: Maybe an comment about each state and what this state is used for?
             uninitialized: {
                 _onEnter: function(client) {
                     debug('Entered uninitialized on client: ' + client.token);
@@ -70,8 +74,7 @@ module.exports = function(options, imports, register) {
                 },
                 enterFlow: function(client) {
                     debug('Triggered enterFlow on client: ' + client.token, client.actionData);
-                    client.state.flow = client.actionData.flow;
-                    this.transition(client, 'chooseLogin');
+                    actionHandler.enterFlow(client, client.actionData.flow);
                 }
             },
             chooseLogin: {
@@ -85,9 +88,6 @@ module.exports = function(options, imports, register) {
                 },
                 _reset: function(client) {
                     this.transition(client, 'initial');
-                },
-                '*': function(client) {
-                    console.log('chooseLogin: *', client);
                 }
             },
             loginScan: {
@@ -136,6 +136,26 @@ module.exports = function(options, imports, register) {
                     debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
                     actionHandler.materialUpdate(client);
                 }
+            },
+            returnMaterials: {
+                _onEnter: function(client) {
+                    debug('Entered returnMaterials on client: ' + client.token);
+                    client.state.step = 'returnMaterials';
+                },
+                _onExit: function(client) {
+                    client.actionData = null;
+                },
+                _reset: function(client) {
+                    this.transition(client, 'initial');
+                },
+                returnMaterial: function(client) {
+                    debug('Triggered returnMaterial on client: ' + client.token, client);
+                    actionHandler.returnMaterial(client);
+                },
+                materialUpdate: function(client) {
+                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
+                    actionHandler.materialUpdate(client);
+                }
             }
         },
 
@@ -165,12 +185,12 @@ module.exports = function(options, imports, register) {
         let client = clientModule.load(event.token);
 
         switch (event.name) {
-        case 'Reset':
-            client = stateMachine.reset(client);
-            break;
-        case 'Action':
-            client = stateMachine.action(client, event.action, event.data);
-            break;
+            case 'Reset':
+                client = stateMachine.reset(client);
+                break;
+            case 'Action':
+                client = stateMachine.action(client, event.action, event.data);
+                break;
         }
 
         client.actionData = null;
@@ -178,6 +198,7 @@ module.exports = function(options, imports, register) {
 
         // Emit new client state.
         bus.emit('state_machine.state_update.' + client.token, client.state);
+
         return client;
     };
 

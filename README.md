@@ -33,19 +33,39 @@ The engine then changes the machines state and sends it back to the frontend.
 
 A docker based development setup is provided with the project.
 
+Install composer packages.
+```sh
+docker-compose run phpfpm composer install
 ```
-docker-compose up -d
+
+Install node js modules.
+```sh
+docker-compose run engine npm install
+```
+
+Edit engine configuration file(s).
+
+```sh
+cp engine/example_config.json engine/config.json
+cp engine/plugins/ctrl/example_config.json engine/plugins/ctrl/config.json
+```
+
+Install dependencies for engine and frontend.
+
+```
+docker-compose run engine bash -c './scripts/install.sh'
+docker-compose run frontend bash -c 'npm install'
 ```
 
 This will start the engine and the frontend.
+```sh
+docker-compose up -d
+```
 
+*Install assets*
 To install assets for the frontend we use Encore.
 
-To watch for changes in the `assets/` folder, run:
-
-```
-npm run dev
-```
+A docker container is started that watches for changes in the assets/js folder.
 
 ## Code Linting
 
@@ -55,14 +75,14 @@ When PRs are created towards the develop branch all coding styles are checked by
 
 To check for coding standards, run the following:
 
-```
-npm run check-coding-standards
+```sh
+docker-compose exec frontend bash -c 'npm run check-coding-standards'
 ```
 
 To automatically apply coding standards, run:
 
-```
-npm run apply-coding-standards
+```sh
+docker-compose exec frontend bash -c 'npm run apply-coding-standards'
 ```
 
 ### Engine
@@ -82,17 +102,16 @@ All tests runs with Github Actions for each PR to develop.
 Frontend tests runs with jest.
 
 ```
-npm test
+docker-compose exec frontend bash -c 'npm test'
 ```
 
 ### Engine
 
 Engine tests runs with mocha from the `engine/` directory. The tests that
-call FBS are mocked with nock recordings.
+call FBS are mocked with nock recordings (see the `test/fixtures` folder).
 
 ```
-cd engine
-npm test
+docker-compose exec engine bash -c 'npm test'
 ```
 
 ### Symfony
@@ -104,5 +123,5 @@ npm test
 ### Building production assets for the frontend
 
 ```
-npm run build
+docker-compose exec frontend bash -c 'npm run build'
 ```

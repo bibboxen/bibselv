@@ -6,9 +6,15 @@ module.exports = {
         'plugin:react/recommended'
     ],
     rules: {
-        indent: ['error', 4],
+        indent: ['error', 4, { SwitchCase: 1 }],
         semi: ['error', 'always'],
-        'space-before-function-paren': ['error', 'never']
+        'space-before-function-paren': ['error', 'never'],
+        'require-jsdoc': ['error']
+    },
+    settings: {
+        "react": {
+            "version": "detect"
+        }
     },
     env: {
         jest: true
