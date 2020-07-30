@@ -217,16 +217,20 @@ class ActionHandler {
         // @TODO: function documentation?
         this.bus.once(busEvent, resp => {
             debug('Login success');
-
-            const now = new Date();
+            debug(resp);
 
             const user = resp.patron;
             const names = user.personalName.split(' ');
-            const birthday = user.PB;
-            // @TODO: why the extra call to now, why not store now (also to ensure it don't change).
-            const birthdayToday =
-                now.getDate().toString() === birthday.substr(6, 7) &&
-                now.getMonth().toString() === birthday.substr(4, 5);
+            let birthdayToday = false;
+
+            if (Object.prototype.hasOwnProperty.call(user, 'PB')) {
+                const nowDate = new Date();
+                const birthday = user.PB;
+
+                birthdayToday =
+                    nowDate.getDate().toString() === birthday.substr(6, 7) &&
+                    nowDate.getMonth().toString() === birthday.substr(4, 5);
+            }
 
             const actionData = {
                 user: {
