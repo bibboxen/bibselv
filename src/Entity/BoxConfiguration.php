@@ -39,7 +39,7 @@ class BoxConfiguration
 
     // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
     /**
-     * The username for the SIP2 account
+     * The username for the SIP2 account.
      *
      * @ORM\Column(type="string", length=255)
      */
@@ -52,7 +52,7 @@ class BoxConfiguration
     private $soundEnabled;
 
     /**
-     * Get the id
+     * Get the id.
      *
      * @return int|null
      */
@@ -62,7 +62,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get keyboard type
+     * Get keyboard type.
      *
      * @return string|null
      */
@@ -72,7 +72,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set keyboard type
+     * Set keyboard type.
      *
      * @param string $keyboardType
      *
@@ -86,7 +86,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get has printer
+     * Get has printer.
      *
      * @return bool|null
      */
@@ -96,7 +96,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set has printer
+     * Set has printer.
      *
      * @param bool $hasPrinter
      *
@@ -110,7 +110,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get instruction for reserved materials
+     * Get instruction for reserved materials.
      *
      * @return string|null
      */
@@ -120,7 +120,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set instruction for reserved materials
+     * Set instruction for reserved materials.
      *
      * @param string $reservedMaterialInstruction
      *
@@ -134,7 +134,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get inactivity duration
+     * Get inactivity duration.
      *
      * @return int|null
      */
@@ -144,7 +144,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set inactivity duration
+     * Set inactivity duration.
      *
      * @param int $inactivityTimeOut
      *
@@ -158,7 +158,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get SIP2 user
+     * Get SIP2 user.
      *
      * @return string|null
      */
@@ -168,7 +168,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set SIP2 user
+     * Set SIP2 user.
      *
      * @param string $sip2User
      *
@@ -182,7 +182,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get sound enabled
+     * Get sound enabled.
      *
      * @return bool|null
      */
@@ -192,7 +192,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set sound enabled
+     * Set sound enabled.
      *
      * @param bool $soundEnabled
      *
