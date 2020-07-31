@@ -160,10 +160,10 @@ jobs:
                     sleep 1
                 done
 
-#            - name: Run Doctrine Migrations
-#              env:
-#                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-#              run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:migrations:migrate --no-interaction
+            - name: Run Doctrine Migrations
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+              run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:migrations:migrate --no-interaction
 
             - name: Validate DB schema
               env:
