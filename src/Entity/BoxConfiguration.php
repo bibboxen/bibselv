@@ -51,6 +51,11 @@ class BoxConfiguration
      */
     private $soundEnabled;
 
+    /**
+     * Get the id
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,7 @@ class BoxConfiguration
      * Set keyboard type
      *
      * @param string $keyboardType
+     *
      * @return $this
      */
     public function setKeyboardType(string $keyboardType): self
@@ -93,6 +99,7 @@ class BoxConfiguration
      * Set has printer
      *
      * @param bool $hasPrinter
+     *
      * @return $this
      */
     public function setHasPrinter(bool $hasPrinter): self
@@ -116,6 +123,7 @@ class BoxConfiguration
      * Set instruction for reserved materials
      *
      * @param string $reservedMaterialInstruction
+     *
      * @return $this
      */
     public function setReservedMaterialInstruction(string $reservedMaterialInstruction): self
@@ -139,6 +147,7 @@ class BoxConfiguration
      * Set inactivity duration
      *
      * @param int $inactivityTimeOut
+     *
      * @return $this
      */
     public function setInactivityTimeOut(int $inactivityTimeOut): self
@@ -162,6 +171,7 @@ class BoxConfiguration
      * Set SIP2 user
      *
      * @param string $sip2User
+     *
      * @return $this
      */
     public function setSip2User(string $sip2User): self
@@ -185,6 +195,7 @@ class BoxConfiguration
      * Set sound enabled
      *
      * @param bool $soundEnabled
+     *
      * @return $this
      */
     public function setSoundEnabled(bool $soundEnabled): self

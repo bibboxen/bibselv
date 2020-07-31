@@ -16,7 +16,7 @@ class BoxConfigurationRepository extends ServiceEntityRepository
 {
     /**
      * BoxConfigurationRepository constructor.
-     * 
+     *
      * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
