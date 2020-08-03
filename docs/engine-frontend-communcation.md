@@ -101,8 +101,9 @@ This document contains "schemas" for each message that can be sent through the w
             "itemIdentifier": "[item identifier]",
             "title": "[item title]",
             "author": "[item author]",
-            "renewalOk": "[if already checked out by user, is it renewed]",
-            "message": "[message about check out]"
+            "renewalOk": "[if already checked out by user, has it been renewed?]",
+            "message": "[message about check out]",
+            "status": "[checkedOut|renewed|error|inProgress]"
        },
        ...
     ]
@@ -117,7 +118,8 @@ This document contains "schemas" for each message that can be sent through the w
             "itemIdentifier": "[item identifier]",
             "title": "[item title]",
             "author": "[item author]",
-            "message": "[message about check in]"
+            "message": "[message about check in]",
+            "status": "[checkedIn|error|inProgress]"
        },
        ...
     ]
