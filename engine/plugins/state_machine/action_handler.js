@@ -41,8 +41,7 @@ class ActionHandler {
         if (flow === 'checkInItems') {
             // Check in flow does not require that the user is logged in.
             this.stateMachine.transition(client, 'checkInItems');
-        }
-        else {
+        } else {
             this.stateMachine.transition(client, 'chooseLogin');
         }
     }
@@ -61,12 +60,10 @@ class ActionHandler {
         if (flow === 'checkInItems') {
             // Check in flow does not require that the user is logged in.
             this.stateMachine.transition(client, 'checkInItems');
-        }
-        else if (client.internal.hasOwnProperty('user')) {
+        } else if (Object.prototype.hasOwnProperty.call(client.internal, 'user')) {
             // If already logged in transition directly.
             this.stateMachine.transition(client, flow);
-        }
-        else {
+        } else {
             this.stateMachine.transition(client, 'chooseLogin');
         }
     }
