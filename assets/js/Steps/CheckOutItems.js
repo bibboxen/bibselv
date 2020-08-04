@@ -9,15 +9,15 @@ import {
 } from '../constants';
 
 /**
- * Borrow component.
+ * CheckOutItems component.
  *
- * Supplies a page for borrowing materials.
+ * Supplies a page for borrowing items.
  *
  * @param props
  * @return {*}
  * @constructor
  */
-function Borrow(props) {
+function CheckOutItems(props) {
     const { actionHandler, handleReset } = props;
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function Borrow(props) {
                 return;
             }
 
-            actionHandler('borrowMaterial', {
+            actionHandler('checkOutItem', {
                 itemIdentifier: code
             });
         };
@@ -49,7 +49,7 @@ function Borrow(props) {
 
     return (
         <Container>
-            <h1>Borrow</h1>
+            <h1>Check out items</h1>
 
             {props.machineState.user &&
                 <div>
@@ -66,7 +66,7 @@ function Borrow(props) {
             </Row>
             <Row>
                 <Col>
-                    <h2>Materials</h2>
+                    <h2>Items</h2>
 
                     <Table striped={true} bordered={true}>
                         <thead>
@@ -81,14 +81,14 @@ function Borrow(props) {
                         </thead>
                         <tbody>
                             {
-                                props.machineState.materials && props.machineState.materials.map(
-                                    el => <tr key={'material-' + el.itemIdentifier}>
-                                        <td>{el.itemIdentifier}</td>
-                                        <td>{el.title}</td>
-                                        <td>{el.author}</td>
-                                        <td>{el.status}</td>
-                                        <td>{el.renewalOk ? 'Yes' : 'No'}</td>
-                                        <td>{el.message}</td>
+                                props.machineState.items && props.machineState.items.map(
+                                    item => <tr key={'item-' + item.itemIdentifier}>
+                                        <td>{item.itemIdentifier}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                        <td>{item.status}</td>
+                                        <td>{item.renewalOk ? 'Yes' : 'No'}</td>
+                                        <td>{item.message}</td>
                                     </tr>
                                 )
                             }
@@ -107,10 +107,10 @@ function Borrow(props) {
     );
 }
 
-Borrow.propTypes = {
+CheckOutItems.propTypes = {
     actionHandler: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired,
     machineState: PropTypes.object.isRequired
 };
 
-export default Borrow;
+export default CheckOutItems;

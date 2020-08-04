@@ -9,7 +9,7 @@ import {
 } from '../constants';
 
 /**
- * Return component.
+ * CheckInItems component.
  *
  * Supplies a page for returning materials.
  *
@@ -17,7 +17,7 @@ import {
  * @return {*}
  * @constructor
  */
-function ReturnMaterials(props) {
+function CheckInItems(props) {
     const { actionHandler, handleReset } = props;
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function ReturnMaterials(props) {
                 return;
             }
 
-            actionHandler('returnMaterial', {
+            actionHandler('checkInItem', {
                 itemIdentifier: code
             });
         };
@@ -58,7 +58,7 @@ function ReturnMaterials(props) {
             </Row>
             <Row>
                 <Col>
-                    <h2>Materials</h2>
+                    <h2>Items</h2>
 
                     <Table striped={true} bordered={true}>
                         <thead>
@@ -72,13 +72,13 @@ function ReturnMaterials(props) {
                         </thead>
                         <tbody>
                             {
-                                props.machineState.materials && props.machineState.materials.map(
-                                    el => <tr key={'material-' + el.itemIdentifier}>
-                                        <td>{el.itemIdentifier}</td>
-                                        <td>{el.title}</td>
-                                        <td>{el.author}</td>
-                                        <td>{el.status}</td>
-                                        <td>{el.message}</td>
+                                props.machineState.items && props.machineState.items.map(
+                                    item => <tr key={'item-' + item.itemIdentifier}>
+                                        <td>{item.itemIdentifier}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                        <td>{item.status}</td>
+                                        <td>{item.message}</td>
                                     </tr>
                                 )
                             }
@@ -97,10 +97,10 @@ function ReturnMaterials(props) {
     );
 }
 
-ReturnMaterials.propTypes = {
+CheckInItems.propTypes = {
     actionHandler: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired,
     machineState: PropTypes.object.isRequired
 };
 
-export default ReturnMaterials;
+export default CheckInItems;
