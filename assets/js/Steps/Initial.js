@@ -31,13 +31,13 @@ function Initial(props) {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_CHECKOUT) {
                     actionHandler('enterFlow', {
-                        flow: 'borrow'
+                        flow: 'checkOutItems'
                     });
                 }
 
                 if (code === BARCODE_COMMAND_CHECKIN) {
                     actionHandler('enterFlow', {
-                        flow: 'returnMaterials'
+                        flow: 'checkInItems'
                     });
                 }
 
@@ -66,7 +66,7 @@ function Initial(props) {
             </Row>
             <Row>
                 <Col>
-                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'borrow' }) }>
+                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'checkOutItems' }) }>
                         Lån
                     </Button>
                 </Col>
@@ -76,7 +76,7 @@ function Initial(props) {
                     </Button>
                 </Col>
                 <Col>
-                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'returnMaterials' }) }>
+                    <Button type={'primary'} onClick={() => actionHandler('enterFlow', { flow: 'checkInItems' }) }>
                         Aflevér
                     </Button>
                 </Col>
