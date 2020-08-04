@@ -207,3 +207,93 @@ it('Test that an item can be checked in', done => {
         }, 500);
     }).catch(done.fail);
 });
+
+it('Test that the user ends in loginScan when changing flow from checkInItems to checkOutItems', done => {
+    let client = {
+        token: '123'
+    };
+
+    setup().then(app => {
+        client = app.services.state_machine.reset(client);
+        client = app.services.state_machine.action(client, 'enterFlow', {
+            flow: 'checkInItems'
+        });
+        client.state.step.should.equal('checkInItems');
+        client.state.flow.should.equal('checkInItems');
+
+        client = app.services.state_machine.action(client, 'changeFlow', {
+            flow: 'checkOutItems'
+        });
+        client.state.step.should.equal('loginScan');
+        client.state.flow.should.equal('checkOutItems');
+    }).then(done).catch(done.fail);
+});
+
+it('Test that the user can change to checkOutItems when logged in', done => {
+    let client = {
+        token: '234'
+    };
+
+    setup().then(app => {
+        client = app.services.state_machine.handleEvent({
+            token: '234',
+            name: 'Reset'
+        });
+
+        client = app.services.state_machine.handleEvent({
+            token: '234',
+            name: 'Action',
+            action: 'enterFlow',
+            data: {
+                flow: 'checkOutItems'
+            }
+        });
+
+        client = app.services.state_machine.handleEvent({
+            token: '234',
+            name: 'Action',
+            action: 'login',
+            data: {
+                username: config.username,
+                password: config.pin
+            }
+        });
+
+        // @TODO: Handle this better than timeout.
+        setTimeout(() => {
+            client = app.services.client.load('234');
+
+            client.state.step.should.equal('checkOutItems');
+            client.state.flow.should.equal('checkOutItems');
+
+            client.state.user.name.should.equal('Testkort');
+            client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
+
+            client = app.services.state_machine.handleEvent({
+                token: '234',
+                name: 'Action',
+                action: 'changeFlow',
+                data: {
+                    flow: 'checkInItems'
+                }
+            });
+
+            client.state.step.should.equal('checkInItems');
+            client.state.flow.should.equal('checkInItems');
+
+            client = app.services.state_machine.handleEvent({
+                token: '234',
+                name: 'Action',
+                action: 'changeFlow',
+                data: {
+                    flow: 'checkOutItems'
+                }
+            });
+
+            client.state.step.should.equal('checkOutItems');
+            client.state.flow.should.equal('checkOutItems');
+
+            done();
+        }, 500);
+    }).catch(done.fail);
+});
