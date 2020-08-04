@@ -27,136 +27,179 @@ class ActionHandler {
         this.stateMachine = stateMachine;
     }
 
+    /**
+     * Enter a flow for the client.
+     *
+     * @param client
+     *   The client.
+     * @param flow
+     *   The name of the flow to start.
+     */
     enterFlow(client, flow) {
-        client.state.flow = client.actionData.flow;
+        client.state.flow = flow;
 
-        if (flow === 'returnMaterials') {
-            this.stateMachine.transition(client, 'returnMaterials');
+        if (flow === 'checkInItems') {
+            // Check in flow does not require that the user is logged in.
+            this.stateMachine.transition(client, 'checkInItems');
         } else {
             this.stateMachine.transition(client, 'chooseLogin');
         }
     }
 
     /**
-     * Borrow material for the client.
+     * Change flow for a client.
+     *
+     * @param client
+     *   The client.
+     * @param flow
+     *   The name of the flow to change to.
+     */
+    changeFlow(client, flow) {
+        client.state.flow = flow;
+
+        if (flow === 'checkInItems') {
+            // Check in flow does not require that the user is logged in.
+            this.stateMachine.transition(client, 'checkInItems');
+        } else if (Object.prototype.hasOwnProperty.call(client.internal, 'user')) {
+            // If already logged in transition directly.
+            this.stateMachine.transition(client, flow);
+        } else {
+            this.stateMachine.transition(client, 'chooseLogin');
+        }
+    }
+
+    /**
+     * Check out item for the client.
      *
      * @param client
      *   The client.
      */
-    borrowMaterial(client) {
-        const newMaterial = client.actionData;
+    checkOutItem(client) {
+        const newItem = client.actionData;
 
-        // Ignore material if it is already borrowed or inProgress.
+        // Ignore item if it is already checkedOut or inProgress.
         // @TODO: Handle retry case.
-        if (client.state.materials) {
-            const oldMaterials = client.state.materials.filter(material => {
-                return material.itemIdentifier === newMaterial.itemIdentifier && !['borrowed', 'inProgress'].includes(material.status);
+        if (client.state.items) {
+            const oldItems = client.state.items.filter(item => {
+                return item.itemIdentifier === newItem.itemIdentifier && !['checkedOut', 'inProgress'].includes(item.status);
             });
 
-            if (oldMaterials.length > 0) {
+            if (oldItems.length > 0) {
                 return;
             }
         }
 
-        newMaterial.status = 'inProgress';
-        this.stateMachine.action(client, 'materialUpdate', newMaterial);
+        newItem.status = 'inProgress';
+        this.stateMachine.action(client, 'itemUpdate', newItem);
 
         const busEvent = uniqid('fbs.checkout.');
         const errEvent = uniqid('fbs.checkout.err.');
 
+        /**
+         * Listen for check out success event.
+         */
         this.bus.once(busEvent, resp => {
-            debug('Checkout success');
+            debug('Check out success');
 
             const result = resp.result;
 
             debug(resp);
             debug(result);
 
-            const material = {
+            const item = {
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties.title,
                 author: result.itemProperties.author,
+                // FBS value of Y equals that the item is renewed.
                 renewalOk: result.renewalOk === 'Y',
                 message: result.screenMessage
             };
 
-            // @TODO: Magic value "1"?
+            // FBS value of 1 equals success.
             if (result.ok === '1') {
+                // FBS value of Y equals that the item is renewed.
                 if (result.renewalOk === 'Y') {
-                    material.status = 'renewed';
+                    item.status = 'renewed';
                 } else {
-                    material.status = 'borrowed';
+                    item.status = 'checkedOut';
                 }
 
                 this.handleEvent({
                     name: 'Action',
                     token: client.token,
-                    action: 'materialUpdate',
-                    data: material
+                    action: 'itemUpdate',
+                    data: item
                 });
             } else {
-                material.status = 'error';
+                item.status = 'error';
 
                 this.handleEvent({
                     name: 'Action',
                     token: client.token,
-                    action: 'materialUpdate',
-                    data: material
+                    action: 'itemUpdate',
+                    data: item
                 });
             }
         });
 
-        // @TODO: function documentation?
+        /**
+         * Listen for check out error event.
+         */
         this.bus.once(errEvent, (resp) => {
             debug('Checkout error', resp);
         });
 
-        // @TODO: function documentation?
+        /**
+         * Emit the check out event.
+         */
         this.bus.emit('fbs.checkout', {
             busEvent: busEvent,
             errorEvent: errEvent,
-            itemIdentifier: newMaterial.itemIdentifier,
+            itemIdentifier: newItem.itemIdentifier,
             username: client.internal.username,
             password: client.internal.password
         });
     }
 
     /**
-     * Return material for the client.
+     * Check in item for the client.
      *
      * @param client
      *   The client.
      */
-    returnMaterial(client) {
-        const newMaterial = client.actionData;
+    checkInItem(client) {
+        const newItem = client.actionData;
 
-        // Ignore material if it is already returned or inProgress.
+        // Ignore item if it is already checkedIn or inProgress.
         // @TODO: Handle retry case.
-        if (client.state.materials) {
-            const oldMaterials = client.state.materials.filter(material => {
-                return material.itemIdentifier === newMaterial.itemIdentifier && !['returned', 'inProgress'].includes(material.status);
+        if (client.state.items) {
+            const oldItems = client.state.items.filter(item => {
+                return item.itemIdentifier === newItem.itemIdentifier && !['checkedIn', 'inProgress'].includes(item.status);
             });
 
-            if (oldMaterials.length > 0) {
+            if (oldItems.length > 0) {
                 return;
             }
         }
 
-        newMaterial.status = 'inProgress';
-        this.stateMachine.action(client, 'materialUpdate', newMaterial);
+        newItem.status = 'inProgress';
+        this.stateMachine.action(client, 'itemUpdate', newItem);
 
         const busEvent = uniqid('fbs.checkin.');
         const errEvent = uniqid('fbs.checkin.err.');
 
+        /**
+         * Listen for check in success event.
+         */
         this.bus.once(busEvent, resp => {
-            debug('Checkin success');
+            debug('Check in success');
 
             const result = resp.result;
 
             debug(resp);
             debug(result);
 
-            const material = {
+            const item = {
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties.title,
                 author: result.itemProperties.author,
@@ -165,40 +208,40 @@ class ActionHandler {
 
             // FBS value of 1 equals success.
             if (result.ok === '1') {
-                material.status = 'returned';
+                item.status = 'checkedIn';
 
                 this.handleEvent({
                     name: 'Action',
                     token: client.token,
-                    action: 'materialUpdate',
-                    data: material
+                    action: 'itemUpdate',
+                    data: item
                 });
             } else {
-                material.status = 'error';
+                item.status = 'error';
 
                 this.handleEvent({
                     name: 'Action',
                     token: client.token,
-                    action: 'materialUpdate',
-                    data: material
+                    action: 'itemUpdate',
+                    data: item
                 });
             }
         });
 
         /**
-         * Listen for checkin error.
+         * Listen for check in error event.
          */
         this.bus.once(errEvent, (resp) => {
             debug('Checkin error', resp);
         });
 
         /**
-         * Emit the checkin event.
+         * Emit the check in event.
          */
         this.bus.emit('fbs.checkin', {
             busEvent: busEvent,
             errorEvent: errEvent,
-            itemIdentifier: newMaterial.itemIdentifier
+            itemIdentifier: newItem.itemIdentifier
         });
     }
 
@@ -214,7 +257,9 @@ class ActionHandler {
         const busEvent = uniqid('fbs.patron.');
         const errEvent = uniqid('fbs.patron.err.');
 
-        // @TODO: function documentation?
+        /**
+         * Listen for login success event.
+         */
         this.bus.once(busEvent, resp => {
             debug('Login success');
             debug(resp);
@@ -252,7 +297,9 @@ class ActionHandler {
             });
         });
 
-        // @TODO: function documentation?
+        /**
+         * Listen for login error event.
+         */
         this.bus.once(errEvent, (resp) => {
             debug('Login error', resp);
 
@@ -268,7 +315,9 @@ class ActionHandler {
             });
         });
 
-        // @TODO: function documentation?
+        /**
+         * Emit login event.
+         */
         this.bus.emit('fbs.patron', {
             busEvent: busEvent,
             errorEvent: errEvent,
@@ -278,23 +327,23 @@ class ActionHandler {
     }
 
     /**
-     * Update information for material for the client.
+     * Update information for item for the client.
      *
      * @param client
      *   The client.
      */
-    materialUpdate(client) {
-        if (!client.state.materials) {
-            client.state.materials = [];
+    itemUpdate(client) {
+        if (!client.state.items) {
+            client.state.items = [];
         }
 
-        const materialIndex = client.state.materials.findIndex((material) => material.itemIdentifier === client.actionData.itemIdentifier);
+        const itemIndex = client.state.items.findIndex((item) => item.itemIdentifier === client.actionData.itemIdentifier);
 
-        // @TODO: Magic value "-1" ?
-        if (materialIndex === -1) {
-            client.state.materials.push(client.actionData);
+        if (itemIndex === -1) {
+            // Item was not found.
+            client.state.items.push(client.actionData);
         } else {
-            client.state.materials[materialIndex] = client.actionData;
+            client.state.items[itemIndex] = client.actionData;
         }
     }
 }

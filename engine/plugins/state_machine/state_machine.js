@@ -169,10 +169,10 @@ module.exports = function(options, imports, register) {
             /**
              * Check out items.
              */
-            borrow: {
+            checkOutItems: {
                 _onEnter: function(client) {
-                    debug('Entered borrow on client: ' + client.token);
-                    client.state.step = 'borrow';
+                    debug('Entered checkOut on client: ' + client.token);
+                    client.state.step = 'checkOutItems';
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -186,28 +186,35 @@ module.exports = function(options, imports, register) {
                  * @param client
                  *   The client.
                  */
-                borrowMaterial: function(client) {
-                    debug('Triggered borrowMaterial on client: ' + client.token, client);
-                    actionHandler.borrowMaterial(client);
+                checkOutItem: function(client) {
+                    debug('Triggered checkOutItem on client: ' + client.token, client);
+                    actionHandler.checkOutItem(client);
                 },
                 /**
-                 * Update a material for a client.
+                 * Update an item for a client.
                  *
                  * @param client
                  *   The client.
                  */
-                materialUpdate: function(client) {
-                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
-                    actionHandler.materialUpdate(client);
+                itemUpdate: function(client) {
+                    debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
+                    actionHandler.itemUpdate(client);
+                },
+                /**
+                 * Change flow for a client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                changeFlow: function(client) {
+                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    actionHandler.changeFlow(client, client.actionData.flow);
                 }
             },
-            /**
-             * Check in items.
-             */
-            returnMaterials: {
+            checkInItems: {
                 _onEnter: function(client) {
-                    debug('Entered returnMaterials on client: ' + client.token);
-                    client.state.step = 'returnMaterials';
+                    debug('Entered checkInItems on client: ' + client.token);
+                    client.state.step = 'checkInItems';
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -216,24 +223,34 @@ module.exports = function(options, imports, register) {
                     this.transition(client, 'initial');
                 },
                 /**
-                 * Check in a material on the client.
+                 * Check in an item on the client.
                  *
                  * @param client
                  *   The client.
                  */
-                returnMaterial: function(client) {
-                    debug('Triggered returnMaterial on client: ' + client.token, client);
-                    actionHandler.returnMaterial(client);
+                checkInItem: function(client) {
+                    debug('Triggered checkInItem on client: ' + client.token, client);
+                    actionHandler.checkInItem(client);
                 },
                 /**
-                 * Update material on the client.
+                 * Update an item on the client.
                  *
                  * @param client
                  *   The client.
                  */
-                materialUpdate: function(client) {
-                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
-                    actionHandler.materialUpdate(client);
+                itemUpdate: function(client) {
+                    debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
+                    actionHandler.itemUpdate(client);
+                },
+                /**
+                 * Change flow for a client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                changeFlow: function(client) {
+                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    actionHandler.changeFlow(client, client.actionData.flow);
                 }
             },
             /**
