@@ -135,6 +135,10 @@ module.exports = function(options, imports, register) {
                 itemUpdate: function(client) {
                     debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
                     actionHandler.itemUpdate(client);
+                },
+                changeFlow: function(client) {
+                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    actionHandler.changeFlow(client, client.actionData.flow);
                 }
             },
             checkInItems: {
@@ -155,6 +159,10 @@ module.exports = function(options, imports, register) {
                 itemUpdate: function(client) {
                     debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
                     actionHandler.itemUpdate(client);
+                },
+                changeFlow: function(client) {
+                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    actionHandler.changeFlow(client, client.actionData.flow);
                 }
             }
         },

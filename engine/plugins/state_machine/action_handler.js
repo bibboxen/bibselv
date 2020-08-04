@@ -36,11 +36,33 @@ class ActionHandler {
      *   The name of the flow to start.
      */
     enterFlow(client, flow) {
-        client.state.flow = client.actionData.flow;
+        client.state.flow = flow;
 
-        // Check in flow does not require that the user is logged in.
         if (flow === 'checkInItems') {
+            // Check in flow does not require that the user is logged in.
             this.stateMachine.transition(client, 'checkInItems');
+        } else {
+            this.stateMachine.transition(client, 'chooseLogin');
+        }
+    }
+
+    /**
+     * Change flow for a client.
+     *
+     * @param client
+     *   The client.
+     * @param flow
+     *   The name of the flow to change to.
+     */
+    changeFlow(client, flow) {
+        client.state.flow = flow;
+
+        if (flow === 'checkInItems') {
+            // Check in flow does not require that the user is logged in.
+            this.stateMachine.transition(client, 'checkInItems');
+        } else if (Object.prototype.hasOwnProperty.call(client.internal, 'user')) {
+            // If already logged in transition directly.
+            this.stateMachine.transition(client, flow);
         } else {
             this.stateMachine.transition(client, 'chooseLogin');
         }
