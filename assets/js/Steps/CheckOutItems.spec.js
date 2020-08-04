@@ -1,5 +1,5 @@
 import React from 'react';
-import Borrow from './Borrow';
+import CheckOutItems from './CheckOutItems';
 import { shallow } from 'enzyme';
 import { expect, it } from '@jest/globals';
 
@@ -8,9 +8,9 @@ it('renders without crashing', () => {
         user: {
             name: 'TestName'
         },
-        materials: []
+        items: []
     };
-    shallow(<Borrow actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />);
+    shallow(<CheckOutItems actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />);
 });
 
 it('renders the name of the user', () => {
@@ -18,10 +18,10 @@ it('renders the name of the user', () => {
         user: {
             name: 'TestName'
         },
-        materials: []
+        items: []
     };
 
-    const wrapper = shallow(<Borrow actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />);
+    const wrapper = shallow(<CheckOutItems actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />);
 
     expect(wrapper).toContainReact(<p>Hej TestName</p>);
 });
