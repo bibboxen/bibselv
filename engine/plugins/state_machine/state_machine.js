@@ -261,23 +261,51 @@ module.exports = function(options, imports, register) {
                     debug('Entered status on client: ' + client.token);
                     client.state.step = 'status';
                     // Information is already present after the login in client.internal.
-                    // @TODO: Add information about the different items.
-                    // @TODO: Should this information be automatically refreshed?
-                    client.state = client.state + {
+                    client.state = Object.assign({}, client.state, {
+                        /**
+                         * AS: Hold items.
+                         *
+                         * Items that are ready to be picked up.
+                         */
                         holdItems: client.internal.user.holdItems,
+                        /**
+                         * AT: Overdue items.
+                         *
+                         * Items that are overdue being checked in.
+                         */
                         overdueItems: client.internal.user.overdueItems,
+                        /**
+                         * AU: Charged items.
+                         *
+                         * Items the user has checked out.
+                         */
                         chargedItems: client.internal.user.chargedItems,
+                        /**
+                         * AV: Fine items.
+                         *
+                         * Items with a fine.
+                         */
                         fineItems: client.internal.user.fineItems,
+                        /**
+                         * BU: Recall items.
+                         *
+                         * Items that have been recalled.
+                         */
                         recallItems: client.internal.user.recallItems,
-                        unavailableHoldItems: client.internal.user.unavailableHoldItems,
-                    };
+                        /**
+                         * Unavailable hold items.
+                         *
+                         * Items the user has reserved, but which are not ready.
+                         */
+                        unavailableHoldItems: client.internal.user.unavailableHoldItems
+                    });
                 },
                 _onExit: function(client) {
                     client.actionData = null;
                 },
                 _reset: function(client) {
                     this.transition(client, 'initial');
-                },
+                }
             }
         },
 

@@ -124,4 +124,94 @@ This document contains "schemas" for each message that can be sent through the w
        ...
     ]
 }
+
+# Status
+{
+    "flow": "status",
+    "step": "status",
+    // Items that are ready to be picked up.
+    "holdItems": [
+        {
+            bibliographicId: "[bibliographic id]",
+            id: "[item identifier]",
+            pickupId: "[pickup id]",
+            pickupDate: "[latest pickup date]",
+            pickupLocation: "[pickup location of the form: DK-00000 - Hovedbiblioteket]",
+            title: "[item title]",
+            author: "[item auther]",
+            GMB: "[GMB]",
+            SMB: "[SMB]",
+            DK5: "[DK5]"
+        },
+        ...
+    ],
+    // Items that are overdue being checked in.
+    "overdueItems": [
+        {
+            id: "[item identifier]",
+            dueDate: "[item due date]",
+            title: "[item title]",
+            author: "[item author]",
+            GMB: "[GMB]",
+            SMB: "[SMB]",
+            DK5: "[DK5]"
+        },
+        ...
+    ],
+    // Items the user has checked out.
+    "chargedItems": [
+        {
+            id: "[item identifier]",
+            returnDate: "[date when the item should be checked in]",
+            title: "[item title]",
+            author: "[item author]",
+            GMB: "[GMB]",
+            SMB: "[SMB]",
+            DK5: "[DK5]"
+        },
+        ...
+    ],
+    // Items with a fine.
+    "fineItems": [
+        {
+            id: "[item identifier]",
+            fineId: "[fine id]",
+            fineDate: "[fine date]",
+            fineAmount: "[fine amount]",
+            title: "[item title]",
+            author: "[item author]",
+            GMB: "[GMB]",
+            SMB: "[SMB]",
+            DK5: "[DK5]"
+        },
+        ...
+    ],
+    // Items that have been recalled.
+    "recallItems": [
+        {
+            id: "[item identifier]",
+            recallDate: "[recall date]",
+            title: "[item title]",
+            author: "[item author]",
+            GMB: "[GMB]",
+            SMB: "[SMB]",
+            DK5: "[DK5]"
+        },
+        ...
+    ],
+    // Items the user has reserved, but which are not ready.
+    "unavailableHoldItems": [
+        {
+            bibliographicId: "[bibliographic id]",
+            id: "[item identifier]",
+            interestDate: "[latest interest date]",
+            title: "[item title]",
+            author: "[item author]",
+            GMB: "[GMB]",
+            SMB: "[SMB]",
+            DK5: "[DK5]"
+        },
+        ...
+    ]
+}
 ```
