@@ -129,6 +129,10 @@ This document contains "schemas" for each message that can be sent through the w
 {
     "flow": "status",
     "step": "status",
+    "user": {
+        "name": "[First name of user]",
+        "birthdayToday": "[is it the user's birthday today]"
+    },
     // Items that are ready to be picked up.
     "holdItems": [
         {

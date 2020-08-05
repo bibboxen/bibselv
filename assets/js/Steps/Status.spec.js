@@ -6,7 +6,8 @@ import { it } from '@jest/globals';
 it('renders without crashing', () => {
     const machineState = {
         user: {
-            name: 'TestName'
+            name: 'TestName',
+            birthdayToday: true
         },
         holdItems: [],
         overdueItems: [],

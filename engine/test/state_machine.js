@@ -337,6 +337,9 @@ it('Tests that status can be retrieved', done => {
             client.state.step.should.equal('status');
             client.state.flow.should.equal('status');
 
+            client.state.user.name.should.equal('Testkort');
+            client.state.user.birthdayToday.should.equal(false);
+
             client.state.holdItems.length.should.equal(3);
             client.state.overdueItems.length.should.equal(1);
             client.state.chargedItems.length.should.equal(3);
