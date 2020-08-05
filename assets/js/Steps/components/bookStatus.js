@@ -7,8 +7,3 @@ const bookStatus = {
 };
 
 export default bookStatus;
-// RESERVED: 1,
-// RENEWED: 2,
-// IN_PROGRESS: 3,
-// BORROWED: 4,
-// ERROR: 5,
