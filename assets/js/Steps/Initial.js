@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import BarcodeScanner from "./BarcodeScanner";
-import PropTypes from "prop-types";
-import Bubble from "./components/bubble";
-import Barcode from "./components/barcode";
+import React, { useEffect } from 'react';
+import BarcodeScanner from './BarcodeScanner';
+import PropTypes from 'prop-types';
+import Bubble from './components/bubble';
+import Barcode from './components/barcode';
 import {
     BARCODE_COMMAND_CHECKIN,
     BARCODE_COMMAND_CHECKOUT,
     BARCODE_COMMAND_LENGTH,
     BARCODE_COMMAND_STATUS,
-    BARCODE_SCANNING_TIMEOUT,
-} from "../constants";
+    BARCODE_SCANNING_TIMEOUT
+} from '../constants';
 import {
     faBookReader,
     faInfoCircle,
-    faBook,
-} from "@fortawesome/free-solid-svg-icons";
+    faBook
+} from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Initial component.
@@ -26,23 +26,22 @@ import {
  * @constructor
  */
 function Initial({ actionHandler }) {
-   
     const components = [
         {
-            which: "borrow",
-            label: "Lån",
-            icon: faBookReader,
+            which: 'checkOutItems',
+            label: 'Lån',
+            icon: faBookReader
         },
         {
-            which: "status",
-            label: "Status",
-            icon: faInfoCircle,
+            which: 'status',
+            label: 'Status',
+            icon: faInfoCircle
         },
         {
-            which: "returnMaterials",
-            label: "Aflever",
-            icon: faBook,
-        },
+            which: 'checkInItems',
+            label: 'Aflever',
+            icon: faBook
+        }
     ];
     // Setup component.
     useEffect(() => {
@@ -50,7 +49,6 @@ function Initial({ actionHandler }) {
         const barcodeCallback = (code) => {
             // Commands are 5 characters long.
             if (code.length === BARCODE_COMMAND_LENGTH) {
-               
                 if (code === BARCODE_COMMAND_CHECKOUT) {
                     actionHandler('enterFlow', {
                         flow: 'checkOutItems'
@@ -64,14 +62,14 @@ function Initial({ actionHandler }) {
                 }
 
                 if (code === BARCODE_COMMAND_STATUS) {
-                    actionHandler("enterFlow", {
-                        flow: "status",
+                    actionHandler('enterFlow', {
+                        flow: 'status'
                     });
                 }
             } else {
-                actionHandler("login", {
+                actionHandler('login', {
                     username: code,
-                    password: "",
+                    password: ''
                 });
             }
         };
@@ -112,7 +110,7 @@ function Initial({ actionHandler }) {
 }
 
 Initial.propTypes = {
-    actionHandler: PropTypes.func.isRequired,
+    actionHandler: PropTypes.func.isRequired
 };
 
 export default Initial;

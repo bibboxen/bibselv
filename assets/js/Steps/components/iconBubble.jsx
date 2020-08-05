@@ -11,18 +11,18 @@ import {
 function IconBubble() {
   const context = useContext(MachineStateContext);
   function renderStep() {
-    switch (context.machineState.get.step) {
-      case "borrow":
+    switch (context.machineState.get.step.toLowerCase()) {
+      case "checkoutitems":
         return (
-          <div className="header-icon borrow">
+          <div className="header-icon checkoutitems">
             <div className="icon">
               <FontAwesomeIcon icon={faBookReader} />
             </div>
           </div>
         );
-      case "handin":
+      case "checkinitems":
         return (
-          <div className="header-icon handin">
+          <div className="header-icon checkinitems">
             <div className="icon">
               <FontAwesomeIcon icon={faBook} />
             </div>

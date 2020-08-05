@@ -15,7 +15,7 @@ function NavBar({ actionHandler }) {
 
   const components = [
     {
-        which: "borrow",
+        which: "checkOutItems",
         label: "Lån",
         icon: faBookReader,
     },
@@ -25,7 +25,7 @@ function NavBar({ actionHandler }) {
         icon: faInfoCircle,
     },
     {
-        which: "returnMaterials",
+        which: "checkInItems",
         label: "Aflever",
         icon: faBook,
     }, {
@@ -36,11 +36,7 @@ function NavBar({ actionHandler }) {
   ];
 
   function onButtonPress(which) {
-    context.machineState.get.step = which
-    context.machineState.get.flow = which
-    context.machineState.set(context.machineState.get)
-    debugger
-    // actionHandler("enterFlow", { flow: which });
+    actionHandler("enterFlow", { flow: which });
   }
 
   return (

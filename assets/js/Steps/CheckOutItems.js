@@ -1,16 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
-import BarcodeScanner from "./BarcodeScanner";
-import PropTypes from "prop-types";
+import React, { useContext, useState, useEffect } from 'react';
+import BarcodeScanner from './BarcodeScanner';
+import PropTypes from 'prop-types';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
-    BARCODE_SCANNING_TIMEOUT,
-} from "../constants";
-import MachineStateContext from "../context/machineStateContext";
-import HelpBox from "./components/helpBox";
-import BannerList from "./components/bannerList";
-import Header from "./components/header";
-import Input from "./components/input";
+    BARCODE_SCANNING_TIMEOUT
+} from '../constants';
+import MachineStateContext from '../context/machineStateContext';
+import HelpBox from './components/helpBox';
+import BannerList from './components/bannerList';
+import Header from './components/header';
+import Input from './components/input';
 
 /**
  * CheckOutItems component.
@@ -24,17 +24,14 @@ import Input from "./components/input";
 function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [loanedBooksForBanner, setLoanedBooksForBanner] = useState([]);
-    const [scannedBarcode, setScannedBarcode] = useState("");
-    const [infoString, setInfoString] = useState("");
+    const [scannedBarcode, setScannedBarcode] = useState('');
+    const [infoString, setInfoString] = useState('');
 
     useEffect(() => {
         setLoanedBooksForBanner(context.justLoanedBooks.get);
         setInfoString(
-            scannedBarcode ? "Bogen blev registreret. Klar til næste" : ""
+            scannedBarcode ? 'Bogen blev registreret. Klar til næste' : ''
         );
-    });
-
-    useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = (code) => {
@@ -45,8 +42,8 @@ function CheckOutItems({ actionHandler }) {
                 return;
             }
             setScannedBarcode(code);
-            actionHandler("checkOutItem", {
-                itemIdentifier: code,
+            actionHandler('checkOutItem', {
+                itemIdentifier: code
             });
         };
 
@@ -73,9 +70,9 @@ function CheckOutItems({ actionHandler }) {
                             info={infoString}
                             readOnly
                         ></Input>
-                        {context.machineState.get.materials && (
+                        {context.machineState.get.items && (
                             <BannerList
-                                items={context.machineState.get.materials}
+                                items={context.machineState.get.items}
                             ></BannerList>
                         )}
                     </div>
@@ -84,7 +81,7 @@ function CheckOutItems({ actionHandler }) {
             <div className="col-md-3">
                 <HelpBox
                     text={
-                        "Brug håndscanneren til at scanne stregkoden på bogen."
+                        'Brug håndscanneren til at scanne stregkoden på bogen.'
                     }
                 ></HelpBox>
             </div>
@@ -93,7 +90,7 @@ function CheckOutItems({ actionHandler }) {
 }
 
 CheckOutItems.propTypes = {
-    actionHandler: PropTypes.func.isRequired,
+    actionHandler: PropTypes.func.isRequired
 };
 
 export default CheckOutItems;

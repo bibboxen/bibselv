@@ -25,13 +25,13 @@
         background-color: $green;
     }
 
-    &.borrow {
+    &.checkoutitems {
         // Color
         border-color: $yellow;
         background-color: $yellow;
         color: $font-color;
     }
-    &.returnMaterials {
+    &.checkinitems {
         // Color
         border-color: $purple;
         background-color: $purple;

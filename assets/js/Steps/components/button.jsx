@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Button = ({ label, icon, handleButtonPress, which, ...rest }) => {
-    const classes = `button ${which}`;
+    const classes = `button ${which.toLowerCase()}`;
 
     return (
         <button

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Bubble({ which, label, icon, actionHandler }) {
-  const classes = `bubble ${which}`;
+  const classes = `bubble ${which.toLowerCase()}`;
   return (
     <div
       className={classes}

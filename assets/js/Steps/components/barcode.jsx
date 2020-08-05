@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 function Barcode({ which }) {
-  const classes = `barcode ${which}`;
+  const classes = `barcode ${which.toLowerCase()}`;
   return (
     <div className={classes}>
       <div className="barcode-inner"></div>

@@ -24,13 +24,13 @@
         margin-right: auto;
         left: 0;
         right: 0;
-        margin-top: 50%;
+        margin-top: 100%;
 
         // Text
         font-size: 2rem;
         text-align: center;
     }
-    &.borrow {
+    &.checkoutitems {
         // Color
         background-color: $yellow;
     }
@@ -40,7 +40,7 @@
         background-color: $blue;
     }
     
-    &.handin {
+    &.checkinitems {
         // Color
         background-color: $purple;
     }

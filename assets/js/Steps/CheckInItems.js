@@ -1,4 +1,4 @@
-import React,{ useContext, useState, useEffect }from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machineStateContext';
@@ -20,17 +20,17 @@ import Input from './components/input';
  * @return {*}
  * @constructor
  */
-function CheckInItems({actionHandler}) {
+function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [handedInBooks, setHandedInBooks] = useState([]);
-    const [scannedBarcode, setScannedBarcode] = useState("");
-    const [infoString, setInfoString] = useState("");
+    const [scannedBarcode, setScannedBarcode] = useState('');
+    const [infoString, setInfoString] = useState('');
 
     useEffect(() => {
         setHandedInBooks(context.justHandedInBooks.get);
         setInfoString(scannedBarcode
-        ? 'Bogen blev registreret. Klar til næste'
-        : '');
+            ? 'Bogen blev registreret. Klar til næste'
+            : '');
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = code => {
@@ -39,7 +39,7 @@ function CheckInItems({actionHandler}) {
                 }
                 return;
             }
-            setScannedBarcode(code)
+            setScannedBarcode(code);
             actionHandler('checkInItem', {
                 itemIdentifier: code
             });
@@ -85,7 +85,7 @@ function CheckInItems({actionHandler}) {
 }
 
 CheckInItems.propTypes = {
-    actionHandler: PropTypes.func.isRequired,
+    actionHandler: PropTypes.func.isRequired
 };
 
 export default CheckInItems;

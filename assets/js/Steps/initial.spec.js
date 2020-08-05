@@ -1,14 +1,14 @@
-import React from "react";
-import Initial from "./Initial";
-import MachineStateContext from "../context/machineStateContext";
-import { shallow, mount } from "enzyme";
-import { expect, it } from "@jest/globals";
+import React from 'react';
+import Initial from './Initial';
+import MachineStateContext from '../context/machineStateContext';
+import { shallow, mount } from 'enzyme';
+import { expect, it } from '@jest/globals';
 
-it("renders without crashing", () => {
+it('renders without crashing', () => {
     const machineState = {
         step: {
-            name: "initial",
-        },
+            name: 'initial'
+        }
     };
     shallow(
         <MachineStateContext.Provider value={machineState}>
@@ -17,11 +17,11 @@ it("renders without crashing", () => {
     );
 });
 
-it("renders three bubbles", () => {
+it('renders three bubbles', () => {
     const machineState = {
         step: {
-            name: "initial",
-        },
+            name: 'initial'
+        }
     };
     const wrapper = mount(
         <MachineStateContext.Provider value={machineState}>
@@ -30,5 +30,5 @@ it("renders three bubbles", () => {
     );
 
     console.log(wrapper);
-    expect(wrapper).to(<h1 class="mb-5">Vælg en funktion for at starte</h1>);
+    expect(wrapper).to(<h1 className="mb-5">Vælg en funktion for at starte</h1>);
 });
