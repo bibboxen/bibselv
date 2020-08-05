@@ -297,3 +297,57 @@ it('Test that the user can change to checkOutItems when logged in', done => {
         }, 500);
     }).catch(done.fail);
 });
+
+it('Tests that status can be retrieved', done => {
+    let client = {
+        token: '123'
+    };
+
+    setup().then(app => {
+        client = app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Reset'
+        });
+
+        client = app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Action',
+            action: 'enterFlow',
+            data: {
+                flow: 'status'
+            }
+        });
+
+        client.state.step.should.equal('loginScan');
+        client.state.flow.should.equal('status');
+
+        client = app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Action',
+            action: 'login',
+            data: {
+                username: config.username,
+                password: config.pin
+            }
+        });
+
+        setTimeout(() => {
+            client = app.services.client.load('123');
+
+            client.state.step.should.equal('status');
+            client.state.flow.should.equal('status');
+
+            client.state.user.name.should.equal('Testkort');
+            client.state.user.birthdayToday.should.equal(false);
+
+            client.state.holdItems.length.should.equal(3);
+            client.state.overdueItems.length.should.equal(1);
+            client.state.chargedItems.length.should.equal(3);
+            client.state.fineItems.length.should.equal(1);
+            client.state.recallItems.length.should.equal(1);
+            client.state.unavailableHoldItems.length.should.equal(1);
+
+            done();
+        }, 400);
+    }).catch(done.fail);
+});
