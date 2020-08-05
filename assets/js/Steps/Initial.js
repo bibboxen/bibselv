@@ -52,14 +52,14 @@ function Initial({ actionHandler }) {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                
                 if (code === BARCODE_COMMAND_CHECKOUT) {
-                    actionHandler("enterFlow", {
-                        flow: "borrow",
+                    actionHandler('enterFlow', {
+                        flow: 'checkOutItems'
                     });
                 }
 
                 if (code === BARCODE_COMMAND_CHECKIN) {
-                    actionHandler("enterFlow", {
-                        flow: "returnMaterials",
+                    actionHandler('enterFlow', {
+                        flow: 'checkInItems'
                     });
                 }
 

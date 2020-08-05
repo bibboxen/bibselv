@@ -38,7 +38,6 @@ function App() {
     }
 
     function renderStep({step}) {
-        debugger
         switch (step.toLowerCase()) {
             case "borrow":
                 return <Borrow actionHandler={handleAction} />;

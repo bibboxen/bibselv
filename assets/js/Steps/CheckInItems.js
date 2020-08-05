@@ -12,7 +12,7 @@ import BannerList from './components/bannerList';
 import Header from './components/header';
 import Input from './components/input';
 /**
- * Return component.
+ * CheckInItems component.
  *
  * Supplies a page for returning materials.
  *
@@ -20,7 +20,7 @@ import Input from './components/input';
  * @return {*}
  * @constructor
  */
-function ReturnMaterials({actionHandler}) {
+function CheckInItems({actionHandler}) {
     const context = useContext(MachineStateContext);
     const [handedInBooks, setHandedInBooks] = useState([]);
     const [scannedBarcode, setScannedBarcode] = useState("");
@@ -31,9 +31,6 @@ function ReturnMaterials({actionHandler}) {
         setInfoString(scannedBarcode
         ? 'Bogen blev registreret. Klar til næste'
         : '');
-    });
-
-    useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = code => {
@@ -43,7 +40,7 @@ function ReturnMaterials({actionHandler}) {
                 return;
             }
             setScannedBarcode(code)
-            actionHandler('returnMaterial', {
+            actionHandler('checkInItem', {
                 itemIdentifier: code
             });
         };
@@ -87,8 +84,8 @@ function ReturnMaterials({actionHandler}) {
     );
 }
 
-ReturnMaterials.propTypes = {
+CheckInItems.propTypes = {
     actionHandler: PropTypes.func.isRequired,
 };
 
-export default ReturnMaterials;
+export default CheckInItems;

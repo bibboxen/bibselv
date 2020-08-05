@@ -13,15 +13,15 @@ import Header from "./components/header";
 import Input from "./components/input";
 
 /**
- * Borrow component.
+ * CheckOutItems component.
  *
- * Supplies a page for borrowing materials.
+ * Supplies a page for borrowing items.
  *
  * @param props
  * @return {*}
  * @constructor
  */
-function Borrow({ actionHandler }) {
+function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [loanedBooksForBanner, setLoanedBooksForBanner] = useState([]);
     const [scannedBarcode, setScannedBarcode] = useState("");
@@ -45,7 +45,7 @@ function Borrow({ actionHandler }) {
                 return;
             }
             setScannedBarcode(code);
-            actionHandler("borrowMaterial", {
+            actionHandler("checkOutItem", {
                 itemIdentifier: code,
             });
         };
@@ -92,8 +92,8 @@ function Borrow({ actionHandler }) {
     );
 }
 
-Borrow.propTypes = {
+CheckOutItems.propTypes = {
     actionHandler: PropTypes.func.isRequired,
 };
 
-export default Borrow;
+export default CheckOutItems;

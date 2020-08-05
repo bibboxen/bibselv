@@ -117,10 +117,10 @@ module.exports = function(options, imports, register) {
                     this.transition(client, client.state.flow);
                 }
             },
-            borrow: {
+            checkOutItems: {
                 _onEnter: function(client) {
-                    debug('Entered borrow on client: ' + client.token);
-                    client.state.step = 'borrow';
+                    debug('Entered checkOut on client: ' + client.token);
+                    client.state.step = 'checkOutItems';
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -128,19 +128,23 @@ module.exports = function(options, imports, register) {
                 _reset: function(client) {
                     this.transition(client, 'initial');
                 },
-                borrowMaterial: function(client) {
-                    debug('Triggered borrowMaterial on client: ' + client.token, client);
-                    actionHandler.borrowMaterial(client);
+                checkOutItem: function(client) {
+                    debug('Triggered checkOutItem on client: ' + client.token, client);
+                    actionHandler.checkOutItem(client);
                 },
-                materialUpdate: function(client) {
-                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
-                    actionHandler.materialUpdate(client);
+                itemUpdate: function(client) {
+                    debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
+                    actionHandler.itemUpdate(client);
+                },
+                changeFlow: function(client) {
+                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    actionHandler.changeFlow(client, client.actionData.flow);
                 }
             },
-            returnMaterials: {
+            checkInItems: {
                 _onEnter: function(client) {
-                    debug('Entered returnMaterials on client: ' + client.token);
-                    client.state.step = 'returnMaterials';
+                    debug('Entered checkInItems on client: ' + client.token);
+                    client.state.step = 'checkInItems';
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -148,13 +152,17 @@ module.exports = function(options, imports, register) {
                 _reset: function(client) {
                     this.transition(client, 'initial');
                 },
-                returnMaterial: function(client) {
-                    debug('Triggered returnMaterial on client: ' + client.token, client);
-                    actionHandler.returnMaterial(client);
+                checkInItem: function(client) {
+                    debug('Triggered checkInItem on client: ' + client.token, client);
+                    actionHandler.checkInItem(client);
                 },
-                materialUpdate: function(client) {
-                    debug('Triggered materialUpdate on client: ' + client.token, client.actionData);
-                    actionHandler.materialUpdate(client);
+                itemUpdate: function(client) {
+                    debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
+                    actionHandler.itemUpdate(client);
+                },
+                changeFlow: function(client) {
+                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    actionHandler.changeFlow(client, client.actionData.flow);
                 }
             }
         },
