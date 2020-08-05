@@ -262,41 +262,17 @@ module.exports = function(options, imports, register) {
                     client.state.step = 'status';
                     // Information is already present after the login in client.internal.
                     client.state = Object.assign({}, client.state, {
-                        /**
-                         * AS: Hold items.
-                         *
-                         * Items that are ready to be picked up.
-                         */
+                        // Items that are ready to be picked up.
                         holdItems: client.internal.user.holdItems,
-                        /**
-                         * AT: Overdue items.
-                         *
-                         * Items that are overdue being checked in.
-                         */
+                        // Items that are overdue being checked in.
                         overdueItems: client.internal.user.overdueItems,
-                        /**
-                         * AU: Charged items.
-                         *
-                         * Items the user has checked out.
-                         */
+                        // Items the user has checked out.
                         chargedItems: client.internal.user.chargedItems,
-                        /**
-                         * AV: Fine items.
-                         *
-                         * Items with a fine.
-                         */
+                        // Items with a fine.
                         fineItems: client.internal.user.fineItems,
-                        /**
-                         * BU: Recall items.
-                         *
-                         * Items that have been recalled.
-                         */
+                        // Items that have been recalled.
                         recallItems: client.internal.user.recallItems,
-                        /**
-                         * Unavailable hold items.
-                         *
-                         * Items the user has reserved, but which are not ready.
-                         */
+                        // Items the user has reserved, but which are not ready.
                         unavailableHoldItems: client.internal.user.unavailableHoldItems
                     });
                 },
