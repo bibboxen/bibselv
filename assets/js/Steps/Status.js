@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
 import {
@@ -86,22 +86,22 @@ function Status(props) {
 
                     <Table striped={true} bordered={true}>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>title</th>
-                            <th>author</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>title</th>
+                                <th>author</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.overdueItems && props.machineState.overdueItems.map(
-                                item => <tr key={'overdueItems-' + item.itemIdentifier}>
-                                    <td>{item.itemIdentifier}</td>
-                                    <td>{item.title}</td>
-                                    <td>{item.author}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.overdueItems && props.machineState.overdueItems.map(
+                                    item => <tr key={'overdueItems-' + item.itemIdentifier}>
+                                        <td>{item.itemIdentifier}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>
@@ -112,22 +112,22 @@ function Status(props) {
 
                     <Table striped={true} bordered={true}>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>title</th>
-                            <th>author</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>title</th>
+                                <th>author</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.chargedItems && props.machineState.chargedItems.map(
-                                item => <tr key={'chargedItems-' + item.itemIdentifier}>
-                                    <td>{item.itemIdentifier}</td>
-                                    <td>{item.title}</td>
-                                    <td>{item.author}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.chargedItems && props.machineState.chargedItems.map(
+                                    item => <tr key={'chargedItems-' + item.itemIdentifier}>
+                                        <td>{item.itemIdentifier}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>
@@ -138,22 +138,22 @@ function Status(props) {
 
                     <Table striped={true} bordered={true}>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>title</th>
-                            <th>author</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>title</th>
+                                <th>author</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.fineItems && props.machineState.fineItems.map(
-                                item => <tr key={'fineItems-' + item.itemIdentifier}>
-                                    <td>{item.itemIdentifier}</td>
-                                    <td>{item.title}</td>
-                                    <td>{item.author}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.fineItems && props.machineState.fineItems.map(
+                                    item => <tr key={'fineItems-' + item.itemIdentifier}>
+                                        <td>{item.itemIdentifier}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>
@@ -164,22 +164,22 @@ function Status(props) {
 
                     <Table striped={true} bordered={true}>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>title</th>
-                            <th>author</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>title</th>
+                                <th>author</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.recallItems && props.machineState.recallItems.map(
-                                item => <tr key={'recallItems-' + item.itemIdentifier}>
-                                    <td>{item.itemIdentifier}</td>
-                                    <td>{item.title}</td>
-                                    <td>{item.author}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.recallItems && props.machineState.recallItems.map(
+                                    item => <tr key={'recallItems-' + item.itemIdentifier}>
+                                        <td>{item.itemIdentifier}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>
@@ -190,22 +190,22 @@ function Status(props) {
 
                     <Table striped={true} bordered={true}>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>title</th>
-                            <th>author</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>title</th>
+                                <th>author</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {
-                            props.machineState.unavailableHoldItems && props.machineState.unavailableHoldItems.map(
-                                item => <tr key={'unavailableHoldItems-' + item.itemIdentifier}>
-                                    <td>{item.itemIdentifier}</td>
-                                    <td>{item.title}</td>
-                                    <td>{item.author}</td>
-                                </tr>
-                            )
-                        }
+                            {
+                                props.machineState.unavailableHoldItems && props.machineState.unavailableHoldItems.map(
+                                    item => <tr key={'unavailableHoldItems-' + item.itemIdentifier}>
+                                        <td>{item.itemIdentifier}</td>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                    </tr>
+                                )
+                            }
                         </tbody>
                     </Table>
                 </Col>
