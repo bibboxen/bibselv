@@ -7,6 +7,7 @@ import { Alert } from 'react-bootstrap';
 import ScanLogin from './Steps/ScanLogin';
 import CheckOutItems from './Steps/CheckOutItems';
 import CheckInItems from './Steps/CheckInItems';
+import Status from './Steps/Status';
 
 // @TODO: Rewrite as functional component.
 class App extends Component {
@@ -62,14 +63,14 @@ class App extends Component {
         switch (step) {
             case 'initial':
                 return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'chooseLogin':
-                return <div>@TODO: chooseLogin</div>;
             case 'loginScan':
                 return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
             case 'checkOutItems':
                 return <CheckOutItems machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
             case 'checkInItems':
                 return <CheckInItems machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
+            case 'status':
+                return <Status machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
             default:
                 return (
                     <div className={'app-default'}
