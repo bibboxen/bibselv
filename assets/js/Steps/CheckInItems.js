@@ -1,16 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react';
-import BarcodeScanner from './BarcodeScanner';
-import PropTypes from 'prop-types';
-import MachineStateContext from '../context/machineStateContext';
+import React, { useContext, useState, useEffect } from "react";
+import BarcodeScanner from "./BarcodeScanner";
+import PropTypes from "prop-types";
+import MachineStateContext from "../context/machineStateContext";
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
-    BARCODE_SCANNING_TIMEOUT
-} from '../constants';
-import HelpBox from './components/helpBox';
-import BannerList from './components/bannerList';
-import Header from './components/header';
-import Input from './components/input';
+    BARCODE_SCANNING_TIMEOUT,
+} from "../constants";
+import HelpBox from "./components/helpBox";
+import BannerList from "./components/bannerList";
+import Header from "./components/header";
+import Input from "./components/input";
+
 /**
  * CheckInItems component.
  *
@@ -23,25 +24,24 @@ import Input from './components/input';
 function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [handedInBooks, setHandedInBooks] = useState([]);
-    const [scannedBarcode, setScannedBarcode] = useState('');
-    const [infoString, setInfoString] = useState('');
+    const [scannedBarcode, setScannedBarcode] = useState("");
+    const [infoString, setInfoString] = useState("");
 
     useEffect(() => {
-        setHandedInBooks(context.justHandedInBooks.get);
-        setInfoString(scannedBarcode
-            ? 'Bogen blev registreret. Klar til næste'
-            : '');
+        setInfoString(
+            scannedBarcode ? "Bogen blev registreret. Klar til næste" : ""
+        );
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
-        const barcodeCallback = code => {
+        const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
                 }
                 return;
             }
             setScannedBarcode(code);
-            actionHandler('checkInItem', {
-                itemIdentifier: code
+            actionHandler("checkInItem", {
+                itemIdentifier: code,
             });
         };
 
@@ -76,7 +76,7 @@ function CheckInItems({ actionHandler }) {
             <div className="col-md-3">
                 <HelpBox
                     text={
-                        'Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.'
+                        "Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer."
                     }
                 ></HelpBox>
             </div>
@@ -85,7 +85,7 @@ function CheckInItems({ actionHandler }) {
 }
 
 CheckInItems.propTypes = {
-    actionHandler: PropTypes.func.isRequired
+    actionHandler: PropTypes.func.isRequired,
 };
 
 export default CheckInItems;

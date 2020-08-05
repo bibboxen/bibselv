@@ -20,7 +20,7 @@ function Login({ actionHandler }) {
         }
     }
 
-    return <>{renderStep(context.loginConfig.get)}</>;
+    return <ScanLogin actionHandler={actionHandler} ></ScanLogin>;
 }
 
 Login.propTypes = {

@@ -21,7 +21,7 @@ function BannerList({ items, title }) {
                 </div>
             )}
             {items.map((item) => (
-                <Banner item={item} key={item.itemIdentifier}></Banner>
+                <Banner item={item} key={item.id}></Banner>
             ))}
         </>
     );

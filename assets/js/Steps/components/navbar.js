@@ -15,28 +15,24 @@ function NavBar({ actionHandler }) {
 
   const components = [
     {
-        which: "checkOutItems",
-        label: "Lån",
-        icon: faBookReader,
+      which: "checkOutItems",
+      label: "Lån",
+      icon: faBookReader,
     },
     {
-        which: "status",
-        label: "Status",
-        icon: faInfoCircle,
+      which: "status",
+      label: "Status",
+      icon: faInfoCircle,
     },
     {
-        which: "checkInItems",
-        label: "Aflever",
-        icon: faBook,
-    }, {
-        which: "logout",
-        label: "Afslut",
-        icon: faSignOutAlt,
-    }
+      which: "checkInItems",
+      label: "Aflever",
+      icon: faBook,
+    },
   ];
 
   function onButtonPress(which) {
-    actionHandler("enterFlow", { flow: which });
+    actionHandler("changeFlow", { flow: which });
   }
 
   return (
@@ -60,6 +56,14 @@ function NavBar({ actionHandler }) {
               which={button.which}
             ></Button>
           ))}
+          {context.machineState.get.step !== "initial" &&
+          <Button
+            label="Afslut"
+            icon={faSignOutAlt}
+            handleButtonPress={onButtonPress}
+            which={"reset"}
+          ></Button>
+        }
       </div>
     </div>
   );

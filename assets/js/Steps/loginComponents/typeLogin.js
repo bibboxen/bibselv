@@ -12,7 +12,6 @@ function TypeLogin({ actionHandler }) {
     const [loanNumber, setLoanNumber] = useState('');
     const [password, setPassword] = useState('');
     const [loanNumberEntering, setLoanNumberEntering] = useState(true);
-    const context = useContext(MachineStateContext);
     function onNumPadPress({ button }) {
         if (loanNumberEntering) {
             button.toLowerCase() === 'c'

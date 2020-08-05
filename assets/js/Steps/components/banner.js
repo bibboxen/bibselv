@@ -11,7 +11,10 @@ function Banner({ item }) {
     let classes = 'banner ';
     let icon = '';
     let title = item.title;
-    let text = `af ${item.author}`;
+    let text ="";
+    if (item.author) {
+        text = `af ${item.author}`;
+    }
     switch (item.status) {
     case bookStatus.ERROR:
     case bookStatus.BORROWED:

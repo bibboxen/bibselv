@@ -23,12 +23,10 @@ import Input from './components/input';
  */
 function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const [loanedBooksForBanner, setLoanedBooksForBanner] = useState([]);
     const [scannedBarcode, setScannedBarcode] = useState('');
     const [infoString, setInfoString] = useState('');
 
     useEffect(() => {
-        setLoanedBooksForBanner(context.justLoanedBooks.get);
         setInfoString(
             scannedBarcode ? 'Bogen blev registreret. Klar til næste' : ''
         );
