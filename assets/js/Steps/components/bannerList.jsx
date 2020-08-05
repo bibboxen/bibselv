@@ -1,7 +1,6 @@
 import React from 'react';
 import Banner from './banner';
 import PropTypes from 'prop-types';
-
 function BannerList({ items, title }) {
     function compare(a, b) {
         if (a.status > b.status) {
@@ -22,7 +21,7 @@ function BannerList({ items, title }) {
                 </div>
             )}
             {items.map((item) => (
-                <Banner item={item} key={item.id}></Banner>
+                <Banner item={item} key={item.itemIdentifier}></Banner>
             ))}
         </>
     );

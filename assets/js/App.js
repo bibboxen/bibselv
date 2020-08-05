@@ -1,96 +1,120 @@
-import React, { Component } from 'react';
-import './App.css';
-import socketIOClient from 'socket.io-client';
-import Initial from './Steps/Initial';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Alert } from 'react-bootstrap';
-import ScanLogin from './Steps/ScanLogin';
-import Borrow from './Steps/Borrow';
-import ReturnMaterials from './Steps/ReturnMaterials';
+import React, { useState, useEffect } from "react";
+import socketIOClient from "socket.io-client";
+import Initial from "./steps/Initial";
+import Login from "./steps/login";
+import Status from "./steps/status";
+import ReturnMaterials from "./steps/returnMaterials";
+import { fakeHandleAction } from "./actionFaker";
+import Borrow from "./steps/borrow";
+import NavBar from "./steps/components/navbar";
+import MachineStateContext from "./context/machineStateContext";
+import bookStatus from "./steps/components/bookStatus";
+import DebugBar from "./steps/components/debugBar";
 
-// @TODO: Rewrite as functional component.
-class App extends Component {
-    constructor(props) {
-        super(props);
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-
-        this.socket = null;
-
-        this.state = {
-            token: token,
-            machineState: {},
-            // @TODO: Make configurable.
-            endpoint: 'http://bibbox-website.local.itkdev.dk:8010'
-        };
-
-        this.handleAction = this.handleAction.bind(this);
-        this.handleReset = this.handleReset.bind(this);
-    }
-
-    componentDidMount() {
-        const { endpoint } = this.state;
-        const socket = socketIOClient(endpoint);
-        this.socket = socket;
-        socket.on('UpdateState', data => {
-            this.setState({ machineState: data });
-        });
+function App() {
+    const fake = false;
+    const socket = socketIOClient("http://bibbox-website.local.itkdev.dk:8010");
+    useEffect(() => {
         // Ready
-        socket.emit('ClientReady', {
-            token: this.state.token
+        socket.emit("ClientReady", {
+            token: "123",
         });
-    }
-
-    handleAction(action, data) {
-        this.socket.emit('ClientEvent', {
-            name: 'Action',
-            token: this.state.token,
-            action: action,
-            data: data
+        socket.on("UpdateState", (data) => {
+            setMachineState(data);
         });
-    }
+    }, []);
 
-    handleReset() {
-        this.socket.emit('ClientEvent', {
-            name: 'Reset',
-            token: this.state.token
-        });
-    }
-
-    renderStep(step, machineState) {
-        switch (step) {
-            case 'initial':
-                return <Initial machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'chooseLogin':
-                return <div>@TODO: chooseLogin</div>;
-            case 'loginScan':
-                return <ScanLogin machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'borrow':
-                return <Borrow machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            case 'returnMaterials':
-                return <ReturnMaterials machineState={machineState} actionHandler={this.handleAction} handleReset={this.handleReset} />;
-            default:
-                return (
-                    <div className={'app-default'}
-                        style={{ textAlign: 'center' }}>
-                        <Alert variant={'warning'}>
-                                Please wait...
-                        </Alert>
-                    </div>
-                );
+    function handleAction(action, data) {
+        if (!fake) {
+            socket.emit("ClientEvent", {
+                name: "Action",
+                action: action,
+                token: "123",
+                data: data,
+            });
+        } else {
+            fakeHandleAction(action, data);
         }
     }
 
-    render() {
-        const { machineState } = this.state;
-
-        return (
-            <div className={'app-container'}>
-                {this.renderStep(machineState.step, machineState)}
-            </div>
-        );
+    function renderStep({step}) {
+        debugger
+        switch (step.toLowerCase()) {
+            case "borrow":
+                return <Borrow actionHandler={handleAction} />;
+            case "returnmaterials":
+                return <ReturnMaterials actionHandler={handleAction} />;
+            case "status":
+                return <Status actionHandler={handleAction} />;
+            case "loginscan":
+                return <Login actionHandler={handleAction} />;
+            default: 
+                return <Initial actionHandler={handleAction} />
+        }
     }
+
+    const [machineState, setMachineState] = useState({step:"initial"});
+    const [flow, setFlow] = useState();
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [step, setStep] = useState("initial");
+    const [username, setUsername] = useState();
+    const [loginConfig] = useState("scan");
+    const [reservedBooks] = useState([
+        {
+            id: "835535966-6",
+            writer: "Sofie Boysen",
+            title: "Pigerne mod drengene",
+            status: bookStatus.RESERVED,
+        },
+        {
+            id: "294155315-0",
+            writer: "Sara Ejersbo",
+            title: "Den magiske sommer",
+            status: bookStatus.RESERVED,
+        },
+        {
+            id: "104128583-3",
+            writer: "Åsa Larsson",
+            title: "Maren",
+            status: bookStatus.READY_FOR_PICKUP,
+        },
+    ]);
+
+    const [loanedBooks, setLoanedBooks] = useState([]);
+    const [justLoanedBooks, setJustLoanedBooks] = useState([]);
+    const [justHandedInBooks, setJustHandedInBooks] = useState([]);
+    const [scannedBarcode, setScannedBarcode] = useState("");
+    const [library, setLibrary] = useState("Tranbjerg bibliotek");
+    const store = {
+        machineState: { get: machineState, set: setMachineState },
+        step: { get: step, set: setStep },
+        loggedIn: { get: loggedIn, set: setLoggedIn },
+        username: { get: username, set: setUsername },
+        loginConfig: { get: loginConfig },
+        reservedBooks: { get: reservedBooks },
+        loanedBooks: { get: loanedBooks, set: setLoanedBooks },
+        flow: { get: flow, set: setFlow },
+        scannedBarcode: { get: scannedBarcode, set: setScannedBarcode },
+        justLoanedBooks: { get: justLoanedBooks, set: setJustLoanedBooks },
+        justHandedInBooks: {
+            get: justHandedInBooks,
+            set: setJustHandedInBooks,
+        },
+        library: { get: library, set: setLibrary },
+    };
+    return (
+        <>
+            <MachineStateContext.Provider value={store}>
+                <NavBar actionHandler={handleAction}></NavBar>
+                <div className="container">
+                    <div className="row" style={{ width: "100%" }}>
+                        {renderStep(machineState)}
+                    </div>
+                </div>
+                {fake && <DebugBar actionHandler={handleAction}></DebugBar>}
+            </MachineStateContext.Provider>
+        </>
+    );
 }
 
 export default App;

@@ -1,11 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 function Barcode({ which }) {
-    const classes = `barcode ${which}`;
-    return <div className={classes}><div className="barcode-inner"></div></div>;
+  const classes = `barcode ${which}`;
+  return (
+    <div className={classes}>
+      <div className="barcode-inner"></div>
+    </div>
+  );
 }
 Barcode.propTypes = {
-    color: PropTypes.string.isRequired
+  which: PropTypes.string.isRequired,
 };
 
 export default Barcode;

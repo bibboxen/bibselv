@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { it } from '@jest/globals';
-import ReturnMaterials from './ReturnMaterials';
+import ReturnMaterials from './returnMaterials';
 
 it('renders without crashing', () => {
     const machineState = {

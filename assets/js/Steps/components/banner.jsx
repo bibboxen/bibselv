@@ -11,25 +11,24 @@ function Banner({ item }) {
     let classes = 'banner ';
     let icon = '';
     let title = item.title;
-    let text = `af ${item.writer}`;
+    let text = `af ${item.author}`;
     switch (item.status) {
-    case bookStatus.OVERDUE:
-    case bookStatus.RESERVED_FOR_SOMEONE_ELSE:
+    case bookStatus.ERROR:
+    case bookStatus.BORROWED:
         classes += 'danger';
         icon = faExclamationTriangle;
-        title = bookStatus.OVERDUE
-            ? 'Denne bog er reserveret til en anden'
-            : 'Skal afleveres';
-        text = `${item.title} af ${item.writer}`;
+        title = item.message;
+        if (!item.renewelOk){
+            title="Denne titel er reserveret til en anden"
+        }
+        text = `${item.title} af ${item.author}`;
         break;
-    case bookStatus.WAITING_FOR_INFO:
+    case bookStatus.IN_PROGRESS:
         icon = faSpinner;
         title = 'Afventer informationer';
-        text = `${item.title} af ${item.writer}`;
+        text = `${item.itemIdentifier}`;
         break;
-    case bookStatus.READY_FOR_PICKUP:
-    case bookStatus.HANDED_IN:
-    case bookStatus.LOANED:
+    case bookStatus.RENEWED:
         classes = 'banner success';
         icon = faCheck;
         break;

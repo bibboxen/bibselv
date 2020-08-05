@@ -1,11 +1,14 @@
 const bookStatus = {
-    RESERVED: 1,
-    LOANED: 2,
-    READY_FOR_PICKUP: 3,
-    HANDED_IN: 4,
-    RESERVED_FOR_SOMEONE_ELSE: 5,
-    WAITING_FOR_INFO: 6,
-    OVERDUE: 7
+    ERROR: "error",
+    BORROWED: "borrowed",
+    IN_PROGRESS: "inProgress",
+    RENEWED: "renewed",
+
 };
 
 export default bookStatus;
+// RESERVED: 1,
+// RENEWED: 2,
+// IN_PROGRESS: 3,
+// BORROWED: 4,
+// ERROR: 5,

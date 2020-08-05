@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react';
-import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
-import BarcodeScanner from './BarcodeScanner';
-import PropTypes from 'prop-types';
+import React, { useContext, useState, useEffect } from "react";
+import BarcodeScanner from "./BarcodeScanner";
+import PropTypes from "prop-types";
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
-    BARCODE_SCANNING_TIMEOUT
-} from '../constants';
+    BARCODE_SCANNING_TIMEOUT,
+} from "../constants";
+import MachineStateContext from "../context/machineStateContext";
+import HelpBox from "./components/helpBox";
+import BannerList from "./components/bannerList";
+import Header from "./components/header";
+import Input from "./components/input";
 
 /**
  * Borrow component.
@@ -17,22 +21,32 @@ import {
  * @return {*}
  * @constructor
  */
-function Borrow(props) {
-    const { actionHandler, handleReset } = props;
+function Borrow({ actionHandler }) {
+    const context = useContext(MachineStateContext);
+    const [loanedBooksForBanner, setLoanedBooksForBanner] = useState([]);
+    const [scannedBarcode, setScannedBarcode] = useState("");
+    const [infoString, setInfoString] = useState("");
+
+    useEffect(() => {
+        setLoanedBooksForBanner(context.justLoanedBooks.get);
+        setInfoString(
+            scannedBarcode ? "Bogen blev registreret. Klar til næste" : ""
+        );
+    });
 
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
-        const barcodeCallback = code => {
+        const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    handleReset();
+                    // handleReset();
                 }
                 return;
             }
-
-            actionHandler('borrowMaterial', {
-                itemIdentifier: code
+            setScannedBarcode(code);
+            actionHandler("borrowMaterial", {
+                itemIdentifier: code,
             });
         };
 
@@ -40,77 +54,46 @@ function Borrow(props) {
         return () => {
             barcodeScanner.stop();
         };
-    }, [actionHandler, handleReset]);
-
-    // Return nothing if no machineState is set.
-    if (!Object.prototype.hasOwnProperty.call(props, 'machineState')) {
-        return;
-    }
-
+    }, [actionHandler]);
     return (
-        <Container>
-            <h1>Borrow</h1>
+        <>
+            <div className="col-md-9">
+                <Header
+                    header="Lån"
+                    text="Scan stregkoden på bogen du vil låne"
+                ></Header>
+                <div className="row">
+                    <div className="col-md-2"></div>
 
-            {props.machineState.user &&
-                <div>
-                    <p>Hej {props.machineState.user.name}</p>
-                    {props.machineState.user.birthdayToday &&
-                    <p>Tillykke med fødselsdagen</p>
-                    }
+                    <div className="col-md mt-4">
+                        <Input
+                            name="barcode"
+                            label="Stregkode"
+                            value={scannedBarcode}
+                            info={infoString}
+                            readOnly
+                        ></Input>
+                        {context.machineState.get.materials && (
+                            <BannerList
+                                items={context.machineState.get.materials}
+                            ></BannerList>
+                        )}
+                    </div>
                 </div>
-            }
-            <Row>
-                <Col>
-                    <Alert variant={'info'}>Skan materialer</Alert>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <h2>Materials</h2>
-
-                    <Table striped={true} bordered={true}>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>title</th>
-                                <th>author</th>
-                                <th>status</th>
-                                <th>renewalOk</th>
-                                <th>message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                props.machineState.materials && props.machineState.materials.map(
-                                    el => <tr key={'material-' + el.itemIdentifier}>
-                                        <td>{el.itemIdentifier}</td>
-                                        <td>{el.title}</td>
-                                        <td>{el.author}</td>
-                                        <td>{el.status}</td>
-                                        <td>{el.renewalOk ? 'Yes' : 'No'}</td>
-                                        <td>{el.message}</td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Button variant={'primary'} onClick={props.handleReset}>
-                        Tilbage
-                    </Button>
-                </Col>
-            </Row>
-        </Container>
+            </div>
+            <div className="col-md-3">
+                <HelpBox
+                    text={
+                        "Brug håndscanneren til at scanne stregkoden på bogen."
+                    }
+                ></HelpBox>
+            </div>
+        </>
     );
 }
 
 Borrow.propTypes = {
     actionHandler: PropTypes.func.isRequired,
-    handleReset: PropTypes.func.isRequired,
-    machineState: PropTypes.object.isRequired
 };
 
 export default Borrow;

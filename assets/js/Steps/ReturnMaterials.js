@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
-import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
+import React,{ useContext, useState, useEffect }from 'react';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
+import MachineStateContext from '../context/machineStateContext';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
     BARCODE_SCANNING_TIMEOUT
 } from '../constants';
-
+import HelpBox from './components/helpBox';
+import BannerList from './components/bannerList';
+import Header from './components/header';
+import Input from './components/input';
 /**
  * Return component.
  *
@@ -17,8 +20,18 @@ import {
  * @return {*}
  * @constructor
  */
-function ReturnMaterials(props) {
-    const { actionHandler, handleReset } = props;
+function ReturnMaterials({actionHandler}) {
+    const context = useContext(MachineStateContext);
+    const [handedInBooks, setHandedInBooks] = useState([]);
+    const [scannedBarcode, setScannedBarcode] = useState("");
+    const [infoString, setInfoString] = useState("");
+
+    useEffect(() => {
+        setHandedInBooks(context.justHandedInBooks.get);
+        setInfoString(scannedBarcode
+        ? 'Bogen blev registreret. Klar til næste'
+        : '');
+    });
 
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
@@ -26,11 +39,10 @@ function ReturnMaterials(props) {
         const barcodeCallback = code => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    handleReset();
                 }
                 return;
             }
-
+            setScannedBarcode(code)
             actionHandler('returnMaterial', {
                 itemIdentifier: code
             });
@@ -40,67 +52,43 @@ function ReturnMaterials(props) {
         return () => {
             barcodeScanner.stop();
         };
-    }, [actionHandler, handleReset]);
-
-    // Return nothing if no machineState is set.
-    if (!Object.prototype.hasOwnProperty.call(props, 'machineState')) {
-        return;
-    }
+    }, [actionHandler]);
 
     return (
-        <Container>
-            <h1>Return</h1>
+        <>
+            <div className="col-md-9">
+                <Header
+                    header="Aflever"
+                    text="Scan stregkoden på bogen du vil aflevere"
+                ></Header>
+                <div className="row">
+                    <div className="col-md-2"></div>
 
-            <Row>
-                <Col>
-                    <Alert variant={'info'}>Skan materialer</Alert>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <h2>Materials</h2>
-
-                    <Table striped={true} bordered={true}>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>title</th>
-                                <th>author</th>
-                                <th>status</th>
-                                <th>message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                props.machineState.materials && props.machineState.materials.map(
-                                    el => <tr key={'material-' + el.itemIdentifier}>
-                                        <td>{el.itemIdentifier}</td>
-                                        <td>{el.title}</td>
-                                        <td>{el.author}</td>
-                                        <td>{el.status}</td>
-                                        <td>{el.message}</td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Button variant={'primary'} onClick={props.handleReset}>
-                        Tilbage
-                    </Button>
-                </Col>
-            </Row>
-        </Container>
+                    <div className="col-md mt-4">
+                        <Input
+                            name="barcode"
+                            label="Stregkode"
+                            value={scannedBarcode}
+                            info={infoString}
+                            readOnly
+                        ></Input>
+                        <BannerList items={handedInBooks}></BannerList>
+                    </div>
+                </div>
+            </div>
+            <div className="col-md-3">
+                <HelpBox
+                    text={
+                        'Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.'
+                    }
+                ></HelpBox>
+            </div>
+        </>
     );
 }
 
 ReturnMaterials.propTypes = {
     actionHandler: PropTypes.func.isRequired,
-    handleReset: PropTypes.func.isRequired,
-    machineState: PropTypes.object.isRequired
 };
 
 export default ReturnMaterials;

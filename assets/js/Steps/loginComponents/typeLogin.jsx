@@ -28,7 +28,7 @@ function TypeLogin({ actionHandler }) {
         if (loanNumberEntering) {
             setLoanNumberEntering(false);
         } else {
-            actionHandler('login', context);
+            actionHandler('enterFlow', {flow:"login"});
         }
     }
     return (
