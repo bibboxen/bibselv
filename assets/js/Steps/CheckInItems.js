@@ -23,7 +23,6 @@ import Input from "./components/input";
  */
 function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const [handedInBooks, setHandedInBooks] = useState([]);
     const [scannedBarcode, setScannedBarcode] = useState("");
     const [infoString, setInfoString] = useState("");
 
@@ -69,7 +68,11 @@ function CheckInItems({ actionHandler }) {
                             info={infoString}
                             readOnly
                         ></Input>
-                        <BannerList items={handedInBooks}></BannerList>
+                        {context.machineState.get.items && (
+                            <BannerList
+                                items={context.machineState.get.items}
+                            ></BannerList>
+                        )}
                     </div>
                 </div>
             </div>

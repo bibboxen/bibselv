@@ -7,7 +7,7 @@ import MachineStateContext from '../../context/machineStateContext';
 const Input = ({ name, label, error, info, ...rest }) => {
     const context = useContext(MachineStateContext);
     let classes = info ? 'input info' : 'input';
-    context.machineState.get.step === 'borrow' ? `${classes}` : `${classes} purple`;
+    classes = context.machineState.get.step === 'checkOutItems' ? `${classes}` : `${classes} purple`;
     return (
         <div className={classes}>
             <label htmlFor={name}>{label}</label>
