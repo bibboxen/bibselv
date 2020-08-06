@@ -23,15 +23,12 @@ function Status({ actionHandler }) {
                 }
 
                 if (code === BARCODE_COMMAND_CHECKOUT) {
-                    console.log("switch to checkoutitems/lån");
                     actionHandler("changeFlow", {
                         flow: "checkOutItems",
                     });
                 }
 
                 if (code === BARCODE_COMMAND_CHECKIN) {
-                    console.log("switch to checkinitems/aflever");
-
                     actionHandler("changeFlow", {
                         flow: "checkInItems",
                     });

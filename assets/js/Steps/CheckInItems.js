@@ -42,7 +42,6 @@ function CheckInItems({ actionHandler }) {
                 let whichFlow = context.machineState.get.user
                     ? "changeFlow"
                     : "enterFlow";
-                    console.log(whichFlow)
                 if (code === BARCODE_COMMAND_STATUS) {
                     actionHandler(whichFlow, {
                         flow: "status",
