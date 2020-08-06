@@ -13,7 +13,6 @@ import BarcodeScanner from "./BarcodeScanner";
 
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
-debugger
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (code) => {
@@ -56,7 +55,7 @@ debugger
                 <div className="col-md-4 mt-4">
                     <BannerList
                         title={"Aktuelle lån"}
-                        items={ [
+                        items={[
                             ...context.machineState.get.fineItems,
                             ...context.machineState.get.overdueItems,
                             ...context.machineState.get.recallItems,
