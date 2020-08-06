@@ -13,6 +13,7 @@ import BarcodeScanner from "./BarcodeScanner";
 
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
+debugger
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (code) => {
@@ -42,6 +43,7 @@ function Status({ actionHandler }) {
         };
     }, [actionHandler]);
 
+
     return (
         <div className="col-md">
             <div className="col-md-9" style={{ paddingLeft: "0" }}>
@@ -54,7 +56,12 @@ function Status({ actionHandler }) {
                 <div className="col-md-4 mt-4">
                     <BannerList
                         title={"Aktuelle lån"}
-                        items={context.machineState.get.chargedItems}
+                        items={ [
+                            ...context.machineState.get.fineItems,
+                            ...context.machineState.get.overdueItems,
+                            ...context.machineState.get.recallItems,
+                            ...context.machineState.get.chargedItems,
+                        ]}
                     ></BannerList>
                 </div>
                 <div className="col-md-4 mt-4">
@@ -66,12 +73,7 @@ function Status({ actionHandler }) {
                 <div className="col-md-4 mt-4">
                     <BannerList
                         title={"Klar til afhentning"}
-                        items={[
-                            ...context.machineState.get.fineItems,
-                            ...context.machineState.get.overdueItems,
-                            ...context.machineState.get.recallItems,
-                            ...context.machineState.get.chargedItems,
-                        ]}
+                        items={context.machineState.get.holdItems}
                     ></BannerList>
                 </div>
             </div>
