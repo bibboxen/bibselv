@@ -6,6 +6,8 @@ import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
     BARCODE_SCANNING_TIMEOUT,
+    BARCODE_COMMAND_CHECKOUT,
+    BARCODE_COMMAND_STATUS
 } from "../constants";
 import HelpBox from "./components/helpBox";
 import BannerList from "./components/bannerList";
@@ -35,6 +37,22 @@ function CheckInItems({ actionHandler }) {
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
+                    actionHandler("changeFlow", { flow: "reset" });
+                }
+                let whichFlow = context.machineState.get.user
+                    ? "changeFlow"
+                    : "enterFlow";
+                    console.log(whichFlow)
+                if (code === BARCODE_COMMAND_STATUS) {
+                    actionHandler(whichFlow, {
+                        flow: "status",
+                    });
+                }
+
+                if (code === BARCODE_COMMAND_CHECKOUT) {
+                    actionHandler(whichFlow, {
+                        flow: "checkOutItems",
+                    });
                 }
                 return;
             }

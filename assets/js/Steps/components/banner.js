@@ -8,7 +8,6 @@ import {
     faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 function Banner({ item }) {
-    debugger;
     let classes = "banner ";
     let icon = "";
     let title = item.title;

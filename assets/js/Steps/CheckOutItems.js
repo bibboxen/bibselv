@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
-    BARCODE_SCANNING_TIMEOUT
+    BARCODE_SCANNING_TIMEOUT,
+    BARCODE_COMMAND_STATUS,
+    BARCODE_COMMAND_CHECKIN
 } from '../constants';
 import MachineStateContext from '../context/machineStateContext';
 import HelpBox from './components/helpBox';
@@ -31,11 +33,21 @@ function CheckOutItems({ actionHandler }) {
             scannedBarcode ? 'Bogen blev registreret. Klar til næste' : ''
         );
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    // handleReset();
+                    actionHandler("changeFlow", { flow: "reset" });
+                }
+                if (code === BARCODE_COMMAND_STATUS) {
+                    actionHandler("changeFlow", {
+                        flow: "status",
+                    });
+                }
+                
+                if (code === BARCODE_COMMAND_CHECKIN) {
+                    actionHandler("changeFlow", {
+                        flow: "checkInItems",
+                    });
                 }
                 return;
             }

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import MachineStateContext from "../../context/machineStateContext";
-import Button from "../components/button";
+import Button from "./button";
 import {
   faBookReader,
   faInfoCircle,
