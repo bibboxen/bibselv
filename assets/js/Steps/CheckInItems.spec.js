@@ -17,7 +17,7 @@ it('renders without crashing', () => {
     shallow(
         <MachineStateContext.Provider value={machineState}>
             <CheckInItems actionHandler={() => {}} machineState={machineState}
-                          handleReset={() => {}}/>
+                handleReset={() => {}}/>
         </MachineStateContext.Provider>
     );
 });

@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import ScanLogin from './loginComponents/scanLogin';
+import ScanLogin from './loginComponents/ScanLogin';
 import PropTypes from 'prop-types';
 
 /**

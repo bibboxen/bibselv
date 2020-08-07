@@ -7,7 +7,7 @@
 import React from 'react';
 import CheckOutItems from './CheckOutItems';
 import { shallow } from 'enzyme';
-import { expect, it } from '@jest/globals';
+import { it } from '@jest/globals';
 import MachineStateContext from '../context/machineStateContext';
 
 it('renders without crashing', () => {
