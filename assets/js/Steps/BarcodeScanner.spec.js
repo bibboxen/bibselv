@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Tests for BarcodeScanner class.
+ */
+
 import BarcodeScanner from './BarcodeScanner';
 import { expect, it } from '@jest/globals';
 

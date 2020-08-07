@@ -1,0 +1,77 @@
+.banner {
+    // Display & position
+    display: flex;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 2px;
+    border: 1px solid $grey-border;
+
+    // Text
+    font-family: "Roboto", sans-serif;
+    
+    // Color
+    background-color: $grey;
+    color: $font-color;
+
+    .header {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    &.danger {
+        // Color 
+        background-color: $red;
+        border-color: $red;
+        color: $white;
+    }
+
+    &.success {
+        // Color 
+        background-color: $light-green;
+        border-color: $green-border;
+    }
+
+    >.icon {
+        // Display & position
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+
+        // Text
+        font-size: 30px;
+    }
+}
+
+.banner-list-header {
+    // Display & position
+    display: inline-flex;
+
+    // Text
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+
+    >.counter {
+        // Display & position
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        height: 24px;
+        width: 24px;
+        margin-left: 5px;
+
+        // Color
+        color: white;
+        background-color: $blue;
+    }
+}
+
+@keyframes banner-spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fa-spinner {
+    animation: banner-spinner 3s linear infinite;
+}

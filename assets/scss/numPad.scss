@@ -1,0 +1,26 @@
+.num-pad {
+    // Display & position
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-gap: 0% 5%;
+
+    .button-numpad {
+        // Display & position
+        display: flex;
+        justify-content: center;
+        margin-top: 5%;
+        border-radius: 40px;
+
+        // Color
+        background-color: $white;
+        color: $font-color;
+
+        // Text
+        font-size: 2rem;
+        font-family: "Roboto", sans-serif;
+
+        // Shadow
+        @include box-shadow(3px, 3px, 6px, 1px, rgba(0, 0, 0, 0.4));
+    }
+}

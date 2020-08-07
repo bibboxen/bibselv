@@ -281,6 +281,10 @@ module.exports = function(options, imports, register) {
                 },
                 _reset: function(client) {
                     this.transition(client, 'initial');
+                },
+                changeFlow: function(client) {
+                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    actionHandler.changeFlow(client, client.actionData.flow);
                 }
             }
         },

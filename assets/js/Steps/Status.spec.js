@@ -1,7 +1,13 @@
+/**
+ * @file
+ * Tests for Status.
+ */
+
 import React from 'react';
 import Status from './Status';
 import { shallow } from 'enzyme';
 import { it } from '@jest/globals';
+import MachineStateContext from '../context/machineStateContext';
 
 it('renders without crashing', () => {
     const machineState = {
@@ -16,5 +22,10 @@ it('renders without crashing', () => {
         recallItems: [],
         unavailableHoldItems: []
     };
-    shallow(<Status actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />);
+
+    shallow(
+        <MachineStateContext.Provider value={machineState}>
+            <Status actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />
+        </MachineStateContext.Provider>
+    );
 });

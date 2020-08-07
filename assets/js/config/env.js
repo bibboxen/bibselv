@@ -1,3 +1,8 @@
+/**
+ * @file
+ * For use in build. From create-react-app.
+ */
+
 'use strict';
 
 const fs = require('fs');

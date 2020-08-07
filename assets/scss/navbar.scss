@@ -1,0 +1,45 @@
+.navbar {
+    // Display & position
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80px;
+    margin-bottom: 5%;
+
+    // Color
+    background-color: $white;
+
+    &.initial {
+        // Color
+        background-color: transparent;
+    }
+    .text-container {
+        // Display & position
+        width: 30%;
+
+        > .text {
+            // Display & position
+            margin-left: 5%;
+
+            // Color
+            color: $font-color;
+
+            // Text
+            font-family: "Roboto", sans-serif;
+            font-weight: 300;
+            font-size: 1.5rem;
+        }
+
+        > .bold {
+            // Text
+            font-weight: 700;
+        }
+    }
+
+    .button-container {
+        // Display & position
+        width: 70%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

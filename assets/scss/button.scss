@@ -1,0 +1,57 @@
+
+.button {
+    // Display & position
+    margin: 1%;
+    width: 15%;
+    padding: 1%;
+    border-radius: 3%;
+    border-width: 1px;
+    border-style: solid;
+
+    // Color
+    color: $white;
+
+    // Text
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+    
+    &.login-button {
+        // Display & position
+        width: 100%;
+        margin-top: 5%;
+        
+        // Color
+        border-color: $green-border;
+        background-color: $green;
+    }
+
+    &.checkoutitems {
+        // Color
+        border-color: $yellow;
+        background-color: $yellow;
+        color: $font-color;
+    }
+    &.checkinitems {
+        // Color
+        border-color: $purple;
+        background-color: $purple;
+    }
+    &.reset {
+        // Display & position
+        margin-left: 3%;
+        
+        // Color
+        border-color: $red;
+        background-color: $red;
+    }
+
+    &.status {
+        // Color
+        border-color: $blue;
+        background-color: $blue;
+    }
+
+    >.icon {
+        margin-left: 5px;
+    }
+}

@@ -1,12 +1,24 @@
-import React, { useEffect } from 'react';
-import { Container, Row, Col, Alert, Table, Button } from 'react-bootstrap';
+/**
+ * @file
+ *
+ * @TODO: Describe what it is used for.
+ */
+
+import React, { useContext, useState, useEffect } from 'react';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
+import MachineStateContext from '../context/machineStateContext';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
-    BARCODE_SCANNING_TIMEOUT
+    BARCODE_SCANNING_TIMEOUT,
+    BARCODE_COMMAND_CHECKOUT,
+    BARCODE_COMMAND_STATUS
 } from '../constants';
+import HelpBox from './components/helpBox';
+import BannerList from './components/bannerList';
+import Header from './components/header';
+import Input from './components/input';
 
 /**
  * CheckInItems component.
@@ -17,20 +29,44 @@ import {
  * @return {*}
  * @constructor
  */
-function CheckInItems(props) {
-    const { actionHandler, handleReset } = props;
+function CheckInItems({ actionHandler }) {
+    const context = useContext(MachineStateContext);
+    const [scannedBarcode, setScannedBarcode] = useState('');
+    const [infoString, setInfoString] = useState('');
 
+    /**
+     * Set up barcode scanner listener.
+     */
     useEffect(() => {
+        // @TODO: Why this call?
+        setInfoString(
+            scannedBarcode ? 'Bogen blev registreret. Klar til næste' : ''
+        );
+
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
-        const barcodeCallback = code => {
+        const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    handleReset();
+                    actionHandler('changeFlow', { flow: 'reset' });
+                }
+                const whichFlow = context.machineState.get.user
+                    ? 'changeFlow'
+                    : 'enterFlow';
+                if (code === BARCODE_COMMAND_STATUS) {
+                    actionHandler(whichFlow, {
+                        flow: 'status'
+                    });
+                }
+
+                if (code === BARCODE_COMMAND_CHECKOUT) {
+                    actionHandler(whichFlow, {
+                        flow: 'checkOutItems'
+                    });
                 }
                 return;
             }
-
+            setScannedBarcode(code);
             actionHandler('checkInItem', {
                 itemIdentifier: code
             });
@@ -40,67 +76,42 @@ function CheckInItems(props) {
         return () => {
             barcodeScanner.stop();
         };
-    }, [actionHandler, handleReset]);
-
-    // Return nothing if no machineState is set.
-    if (!Object.prototype.hasOwnProperty.call(props, 'machineState')) {
-        return;
-    }
+    }, [actionHandler]);
 
     return (
-        <Container>
-            <h1>Return</h1>
+        <>
+            <div className="col-md-9">
+                <Header header="Aflever" text="Scan stregkoden på bogen du vil aflevere"/>
+                <div className="row">
+                    <div className="col-md-2"/>
 
-            <Row>
-                <Col>
-                    <Alert variant={'info'}>Skan materialer</Alert>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <h2>Items</h2>
-
-                    <Table striped={true} bordered={true}>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>title</th>
-                                <th>author</th>
-                                <th>status</th>
-                                <th>message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                props.machineState.items && props.machineState.items.map(
-                                    item => <tr key={'item-' + item.itemIdentifier}>
-                                        <td>{item.itemIdentifier}</td>
-                                        <td>{item.title}</td>
-                                        <td>{item.author}</td>
-                                        <td>{item.status}</td>
-                                        <td>{item.message}</td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Button variant={'primary'} onClick={props.handleReset}>
-                        Tilbage
-                    </Button>
-                </Col>
-            </Row>
-        </Container>
+                    <div className="col-md mt-4">
+                        <Input
+                            name="barcode"
+                            label="Stregkode"
+                            value={scannedBarcode}
+                            info={infoString}
+                            readOnly
+                        />
+                        {context.machineState.get.items && (
+                            <BannerList items={context.machineState.get.items}/>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <div className="col-md-3">
+                <HelpBox
+                    text={
+                        'Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.'
+                    }
+                />
+            </div>
+        </>
     );
 }
 
 CheckInItems.propTypes = {
-    actionHandler: PropTypes.func.isRequired,
-    handleReset: PropTypes.func.isRequired,
-    machineState: PropTypes.object.isRequired
+    actionHandler: PropTypes.func.isRequired
 };
 
 export default CheckInItems;
