@@ -6,8 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import Initial from './Steps/Initial';
-import Login from './Steps/login';
-import Status from './Steps/status';
+import Login from './Steps/Login';
+import Status from './Steps/Status';
 import CheckInItems from './Steps/CheckInItems';
 import NavBar from './Steps/components/navbar';
 import MachineStateContext from './context/machineStateContext';
