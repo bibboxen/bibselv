@@ -3,71 +3,104 @@
  * Main entry point of react application.
  */
 
-import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
-import Initial from "./steps/Initial";
-import Login from "./steps/login";
-import Status from "./steps/status";
-import CheckInItems from "./steps/CheckInItems";
-import NavBar from "./steps/components/navbar";
-import MachineStateContext from "./context/machineStateContext";
-import CheckOutItems from "./steps/CheckOutItems";
+import React, { useState, useEffect } from 'react';
+import socketIOClient from 'socket.io-client';
+import Initial from './steps/Initial';
+import Login from './steps/login';
+import Status from './steps/status';
+import CheckInItems from './steps/CheckInItems';
+import NavBar from './steps/components/navbar';
+import MachineStateContext from './context/machineStateContext';
+import CheckOutItems from './steps/CheckOutItems';
 
+/**
+ * App.
+ *
+ * @return {*}
+ * @constructor
+ */
 function App() {
-    const socket = socketIOClient("http://bibbox-website.local.itkdev.dk:8010");
+    // @TODO: Get from configuration.
+    const socket = socketIOClient('http://bibbox-website.local.itkdev.dk:8010');
+    // @TODO: The state should not be set until the state is received through
+    // the socket connection. Until then the app should be "loading".
+    const [machineState, setMachineState] = useState({ step: 'initial' });
+    // @TODO: Should come from configuration.
+    const [library, setLibrary] = useState('Tranbjerg bibliotek');
+    // @TODO: Add a comment about the store.
+    const store = {
+        machineState: { get: machineState, set: setMachineState },
+        library: { get: library, set: setLibrary }
+    };
+
+    /**
+     * Set up socket connection.
+     */
     useEffect(() => {
-        // Ready
-        socket.emit("ClientReady", {
-            token: "123",
+        // Signal that the client is ready.
+        socket.emit('ClientReady', {
+            token: '123'
         });
-        socket.on("UpdateState", (data) => {
+
+        // Listen for changes to machine state.
+        socket.on('UpdateState', (data) => {
             setMachineState(data);
         });
     }, []);
 
+    /**
+     * Handle a user action.
+     *
+     * @param action
+     *   Name of the action
+     * @param data
+     */
     function handleAction(action, data) {
-        if (data.flow === "reset") {
-            socket.emit("ClientEvent", {
-                name: "Reset",
-                token: "123",
+        // @TODO: Replace so it is the action that is reset insteaf of flow.
+        if (data.flow === 'reset') {
+            socket.emit('ClientEvent', {
+                name: 'Reset',
+                token: '123'
             });
         } else {
-            socket.emit("ClientEvent", {
-                name: "Action",
+            socket.emit('ClientEvent', {
+                name: 'Action',
                 action: action,
-                token: "123",
-                data: data,
+                token: '123',
+                data: data
             });
         }
     }
-    function renderStep({ step }) {
-        switch (step.toLowerCase()) {
-            case "checkoutitems":
+
+    /**
+     * @TODO: Document function.
+     *
+     * @param step
+     *   @TODO: Document parameter.
+     * @return {*}
+     */
+    function renderStep(step) {
+        switch (step) {
+            case 'checkOutItems':
                 return <CheckOutItems actionHandler={handleAction} />;
-            case "checkinitems":
+            case 'checkInItems':
                 return <CheckInItems actionHandler={handleAction} />;
-            case "status":
+            case 'status':
                 return <Status actionHandler={handleAction} />;
-            case "loginscan":
+            case 'loginScan':
                 return <Login actionHandler={handleAction} />;
             default:
                 return <Initial actionHandler={handleAction} />;
         }
     }
 
-    const [machineState, setMachineState] = useState({ step: "initial" });
-    const [library, setLibrary] = useState("Tranbjerg bibliotek");
-    const store = {
-        machineState: { get: machineState, set: setMachineState },
-        library: { get: library, set: setLibrary },
-    };
     return (
         <>
             <MachineStateContext.Provider value={store}>
-                <NavBar actionHandler={handleAction}></NavBar>
+                <NavBar actionHandler={handleAction}/>
                 <div className="container">
-                    <div className="row" style={{ width: "100%" }}>
-                        {renderStep(machineState)}
+                    <div className="row" style={{ width: '100%' }}>
+                        {renderStep(machineState.step)}
                     </div>
                 </div>
             </MachineStateContext.Provider>

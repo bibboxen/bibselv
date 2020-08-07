@@ -1,5 +1,10 @@
-import React, { useContext, useState } from 'react';
-import MachineStateContext from '../../context/machineStateContext';
+/**
+ * @file
+ *
+ * @TODO: Describe what it is used for.
+ */
+
+import React, { useState } from 'react';
 import Header from '../components/header';
 import Input from '../components/input';
 import HelpBox from '../components/helpBox';
@@ -8,10 +13,26 @@ import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
 
+/**
+ * TypeLogin.
+ *
+ * @param actionHandler
+ *   @TODO: Describe prop.
+ *
+ * @return {*}
+ * @constructor
+ */
 function TypeLogin({ actionHandler }) {
+    // @TODO: Rename loadNumber to username
     const [loanNumber, setLoanNumber] = useState('');
     const [password, setPassword] = useState('');
     const [loanNumberEntering, setLoanNumberEntering] = useState(true);
+
+    /**
+     * @TODO: Document function.
+     *
+     * @param button
+     */
     function onNumPadPress({ button }) {
         if (loanNumberEntering) {
             button.toLowerCase() === 'c'
@@ -23,20 +44,24 @@ function TypeLogin({ actionHandler }) {
                 : setPassword(`${password}${button}`);
         }
     }
+
+    /**
+     * @TODO: Document function.
+     */
     function onButtonPress() {
         if (loanNumberEntering) {
             setLoanNumberEntering(false);
         } else {
-            actionHandler('enterFlow', {flow:"login"});
+            actionHandler('enterFlow', { flow: 'login' });
         }
     }
+
     return (
         <>
             <div className="col-md m-3">
-                <Header header="Login" text="Indtast lånernummer"></Header>
+                <Header header="Login" text="Indtast lånernummer"/>
                 <div className="row">
-                    <div className="col-md-2"></div>
-
+                    <div className="col-md-2"/>
                     <div className="col-md mt-4">
                         {loanNumberEntering && (
                             <Input
@@ -44,7 +69,7 @@ function TypeLogin({ actionHandler }) {
                                 label="Lånenummer"
                                 value={loanNumber}
                                 readOnly
-                            ></Input>
+                            />
                         )}
                         {!loanNumberEntering && (
                             <Input
@@ -52,26 +77,27 @@ function TypeLogin({ actionHandler }) {
                                 label="Password"
                                 value={password}
                                 readOnly
-                            ></Input>
+                            />
                         )}
-                        <NumPad handleNumpadPress={onNumPadPress}></NumPad>
+                        <NumPad handleNumpadPress={onNumPadPress}/>
                     </div>
                 </div>
             </div>
             <div className="col-md-3 m-3 d-flex flex-column justify-content-between">
                 <HelpBox
                     text={'Indtast dit lånernummer med knapperne her på skærmen.'}
-                ></HelpBox>
+                />
                 <Button
                     label={'Fortsæt'}
                     icon={faArrowAltCircleRight}
                     handleButtonPress={onButtonPress}
                     which="login-button"
-                ></Button>
+                />
             </div>
         </>
     );
 }
+
 TypeLogin.propTypes = {
     actionHandler: PropTypes.func.isRequired
 };

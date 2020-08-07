@@ -1,3 +1,9 @@
+/**
+ * @file
+ *
+ * Tests for Initial.
+ */
+
 import React from 'react';
 import Initial from './Initial';
 import MachineStateContext from '../context/machineStateContext';
@@ -10,6 +16,7 @@ it('renders without crashing', () => {
             name: 'initial'
         }
     };
+
     shallow(
         <MachineStateContext.Provider value={machineState}>
             <Initial actionHandler={() => {}} />
@@ -29,6 +36,5 @@ it('renders three bubbles', () => {
         </MachineStateContext.Provider>
     );
 
-    console.log(wrapper);
-    expect(wrapper).to(<h1 className="mb-5">Vælg en funktion for at starte</h1>);
+    expect(wrapper).toContainReact(<h1 className="mb-5">Vælg en funktion for at starte</h1>);
 });

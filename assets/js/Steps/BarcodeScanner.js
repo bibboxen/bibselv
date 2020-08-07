@@ -1,9 +1,16 @@
+/**
+ * @file
+ * Contains the barcode scanning listener.
+ * Based on the method from https://stackoverflow.com/a/55251571
+ */
+
 // Barcode pattern.
 const pattern = /^(!BA11|!BA10|!BA)(?<code>.+)!C$/;
 
 /**
+ * BarcodeScanner.
+ *
  * Class to receive results from a barcode scanner.
- * Based on the method from https://stackoverflow.com/a/55251571
  */
 export class BarcodeScanner {
     /**

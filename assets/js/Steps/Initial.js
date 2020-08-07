@@ -1,3 +1,9 @@
+/**
+ * @file
+ *
+ * @TODO: Describe what it is used for.
+ */
+
 import React, { useEffect } from 'react';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';

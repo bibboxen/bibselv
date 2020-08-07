@@ -1,18 +1,50 @@
+/**
+ * @file
+ * BannerList component.
+ *
+ * @TODO: Describe what it is used for.
+ * @TODO: Missing tests.
+ */
+
 import React from 'react';
 import Banner from './banner';
 import PropTypes from 'prop-types';
+
+/**
+ * BannerList.
+ *
+ * @param items
+ *   @TODO: Describe prop.
+ * @param title
+ *   @TODO: Describe prop.
+ * @return {*}
+ * @constructor
+ */
 function BannerList({ items, title }) {
-    function compare(a, b) {
+    /**
+     * Sort function for item statuses.
+     *
+     * @param a
+     *   First item status.
+     * @param b
+     *   Second item status.
+     * @return {number}
+     */
+    function itemSort(a, b) {
         if (a.status > b.status) {
             return -1;
         }
+
         if (a.status < b.status) {
             return 1;
         }
+
         return 0;
     }
+
     items.reverse();
-    items.sort(compare);
+    items.sort(itemSort);
+
     return (
         <>
             {title && (
@@ -21,7 +53,7 @@ function BannerList({ items, title }) {
                 </div>
             )}
             {items.map((item) => (
-                <Banner item={item} key={item.id || item.itemIdentifier}></Banner>
+                <Banner item={item} key={item.id || item.itemIdentifier} />
             ))}
         </>
     );

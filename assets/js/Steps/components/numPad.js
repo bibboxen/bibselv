@@ -1,5 +1,21 @@
+/**
+ * @file
+ *
+ * @TODO: Describe what it is used for.
+ * @TODO: Missing tests.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
+
+/**
+ * NumPad.
+ *
+ * @param handleNumpadPress
+ *   @TODO: Describe prop.
+ * @return {*}
+ * @constructor
+ */
 function NumPad({ handleNumpadPress }) {
     const buttons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '#', '0', 'C'];
     return (

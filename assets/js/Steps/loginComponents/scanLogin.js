@@ -1,3 +1,9 @@
+/**
+ * @file
+ *
+ * @TODO: Describe what it is used for.
+ */
+
 import React, { useEffect, useContext } from 'react';
 import BarcodeScanner from '../BarcodeScanner';
 import PropTypes from 'prop-types';
@@ -22,13 +28,20 @@ import MachineStateContext from '../../context/machineStateContext';
  */
 function ScanLogin({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    // Setup component.
+
+    /**
+     * Setup component.
+     *
+     * Starts barcode scanner listener.
+     */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = (code) => {
             if (code === BARCODE_COMMAND_FINISH) {
+                // @TODO: Missing reset action.
             }
+
             if (!context.machineState.get.user) {
                 actionHandler('login', {
                     username: code,
@@ -46,12 +59,16 @@ function ScanLogin({ actionHandler }) {
     return (
         <>
             <div className="col-md-9">
-                <Header header="Login" text="Scan låner stregkode"></Header>
+                <Header header="Login" text="Scan låner stregkode"/>
                 <div className="row">
-                    <div className="col-md-2"></div>
+                    <div className="col-md-2"/>
                     <div className="col-md mt-4">
-                        <div className="content" onClick={() => actionHandler('login', { username: 'C023648674', password: '' })}>
-                            <FontAwesomeIcon icon={faBarcode} />
+                        <div className="content"
+                            onClick={() => actionHandler('login', {
+                                username: 'C023648674',
+                                password: ''
+                            })}>
+                            <FontAwesomeIcon icon={faBarcode}/>
                         </div>
                     </div>
                 </div>
@@ -61,7 +78,7 @@ function ScanLogin({ actionHandler }) {
                     text={
                         'Brug håndscanneren til at scanne stregkoden på bogen.'
                     }
-                ></HelpBox>
+                />
             </div>
         </>
     );

@@ -1,3 +1,9 @@
+/**
+ * @file
+ *
+ * @TODO: Describe what it is used for.
+ */
+
 import React, { useContext, useState, useEffect } from 'react';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
@@ -17,9 +23,10 @@ import Input from './components/input';
 /**
  * CheckOutItems component.
  *
- * Supplies a page for borrowing items.
+ * Supplies a page for borrowing items from the library.
  *
- * @param props
+ * @param actionHandler
+ *   @TODO: Describe prop.
  * @return {*}
  * @constructor
  */
@@ -28,25 +35,30 @@ function CheckOutItems({ actionHandler }) {
     const [scannedBarcode, setScannedBarcode] = useState('');
     const [infoString, setInfoString] = useState('');
 
+    /**
+     * Set up barcode scanner listener.
+     */
     useEffect(() => {
+        // @TODO: Why this call here?
         setInfoString(
             scannedBarcode ? 'Bogen blev registreret. Klar til næste' : ''
         );
+
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler("changeFlow", { flow: "reset" });
+                    actionHandler('changeFlow', { flow: 'reset' });
                 }
                 if (code === BARCODE_COMMAND_STATUS) {
-                    actionHandler("changeFlow", {
-                        flow: "status",
+                    actionHandler('changeFlow', {
+                        flow: 'status'
                     });
                 }
-                
+
                 if (code === BARCODE_COMMAND_CHECKIN) {
-                    actionHandler("changeFlow", {
-                        flow: "checkInItems",
+                    actionHandler('changeFlow', {
+                        flow: 'checkInItems'
                     });
                 }
                 return;
@@ -62,15 +74,16 @@ function CheckOutItems({ actionHandler }) {
             barcodeScanner.stop();
         };
     }, [actionHandler]);
+
     return (
         <>
             <div className="col-md-9">
                 <Header
                     header="Lån"
                     text="Scan stregkoden på bogen du vil låne"
-                ></Header>
+                />
                 <div className="row">
-                    <div className="col-md-2"></div>
+                    <div className="col-md-2"/>
 
                     <div className="col-md mt-4">
                         <Input
@@ -79,11 +92,9 @@ function CheckOutItems({ actionHandler }) {
                             value={scannedBarcode}
                             info={infoString}
                             readOnly
-                        ></Input>
+                        />
                         {context.machineState.get.items && (
-                            <BannerList
-                                items={context.machineState.get.items}
-                            ></BannerList>
+                            <BannerList items={context.machineState.get.items}/>
                         )}
                     </div>
                 </div>
@@ -93,7 +104,7 @@ function CheckOutItems({ actionHandler }) {
                     text={
                         'Brug håndscanneren til at scanne stregkoden på bogen.'
                     }
-                ></HelpBox>
+                />
             </div>
         </>
     );
