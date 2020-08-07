@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Constants used in the application.
+ */
+
 // Barcode constants.
 export const BARCODE_COMMAND_CHECKOUT = '03009';
 export const BARCODE_COMMAND_CHECKIN = '03010';

@@ -1,3 +1,8 @@
+/**
+ * @file
+ * For use in tests. From create-react-app.
+ */
+
 'use strict';
 
 const path = require('path');

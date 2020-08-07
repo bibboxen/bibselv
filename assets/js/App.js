@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Main entry point of react application.
+ */
+
 import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import Initial from "./steps/Initial";

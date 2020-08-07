@@ -1,3 +1,10 @@
+/**
+ * @file
+ * Banner component.
+ *
+ * @TODO: Describe what it is used for.
+ */
+
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +14,15 @@ import {
     faSpinner,
     faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
+
+/**
+ * Banner.
+ *
+ * @param item
+ *   @TODO: Describe prop.
+ * @return {*}
+ * @constructor
+ */
 function Banner({ item }) {
     let classes = "banner ";
     let icon = "";
