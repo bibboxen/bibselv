@@ -5,13 +5,13 @@
 
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
-import Initial from './steps/Initial';
-import Login from './steps/login';
-import Status from './steps/status';
-import CheckInItems from './steps/CheckInItems';
-import NavBar from './steps/components/navbar';
+import Initial from './Steps/Initial';
+import Login from './Steps/login';
+import Status from './Steps/status';
+import CheckInItems from './Steps/CheckInItems';
+import NavBar from './Steps/components/navbar';
 import MachineStateContext from './context/machineStateContext';
-import CheckOutItems from './steps/CheckOutItems';
+import CheckOutItems from './Steps/CheckOutItems';
 
 /**
  * App.
