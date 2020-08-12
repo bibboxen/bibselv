@@ -103,9 +103,6 @@ class ActionHandler {
 
             const result = resp.result;
 
-            debug(resp);
-            debug(result);
-
             const item = {
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties.title,
@@ -196,9 +193,6 @@ class ActionHandler {
 
             const result = resp.result;
 
-            debug(resp);
-            debug(result);
-
             const item = {
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties.title,
@@ -262,7 +256,6 @@ class ActionHandler {
          */
         this.bus.once(busEvent, resp => {
             debug('Login success');
-            debug(resp);
 
             const user = resp.patron;
             const names = user.personalName.split(' ');
@@ -386,7 +379,6 @@ class ActionHandler {
              */
             this.bus.once(busEvent, resp => {
                 debug('Patron retrieved successfully');
-                debug(resp);
 
                 const actionData = {
                     // Status is done refreshing.
