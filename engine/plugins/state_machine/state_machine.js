@@ -259,22 +259,7 @@ module.exports = function(options, imports, register) {
             status: {
                 _onEnter: function(client) {
                     debug('Entered status on client: ' + client.token);
-                    client.state.step = 'status';
-                    // Information is already present after the login in client.internal.
-                    client.state = Object.assign({}, client.state, {
-                        // Items that are ready to be picked up.
-                        holdItems: client.internal.user.holdItems,
-                        // Items that are overdue being checked in.
-                        overdueItems: client.internal.user.overdueItems,
-                        // Items the user has checked out.
-                        chargedItems: client.internal.user.chargedItems,
-                        // Items with a fine.
-                        fineItems: client.internal.user.fineItems,
-                        // Items that have been recalled.
-                        recallItems: client.internal.user.recallItems,
-                        // Items the user has reserved, but which are not ready.
-                        unavailableHoldItems: client.internal.user.unavailableHoldItems
-                    });
+                    actionHandler.status(client);
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -282,9 +267,25 @@ module.exports = function(options, imports, register) {
                 _reset: function(client) {
                     this.transition(client, 'initial');
                 },
+                /**
+                 * Change flow for a client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
                 changeFlow: function(client) {
                     debug('Triggered changeFlow on client: ' + client.token, client.actionData);
                     actionHandler.changeFlow(client, client.actionData.flow);
+                },
+                /**
+                 * The status has been updated for the user that is logged into the client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                statusUpdated: function(client) {
+                    debug('Triggered statusUpdated on client: ' + client.token, client.actionData);
+                    client.state = Object.assign({}, client.state, client.actionData);
                 }
             }
         },
