@@ -351,3 +351,84 @@ it('Tests that status can be retrieved', done => {
         }, 400);
     }).catch(done.fail);
 });
+
+
+it('Tests that status is refreshed when visiting status again after login', done => {
+    let client = {
+        token: '123'
+    };
+
+    setup().then(app => {
+        client = app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Reset'
+        });
+
+        client = app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Action',
+            action: 'enterFlow',
+            data: {
+                flow: 'status'
+            }
+        });
+
+        client.state.step.should.equal('loginScan');
+        client.state.flow.should.equal('status');
+
+        client = app.services.state_machine.handleEvent({
+            token: '123',
+            name: 'Action',
+            action: 'login',
+            data: {
+                username: config.username,
+                password: config.pin
+            }
+        });
+
+        setTimeout(() => {
+            client = app.services.client.load('123');
+
+            client.state.step.should.equal('status');
+            client.state.flow.should.equal('status');
+            client.state.statusRefreshing.should.equal(false);
+
+            client.state.user.name.should.equal('Testkort');
+            client.state.user.birthdayToday.should.equal(false);
+
+            client.state.holdItems.length.should.equal(3);
+
+            client = app.services.state_machine.handleEvent({
+                token: '123',
+                name: 'Action',
+                action: 'changeFlow',
+                data: {
+                    flow: 'checkOutItems'
+                }
+            });
+
+            client.state.step.should.equal('checkOutItems');
+            client.state.flow.should.equal('checkOutItems');
+
+            client = app.services.state_machine.handleEvent({
+                token: '123',
+                name: 'Action',
+                action: 'changeFlow',
+                data: {
+                    flow: 'status'
+                }
+            });
+
+            client.state.statusRefreshing.should.equal(true);
+
+            setTimeout(() => {
+                client.state.step.should.equal('status');
+                client.state.flow.should.equal('status');
+                client.state.statusRefreshing.should.equal(false);
+                client.state.holdItems.length.should.equal(4);
+
+                done();
+            }, 600);
+        }, 400);
+    }).catch(done.fail);
+});
