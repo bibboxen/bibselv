@@ -352,7 +352,6 @@ it('Tests that status can be retrieved', done => {
     }).catch(done.fail);
 });
 
-
 it('Tests that status is refreshed when visiting status again after login', done => {
     let client = {
         token: '123'
