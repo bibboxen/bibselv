@@ -427,7 +427,7 @@ it('Tests that status is refreshed when visiting status again after login', done
                 client.state.holdItems.length.should.equal(4);
 
                 done();
-            }, 600);
+            }, 400);
         }, 400);
     }).catch(done.fail);
 });

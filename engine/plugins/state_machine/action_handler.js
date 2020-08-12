@@ -357,11 +357,12 @@ class ActionHandler {
         client.state.step = 'status';
 
         const priorState = client.__machina__.bibbox.priorState;
+        const statusRefreshing = ['checkOutItems', 'checkInItems'].includes(priorState);
 
         // Information is already present after the login in client.internal.
         client.state = Object.assign({}, client.state, {
             // Status refreshing. Determines if a a refresh of the status is under way.
-            statusRefreshing: ['checkOutItems', 'checkInItems'].includes(priorState),
+            statusRefreshing: statusRefreshing,
             // Items that are ready to be picked up.
             holdItems: client.internal.user.holdItems,
             // Items that are overdue being checked in.
@@ -376,59 +377,63 @@ class ActionHandler {
             unavailableHoldItems: client.internal.user.unavailableHoldItems
         });
 
-        const busEvent = uniqid('fbs.patron.');
-        const errEvent = uniqid('fbs.patron.err.');
+        if (statusRefreshing) {
+            const busEvent = uniqid('fbs.patron.');
+            const errEvent = uniqid('fbs.patron.err.');
 
-        /**
-         * Listen for patron success event.
-         */
-        this.bus.once(busEvent, resp => {
-            debug('Patron retrieved successfully');
-            debug(resp);
+            /**
+             * Listen for patron success event.
+             */
+            this.bus.once(busEvent, resp => {
+                debug('Patron retrieved successfully');
+                debug(resp);
 
-            const actionData = {
-                // Items that are ready to be picked up.
-                holdItems: resp.patron.holdItems,
-                // Items that are overdue being checked in.
-                overdueItems: resp.patron.overdueItems,
-                // Items the user has checked out.
-                chargedItems: resp.patron.chargedItems,
-                // Items with a fine.
-                fineItems: resp.patron.fineItems,
-                // Items that have been recalled.
-                recallItems: resp.patron.recallItems,
-                // Items the user has reserved, but which are not ready.
-                unavailableHoldItems: resp.patron.unavailableHoldItems
-            };
+                const actionData = {
+                    // Status is done refreshing.
+                    statusRefreshing: false,
+                    // Items that are ready to be picked up.
+                    holdItems: resp.patron.holdItems,
+                    // Items that are overdue being checked in.
+                    overdueItems: resp.patron.overdueItems,
+                    // Items the user has checked out.
+                    chargedItems: resp.patron.chargedItems,
+                    // Items with a fine.
+                    fineItems: resp.patron.fineItems,
+                    // Items that have been recalled.
+                    recallItems: resp.patron.recallItems,
+                    // Items the user has reserved, but which are not ready.
+                    unavailableHoldItems: resp.patron.unavailableHoldItems
+                };
 
-            this.handleEvent({
-                name: 'Action',
-                token: client.token,
-                action: 'statusUpdated',
-                data: actionData
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'statusUpdated',
+                    data: actionData
+                });
             });
-        });
 
-        /**
-         * Listen for patron error event.
-         */
-        this.bus.once(errEvent, (resp) => {
-            debug('Login error', resp);
+            /**
+             * Listen for patron error event.
+             */
+            this.bus.once(errEvent, (resp) => {
+                debug('Login error', resp);
 
-            this.handleEvent({
-                name: 'Reset'
+                this.handleEvent({
+                    name: 'Reset'
+                });
             });
-        });
 
-        /**
-         * Emit patron event.
-         */
-        this.bus.emit('fbs.patron', {
-            busEvent: busEvent,
-            errorEvent: errEvent,
-            username: client.internal.username,
-            password: client.internal.password
-        });
+            /**
+             * Emit patron event.
+             */
+            this.bus.emit('fbs.patron', {
+                busEvent: busEvent,
+                errorEvent: errEvent,
+                username: client.internal.username,
+                password: client.internal.password
+            });
+        }
     }
 }
 

@@ -44,7 +44,7 @@ nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
 
 nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
     .post('/rest/sip2/DK-775100', /^.+<request>63009\d{8}\s{4}\d{6}YYYYYYYYY\|AODK-775100\|AA3210\d{6}\|AC\|AD\d{5}\|<\/request>.+$/)
-    .times(6)
+    .times(4)
     .reply(200,
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>64              00920170619    125152000000000006000000000000AODK-775100|AALN:3210000000|AETestkort Mickey Mouse|BZ9999|CA9999|CB9999|BLY|CQY|BHDKK|BV0.00|CC220.00|' +
         'AS123%3846731813%Reserveringshylde 1%20300621%DK-000000 - Teststed 1%Prinsesse Mononoke%Okay%m%th%77.7|' +

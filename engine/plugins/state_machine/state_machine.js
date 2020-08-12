@@ -286,7 +286,6 @@ module.exports = function(options, imports, register) {
                 statusUpdated: function(client) {
                     debug('Triggered statusUpdated on client: ' + client.token, client.actionData);
                     client.state = Object.assign({}, client.state, client.actionData);
-                    client.state.statusRefreshing = false;
                 }
             }
         },
