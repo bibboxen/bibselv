@@ -60,7 +60,7 @@ class BoxConfiguration
 
     // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
     /**
-     * The SIP2 account
+     * The SIP2 account.
      *
      * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
      * @ORM\JoinColumn(nullable=false)
@@ -69,7 +69,7 @@ class BoxConfiguration
     // phpcs:enable
 
     /**
-     * BoxConfiguration toString
+     * BoxConfiguration toString.
      *
      * @return mixed
      */
@@ -209,7 +209,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string|null
      */
@@ -219,7 +219,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string|null $name
      *
@@ -233,7 +233,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get has touch
+     * Get has touch.
      *
      * @return bool|null
      */
@@ -243,7 +243,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set has touch
+     * Set has touch.
      *
      * @param bool $hasTouch
      *
@@ -257,7 +257,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get has keyboard
+     * Get has keyboard.
      *
      * @return bool|null
      */
@@ -267,7 +267,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set has keyboard
+     * Set has keyboard.
      *
      * @param bool $hasKeyboard
      *
@@ -281,7 +281,7 @@ class BoxConfiguration
     }
 
     /**
-     * Get Sip2User
+     * Get Sip2User.
      *
      * @return Sip2User|null
      */
@@ -291,7 +291,7 @@ class BoxConfiguration
     }
 
     /**
-     * Set Sip2User
+     * Set Sip2User.
      *
      * @param Sip2User|null $sip2User
      *

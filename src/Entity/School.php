@@ -38,7 +38,7 @@ class School
     }
 
     /**
-     * School toString
+     * School toString.
      *
      * @return mixed
      */
@@ -48,7 +48,7 @@ class School
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int|null
      */
@@ -58,7 +58,7 @@ class School
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string|null
      */
@@ -68,7 +68,7 @@ class School
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -82,7 +82,7 @@ class School
     }
 
     /**
-     * Get box configurations
+     * Get box configurations.
      *
      * @return Collection|BoxConfiguration[]
      */
@@ -92,7 +92,7 @@ class School
     }
 
     /**
-     * Add box configuration
+     * Add box configuration.
      *
      * @param BoxConfiguration $boxConfiguration
      *
@@ -109,7 +109,7 @@ class School
     }
 
     /**
-     * Remove box configuration
+     * Remove box configuration.
      *
      * @param BoxConfiguration $boxConfiguration
      *

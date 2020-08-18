@@ -38,7 +38,7 @@ class Sip2User
     }
 
     /**
-     * Sip2User toString
+     * Sip2User toString.
      *
      * @return mixed
      */
@@ -48,7 +48,7 @@ class Sip2User
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int|null
      */
@@ -58,7 +58,7 @@ class Sip2User
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string|null
      */
@@ -68,7 +68,7 @@ class Sip2User
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -82,7 +82,7 @@ class Sip2User
     }
 
     /**
-     * Get box configurations
+     * Get box configurations.
      *
      * @return Collection|BoxConfiguration[]
      */
@@ -92,7 +92,7 @@ class Sip2User
     }
 
     /**
-     * Add box configuration
+     * Add box configuration.
      *
      * @param BoxConfiguration $boxConfiguration
      *
@@ -109,7 +109,7 @@ class Sip2User
     }
 
     /**
-     * Remove box configuration
+     * Remove box configuration.
      *
      * @param BoxConfiguration $boxConfiguration
      *
