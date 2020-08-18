@@ -18,11 +18,6 @@ class BoxConfiguration
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $keyboardType;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $hasPrinter;
@@ -37,19 +32,42 @@ class BoxConfiguration
      */
     private $inactivityTimeOut;
 
-    // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
-    /**
-     * The username for the SIP2 account.
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $sip2User;
-    // phpcs:enable
-
     /**
      * @ORM\Column(type="boolean")
      */
     private $soundEnabled;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=School::class, inversedBy="boxConfigurations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $school;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasTouch;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasKeyboard;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sip2User;
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get the id.
@@ -59,30 +77,6 @@ class BoxConfiguration
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * Get keyboard type.
-     *
-     * @return string|null
-     */
-    public function getKeyboardType(): ?string
-    {
-        return $this->keyboardType;
-    }
-
-    /**
-     * Set keyboard type.
-     *
-     * @param string $keyboardType
-     *
-     * @return $this
-     */
-    public function setKeyboardType(string $keyboardType): self
-    {
-        $this->keyboardType = $keyboardType;
-
-        return $this;
     }
 
     /**
@@ -158,30 +152,6 @@ class BoxConfiguration
     }
 
     /**
-     * Get SIP2 user.
-     *
-     * @return string|null
-     */
-    public function getSip2User(): ?string
-    {
-        return $this->sip2User;
-    }
-
-    /**
-     * Set SIP2 user.
-     *
-     * @param string $sip2User
-     *
-     * @return $this
-     */
-    public function setSip2User(string $sip2User): self
-    {
-        $this->sip2User = $sip2User;
-
-        return $this;
-    }
-
-    /**
      * Get sound enabled.
      *
      * @return bool|null
@@ -201,6 +171,78 @@ class BoxConfiguration
     public function setSoundEnabled(bool $soundEnabled): self
     {
         $this->soundEnabled = $soundEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get school.
+     *
+     * @return School|null
+     */
+    public function getSchool(): ?School
+    {
+        return $this->school;
+    }
+
+    /**
+     * Set school.
+     *
+     * @param School|null $school
+     *
+     * @return $this
+     */
+    public function setSchool(?School $school): self
+    {
+        $this->school = $school;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getHasTouch(): ?bool
+    {
+        return $this->hasTouch;
+    }
+
+    public function setHasTouch(bool $hasTouch): self
+    {
+        $this->hasTouch = $hasTouch;
+
+        return $this;
+    }
+
+    public function getHasKeyboard(): ?bool
+    {
+        return $this->hasKeyboard;
+    }
+
+    public function setHasKeyboard(bool $hasKeyboard): self
+    {
+        $this->hasKeyboard = $hasKeyboard;
+
+        return $this;
+    }
+
+    public function getSip2User(): ?Sip2User
+    {
+        return $this->sip2User;
+    }
+
+    public function setSip2User(?Sip2User $sip2User): self
+    {
+        $this->sip2User = $sip2User;
 
         return $this;
     }
