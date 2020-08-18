@@ -29,26 +29,51 @@ class School
      */
     private $boxConfigurations;
 
+    /**
+     * School constructor.
+     */
     public function __construct()
     {
         $this->boxConfigurations = new ArrayCollection();
     }
 
+    /**
+     * School toString
+     *
+     * @return mixed
+     */
     public function __toString()
     {
         return $this->name;
     }
 
+    /**
+     * Get id
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get name
+     *
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -57,6 +82,8 @@ class School
     }
 
     /**
+     * Get box configurations
+     *
      * @return Collection|BoxConfiguration[]
      */
     public function getBoxConfigurations(): Collection
@@ -64,6 +91,13 @@ class School
         return $this->boxConfigurations;
     }
 
+    /**
+     * Add box configuration
+     *
+     * @param BoxConfiguration $boxConfiguration
+     *
+     * @return $this
+     */
     public function addBoxConfiguration(BoxConfiguration $boxConfiguration): self
     {
         if (!$this->boxConfigurations->contains($boxConfiguration)) {
@@ -74,6 +108,13 @@ class School
         return $this;
     }
 
+    /**
+     * Remove box configuration
+     *
+     * @param BoxConfiguration $boxConfiguration
+     *
+     * @return $this
+     */
     public function removeBoxConfiguration(BoxConfiguration $boxConfiguration): self
     {
         if ($this->boxConfigurations->contains($boxConfiguration)) {

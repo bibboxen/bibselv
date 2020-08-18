@@ -29,26 +29,51 @@ class Sip2User
      */
     private $boxConfigurations;
 
+    /**
+     * Sip2User constructor.
+     */
     public function __construct()
     {
         $this->boxConfigurations = new ArrayCollection();
     }
 
+    /**
+     * Sip2User toString
+     *
+     * @return mixed
+     */
     public function __toString()
     {
         return $this->username;
     }
 
+    /**
+     * Get id
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get username
+     *
+     * @return string|null
+     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -57,6 +82,8 @@ class Sip2User
     }
 
     /**
+     * Get box configurations
+     *
      * @return Collection|BoxConfiguration[]
      */
     public function getBoxConfigurations(): Collection
@@ -64,6 +91,13 @@ class Sip2User
         return $this->boxConfigurations;
     }
 
+    /**
+     * Add box configuration
+     *
+     * @param BoxConfiguration $boxConfiguration
+     *
+     * @return $this
+     */
     public function addBoxConfiguration(BoxConfiguration $boxConfiguration): self
     {
         if (!$this->boxConfigurations->contains($boxConfiguration)) {
@@ -74,6 +108,13 @@ class Sip2User
         return $this;
     }
 
+    /**
+     * Remove box configuration
+     *
+     * @param BoxConfiguration $boxConfiguration
+     *
+     * @return $this
+     */
     public function removeBoxConfiguration(BoxConfiguration $boxConfiguration): self
     {
         if ($this->boxConfigurations->contains($boxConfiguration)) {

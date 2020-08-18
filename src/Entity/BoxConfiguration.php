@@ -58,12 +58,21 @@ class BoxConfiguration
      */
     private $hasKeyboard;
 
+    // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
     /**
+     * The SIP2 account
+     *
      * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sip2User;
+    // phpcs:enable
 
+    /**
+     * BoxConfiguration toString
+     *
+     * @return mixed
+     */
     public function __toString()
     {
         return $this->name;
@@ -199,11 +208,23 @@ class BoxConfiguration
         return $this;
     }
 
+    /**
+     * Get name
+     *
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Set name
+     *
+     * @param string|null $name
+     *
+     * @return $this
+     */
     public function setName(?string $name): self
     {
         $this->name = $name;
@@ -211,11 +232,23 @@ class BoxConfiguration
         return $this;
     }
 
+    /**
+     * Get has touch
+     *
+     * @return bool|null
+     */
     public function getHasTouch(): ?bool
     {
         return $this->hasTouch;
     }
 
+    /**
+     * Set has touch
+     *
+     * @param bool $hasTouch
+     *
+     * @return $this
+     */
     public function setHasTouch(bool $hasTouch): self
     {
         $this->hasTouch = $hasTouch;
@@ -223,11 +256,23 @@ class BoxConfiguration
         return $this;
     }
 
+    /**
+     * Get has keyboard
+     *
+     * @return bool|null
+     */
     public function getHasKeyboard(): ?bool
     {
         return $this->hasKeyboard;
     }
 
+    /**
+     * Set has keyboard
+     *
+     * @param bool $hasKeyboard
+     *
+     * @return $this
+     */
     public function setHasKeyboard(bool $hasKeyboard): self
     {
         $this->hasKeyboard = $hasKeyboard;
@@ -235,11 +280,23 @@ class BoxConfiguration
         return $this;
     }
 
+    /**
+     * Get Sip2User
+     *
+     * @return Sip2User|null
+     */
     public function getSip2User(): ?Sip2User
     {
         return $this->sip2User;
     }
 
+    /**
+     * Set Sip2User
+     *
+     * @param Sip2User|null $sip2User
+     *
+     * @return $this
+     */
     public function setSip2User(?Sip2User $sip2User): self
     {
         $this->sip2User = $sip2User;
