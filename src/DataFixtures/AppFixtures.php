@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\BoxConfiguration;
 use App\Entity\School;
 use App\Entity\Sip2User;
+use App\Utils\Types\LoginMethods;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -78,6 +79,8 @@ class AppFixtures extends Fixture
         foreach (self::$schoolNames as $schoolName) {
             $school = new School();
             $school->setName($schoolName);
+            $libraryNumber = $faker->numberBetween(70000, 90000) * 10;
+            $school->setSip2InstitutionId('DK-'.$libraryNumber);
 
             $schools[] = $school;
             $manager->persist($school);
@@ -86,6 +89,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 10; ++$i) {
             $sip2user = new Sip2User();
             $sip2user->setUsername($faker->userName);
+            $sip2user->setPassword($faker->password);
 
             $sip2users[] = $sip2user;
             $manager->persist($sip2user);
@@ -102,6 +106,7 @@ class AppFixtures extends Fixture
             $boxConfiguration->setSoundEnabled($faker->boolean);
             $boxConfiguration->setSchool($faker->randomElement($schools));
             $boxConfiguration->setSip2User($faker->randomElement($sip2users));
+            $boxConfiguration->setLoginMethod($faker->randomElement(LoginMethods::getLoginMethodList()));
 
             $manager->persist($boxConfiguration);
         }

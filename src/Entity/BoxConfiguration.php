@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BoxConfigurationRepository;
+use App\Utils\Types\LoginMethods;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,6 +48,11 @@ class BoxConfiguration
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $loginMethod;
 
     /**
      * @ORM\Column(type="boolean")
@@ -228,6 +234,34 @@ class BoxConfiguration
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get login method.
+     *
+     * @return string|null
+     */
+    public function getLoginMethod(): ?string
+    {
+        return $this->loginMethod;
+    }
+
+    /**
+     * Set login method.
+     *
+     * @param string $loginMethod
+     *
+     * @return $this
+     */
+    public function setLoginMethod(string $loginMethod): self
+    {
+        if (!in_array($loginMethod, LoginMethods::getLoginMethodList())) {
+            throw new \InvalidArgumentException('Invalid login method given');
+        }
+
+        $this->loginMethod = $loginMethod;
 
         return $this;
     }

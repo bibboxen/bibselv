@@ -25,6 +25,11 @@ class Sip2User
     private $username;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
+    /**
      * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="sip2User")
      */
     private $boxConfigurations;
@@ -65,6 +70,30 @@ class Sip2User
     public function getUsername(): ?string
     {
         return $this->username;
+    }
+
+    /**
+     * Set password.
+     *
+     * @param string $password
+     *
+     * @return $this
+     */
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password.
+     *
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
     }
 
     /**

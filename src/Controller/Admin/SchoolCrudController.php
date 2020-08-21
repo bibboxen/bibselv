@@ -37,6 +37,7 @@ class SchoolCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm()->hideOnIndex(),
             TextField::new('name'),
+            TextField::new('sip2InstitutionId'),
             AssociationField::new('boxConfigurations'),
         ];
     }

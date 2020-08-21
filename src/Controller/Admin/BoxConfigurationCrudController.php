@@ -3,10 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\BoxConfiguration;
+use App\Utils\Types\LoginMethods;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -50,6 +52,9 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 BooleanField::new('hasPrinter')->hideOnIndex(),
                 BooleanField::new('soundEnabled')->hideOnIndex(),
                 IntegerField::new('inactivityTimeOut')->hideOnIndex(),
+                ChoiceField::new('loginMethod')
+                    ->setChoices(LoginMethods::getLoginMethodList())
+                    ->hideOnIndex(),
         ];
     }
 
