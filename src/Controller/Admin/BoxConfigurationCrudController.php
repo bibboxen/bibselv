@@ -40,7 +40,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
     {
         return [
             FormField::addPanel('Details'),
-                IdField::new('id')->hideOnForm()->hideOnIndex(),
+                IdField::new('id')->setFormTypeOption('disabled', true),
                 TextField::new('name'),
                 AssociationField::new('school'),
                 AssociationField::new('sip2User'),

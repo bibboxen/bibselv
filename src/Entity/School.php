@@ -6,6 +6,7 @@ use App\Repository\SchoolRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SchoolRepository::class)
@@ -21,12 +22,16 @@ class School
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
      */
     private $name;
 
     // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
     /**
      * @ORM\Column(type="string", length=16)
+     *
+     * @Groups("boxConfiguration")
      */
     private $sip2InstitutionId;
     // phpcs:enable
