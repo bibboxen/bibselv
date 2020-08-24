@@ -6,6 +6,7 @@ use App\Repository\Sip2UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=Sip2UserRepository::class)
@@ -21,11 +22,15 @@ class Sip2User
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
      */
     private $password;
 
