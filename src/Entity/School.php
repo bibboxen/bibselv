@@ -24,13 +24,6 @@ class School
      */
     private $name;
 
-    // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
-    /**
-     * @ORM\Column(type="string", length=16)
-     */
-    private $sip2InstitutionId;
-    // phpcs:enable
-
     /**
      * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="school")
      */
@@ -84,30 +77,6 @@ class School
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get SIP2 Institution Id.
-     *
-     * @return mixed
-     */
-    public function getSip2InstitutionId(): ?string
-    {
-        return $this->sip2InstitutionId;
-    }
-
-    /**
-     * Set SIP2 Institution Id.
-     *
-     * @param string $sip2InstitutionId
-     *
-     * @return $this
-     */
-    public function setSip2InstitutionId(string $sip2InstitutionId): self
-    {
-        $this->sip2InstitutionId = $sip2InstitutionId;
 
         return $this;
     }
