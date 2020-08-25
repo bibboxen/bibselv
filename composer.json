@@ -2,12 +2,17 @@
     "name": "bibboxen/bibbox-configuration-management",
     "description": "Application to manage configuration for chromebox bibbox machines.",
     "type": "project",
-    "license": "proprietary",
+    "license": "AGPL-3.0-or-later",
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer/package-versions-deprecated": "^1.10",
         "doctrine/annotations": "^1.10",
+        "doctrine/doctrine-bundle": "^2.1",
+        "doctrine/doctrine-migrations-bundle": "^3.0",
+        "doctrine/orm": "^2.7",
+        "easycorp/easyadmin-bundle": "^3.1",
         "symfony/console": "5.0.*",
         "symfony/dotenv": "5.0.*",
         "symfony/flex": "^1.3.1",
@@ -17,8 +22,10 @@
         "symfony/yaml": "5.0.*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "escapestudios/symfony2-coding-standard": "^3.11",
         "friendsofphp/php-cs-fixer": "^2.16",
+        "fzaninotto/faker": "^1.9",
         "symfony/maker-bundle": "^1.15"
     },
     "config": {

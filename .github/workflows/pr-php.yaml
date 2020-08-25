@@ -5,6 +5,8 @@ on:
             - '**.yaml'
             - 'composer.json'
             - 'composer.lock'
+            - '!engine/**'
+            - '!.github/workflows/pr-js.yaml'
 name: Review PHP
 jobs:
     php-test-composer-install:
@@ -13,7 +15,7 @@ jobs:
             fail-fast: false
             matrix:
                 php: ['7.4']
-        name: PHP - Validate composer (${{ matrix.php}})
+        name: Validate composer (${{ matrix.php}})
         steps:
             - uses: actions/checkout@v2
 
@@ -21,7 +23,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php}}
-                  extension: apcu, ctype, iconv, imagick, json, redis, soap, xmlreader, zip
+                  extensions: apcu, ctype, iconv, json, redis, xmlreader, zip
                   coverage: none
 
             - name: Get composer cache directory
@@ -55,7 +57,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
-                  extension: apcu, ctype, iconv, imagick, json, redis, soap, xmlreader, zip
+                  extensions: apcu, ctype, iconv, json, redis, xmlreader, zip
                   coverage: none
 
             - name: Install Reviewdog
@@ -92,7 +94,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
-                  extension: apcu, ctype, iconv, imagick, json, redis, soap, xmlreader, zip
+                  extensions: apcu, ctype, iconv, json, redis, xmlreader, zip
                   coverage: none
 
             - name: Get composer cache directory
@@ -109,3 +111,61 @@ jobs:
 
             - name: phpcsfixerr
               run: composer actions/phpcsfixer
+
+    doctrine:
+        runs-on: ubuntu-latest
+        services:
+            mariadb:
+                image: mariadb:10.3
+                ports:
+                    - 3306
+                env:
+                    MYSQL_USER: db
+                    MYSQL_PASSWORD: db
+                    MYSQL_DATABASE: db
+                    MYSQL_ROOT_PASSWORD: password
+                options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        strategy:
+            fail-fast: false
+            matrix:
+                php: ['7.4']
+        name: Validate database schema (${{ matrix.php }})
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Setup PHP, with composer and extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: apcu, ctype, iconv, json, redis, xmlreader, zip
+                  coverage: none
+
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            - uses: actions/cache@v1
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ matrix.php }}-composer-
+
+            - name: Install Dependencies
+              run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+            - name: Verify MariaDB connection
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+              run: |
+                while ! mysqladmin ping -h"127.0.0.1" -P"$MARIA_DB_PORT" --silent; do
+                    sleep 1
+                done
+
+            - name: Run Doctrine Migrations
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+              run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:migrations:migrate --no-interaction
+
+            - name: Validate DB schema
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+              run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:schema:validate
