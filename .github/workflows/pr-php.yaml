@@ -169,3 +169,8 @@ jobs:
               env:
                   MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
               run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:schema:validate
+
+            - name: Validate DB fixtures
+              env:
+                  MARIA_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
+              run: DATABASE_URL=mysql://db:db@127.0.0.1:$MARIA_DB_PORT/db php bin/console doctrine:fixtures:load --no-interaction
