@@ -15,7 +15,7 @@ final class Version20200825102625 extends AbstractMigration
     /**
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
@@ -23,7 +23,7 @@ final class Version20200825102625 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE box_configuration (id INT AUTO_INCREMENT NOT NULL, school_id INT NOT NULL, sip2_user_id INT NOT NULL, has_printer TINYINT(1) NOT NULL, reserved_material_instruction VARCHAR(255) NOT NULL, inactivity_time_out INT NOT NULL, sound_enabled TINYINT(1) NOT NULL, name VARCHAR(255) DEFAULT NULL, login_method VARCHAR(25) DEFAULT NULL, has_touch TINYINT(1) NOT NULL, has_keyboard TINYINT(1) NOT NULL, INDEX IDX_CB4156DCC32A47EE (school_id), INDEX IDX_CB4156DC4312BD9B (sip2_user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -36,7 +36,7 @@ final class Version20200825102625 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE box_configuration DROP FOREIGN KEY FK_CB4156DCC32A47EE');
