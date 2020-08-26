@@ -6,6 +6,7 @@ use App\Repository\Sip2UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=Sip2UserRepository::class)
@@ -21,13 +22,26 @@ class Sip2User
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
      */
     private $password;
+
+    // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
+    /**
+     * @ORM\Column(type="string", length=16)
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $sip2InstitutionId;
+    // phpcs:enable
 
     /**
      * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="sip2User")
@@ -106,6 +120,30 @@ class Sip2User
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get SIP2 Institution Id.
+     *
+     * @return mixed
+     */
+    public function getSip2InstitutionId(): ?string
+    {
+        return $this->sip2InstitutionId;
+    }
+
+    /**
+     * Set SIP2 Institution Id.
+     *
+     * @param string $sip2InstitutionId
+     *
+     * @return $this
+     */
+    public function setSip2InstitutionId(string $sip2InstitutionId): self
+    {
+        $this->sip2InstitutionId = $sip2InstitutionId;
 
         return $this;
     }

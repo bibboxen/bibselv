@@ -37,6 +37,7 @@ class Sip2UserCrudController extends AbstractCrudController
             FormField::addPanel('SIP2user'),
                 TextField::new('username'),
                 TextField::new('password')->hideOnIndex(),
+                TextField::new('sip2InstitutionId'),
                 AssociationField::new('boxConfigurations'),
         ];
     }
