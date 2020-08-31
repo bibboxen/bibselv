@@ -33,19 +33,25 @@ The engine then changes the machines state and sends it back to the frontend.
 
 A docker based development setup is provided with the project.
 
+@TODO Maybe we should stipulate note that `docker-compose up -d` should not be run before everything is installed and configuration files are in place.
+
 Install composer packages.
 ```sh
 docker-compose run phpfpm composer install
 ```
 
-Edit engine configuration file(s).
+Copy engine configuration files:
 
 ```sh
 cp engine/example_config.json engine/config.json
 cp engine/plugins/ctrl/example_config.json engine/plugins/ctrl/config.json
 ```
 
+@TODO What can I edit in these configuration files? Can we use JSON5 in the files and add comments?
+
 Install dependencies for engine and frontend.
+
+@TODO Why do we run `npm` in two different ways here?
 
 ```
 docker-compose run engine npm install
@@ -58,10 +64,26 @@ This will start the engine and the frontend.
 docker-compose up -d
 ```
 
+Get url of the frontend:
+
+```sh
+echo http://$(docker-compose port nginx 80)
+```
+
+@TODO How do I restart the engine after configuration changes?
+
+To restart the engine after changing configuration, run
+
+```sh
+docker-compose restart engine
+```
+
 *Install assets*
 To install assets for the frontend we use Encore.
 
 A docker container is started that watches for changes in the assets/js folder.
+
+@TODO Which container is that?
 
 ## Code Linting
 
