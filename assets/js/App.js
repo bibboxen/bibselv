@@ -12,6 +12,7 @@ import CheckInItems from './Steps/CheckInItems';
 import NavBar from './Steps/components/navbar';
 import MachineStateContext from './context/machineStateContext';
 import CheckOutItems from './Steps/CheckOutItems';
+import { useIdleTimer } from 'react-idle-timer'
 
 /**
  * App.
@@ -32,6 +33,33 @@ function App() {
         machineState: { get: machineState, set: setMachineState },
         library: { get: library, set: setLibrary }
     };
+
+    // React to user not providing input to the machine.
+    const handleOnIdle = event => {
+        console.log('user is idle', event);
+        console.log('last active', getLastActiveTime());
+    };
+
+    // React to user providing input to the machine.
+    const handleOnActive = event => {
+        console.log('user is active', event);
+        console.log('time remaining', getRemainingTime());
+    };
+
+    // @TODO: Remove.
+    const handleOnAction = (e) => {
+        console.log('user did something', e)
+    };
+
+    // Setup idle tester.
+    const { getRemainingTime, getLastActiveTime } = useIdleTimer({
+        // @TODO: Timemout (30 s.) should come from configuration.
+        timeout: 1000 * 30,
+        onIdle: handleOnIdle,
+        onActive: handleOnActive,
+        onAction: handleOnAction,
+        debounce: 500
+    });
 
     /**
      * Set up socket connection.
