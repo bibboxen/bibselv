@@ -1,11 +1,10 @@
 # Bibbox Website
 
-Bibbox from a website.
+A centralized Bibbox that runs as web-pages.
 
 ## Description
 
-This project a provides library self-service from a website. It consists of the
-following parts:
+This project a provides library self-service from a website. It consists of the following parts:
 
 - A frontend that exposes the library functions available to the user (React).
 - An administration interface (for configuring machines) and website provider for the frontend (Symfony/PHP).
@@ -27,41 +26,77 @@ The engine then changes the machines state and sends it back to the frontend.
 * Symfony 5.x
 * PHP 7.4
 * React 16.x
-* Docker
 
 ## Development setup
 
-A docker based development setup is provided with the project.
+A docker based development setup is provided with the project. So first step is to start the docker compose stack to install the required PHP and NodeJs packages, set configuration files and then restart the stack to make it work corretly.
 
-Install composer packages.
 ```sh
-docker-compose run phpfpm composer install
+docker-compose up --detach
 ```
 
-Edit engine configuration file(s).
+### Engine
+We start by getting engine dependencies and set it's basic configuration.
+
+Copy engine configuration files:
 
 ```sh
 cp engine/example_config.json engine/config.json
-cp engine/plugins/ctrl/example_config.json engine/plugins/ctrl/config.json
 ```
 
-Install dependencies for engine and frontend.
+@TOOD: __Note__ that the config.json contains FBS configuration at this point, but will later version be loaded from the Symfony administration backend as box configuration. So this is an hack for now.
 
+Install dependencies for the engine.
 ```
-docker-compose run engine npm install
-docker-compose run engine bash -c './scripts/install.sh'
-docker-compose run frontend bash -c 'npm install'
+docker-compose exec engine bash -c './scripts/install.sh'
 ```
 
-This will start the engine and the frontend.
+### Frontend
+
+Install the frontend react dependencies.
 ```sh
-docker-compose up -d
+docker-compose exec frontend bash -c 'npm install'
 ```
 
-*Install assets*
-To install assets for the frontend we use Encore.
+Install composer packages.
+```sh
+docker-compose exec phpfpm composer install
+```
 
-A docker container is started that watches for changes in the assets/js folder.
+Install database for Symfony using migrations, run
+```sh
+docker-compose exec phpfpm bash -c 'bin/console doctrine:migrations:migrate'
+```
+
+### Restart
+
+Now that we have installed all the dependencies need by the frontend and engine, we need to restart the docker containers to ensure that everything gets loaded, run
+
+```sh
+docker-compose restart engine
+docker-compose restart frontend
+```
+
+### Install assets
+The React frontend is bootstrapped by the symfony backend and assets needs to by build, which happens when the frontend container is started. It's started with file watchers so the assets should be automatically compiled on code changes.
+
+To see logs for the compilation, run
+```sh
+docker-compose logs frontend
+```
+
+### Access the frontend
+
+Get url of the frontend:
+```sh
+echo http://$(docker-compose port nginx 80)
+```
+
+__Note__: to restart the engine after changing configuration, run
+
+```sh
+docker-compose restart engine
+```
 
 ## Code Linting
 

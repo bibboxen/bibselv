@@ -22,9 +22,8 @@ const CTRL = function CTRL(bus) {
  */
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
-    const configPath = options.configPath;
     const ctrl = new CTRL(bus);
-    const config = require(configPath);
+    const config = options.config;
 
     /**
      * Handle fbs config events.
