@@ -1,3 +1,16 @@
 {
-    "eventTimeout": 1000
+    "eventTimeout": 1000,
+    "fbs": {
+        "username": "xxxx",
+        "password": "xxx",
+        "endpoint": "https://cicero-fbs.com/rest/sip2/DK-775100",
+        "agency": "DK-775100",
+        "location": "hb",
+        "enableOnlineChecks": false,
+        "loginAttempts": {
+            "max": 5,
+            "timeLimit": 900000
+        },
+        "defaultPassword": "12345"
+    }
 }

@@ -26,7 +26,8 @@ const setup = function setup() {
             },
             {
                 packagePath: './../plugins/ctrl',
-                configPath: path.join(__dirname, 'config_ctrl.json')
+                // @TODO: this config have to be removed and build from the symfony box-configuration.
+                config: config.fbs
             },
             {
                 packagePath: './../plugins/network'
