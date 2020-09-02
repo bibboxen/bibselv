@@ -52,7 +52,8 @@ const plugins = [
     },
     {
         packagePath: './plugins/ctrl',
-        configPath: path.join(__dirname, 'plugins/ctrl/config.json'),
+        // @TODO: this config have to be removed and build from the symfony box-configuration.
+        config: config.fbs,
         isEventExpired: isEventExpired
     },
     {
