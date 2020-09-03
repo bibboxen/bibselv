@@ -164,6 +164,10 @@ DATABASE_URL=mysql://DB_USER:DB_PASSWORD@mariadb:3306/DB_NAME
 Install symfony packages
 ```
 composer install --no-dev -o
+```
+
+Run database migrations
+```
 bin/console doctrine:migrations:migrate
 ```
 
