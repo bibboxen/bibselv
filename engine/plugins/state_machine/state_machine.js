@@ -355,6 +355,7 @@ module.exports = function(options, imports, register) {
         }
 
         client.actionData = null;
+        client.latestAction = new Date();
         clientModule.save(event.token, client);
 
         // Emit new client state.

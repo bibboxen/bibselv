@@ -13,11 +13,16 @@ const clients = {};
  *
  * @constructor
  */
-const Client = function Client() {
-    // @TODO: Load clients from redis.
-};
+const Client = function Client() {};
 
-// @TODO: function documentation?
+/**
+ * Load client.
+ *
+ * @param token
+ *   The token for the client.
+ * @return {*}
+ *   The client for the token.
+ */
 Client.prototype.load = (token) => {
     if (!Object.prototype.hasOwnProperty.call(clients, token)) {
         clients[token] = {
@@ -30,11 +35,22 @@ Client.prototype.load = (token) => {
     return clients[token];
 };
 
-// @TODO: function documentation?
+/**
+ * Save client.
+ *
+ * @param token
+ *   The token for the client.
+ * @param client
+ *   The client.
+ *
+ * @return {*}
+ *   The client.
+ */
 Client.prototype.save = (token, client) => {
     debug('Saving client: ' + token, client);
     clients[token] = client;
-    // @TODO: Save client to redis.
+
+    return clients[token];
 };
 
 /**

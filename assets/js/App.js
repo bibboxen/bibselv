@@ -34,31 +34,17 @@ function App() {
         library: { get: library, set: setLibrary }
     };
 
-    // React to user not providing input to the machine.
-    const handleOnIdle = event => {
-        console.log('user is idle', event);
-        console.log('last active', getLastActiveTime());
-    };
-
-    // React to user providing input to the machine.
-    const handleOnActive = event => {
-        console.log('user is active', event);
-        console.log('time remaining', getRemainingTime());
-    };
-
-    // @TODO: Remove.
-    const handleOnAction = (e) => {
-        console.log('user did something', e)
-    };
-
     // Setup idle tester.
     const { getRemainingTime, getLastActiveTime } = useIdleTimer({
         // @TODO: Timemout (30 s.) should come from configuration.
         timeout: 1000 * 30,
-        onIdle: handleOnIdle,
-        onActive: handleOnActive,
-        onAction: handleOnAction,
-        debounce: 500
+        onAction: (event) => {
+            // @TODO: Use token from local storage.
+            socket.emit('UserActive', {
+                token: '123'
+            });
+        },
+        throttle: 5000
     });
 
     /**
@@ -66,6 +52,7 @@ function App() {
      */
     useEffect(() => {
         // Signal that the client is ready.
+        // @TODO: Use token from local storage.
         socket.emit('ClientReady', {
             token: '123'
         });
