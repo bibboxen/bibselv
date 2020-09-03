@@ -151,6 +151,22 @@ docker-compose exec engine bash -c 'npm test'
 
 ## Production
 
+### Setup symfony
+
+Create a `.env.local` with the correct values for SECRET, DB_USER, DB_PASSWORD, DB_NAME
+```
+APP_ENV=prod
+APP_SECRET=SECRET
+
+DATABASE_URL=mysql://DB_USER:DB_PASSWORD@mariadb:3306/DB_NAME
+```
+
+Install symfony packages
+```
+composer install --no-dev -o
+bin/console doctrine:migrations:migrate
+```
+
 ### Building production assets for the frontend
 
 ```
