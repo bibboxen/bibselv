@@ -89,8 +89,6 @@ class BoxConfiguration
      *
      * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
      * @ORM\JoinColumn(nullable=false)
-     *
-     * @Groups("boxConfiguration")
      */
     private $sip2User;
     // phpcs:enable
