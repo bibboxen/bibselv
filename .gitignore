@@ -18,6 +18,7 @@
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
 
+coverage/
 oldBibbox/
 
 ###> symfony/webpack-encore-bundle ###

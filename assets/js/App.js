@@ -1,6 +1,6 @@
 /**
  * @file
- * Main entry point of react application.
+ * The main entrypoint of the react application.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -12,9 +12,10 @@ import CheckInItems from './Steps/CheckInItems';
 import NavBar from './Steps/components/navbar';
 import MachineStateContext from './context/machineStateContext';
 import CheckOutItems from './Steps/CheckOutItems';
+import { useIdleTimer } from 'react-idle-timer';
 
 /**
- * App.
+ * App. The main entrypoint of the react application.
  *
  * @return {*}
  * @constructor
@@ -33,17 +34,41 @@ function App() {
         library: { get: library, set: setLibrary }
     };
 
+    // Setup idle tester.
+    // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
+    const idleTimer = useIdleTimer({
+        // @TODO: Timeout (30 s.) should come from configuration.
+        timeout: 1000 * 30,
+        onIdle: () => {
+            // Return to initial step if not already there.
+            if (machineState.step !== 'initial') {
+                // @TODO: Use token from local storage.
+                socket.emit('ClientEvent', {
+                    name: 'Reset',
+                    token: '123'
+                });
+            } else {
+                // Reset the idle timer if already on initial step.
+                idleTimer.reset();
+            }
+        },
+        debounce: 500,
+        eventsThrottle: 500
+    });
+
     /**
      * Set up socket connection.
      */
     useEffect(() => {
         // Signal that the client is ready.
+        // @TODO: Use token from local storage.
         socket.emit('ClientReady', {
             token: '123'
         });
 
         // Listen for changes to machine state.
         socket.on('UpdateState', (data) => {
+            idleTimer.reset();
             setMachineState(data);
         });
     }, []);
@@ -56,7 +81,9 @@ function App() {
      * @param data
      */
     function handleAction(action, data) {
-        // @TODO: Replace so it is the action that is reset insteaf of flow.
+        idleTimer.reset();
+
+        // @TODO: Replace so it is the action that is reset instead of flow.
         if (data.flow === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
@@ -73,10 +100,10 @@ function App() {
     }
 
     /**
-     * @TODO: Document function.
+     * Render the given step.
      *
      * @param step
-     *   @TODO: Document parameter.
+     *   Name of the step to render.
      * @return {*}
      */
     function renderStep(step) {

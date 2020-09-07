@@ -49,6 +49,7 @@ function Initial({ actionHandler }) {
             icon: faBook
         }
     ];
+
     // Setup component.
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);

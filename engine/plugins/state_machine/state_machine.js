@@ -352,6 +352,9 @@ module.exports = function(options, imports, register) {
             case 'Action':
                 client = stateMachine.action(client, event.action, event.data);
                 break;
+            default:
+                // Ignore other event names.
+                return client;
         }
 
         client.actionData = null;
