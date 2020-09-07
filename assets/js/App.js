@@ -1,6 +1,6 @@
 /**
  * @file
- * Main entry point of react application.
+ * The main entrypoint of the react application.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -15,7 +15,7 @@ import CheckOutItems from './Steps/CheckOutItems';
 import { useIdleTimer } from 'react-idle-timer'
 
 /**
- * App.
+ * App. The main entrypoint of the react application.
  *
  * @return {*}
  * @constructor
@@ -35,16 +35,25 @@ function App() {
     };
 
     // Setup idle tester.
-    const { getRemainingTime, getLastActiveTime } = useIdleTimer({
-        // @TODO: Timemout (30 s.) should come from configuration.
+    // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
+    const idleTimer = useIdleTimer({
+        // @TODO: Timeout (30 s.) should come from configuration.
         timeout: 1000 * 30,
-        onAction: (event) => {
-            // @TODO: Use token from local storage.
-            socket.emit('UserActive', {
-                token: '123'
-            });
+        onIdle: () => {
+            // Return to frontpage if not already there.
+            if (machineState.step !== 'initial') {
+                // @TODO: Use token from local storage.
+                socket.emit('ClientEvent', {
+                    name: 'Reset',
+                    token: '123'
+                });
+            }
+            else {
+                idleTimer.reset();
+            }
         },
-        throttle: 5000
+        debounce: 500,
+        eventsThrottle: 500
     });
 
     /**
@@ -59,6 +68,7 @@ function App() {
 
         // Listen for changes to machine state.
         socket.on('UpdateState', (data) => {
+            idleTimer.reset();
             setMachineState(data);
         });
     }, []);
@@ -71,7 +81,9 @@ function App() {
      * @param data
      */
     function handleAction(action, data) {
-        // @TODO: Replace so it is the action that is reset insteaf of flow.
+        idleTimer.reset();
+
+        // @TODO: Replace so it is the action that is reset instead of flow.
         if (data.flow === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
@@ -88,10 +100,10 @@ function App() {
     }
 
     /**
-     * @TODO: Document function.
+     * Render the given step.
      *
      * @param step
-     *   @TODO: Document parameter.
+     *   Name of the step to render.
      * @return {*}
      */
     function renderStep(step) {
