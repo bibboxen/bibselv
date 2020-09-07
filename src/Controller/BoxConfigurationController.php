@@ -16,19 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BoxConfigurationController extends AbstractController
 {
-    /**
-     * @Route("/box/configuration/{id}", name="box_configuration")
+     /**
+     * @Route("/box/configuration/{uuid}", name="box_configuration")
      *
-     * @param $id
-     *   Box configuration ID
+     * @param $uuid
+     *   Box configuration UUID
      * @param BoxConfigurationRepository $boxConfigurationRepository
      *   Box configuration repository
      *
      * @return JsonResponse
      */
-    public function index($id, BoxConfigurationRepository $boxConfigurationRepository)
+    public function index($uuid, BoxConfigurationRepository $boxConfigurationRepository)
     {
-        $boxConfiguration = $boxConfigurationRepository->find($id);
+        $boxConfiguration = $boxConfigurationRepository->findOneBy(['uuid' => $uuid]);
 
         if (!$boxConfiguration) {
             throw $this->createNotFoundException('Unknown box configuration');
