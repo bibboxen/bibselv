@@ -12,7 +12,7 @@ import CheckInItems from './Steps/CheckInItems';
 import NavBar from './Steps/components/navbar';
 import MachineStateContext from './context/machineStateContext';
 import CheckOutItems from './Steps/CheckOutItems';
-import { useIdleTimer } from 'react-idle-timer'
+import { useIdleTimer } from 'react-idle-timer';
 
 /**
  * App. The main entrypoint of the react application.
@@ -40,15 +40,15 @@ function App() {
         // @TODO: Timeout (30 s.) should come from configuration.
         timeout: 1000 * 30,
         onIdle: () => {
-            // Return to frontpage if not already there.
+            // Return to initial step if not already there.
             if (machineState.step !== 'initial') {
                 // @TODO: Use token from local storage.
                 socket.emit('ClientEvent', {
                     name: 'Reset',
                     token: '123'
                 });
-            }
-            else {
+            } else {
+                // Reset the idle timer if already on initial step.
                 idleTimer.reset();
             }
         },
