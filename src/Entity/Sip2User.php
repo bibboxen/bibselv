@@ -34,14 +34,12 @@ class Sip2User
      */
     private $password;
 
-    // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
     /**
      * @ORM\Column(type="string", length=16)
      *
      * @Groups("boxConfiguration")
      */
-    private $sip2InstitutionId;
-    // phpcs:enable
+    private $agencyId;
 
     /**
      * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="sip2User")
@@ -129,21 +127,21 @@ class Sip2User
      *
      * @return mixed
      */
-    public function getSip2InstitutionId(): ?string
+    public function getAgencyId(): ?string
     {
-        return $this->sip2InstitutionId;
+        return $this->agencyId;
     }
 
     /**
      * Set SIP2 Institution Id.
      *
-     * @param string $sip2InstitutionId
+     * @param string $agencyId
      *
      * @return $this
      */
-    public function setSip2InstitutionId(string $sip2InstitutionId): self
+    public function setAgencyId(string $agencyId): self
     {
-        $this->sip2InstitutionId = $sip2InstitutionId;
+        $this->agencyId = $agencyId;
 
         return $this;
     }

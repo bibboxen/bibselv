@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BoxConfigurationRepository;
 use App\Utils\Types\LoginMethods;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BoxConfigurationRepository::class)
@@ -15,32 +16,44 @@ class BoxConfiguration
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups("boxConfiguration")
      */
     private $id;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Groups("boxConfiguration")
      */
     private $hasPrinter;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
      */
     private $reservedMaterialInstruction;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Groups("boxConfiguration")
      */
     private $inactivityTimeOut;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Groups("boxConfiguration")
      */
     private $soundEnabled;
 
     /**
      * @ORM\ManyToOne(targetEntity=School::class, inversedBy="boxConfigurations")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups("boxConfiguration")
      */
     private $school;
 
@@ -51,16 +64,22 @@ class BoxConfiguration
 
     /**
      * @ORM\Column(type="string", length=25, nullable=true)
+     *
+     * @Groups("boxConfiguration")
      */
     private $loginMethod;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Groups("boxConfiguration")
      */
     private $hasTouch;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Groups("boxConfiguration")
      */
     private $hasKeyboard;
 
