@@ -1,12 +1,12 @@
 /**
  * @file
  * Provides config.
- *
- * @TODO: Why the hidden configuration file with FBS config inside this plugin?
  */
 'use strict';
 
-const CTRL = function CTRL(bus) {
+const fetch = require('node-fetch');
+
+const Config = function Config(bus) {
     this.bus = bus;
 };
 
@@ -22,17 +22,26 @@ const CTRL = function CTRL(bus) {
  */
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
-    const ctrl = new CTRL(bus);
-    const config = options.config;
+    const config = new Config(bus);
+    const boxConfig = options.config;
 
     /**
      * Handle fbs config events.
+     *
+     * IF THIS IS NOT EMITTED THE WHOLE THING DIE
+     *
      */
     bus.on('ctrl.config.fbs', function(data) {
-        bus.emit(data.busEvent, config);
+       bus.emit(data.busEvent, config);
+    });
+
+    bus.on('getBoxConfiguration', function(data) {
+        fetch(boxConfig.uri + data.id).then(res => res.json()).then(json => {
+            bus.emit(data.busEvent, json);
+        });
     });
 
     register(null, {
-        ctrl: ctrl
+        config: config
     });
 };

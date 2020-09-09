@@ -11,6 +11,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const debug = require('debug')('bibbox:SERVER:main');
 const uniqid = require('uniqid');
+const fetch = require('node-fetch');
 
 /**
  * Register the plugin.
@@ -30,9 +31,9 @@ module.exports = function(options, imports, register) {
     const router = express.Router();
     const app = express();
 
-    // @TODO: ??? response "Ok"?
+    app.set('port', options.port || 3000);
     router.get('/', (req, res) => {
-        res.send({ response: 'Ok' }).status(200);
+        res.send('Engine here and ready for work').status(200);
     });
     router.post('/', (req, res) => {
         res.send({ response: 'Ok' }).status(200);
@@ -45,14 +46,10 @@ module.exports = function(options, imports, register) {
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
-        // @TODO: Why prefix the uniq id?
-        const busEvent = uniqid('state_machine.up.');
-        let clientEvent = null;
+        let clientConnectionId = uniqid();
 
-        bus.once(busEvent, (client) => {
-            debug(busEvent, client);
-
-            clientEvent = 'state_machine.state_update.' + client.token;
+        bus.once(clientConnectionId, (client) => {
+            let clientEvent = 'state_machine.state_update.' + client.token;
 
             // Register event listener.
             bus.on(clientEvent, (newState) => {
@@ -67,13 +64,27 @@ module.exports = function(options, imports, register) {
         });
 
         socket.on('ClientReady', (data) => {
-            // @TODO: Make sure only one socket is open pr. client.
-            // @TODO: Validate token.
+            // @TODO: Validate token, should this have been moved into own plugin.
+            let token = data.token;
+            fetch(options.tokenEndPoint + token).then(res => res.json()).then(data => {
 
-            // Emit event to state machine.
-            bus.emit('state_machine.start', {
-                token: data.token,
-                busEvent: busEvent
+                // @TODO: Check validation of the token....
+
+                // Get configuration for this client box based on config id.
+                let clientEvent = 'getConfiguration' + token
+                bus.on(clientEvent, (config) => {
+                    socket.emit('Configuration', config);
+                });
+                bus.emit('getBoxConfiguration', {
+                    id: data.id,
+                    busEvent: clientEvent
+                });
+
+                // Emit event to state machine.
+                bus.emit('state_machine.start', {
+                    token: token,
+                    busEvent: clientConnectionId
+                });
             });
         });
 
@@ -84,10 +95,12 @@ module.exports = function(options, imports, register) {
             bus.emit('state_machine.event', data);
         });
 
-        // @TODO: Missing documentation?
+        /**
+         * Remove all events when client disconnects.
+         */
         socket.on('disconnect', () => {
             debug('Client disconnected');
-            bus.offAny(clientEvent);
+            bus.offAny(clientConnectionId);
         });
     });
 

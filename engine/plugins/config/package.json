@@ -1,0 +1,18 @@
+{
+  "name": "config",
+  "description": "Configuration proxy into administration",
+  "version": "0.0.1",
+  "main": "config.js",
+  "private": true,
+  "plugin": {
+    "consumes": [
+      "bus"
+    ],
+    "provides": [
+      "config"
+    ]
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

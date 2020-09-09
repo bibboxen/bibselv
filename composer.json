@@ -4,10 +4,11 @@
     "type": "project",
     "license": "AGPL-3.0-or-later",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-http": "*",
         "composer/package-versions-deprecated": "^1.10",
         "doctrine/annotations": "^1.10",
         "doctrine/doctrine-bundle": "^2.1",

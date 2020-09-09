@@ -34,7 +34,7 @@
         "supertest": "^4.0.2"
     },
     "scripts": {
-        "dev": "DEBUG=* node app.js",
+        "dev": "DEBUG=bibbox* ./node_modules/.bin/nodemon app.js",
         "check-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js'",
         "check-coding-standards-js": "npm run check-coding-standards-eslint",
         "check-coding-standards": "npm run check-coding-standards-js",

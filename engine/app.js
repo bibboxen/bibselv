@@ -51,9 +51,8 @@ const plugins = [
         isEventExpired: isEventExpired
     },
     {
-        packagePath: './plugins/ctrl',
-        // @TODO: this config have to be removed and build from the symfony box-configuration.
-        config: config.fbs,
+        packagePath: './plugins/config',
+        config: config.boxConfig,
         isEventExpired: isEventExpired
     },
     {
@@ -72,6 +71,7 @@ const plugins = [
         packagePath: './plugins/server',
         port: 3000,
         path: path.join(__dirname, 'public'),
+        tokenEndPoint: config.tokenEndPoint,
         isEventExpired: isEventExpired
     }
 ];

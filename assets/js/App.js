@@ -14,24 +14,27 @@ import MachineStateContext from './context/machineStateContext';
 import CheckOutItems from './Steps/CheckOutItems';
 import { useIdleTimer } from 'react-idle-timer';
 
+// @TODO: why do we have to have these out here. If places inside App, the variable do not get updated.
+let socket;
+let boxConfig;
+
 /**
  * App. The main entrypoint of the react application.
  *
  * @return {*}
  * @constructor
  */
-function App() {
-    // @TODO: Get from configuration.
-    const socket = socketIOClient('http://bibbox-website.local.itkdev.dk:8010');
+function App(props) {
+
     // @TODO: The state should not be set until the state is received through
     // the socket connection. Until then the app should be "loading".
     const [machineState, setMachineState] = useState({ step: 'initial' });
-    // @TODO: Should come from configuration.
-    const [library, setLibrary] = useState('Tranbjerg bibliotek');
+    const [library, setLibrary] = useState('Loading...');
+
     // @TODO: Add a comment about the store.
-    const store = {
+    let store = {
         machineState: { get: machineState, set: setMachineState },
-        library: { get: library, set: setLibrary }
+        library: { get: library, set: setLibrary },
     };
 
     // Setup idle tester.
@@ -42,10 +45,9 @@ function App() {
         onIdle: () => {
             // Return to initial step if not already there.
             if (machineState.step !== 'initial') {
-                // @TODO: Use token from local storage.
                 socket.emit('ClientEvent', {
                     name: 'Reset',
-                    token: '123'
+                    token: props.token
                 });
             } else {
                 // Reset the idle timer if already on initial step.
@@ -57,13 +59,24 @@ function App() {
     });
 
     /**
-     * Set up socket connection.
+     * Set up application with configuration and socket connections.
      */
     useEffect(() => {
+        console.debug("Token:" + props.token);
+        console.debug("Uri:" + props.socketUri);
+
+        socket = socketIOClient(props.socketUri);
+
         // Signal that the client is ready.
-        // @TODO: Use token from local storage.
         socket.emit('ClientReady', {
-            token: '123'
+            token: props.token
+        });
+
+        socket.on('Configuration', (data) => {
+            console.log(data);
+            boxConfig = data;
+
+            setLibrary(boxConfig.school.name);
         });
 
         // Listen for changes to machine state.
@@ -71,6 +84,7 @@ function App() {
             idleTimer.reset();
             setMachineState(data);
         });
+
     }, []);
 
     /**
@@ -87,13 +101,13 @@ function App() {
         if (data.flow === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: '123'
+                token: props.token
             });
         } else {
             socket.emit('ClientEvent', {
                 name: 'Action',
                 action: action,
-                token: '123',
+                token: props.token,
                 data: data
             });
         }
