@@ -34,13 +34,11 @@ module.exports = function(options, imports, register) {
 
     app.set('port', options.port || 3000);
     router.get('/', (req, res) => {
-        res.send('Engine here and ready for work').status(200);
-    });
-    router.post('/', (req, res) => {
-        res.send({ response: 'Ok' }).status(200);
+        res.status(400).send('Engine here and ready for work. Please use web-socket for communication.');
     });
     app.use(router);
 
+    // Create http server and attach the web-socket to the server.
     const server = http.createServer(app);
     const io = socketIo(server, {
         handlePreflightRequest: (req, res) => {
@@ -54,10 +52,14 @@ module.exports = function(options, imports, register) {
         }
     });
 
+    // Handle client connections in the web-socket. After connection the client should send a valid token with every
+    // call to the engine.
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
         const clientConnectionId = uniqid();
+        let validToken = false;
+        let token = '';
 
         bus.once(clientConnectionId, (client) => {
             const clientEvent = 'state_machine.state_update.' + client.token;
@@ -74,13 +76,24 @@ module.exports = function(options, imports, register) {
             socket.emit('UpdateState', client.state);
         });
 
+        /**
+         * The first message the client should send is "ClientReady" which will validate the token and send
+         * configuration to the client base on that token.
+         */
         socket.on('ClientReady', (data) => {
-            // @TODO: Validate token, should this have been moved into own plugin.
-            const token = data.token;
+            token = data.token;
             fetch(options.tokenEndPoint + token).then(res => res.json()).then(data => {
-                // @TODO: Check validation of the token....
+                // Validate the token and send error if not valid.
+                if (data.hasOwnProperty('valid') && !data.valid) {
+                    socket.emit('error', { message: 'Not authorized', code: 401 });
+                    socket.disconnect(true);
+                    return;
+                }
 
-                // Get configuration for this client box based on config id.
+                // Set that current token is valid.
+                validToken = true;
+
+                // Get configuration for this client box based on config id from token validation.
                 const clientEvent = 'getConfiguration' + token;
                 bus.on(clientEvent, (config) => {
                     socket.emit('Configuration', config);
@@ -98,11 +111,24 @@ module.exports = function(options, imports, register) {
             });
         });
 
-        // @TODO: Missing documentation?
+        /**
+         * Handling of events from the client.
+         *
+         * Not that every request requires the attribute "token" in the json request.
+         */
         socket.on('ClientEvent', (data) => {
-            debug('ClientEvent', data);
-
-            bus.emit('state_machine.event', data);
+            if (data.hasOwnProperty('token')) {
+                if (validToken && data.token === token) {
+                    // Token found and matched by initial conneciton token.
+                    bus.emit('state_machine.event', data);
+                }
+                else {
+                    socket.emit('error', { message: 'Missing token in client request', code: 405 });
+                }
+            }
+            else {
+                socket.emit('error', { message: 'Missing token in client request', code: 405 });
+            }
         });
 
         /**
