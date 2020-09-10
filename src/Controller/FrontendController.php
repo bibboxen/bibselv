@@ -7,7 +7,6 @@ use App\Repository\BoxConfigurationRepository;
 use App\Repository\TokenRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +20,16 @@ class FrontendController extends AbstractController
     private BoxConfigurationRepository $boxConfigurationRepository;
     private TokenRepository $tokenRepository;
 
+    /**
+     * FrontendController constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     *   The entity manager to access the database
+     * @param BoxConfigurationRepository $boxConfigurationRepository
+     *   The box configuration repository
+     * @param TokenRepository $tokenRepository
+     *   The token repository
+     */
     public function __construct(EntityManagerInterface $entityManager, BoxConfigurationRepository $boxConfigurationRepository, TokenRepository $tokenRepository)
     {
         $this->boxConfigurationRepository = $boxConfigurationRepository;
@@ -31,7 +40,13 @@ class FrontendController extends AbstractController
     /**
      * @Route("/", name="index")
      *
+     * @param Request $request
+     *   The http request
+     *
      * @return Response
+     *   Http response
+     *
+     * @throws \Exception
      */
     public function index(Request $request)
     {
@@ -69,17 +84,5 @@ class FrontendController extends AbstractController
                 'socketUri' => 'http://0.0.0.0:3000',
             ]
         );
-    }
-
-    /**
-     * @Route("/token/get", name="gettoken")
-     *
-     * @return Response
-     */
-    public function getToken()
-    {
-        $token = bin2hex(random_bytes(16));
-
-        return new JsonResponse([]);
     }
 }

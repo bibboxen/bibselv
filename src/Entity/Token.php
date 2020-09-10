@@ -25,7 +25,7 @@ class Token
     /**
      * @ORM\Column(type="integer", options={"default" = 0})
      */
-    private $token_expires = 0;
+    private $tokenExpires = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=BoxConfiguration::class)
@@ -85,17 +85,17 @@ class Token
      */
     public function getTokenExpires(): int
     {
-        return $this->token_expires;
+        return $this->tokenExpires;
     }
 
     /**
-     * @param int $token_expires
+     * @param int $tokenExpires
      *
      * @return $this
      */
-    public function setTokenExpires(int $token_expires): self
+    public function setTokenExpires(int $tokenExpires): self
     {
-        $this->token_expires = $token_expires;
+        $this->tokenExpires = $tokenExpires;
 
         return $this;
     }
