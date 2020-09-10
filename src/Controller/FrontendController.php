@@ -19,6 +19,7 @@ class FrontendController extends AbstractController
     private EntityManagerInterface $entityManager;
     private BoxConfigurationRepository $boxConfigurationRepository;
     private TokenRepository $tokenRepository;
+    private $engineSocketURI = '';
 
     /**
      * FrontendController constructor.
@@ -30,11 +31,12 @@ class FrontendController extends AbstractController
      * @param TokenRepository $tokenRepository
      *   The token repository
      */
-    public function __construct(EntityManagerInterface $entityManager, BoxConfigurationRepository $boxConfigurationRepository, TokenRepository $tokenRepository)
+    public function __construct(EntityManagerInterface $entityManager, BoxConfigurationRepository $boxConfigurationRepository, TokenRepository $tokenRepository, string $bindEngineSocketURI)
     {
         $this->boxConfigurationRepository = $boxConfigurationRepository;
         $this->tokenRepository = $tokenRepository;
         $this->entityManager = $entityManager;
+        $this->engineSocketURI = $bindEngineSocketURI;
     }
 
     /**
@@ -81,7 +83,7 @@ class FrontendController extends AbstractController
             'frontend.html.twig',
             [
                 'token' => $token->getToken(),
-                'socketUri' => 'http://0.0.0.0:3000',
+                'socketUri' => $this->engineSocketURI,
             ]
         );
     }
