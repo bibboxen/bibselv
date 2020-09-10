@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Box configuration callback controller.
+ */
 
 namespace App\Controller;
 
@@ -15,10 +19,10 @@ class BoxConfigurationController extends AbstractController
     /**
      * @Route("/box/configuration/{id}", name="box_configuration")
      *
-     * @TODO: protect this end-point with "Bearer: $token" with lookup for valid token/configId.
-     *
      * @param $id
+     *   Box configuration ID
      * @param BoxConfigurationRepository $boxConfigurationRepository
+     *   Box configuration repository
      *
      * @return JsonResponse
      */

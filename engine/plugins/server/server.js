@@ -10,7 +10,7 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const debug = require('debug')('bibbox:SERVER:main');
-const uniqid = require('uniqid');
+const uniqId = require('uniqid');
 const fetch = require('node-fetch');
 
 /**
@@ -57,7 +57,7 @@ module.exports = function(options, imports, register) {
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
-        const clientConnectionId = uniqid();
+        const clientConnectionId = uniqId();
         let isTokenValid = false;
         let token = '';
 
@@ -65,7 +65,7 @@ module.exports = function(options, imports, register) {
         const fbsConfig = {
             username: '',
             password: '',
-            endpoint: 'https://Cicero-fbs.com/rest/sip2/DK-775100',
+            endpoint: '',
             agency: '',
             location: '',
             onlineState: {
@@ -108,30 +108,33 @@ module.exports = function(options, imports, register) {
                 isTokenValid = true;
 
                 // Get configuration for this client box based on config id from token validation.
-                const clientEvent = 'getConfiguration' + token;
+                const clientEvent = uniqId();
                 bus.on(clientEvent, (config) => {
                     // Set FBS related configuration.
                     fbsConfig.username = config.sip2User.username;
                     fbsConfig.password = config.sip2User.password;
                     fbsConfig.agency = config.sip2User.agencyId;
                     fbsConfig.location = config.sip2User.location;
+                    fbsConfig.endpoint = options.fbsEndPoint + fbsConfig.agency;
 
                     // Remove it from configuration, so FBS info is not sent to the frontend.
                     delete config.sip2User;
 
                     // Send the front end related config to the front end.
                     socket.emit('Configuration', config);
-                });
-                bus.emit('getBoxConfiguration', {
-                    id: data.id,
-                    busEvent: clientEvent
+
+                    // Emit event to state machine.
+                    bus.emit('state_machine.start', {
+                        token: token,
+                        config: fbsConfig,
+                        busEvent: clientConnectionId
+                    });
                 });
 
-                // Emit event to state machine.
-                bus.emit('state_machine.start', {
+                bus.emit('getBoxConfiguration', {
+                    id: data.id,
                     token: token,
-                    config: fbsConfig,
-                    busEvent: clientConnectionId
+                    busEvent: clientEvent
                 });
             });
         });

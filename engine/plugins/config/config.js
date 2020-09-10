@@ -37,7 +37,12 @@ module.exports = function(options, imports, register) {
      * Listen for configuration requests.
      */
     bus.on('getBoxConfiguration', function(data) {
-        fetch(boxConfig.uri + data.id).then(res => res.json()).then(json => {
+        fetch(boxConfig.uri + data.id, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + data.token
+            }
+        }).then(res => res.json()).then(json => {
             bus.emit(data.busEvent, json);
         });
     });
