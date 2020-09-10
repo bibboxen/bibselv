@@ -46,10 +46,10 @@ module.exports = function(options, imports, register) {
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
-        let clientConnectionId = uniqid();
+        const clientConnectionId = uniqid();
 
         bus.once(clientConnectionId, (client) => {
-            let clientEvent = 'state_machine.state_update.' + client.token;
+            const clientEvent = 'state_machine.state_update.' + client.token;
 
             // Register event listener.
             bus.on(clientEvent, (newState) => {
@@ -65,13 +65,12 @@ module.exports = function(options, imports, register) {
 
         socket.on('ClientReady', (data) => {
             // @TODO: Validate token, should this have been moved into own plugin.
-            let token = data.token;
+            const token = data.token;
             fetch(options.tokenEndPoint + token).then(res => res.json()).then(data => {
-
                 // @TODO: Check validation of the token....
 
                 // Get configuration for this client box based on config id.
-                let clientEvent = 'getConfiguration' + token
+                const clientEvent = 'getConfiguration' + token;
                 bus.on(clientEvent, (config) => {
                     socket.emit('Configuration', config);
                 });

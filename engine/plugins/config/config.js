@@ -28,11 +28,11 @@ module.exports = function(options, imports, register) {
     /**
      * Handle fbs config events.
      *
-     * IF THIS IS NOT EMITTED THE WHOLE THING DIE
+     * @TODO: IF THIS IS NOT EMITTED THE WHOLE THING DIE
      *
      */
     bus.on('ctrl.config.fbs', function(data) {
-       bus.emit(data.busEvent, config);
+        bus.emit(data.busEvent, config);
     });
 
     bus.on('getBoxConfiguration', function(data) {
