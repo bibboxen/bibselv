@@ -47,6 +47,13 @@ class Sip2User
     private $boxConfigurations;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $location;
+
+    /**
      * Sip2User constructor.
      */
     public function __construct()
@@ -189,6 +196,32 @@ class Sip2User
                 $boxConfiguration->setSip2User(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get location.
+     *
+     * @return string
+     *   The location string
+     */
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set location.
+     *
+     * @param string $location
+     *   Location string to set
+     *
+     * @return $this
+     */
+    public function setLocation(string $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

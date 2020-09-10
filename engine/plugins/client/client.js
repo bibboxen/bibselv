@@ -32,8 +32,7 @@ Client.prototype.load = (token, config = {}, state = {}) => {
             state: state
         };
         debug('Created new client: ' + token);
-    }
-    else {
+    } else {
         debug('Loading client: ' + token);
     }
 

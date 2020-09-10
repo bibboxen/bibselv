@@ -27,7 +27,7 @@ module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const port = options.port || 3000;
     const host = options.host || '0.0.0.0';
-    const cors = options.cors || '*:*'
+    const cors = options.cors || '*:*';
 
     const router = express.Router();
     const app = express();
@@ -58,24 +58,20 @@ module.exports = function(options, imports, register) {
         debug('Client connected with socket id: ' + socket.id);
 
         const clientConnectionId = uniqid();
-        let validToken = false;
+        let isTokenValid = false;
         let token = '';
 
-        // @TODO: Get FBS config from box config
-        let fbsConfig = {
-            "username": "xx",
-            "password": "xx",
-            "endpoint": "https://Cicero-fbs.com/rest/sip2/DK-775100",
-            "agency": "DK-675100",
-            "location": "Mårslet Skole",
-            "loginAttempts": {
-                "max": 5,
-                "timeLimit": 900000
-            },
-            "onlineState": {
-                "threshold": 5,
-                "onlineTimeout": 30000,
-                "offlineTimeout": 30000
+        // Default fbsConfig template.
+        const fbsConfig = {
+            username: '',
+            password: '',
+            endpoint: 'https://Cicero-fbs.com/rest/sip2/DK-775100',
+            agency: '',
+            location: '',
+            onlineState: {
+                threshold: 5,
+                onlineTimeout: 30000,
+                offlineTimeout: 30000
             }
         };
 
@@ -102,18 +98,28 @@ module.exports = function(options, imports, register) {
             token = data.token;
             fetch(options.tokenEndPoint + token).then(res => res.json()).then(data => {
                 // Validate the token and send error if not valid.
-                if (data.hasOwnProperty('valid') && !data.valid) {
+                if (Object.prototype.hasOwnProperty.call(data, 'valid') && !data.valid) {
                     socket.emit('error', { message: 'Not authorized', code: 401 });
                     socket.disconnect(true);
                     return;
                 }
 
                 // Set that current token is valid.
-                validToken = true;
+                isTokenValid = true;
 
                 // Get configuration for this client box based on config id from token validation.
                 const clientEvent = 'getConfiguration' + token;
                 bus.on(clientEvent, (config) => {
+                    // Set FBS related configuration.
+                    fbsConfig.username = config.sip2User.username;
+                    fbsConfig.password = config.sip2User.password;
+                    fbsConfig.agency = config.sip2User.agencyId;
+                    fbsConfig.location = config.sip2User.location;
+
+                    // Remove it from configuration, so FBS info is not sent to the frontend.
+                    delete config.sip2User;
+
+                    // Send the front end related config to the front end.
                     socket.emit('Configuration', config);
                 });
                 bus.emit('getBoxConfiguration', {
@@ -124,7 +130,6 @@ module.exports = function(options, imports, register) {
                 // Emit event to state machine.
                 bus.emit('state_machine.start', {
                     token: token,
-                    // @TODO: Get FBS config from boxConfig.
                     config: fbsConfig,
                     busEvent: clientConnectionId
                 });
@@ -134,19 +139,19 @@ module.exports = function(options, imports, register) {
         /**
          * Handling of events from the client.
          *
+         * @TODO: Fix issue on re-connect where server side token and token state is lost.
+         *
          * Not that every request requires the attribute "token" in the json request.
          */
         socket.on('ClientEvent', (data) => {
-            if (data.hasOwnProperty('token')) {
-                if (validToken && data.token === token) {
-                    // Token found and matched by initial conneciton token.
+            if (Object.prototype.hasOwnProperty.call(data, 'token')) {
+                if (isTokenValid && data.token === token) {
+                    // Token found and matched by initial connection token.
                     bus.emit('state_machine.event', data);
-                }
-                else {
+                } else {
                     socket.emit('error', { message: 'Missing token in client request', code: 405 });
                 }
-            }
-            else {
+            } else {
                 socket.emit('error', { message: 'Missing token in client request', code: 405 });
             }
         });

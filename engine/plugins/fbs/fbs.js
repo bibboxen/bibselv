@@ -6,7 +6,6 @@
 'use strict';
 
 const Q = require('q');
-const uniqid = require('uniqid');
 const debug = require('debug')('bibbox:FBS:main');
 const Request = require('./request.js');
 
@@ -382,12 +381,11 @@ module.exports = function(options, imports, register) {
     //
     //checkOnlineState();
 
-
     /**
      * Listen to login requests.
      */
     bus.on('fbs.login', data => {
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
         fbs.login(data.username, data.password).then(
             () => {
                 bus.emit(data.busEvent, {
@@ -404,7 +402,7 @@ module.exports = function(options, imports, register) {
      * Listen to library status requests.
      */
     bus.on('fbs.library.status', data => {
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
         fbs.libraryStatus().then(res => {
             bus.emit(data.busEvent, {
                 timestamp: new Date().getTime(),
@@ -420,7 +418,7 @@ module.exports = function(options, imports, register) {
      * Listen to patron status requests.
      */
     bus.on('fbs.patron', data => {
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
         fbs.patronInformation(data.username, data.password).then(status => {
             bus.emit(data.busEvent, {
                 timestamp: new Date().getTime(),
@@ -456,7 +454,7 @@ module.exports = function(options, imports, register) {
         data.transactionDate = data.transactionDate || new Date().getTime();
 
         // Create FBS object and send checkout request.
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
         fbs.checkout(
             data.username,
             data.password,
@@ -532,7 +530,7 @@ module.exports = function(options, imports, register) {
         data.checkedInDate = data.checkedInDate || new Date().getTime();
 
         // Create FBS object and send check-in request.
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
 
         // Ensure that the noBlock parameter to FBS is set to 'N' as default.
         // NoBlock have been added in a later release an may not the be in all
@@ -602,7 +600,7 @@ module.exports = function(options, imports, register) {
      * Listen to renew requests.
      */
     bus.on('fbs.renew', data => {
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
         fbs.renew(data.username, data.password, data.itemIdentifier)
             .then(res => {
                 bus.emit(data.busEvent, {
@@ -619,7 +617,7 @@ module.exports = function(options, imports, register) {
      * Listen to renew all requests.
      */
     bus.on('fbs.renew.all', data => {
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
         fbs.renewAll(data.username, data.password).then(res => {
             bus.emit(data.busEvent, {
                 timestamp: new Date().getTime(),
@@ -635,7 +633,7 @@ module.exports = function(options, imports, register) {
      * Listen to block patron requests.
      */
     bus.on('fbs.block', data => {
-        let fbs = new FBS(bus, data.config);
+        const fbs = new FBS(bus, data.config);
         fbs.block(data.username, data.reason).then(res => {
             bus.emit(data.busEvent, {
                 timestamp: new Date().getTime(),
@@ -646,29 +644,6 @@ module.exports = function(options, imports, register) {
             bus.emit(data.errorEvent, err);
         });
     });
-
-    // // Create FBS object to use in tests.
-    // FBS.create(bus).then(
-    //     fbs => {
-    //         if (fbs.config.enableOnlineChecks) {
-    //             // Start the online checker.
-    //             checkOnlineState();
-    //         }
-    //
-    //         register(null, {
-    //             fbs: fbs
-    //         });
-    //     },
-    //     err => {
-    //         if (err instanceof Error) {
-    //             err = err.toString();
-    //         }
-    //         bus.emit('logger.err', { type: 'FBS', message: err });
-    //         register(null, {
-    //             fbs: null
-    //         });
-    //     }
-    // );
 
     register(null, {
         fbs: ''
