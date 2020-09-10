@@ -70,7 +70,8 @@ const plugins = [
     {
         packagePath: './plugins/server',
         port: 3000,
-        path: path.join(__dirname, 'public'),
+        host: '0.0.0.0',
+        cors: '*:*',
         tokenEndPoint: config.tokenEndPoint,
         isEventExpired: isEventExpired
     }

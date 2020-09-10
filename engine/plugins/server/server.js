@@ -27,6 +27,7 @@ module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const port = options.port || 3000;
     const host = options.host || '0.0.0.0';
+    const cors = options.cors || '*:*'
 
     const router = express.Router();
     const app = express();
@@ -41,7 +42,17 @@ module.exports = function(options, imports, register) {
     app.use(router);
 
     const server = http.createServer(app);
-    const io = socketIo(server);
+    const io = socketIo(server, {
+        handlePreflightRequest: (req, res) => {
+            const headers = {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': cors,
+                'Access-Control-Allow-Credentials': true
+            };
+            res.writeHead(200, headers);
+            res.end();
+        }
+    });
 
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
