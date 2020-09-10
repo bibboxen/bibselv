@@ -150,6 +150,7 @@ class ActionHandler {
          * Emit the check out event.
          */
         this.bus.emit('fbs.checkout', {
+            config: client.config,
             busEvent: busEvent,
             errorEvent: errEvent,
             itemIdentifier: newItem.itemIdentifier,
@@ -233,6 +234,7 @@ class ActionHandler {
          * Emit the check in event.
          */
         this.bus.emit('fbs.checkin', {
+            config: client.config,
             busEvent: busEvent,
             errorEvent: errEvent,
             itemIdentifier: newItem.itemIdentifier
@@ -312,6 +314,7 @@ class ActionHandler {
          * Emit login event.
          */
         this.bus.emit('fbs.patron', {
+            config: client.config,
             busEvent: busEvent,
             errorEvent: errEvent,
             username: loginData.username,
@@ -420,6 +423,7 @@ class ActionHandler {
              * Emit patron event.
              */
             this.bus.emit('fbs.patron', {
+                config: client.config,
                 busEvent: busEvent,
                 errorEvent: errEvent,
                 username: client.internal.username,

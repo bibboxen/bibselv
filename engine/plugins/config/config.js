@@ -34,16 +34,6 @@ module.exports = function(options, imports, register) {
     const boxConfig = options.config;
 
     /**
-     * Handle fbs config events.
-     *
-     * @TODO: IF THIS IS NOT EMITTED THE WHOLE THING DIE
-     *
-     */
-    bus.on('ctrl.config.fbs', function(data) {
-        bus.emit(data.busEvent, config);
-    });
-
-    /**
      * Listen for configuration requests.
      */
     bus.on('getBoxConfiguration', function(data) {

@@ -23,15 +23,20 @@ const Client = function Client() {};
  * @return {*}
  *   The client for the token.
  */
-Client.prototype.load = (token) => {
+Client.prototype.load = (token, config = {}, state = {}) => {
+    // If client don't exists
     if (!Object.prototype.hasOwnProperty.call(clients, token)) {
         clients[token] = {
             token: token,
-            state: {}
+            config: config,
+            state: state
         };
+        debug('Created new client: ' + token);
+    }
+    else {
+        debug('Loading client: ' + token);
     }
 
-    debug('Loading client: ' + token, clients[token]);
     return clients[token];
 };
 
@@ -47,7 +52,7 @@ Client.prototype.load = (token) => {
  *   The client.
  */
 Client.prototype.save = (token, client) => {
-    debug('Saving client: ' + token, client);
+    debug('Saving client: ' + token);
     clients[token] = client;
 
     return clients[token];

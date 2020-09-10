@@ -61,6 +61,24 @@ module.exports = function(options, imports, register) {
         let validToken = false;
         let token = '';
 
+        // @TODO: Get FBS config from box config
+        let fbsConfig = {
+            "username": "xx",
+            "password": "xx",
+            "endpoint": "https://Cicero-fbs.com/rest/sip2/DK-775100",
+            "agency": "DK-675100",
+            "location": "Mårslet Skole",
+            "loginAttempts": {
+                "max": 5,
+                "timeLimit": 900000
+            },
+            "onlineState": {
+                "threshold": 5,
+                "onlineTimeout": 30000,
+                "offlineTimeout": 30000
+            }
+        };
+
         bus.once(clientConnectionId, (client) => {
             const clientEvent = 'state_machine.state_update.' + client.token;
 
@@ -106,6 +124,8 @@ module.exports = function(options, imports, register) {
                 // Emit event to state machine.
                 bus.emit('state_machine.start', {
                     token: token,
+                    // @TODO: Get FBS config from boxConfig.
+                    config: fbsConfig,
                     busEvent: clientConnectionId
                 });
             });
