@@ -24,11 +24,11 @@ class TokenController extends AbstractController
      */
     public function index($token, TokenRepository $tokenRepository, BoxConfigurationRepository $boxConfigurationRepository)
     {
-        $entity = $tokenRepository->findOneBy([ 'token' => $token]);
+        $entity = $tokenRepository->findOneBy(['token' => $token]);
         if (is_null($entity)) {
             return new JsonResponse(['valid' => false]);
         }
 
-        return new JsonResponse(['valid' => true, 'id' => $entity->getBoxConfiguration()->getId() ]);
+        return new JsonResponse(['valid' => true, 'id' => $entity->getBoxConfiguration()->getId()]);
     }
 }

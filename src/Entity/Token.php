@@ -50,6 +50,7 @@ class Token
 
     /**
      * @param string $token
+     *
      * @return $this
      */
     public function setToken(string $token): self
@@ -69,6 +70,7 @@ class Token
 
     /**
      * @param BoxConfiguration|null $boxConfiguration
+     *
      * @return $this
      */
     public function setBoxConfiguration(?BoxConfiguration $boxConfiguration): self
@@ -88,6 +90,7 @@ class Token
 
     /**
      * @param int $token_expires
+     *
      * @return $this
      */
     public function setTokenExpires(int $token_expires): self

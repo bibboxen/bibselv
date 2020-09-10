@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Token;
 use App\Repository\BoxConfigurationRepository;
 use App\Repository\TokenRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,9 +53,8 @@ class FrontendController extends AbstractController
             $token->setToken(bin2hex(random_bytes(16)))
                 ->setTokenExpires(time() + 86400)
                 ->setBoxConfiguration($boxConfig);
-            // @TODO: move expire into configuration.
-        }
-        else {
+        // @TODO: move expire into configuration.
+        } else {
             $token->setTokenExpires(time() + 86400);
         }
 
@@ -78,7 +76,8 @@ class FrontendController extends AbstractController
      *
      * @return Response
      */
-    public function getToken() {
+    public function getToken()
+    {
         $token = bin2hex(random_bytes(16));
 
         return new JsonResponse([]);
