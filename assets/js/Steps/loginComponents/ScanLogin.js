@@ -22,7 +22,6 @@ import MachineStateContext from '../../context/machineStateContext';
  *
  * Supplies a page for scanning login.
  *
- * @param props
  * @return {*}
  * @constructor
  */

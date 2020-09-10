@@ -13,6 +13,7 @@ import NavBar from './Steps/components/navbar';
 import MachineStateContext from './context/machineStateContext';
 import CheckOutItems from './Steps/CheckOutItems';
 import { useIdleTimer } from 'react-idle-timer';
+import PropTypes from 'prop-types';
 
 // @TODO: why do we have to have these out here. If places inside App, the variable do not get updated.
 let socket;
@@ -21,20 +22,22 @@ let boxConfig;
 /**
  * App. The main entrypoint of the react application.
  *
+ * @param props
+ *
  * @return {*}
  * @constructor
  */
 function App(props) {
-
     // @TODO: The state should not be set until the state is received through
     // the socket connection. Until then the app should be "loading".
     const [machineState, setMachineState] = useState({ step: 'initial' });
     const [library, setLibrary] = useState('Loading...');
+    const { token, socketUri } = props;
 
     // @TODO: Add a comment about the store.
-    let store = {
+    const store = {
         machineState: { get: machineState, set: setMachineState },
-        library: { get: library, set: setLibrary },
+        library: { get: library, set: setLibrary }
     };
 
     // Setup idle tester.
@@ -47,7 +50,7 @@ function App(props) {
             if (machineState.step !== 'initial') {
                 socket.emit('ClientEvent', {
                     name: 'Reset',
-                    token: props.token
+                    token: token
                 });
             } else {
                 // Reset the idle timer if already on initial step.
@@ -62,14 +65,11 @@ function App(props) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
-        console.debug("Token:" + props.token);
-        console.debug("Uri:" + props.socketUri);
-
-        socket = socketIOClient(props.socketUri);
+        socket = socketIOClient(socketUri);
 
         // Signal that the client is ready.
         socket.emit('ClientReady', {
-            token: props.token
+            token: token
         });
 
         socket.on('Configuration', (data) => {
@@ -84,7 +84,6 @@ function App(props) {
             idleTimer.reset();
             setMachineState(data);
         });
-
     }, []);
 
     /**
@@ -101,13 +100,13 @@ function App(props) {
         if (data.flow === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: props.token
+                token: token
             });
         } else {
             socket.emit('ClientEvent', {
                 name: 'Action',
                 action: action,
-                token: props.token,
+                token: token,
                 data: data
             });
         }
@@ -148,5 +147,10 @@ function App(props) {
         </>
     );
 }
+
+App.propTypes = {
+    token: PropTypes.string,
+    socketUri: PropTypes.string
+};
 
 export default App;
