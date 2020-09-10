@@ -69,9 +69,9 @@ const plugins = [
     },
     {
         packagePath: './plugins/server',
-        port: 3000,
-        host: '0.0.0.0',
-        cors: '*:*',
+        host: config.server.host,
+        port: config.server.port,
+        cors: config.server.cors,
         tokenEndPoint: config.tokenEndPoint,
         isEventExpired: isEventExpired
     }

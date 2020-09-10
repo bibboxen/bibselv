@@ -3,5 +3,10 @@
     "tokenEndPoint" : "http://bibbox-website.local.itkdev.dk/token/validate/",
     "boxConfig": {
         "uri": "http://bibbox-website.local.itkdev.dk/box/configuration/"
+    },
+    "server": {
+        "host": "0.0.0.0",
+        "port": 3000,
+        "cors": "*:*"
     }
 }
