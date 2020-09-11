@@ -1,9 +1,9 @@
 {
     "eventTimeout": 1000,
-    "tokenEndPoint" : "http://bibbox-website.local.itkdev.dk/token/validate/",
+    "tokenEndPoint" : "http://nginx/token/validate/",
     "fbsEndPoint": "https://Cicero-fbs.com/rest/sip2/",
     "boxConfig": {
-        "uri": "http://bibbox-website.local.itkdev.dk/box/configuration/"
+        "uri": "http://nginx/box/configuration/"
     },
     "server": {
         "host": "0.0.0.0",

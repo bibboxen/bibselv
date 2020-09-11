@@ -9,9 +9,7 @@ module.exports = function(name, options) {
     const fixturesFolder = options.fixturesFolder || 'fixtures';
     const fp = path.join(fixturesFolder, name + '.js');
 
-    // `hasFixtures` indicates whether the test has fixtures we should read,
-    // or doesn't, so we should record and save them.
-    let hasFixtures = !!process.env.NOCK_RECORD;
+    let hasFixtures = false;
 
     return {
         // starts recording, or ensure the fixtures exist
@@ -21,17 +19,11 @@ module.exports = function(name, options) {
                 return;
             }
 
-            if (!hasFixtures) {
-                try {
-                    require('./' + fp);
-                    hasFixtures = true;
-                } catch (e) {
-                    nock.recorder.rec({
-                        dont_print: true
-                    });
-                }
-            } else {
-                hasFixtures = false;
+            // Try to load fixtures, if they don't exists record new ones.
+            try {
+                require('./' + fp);
+                hasFixtures = true;
+            } catch (e) {
                 nock.recorder.rec({
                     dont_print: true
                 });

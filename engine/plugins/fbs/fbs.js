@@ -643,7 +643,7 @@ module.exports = function(options, imports, register) {
     });
 
     register(null, {
-        fbs: ''
+        fbs: FBS
     });
 
     debug('Registered plugin');
