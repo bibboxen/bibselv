@@ -15,29 +15,28 @@ import CheckOutItems from './Steps/CheckOutItems';
 import { useIdleTimer } from 'react-idle-timer';
 import PropTypes from 'prop-types';
 
-// @TODO: why do we have to have these out here. If places inside App, the variable do not get updated.
-let socket;
-let boxConfig;
-
 /**
  * App. The main entrypoint of the react application.
  *
- * @param props
- *
+ * @param token
+ *   data token
+ * @param socketUri
+ *   the socket uri
+ * @param boxConfiguration
+ *   the box configuration
  * @return {*}
  * @constructor
  */
-function App(props) {
+function App({ token, socketUri, boxConfiguration }) {
     // @TODO: The state should not be set until the state is received through
     // the socket connection. Until then the app should be "loading".
     const [machineState, setMachineState] = useState({ step: 'initial' });
-    const [library, setLibrary] = useState('Loading...');
-    const { token, socketUri } = props;
-
+    const [boxConfig, setBoxConfig] = useState(boxConfiguration);
+    let socket = {};
     // @TODO: Add a comment about the store.
     const store = {
         machineState: { get: machineState, set: setMachineState },
-        library: { get: library, set: setLibrary }
+        boxConfig: { get: boxConfig, set: setBoxConfig },
     };
 
     // Setup idle tester.
@@ -73,10 +72,7 @@ function App(props) {
         });
 
         socket.on('Configuration', (data) => {
-            console.log(data);
-            boxConfig = data;
-
-            setLibrary(boxConfig.school.name);
+            setBoxConfig(data);
         });
 
         // Listen for changes to machine state.
@@ -137,9 +133,9 @@ function App(props) {
     return (
         <>
             <MachineStateContext.Provider value={store}>
-                <NavBar actionHandler={handleAction}/>
-                <div className="container">
-                    <div className="row" style={{ width: '100%' }}>
+                <NavBar actionHandler={handleAction} />
+                <div className='container'>
+                    <div className='row' style={{ width: '100%' }}>
                         {renderStep(machineState.step)}
                     </div>
                 </div>
@@ -149,8 +145,9 @@ function App(props) {
 }
 
 App.propTypes = {
-    token: PropTypes.string,
-    socketUri: PropTypes.string
+    token: PropTypes.string.isRequired,
+    socketUri: PropTypes.string.isRequired,
+    boxConfiguration: PropTypes.object.isRequired
 };
 
 export default App;

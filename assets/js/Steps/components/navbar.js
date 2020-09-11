@@ -58,15 +58,15 @@ function NavBar({ actionHandler }) {
 
     return (
         <div className={classes}>
-            <div className="text-container">
-                <span className="text">{context.library.get}</span>
+            <div className='text-container'>
+                <span className='text'>{context.boxConfig.get.school.name}</span>
                 {context.machineState.get.user && (
-                    <span className="text bold">
+                    <span className='text bold'>
                         {context.machineState.get.user.name}
                     </span>
                 )}
             </div>
-            <div className="button-container">
+            <div className='button-container'>
                 {context.machineState.get.user &&
                 components.map((button) => (
                     <Button
@@ -79,7 +79,7 @@ function NavBar({ actionHandler }) {
                 ))}
                 {context.machineState.get.step !== 'initial' &&
                     <Button
-                        label="Afslut"
+                        label='Afslut'
                         icon={faSignOutAlt}
                         handleButtonPress={onButtonPress}
                         which={'reset'}
