@@ -1,13 +1,12 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * The navbar is the navigation bar in the top. 
  */
 
 import React, { useContext } from 'react';
 import MachineStateContext from '../../context/machineStateContext';
-import Button from './button';
+import Button from './Button';
 import {
     faBookReader,
     faInfoCircle,
@@ -20,7 +19,8 @@ import PropTypes from 'prop-types';
  * NavBar.
  *
  * @param actionHandler
- *   @TODO: Describe prop.
+ *  As the state can only be changed by the statemachine, the actionHandler
+ *  calls the statemachine if a user requests a state change.
  * @return {*}
  * @constructor
  */
@@ -47,10 +47,10 @@ function NavBar({ actionHandler }) {
     ];
 
     /**
-     * @TODO: Document function.
+     * When a button is pressed, this function is called and it request a state change.
      *
      * @param which
-     *   @TODO: Describe parameter.
+     *   which determines which flow to request.
      */
     function onButtonPress(which) {
         actionHandler('changeFlow', { flow: which });

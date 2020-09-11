@@ -1,16 +1,17 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * Enum for the different statusses the book can have.
  */
 
 const bookStatus = {
+    RENEWED: 'renewed',
     ERROR: 'error',
     IN_PROGRESS: 'inProgress',
+    CHECKED_OUT: 'checkedOut',
     CHECKED_IN: 'checkedIn',
-    RENEWED: 'renewed',
-    CHECKED_OUT: 'checkedOut'
+    RESERVED: 'reserved',
+    SUCCESS: 'success',
 };
 
 export default bookStatus;

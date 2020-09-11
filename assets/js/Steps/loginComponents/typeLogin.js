@@ -1,56 +1,58 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
+ * For users that log in with keyboard
  */
 
 import React, { useState } from 'react';
-import Header from '../components/header';
-import Input from '../components/input';
-import HelpBox from '../components/helpBox';
-import NumPad from '../components/numPad';
-import Button from '../components/button';
+import Header from '../components/Header';
+import Input from '../components/Input';
+import HelpBox from '../components/HelpBox';
+import NumPad from '../components/NumPad';
+import Button from '../components/Button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * TypeLogin.
  *
  * @param actionHandler
- *   @TODO: Describe prop.
+ *  As the state can only be changed by the statemachine, the actionHandler 
+ *  calls the statemachine if a user requests a state change.
  *
  * @return {*}
  * @constructor
  */
 function TypeLogin({ actionHandler }) {
-    // @TODO: Rename loadNumber to username
-    const [loanNumber, setLoanNumber] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loanNumberEntering, setLoanNumberEntering] = useState(true);
+    const [usernameEntered, setUsernameEntered] = useState(false);
 
     /**
-     * @TODO: Document function.
+     * Handles key presses for username and password.
      *
-     * @param button
+     * @param key
      */
-    function onNumPadPress({ button }) {
-        if (loanNumberEntering) {
-            button.toLowerCase() === 'c'
-                ? setLoanNumber('')
-                : setLoanNumber(`${loanNumber}${button}`);
+    function onNumPadPress({ key }) {
+        if (!usernameEntered) {
+            key.toLowerCase() === 'c'
+                ? setUsername('')
+                : setUsername(`${username}${key}`);
         } else {
-            button.toLowerCase() === 'c'
+            key.toLowerCase() === 'c'
                 ? setPassword('')
-                : setPassword(`${password}${button}`);
+                : setPassword(`${password}${key}`);
         }
     }
 
     /**
-     * @TODO: Document function.
+     * Handles button press for going from username to password,
+     * and for password to actual login.
      */
     function onButtonPress() {
-        if (loanNumberEntering) {
-            setLoanNumberEntering(false);
+        if (!usernameEntered) {
+            setUsernameEntered(true);
         } else {
             actionHandler('enterFlow', { flow: 'login' });
         }
@@ -59,19 +61,24 @@ function TypeLogin({ actionHandler }) {
     return (
         <>
             <div className="col-md m-3">
-                <Header header="Login" text="Indtast lånernummer"/>
+            <Header
+                    header="Login"
+                    subheader="Indtast lånernummer"
+                    which="login"
+                    icon={faSignInAlt}
+                />
                 <div className="row">
                     <div className="col-md-2"/>
                     <div className="col-md mt-4">
-                        {loanNumberEntering && (
+                        {!usernameEntered && (
                             <Input
                                 name="loanNumber"
                                 label="Lånenummer"
-                                value={loanNumber}
+                                value={username}
                                 readOnly
                             />
                         )}
-                        {!loanNumberEntering && (
+                        {usernameEntered && (
                             <Input
                                 name="password"
                                 label="Password"

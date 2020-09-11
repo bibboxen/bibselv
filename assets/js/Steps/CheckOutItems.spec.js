@@ -1,7 +1,7 @@
 /**
  * @file
  *
- * Tests for CheckOutItems.
+ * Tests of CheckOutItems.
  */
 
 import React from 'react';
@@ -20,7 +20,7 @@ it('renders without crashing', () => {
 
     shallow(
         <MachineStateContext.Provider value={machineState}>
-            <CheckOutItems actionHandler={() => {}} machineState={machineState} handleReset={() => {}} />
+            <CheckOutItems actionHandler={() => {}} />
         </MachineStateContext.Provider>
     );
 });

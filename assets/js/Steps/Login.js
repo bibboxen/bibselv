@@ -1,10 +1,9 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
+ * Renders the right type of login, based on configuration.
  *
- * @TODO: Missing tests.
- * @TODO: Should be upper case file name.
+
  */
 
 import React from 'react';
@@ -15,10 +14,13 @@ import PropTypes from 'prop-types';
  * Login.
  *
  * @param actionHandler
+ *  As the state can only be changed by the statemachine, the actionHandler 
+ *  calls the statemachine if a user requests a state change.
  * @return {*}
  * @constructor
  */
 function Login({ actionHandler }) {
+    // @TODO: fix this, when configuration is available
     /*
     const context = useContext(MachineStateContext);
 

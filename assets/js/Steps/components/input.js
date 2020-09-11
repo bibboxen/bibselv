@@ -1,46 +1,46 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * An input field component
  */
 
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import MachineStateContext from '../../context/machineStateContext';
+import React from "react";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Input.
  *
  * @param name
- *   @TODO: Describe prop.
+ *   Name of the input, used for id as well.
  * @param label
- *   @TODO: Describe prop.
- * @param error
- *   @TODO: Describe prop.
- * @param info
- *   @TODO: Describe prop.
- * @param rest
- *   @TODO: Describe prop.
+ *   The label of the input.
+ * @param value
+ *   The value of the input.
+ * @param which
+ *   Which determines whether the info bar should be shown, and which color it should have.
  * @return {*}
  * @constructor
  */
-const Input = ({ name, label, error, info, ...rest }) => {
-    const context = useContext(MachineStateContext);
-    let classes = info ? 'input info' : 'input';
-    classes = context.machineState.get.step === 'checkOutItems' ? `${classes}` : `${classes} purple`;
+const Input = ({ name, label, value, which }) => {
+    let classes = "input";
+    if (which) {
+        classes =
+            which.toLowerCase() === "checkoutitems"
+                ? `info ${classes}`
+                : `${classes} info purple`;
+    }
     return (
         <div className={classes}>
             <label htmlFor={name}>{label}</label>
-            <input {...rest} name={name} id={name} type={name}/>
-            {info && (
+            <input value={value} name={name} id={name} type="text" />
+            {value && which && (
                 <div className="info-banner">
                     <span className="info-banner-icon">
-                        <FontAwesomeIcon icon={faCheck}/>
+                        <FontAwesomeIcon icon={faCheck} />
                     </span>
-                    {info}
+                    Bogen blev registreret. Klar til næste
                 </div>
             )}
         </div>
@@ -50,7 +50,7 @@ const Input = ({ name, label, error, info, ...rest }) => {
 Input.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    error: PropTypes.array,
-    info: PropTypes.string
+    value: PropTypes.string.isRequired,
+    which: PropTypes.string,
 };
 export default Input;

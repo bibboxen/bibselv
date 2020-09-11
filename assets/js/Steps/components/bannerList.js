@@ -2,57 +2,33 @@
  * @file
  * BannerList component.
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * Displays a list of items with the banner component and with optional header.
  */
 
-import React from 'react';
-import Banner from './banner';
-import PropTypes from 'prop-types';
+import React from "react";
+import Banner from "./Banner";
+import PropTypes from "prop-types";
 
 /**
  * BannerList.
  *
  * @param items
- *   @TODO: Describe prop.
+ *   List of items to be displayed.
  * @param title
- *   @TODO: Describe prop.
+ *   Title for the list. 
  * @return {*}
  * @constructor
  */
 function BannerList({ items, title }) {
-    /**
-     * Sort function for item statuses.
-     *
-     * @param a
-     *   First item status.
-     * @param b
-     *   Second item status.
-     * @return {number}
-     */
-    function itemSort(a, b) {
-        if (a.status > b.status) {
-            return -1;
-        }
-
-        if (a.status < b.status) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    items.reverse();
-    items.sort(itemSort);
-
     return (
         <>
             {title && (
                 <div className="banner-list-header">
-                    {title} <div className="counter">{items.length}</div>
+                    {title}
+                    {items && <div className="counter">{items.length}</div>}
                 </div>
             )}
-            {items.map((item) => (
+            {items && items.map((item) => (
                 <Banner item={item} key={item.id || item.itemIdentifier} />
             ))}
         </>
@@ -60,7 +36,7 @@ function BannerList({ items, title }) {
 }
 BannerList.propTypes = {
     items: PropTypes.array.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
 };
 
 export default BannerList;

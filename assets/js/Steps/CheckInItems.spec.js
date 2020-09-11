@@ -1,6 +1,6 @@
 /**
  * @file
- * Tests for CheckInItems.
+ * Tests of CheckInItems.
  */
 
 import React from 'react';
@@ -16,8 +16,7 @@ it('renders without crashing', () => {
 
     shallow(
         <MachineStateContext.Provider value={machineState}>
-            <CheckInItems actionHandler={() => {}} machineState={machineState}
-                handleReset={() => {}}/>
+            <CheckInItems actionHandler={() => {}} />
         </MachineStateContext.Provider>
     );
 });

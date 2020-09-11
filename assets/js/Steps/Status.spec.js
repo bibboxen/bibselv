@@ -1,6 +1,6 @@
 /**
  * @file
- * Tests for Status.
+ * Tests of Status.
  */
 
 import React from 'react';

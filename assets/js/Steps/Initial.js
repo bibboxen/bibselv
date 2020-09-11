@@ -1,14 +1,14 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
+ * The initial page the user meets, from here they can go to other pages. 
  */
 
 import React, { useEffect } from 'react';
 import BarcodeScanner from './BarcodeScanner';
 import PropTypes from 'prop-types';
-import Bubble from './components/bubble';
-import Barcode from './components/barcode';
+import Bubble from './components/Bubble';
+import Barcode from './components/Barcode';
 import {
     BARCODE_COMMAND_CHECKIN,
     BARCODE_COMMAND_CHECKOUT,

@@ -9,29 +9,38 @@ import Initial from './Steps/Initial';
 import Login from './Steps/Login';
 import Status from './Steps/Status';
 import CheckInItems from './Steps/CheckInItems';
-import NavBar from './Steps/components/navbar';
+import NavBar from './steps/components/Navbar';
 import MachineStateContext from './context/machineStateContext';
 import CheckOutItems from './Steps/CheckOutItems';
 import { useIdleTimer } from 'react-idle-timer';
 
+
 /**
  * App. The main entrypoint of the react application.
  *
+ * @param initialState
+ *   The initial state of the app ("loading")
+ *   is overridden in useEffect on updateState
  * @return {*}
  * @constructor
  */
-function App() {
+function App({ initialState }) {
     // @TODO: Get from configuration.
-    const socket = socketIOClient('http://bibbox-website.local.itkdev.dk:8010');
-    // @TODO: The state should not be set until the state is received through
-    // the socket connection. Until then the app should be "loading".
-    const [machineState, setMachineState] = useState({ step: 'initial' });
+    const socket = socketIOClient("http://bibbox-website.local.itkdev.dk:8010");
+    const [machineState, setMachineState] = useState(initialState);
     // @TODO: Should come from configuration.
-    const [library, setLibrary] = useState('Tranbjerg bibliotek');
-    // @TODO: Add a comment about the store.
-    const store = {
+    const [library, setLibrary] = useState("Tranbjerg bibliotek");
+    /**
+     *
+     * The storage contains the machinestate, which is the state of the app.
+     * The state of the app determines the which component is rendered, and
+     * can only be changed by the state machine.
+     * The library is the name of the library the machine is installed on.
+     *
+     */
+    const storage = {
         machineState: { get: machineState, set: setMachineState },
-        library: { get: library, set: setLibrary }
+        library: { get: library, set: setLibrary },
     };
 
     // Setup idle tester.
@@ -83,38 +92,31 @@ function App() {
     function handleAction(action, data) {
         idleTimer.reset();
 
-        // @TODO: Replace so it is the action that is reset instead of flow.
-        if (data.flow === 'reset') {
-            socket.emit('ClientEvent', {
-                name: 'Reset',
-                token: '123'
-            });
-        } else {
             socket.emit('ClientEvent', {
                 name: 'Action',
                 action: action,
                 token: '123',
                 data: data
             });
-        }
     }
 
     /**
-     * Render the given step.
+     * renderStep determines which component to render based on the step
+     * returned from the state machine.
      *
      * @param step
-     *   Name of the step to render.
-     * @return {*}
+     *   The step from the machinestate
+     * @return component to be rendered
      */
     function renderStep(step) {
         switch (step) {
-            case 'checkOutItems':
+            case "checkOutItems":
                 return <CheckOutItems actionHandler={handleAction} />;
-            case 'checkInItems':
+            case "checkInItems":
                 return <CheckInItems actionHandler={handleAction} />;
-            case 'status':
+            case "status":
                 return <Status actionHandler={handleAction} />;
-            case 'loginScan':
+            case "loginScan":
                 return <Login actionHandler={handleAction} />;
             default:
                 return <Initial actionHandler={handleAction} />;
@@ -123,10 +125,10 @@ function App() {
 
     return (
         <>
-            <MachineStateContext.Provider value={store}>
-                <NavBar actionHandler={handleAction}/>
+            <MachineStateContext.Provider value={storage}>
+                <NavBar actionHandler={handleAction} />
                 <div className="container">
-                    <div className="row" style={{ width: '100%' }}>
+                    <div className="row" style={{ width: "100%" }}>
                         {renderStep(machineState.step)}
                     </div>
                 </div>

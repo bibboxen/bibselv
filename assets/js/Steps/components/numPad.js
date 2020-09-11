@@ -1,8 +1,7 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * A numpad for entering book ids and login.
  */
 
 import React from 'react';
@@ -12,7 +11,7 @@ import PropTypes from 'prop-types';
  * NumPad.
  *
  * @param handleNumpadPress
- *   @TODO: Describe prop.
+ *   The callback when a button is pressed.
  * @return {*}
  * @constructor
  */

@@ -1,14 +1,14 @@
 /**
  * @file
  *
- * Tests of scanlogin
+ * Tests of typelogin
  */
 
 import React from "react";
-import ScanLogin from "./ScanLogin";
+import TypeLogin from "./TypeLogin";
 import { shallow } from "enzyme";
 import { it } from "@jest/globals";
 
 it("renders without crashing", () => {
-    shallow(<ScanLogin actionHandler={() => {}} />);
+    shallow(<TypeLogin actionHandler={() => {}} />);
 });
