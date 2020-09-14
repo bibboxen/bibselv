@@ -27,9 +27,9 @@ const setup = () => {
                 packagePath: './../plugins/network'
             },
             {
-                packagePath: './../plugins/ctrl',
-                // @TODO: this config have to be removed and build from the symfony box-configuration.
-                config: config.fbs
+                packagePath: './../plugins/config',
+                config: config.boxConfig,
+                isEventExpired: 1000
             },
             {
                 packagePath: './../plugins/fbs'
@@ -64,7 +64,8 @@ it('Test that reset can be called', done => {
 
 it('Test that the checkOutItems flow can be entered from initial state', done => {
     let client = {
-        token: '123'
+        token: '123',
+        config: config.fbs
     };
 
     setup().then(app => {
@@ -79,11 +80,15 @@ it('Test that the checkOutItems flow can be entered from initial state', done =>
 
 it('Test that test user can log in and check out an item', done => {
     let client = {
-        token: '123'
+        token: '123',
+        config: config.fbs
     };
 
     setup().then(app => {
         const spy = sinon.spy(app.services.state_machine, 'handleEvent');
+
+        // Set client configuration in state.
+        app.services.client.save(client.token, client);
 
         client = app.services.state_machine.handleEvent({
             token: '123',
@@ -149,7 +154,8 @@ it('Test that test user can log in and check out an item', done => {
 
 it('Test that the checkInItems flow can be entered from initial state', done => {
     let client = {
-        token: '123'
+        token: '123',
+        config: config.fbs
     };
 
     setup().then(app => {
@@ -164,7 +170,8 @@ it('Test that the checkInItems flow can be entered from initial state', done => 
 
 it('Test that an item can be checked in', done => {
     let client = {
-        token: '123'
+        token: '123',
+        config: config.fbs
     };
 
     setup().then(app => {
@@ -211,7 +218,8 @@ it('Test that an item can be checked in', done => {
 
 it('Test that the user ends in loginScan when changing flow from checkInItems to checkOutItems', done => {
     let client = {
-        token: '123'
+        token: '123',
+        config: config.fbs
     };
 
     setup().then(app => {
@@ -232,10 +240,14 @@ it('Test that the user ends in loginScan when changing flow from checkInItems to
 
 it('Test that the user can change to checkOutItems when logged in', done => {
     let client = {
-        token: '234'
+        token: '234',
+        config: config.fbs
     };
 
     setup().then(app => {
+        // Set client configuration in state.
+        app.services.client.save(client.token, client);
+
         client = app.services.state_machine.handleEvent({
             token: '234',
             name: 'Reset'
@@ -301,10 +313,14 @@ it('Test that the user can change to checkOutItems when logged in', done => {
 
 it('Tests that status can be retrieved', done => {
     let client = {
-        token: '123'
+        token: '123',
+        config: config.fbs
     };
 
     setup().then(app => {
+        // Set client configuration in state.
+        app.services.client.save(client.token, client);
+
         client = app.services.state_machine.handleEvent({
             token: '123',
             name: 'Reset'
@@ -355,10 +371,14 @@ it('Tests that status can be retrieved', done => {
 
 it('Tests that status is refreshed when visiting status again after login', done => {
     let client = {
-        token: '123'
+        token: '123',
+        config: config.fbs
     };
 
     setup().then(app => {
+        // Set client configuration in state.
+        app.services.client.save(client.token, client);
+
         client = app.services.state_machine.handleEvent({
             token: '123',
             name: 'Reset'

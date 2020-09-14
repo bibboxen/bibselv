@@ -90,6 +90,7 @@ class AppFixtures extends Fixture
             $sip2user->setPassword($faker->password);
             $libraryNumber = $faker->numberBetween(70000, 90000) * 10;
             $sip2user->setAgencyId('DK-'.$libraryNumber);
+            $sip2user->setLocation($faker->city);
 
             $sip2users[] = $sip2user;
             $manager->persist($sip2user);
@@ -107,6 +108,7 @@ class AppFixtures extends Fixture
             $boxConfiguration->setSchool($faker->randomElement($schools));
             $boxConfiguration->setSip2User($faker->randomElement($sip2users));
             $boxConfiguration->setLoginMethod($faker->randomElement(LoginMethods::getLoginMethodList()));
+            $boxConfiguration->setDefaultPassword('0000');
 
             $manager->persist($boxConfiguration);
         }

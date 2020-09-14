@@ -2,6 +2,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -10,6 +11,14 @@ security:
             anonymous: true
             lazy: true
             provider: users_in_memory
+
+        box:
+            pattern: '^/box/configuration'
+            stateless: true
+            anonymous: lazy
+            guard:
+                authenticators:
+                    - App\Security\TokenAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

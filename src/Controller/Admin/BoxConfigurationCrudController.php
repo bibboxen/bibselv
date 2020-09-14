@@ -45,6 +45,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 AssociationField::new('school'),
                 AssociationField::new('sip2User'),
                 TextField::new('reservedMaterialInstruction'),
+                TextField::new('defaultPassword'),
 
             FormField::addPanel('Options'),
                 BooleanField::new('hasTouch')->hideOnIndex(),
@@ -70,7 +71,6 @@ class BoxConfigurationCrudController extends AbstractCrudController
         return $filters
             ->add('name')
             ->add('school')
-            ->add('sip2User')
-            ;
+            ->add('sip2User');
     }
 }

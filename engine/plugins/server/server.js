@@ -10,7 +10,8 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const debug = require('debug')('bibbox:SERVER:main');
-const uniqid = require('uniqid');
+const uniqId = require('uniqid');
+const fetch = require('node-fetch');
 
 /**
  * Register the plugin.
@@ -26,33 +27,58 @@ module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const port = options.port || 3000;
     const host = options.host || '0.0.0.0';
+    const cors = options.cors || '*:*';
 
     const router = express.Router();
     const app = express();
 
-    // @TODO: ??? response "Ok"?
+    app.set('port', options.port || 3000);
     router.get('/', (req, res) => {
-        res.send({ response: 'Ok' }).status(200);
-    });
-    router.post('/', (req, res) => {
-        res.send({ response: 'Ok' }).status(200);
+        res.status(400).send('Engine here and ready for work. Please use web-socket for communication.');
     });
     app.use(router);
 
+    // Create http server and attach the web-socket to the server.
     const server = http.createServer(app);
-    const io = socketIo(server);
+    const io = socketIo(server, {
+        handlePreflightRequest: (req, res) => {
+            const headers = {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': cors,
+                'Access-Control-Allow-Credentials': true
+            };
+            res.writeHead(200, headers);
+            res.end();
+        }
+    });
 
+    // Handle client connections in the web-socket. After connection the client should send a valid token with every
+    // call to the engine.
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
-        // @TODO: Why prefix the uniq id?
-        const busEvent = uniqid('state_machine.up.');
-        let clientEvent = null;
+        const clientConfigEvent = uniqId();
+        const clientConnectionId = uniqId();
+        let isTokenValid = false;
+        let token = '';
 
-        bus.once(busEvent, (client) => {
-            debug(busEvent, client);
+        // Default fbsConfig template.
+        const fbsConfig = {
+            username: '',
+            password: '',
+            endpoint: '',
+            agency: '',
+            location: '',
+            onlineState: {
+                threshold: 5,
+                onlineTimeout: 30000,
+                offlineTimeout: 30000
+            },
+            defaultPassword: null
+        };
 
-            clientEvent = 'state_machine.state_update.' + client.token;
+        bus.once(clientConnectionId, (client) => {
+            const clientEvent = 'state_machine.state_update.' + client.token;
 
             // Register event listener.
             bus.on(clientEvent, (newState) => {
@@ -66,28 +92,83 @@ module.exports = function(options, imports, register) {
             socket.emit('UpdateState', client.state);
         });
 
+        /**
+         * The first message the client should send is "ClientReady" which will validate the token and send
+         * configuration to the client based on that token.
+         */
         socket.on('ClientReady', (data) => {
-            // @TODO: Make sure only one socket is open pr. client.
-            // @TODO: Validate token.
+            token = data.token;
+            fetch(options.tokenEndPoint + token).then(res => res.json()).then(data => {
+                // Validate the token and send error if not valid.
+                if (Object.prototype.hasOwnProperty.call(data, 'valid') && !data.valid) {
+                    socket.emit('error', { message: 'Not authorized', code: 401 });
+                    socket.disconnect(true);
+                    return;
+                }
 
-            // Emit event to state machine.
-            bus.emit('state_machine.start', {
-                token: data.token,
-                busEvent: busEvent
+                // Set that current token is valid.
+                isTokenValid = true;
+
+                // Get configuration for this client box based on config id from token validation.
+                bus.on(clientConfigEvent, (config) => {
+                    // Set FBS related configuration.
+                    fbsConfig.username = config.sip2User.username;
+                    fbsConfig.password = config.sip2User.password;
+                    fbsConfig.agency = config.sip2User.agencyId;
+                    fbsConfig.location = config.sip2User.location;
+                    fbsConfig.endpoint = options.fbsEndPoint + fbsConfig.agency;
+                    fbsConfig.defaultPassword = config.defaultPassword;
+
+                    // Remove engine only configuration, so secrets are not sent to the frontend.
+                    delete config.sip2User;
+                    delete config.defaultPassword;
+
+                    // Send the front end related config to the front end.
+                    socket.emit('Configuration', config);
+
+                    // Emit event to state machine.
+                    bus.emit('state_machine.start', {
+                        token: token,
+                        config: fbsConfig,
+                        busEvent: clientConnectionId
+                    });
+                });
+
+                bus.emit('getBoxConfiguration', {
+                    id: data.id,
+                    token: token,
+                    busEvent: clientConfigEvent
+                });
             });
         });
 
-        // @TODO: Missing documentation?
+        /**
+         * Handling of events from the client.
+         *
+         * @TODO: Fix issue on re-connect where server side token and token state is lost.
+         *
+         * Not that every request requires the attribute "token" in the json request.
+         */
         socket.on('ClientEvent', (data) => {
-            debug('ClientEvent', data);
-
-            bus.emit('state_machine.event', data);
+            if (Object.prototype.hasOwnProperty.call(data, 'token')) {
+                if (isTokenValid && data.token === token) {
+                    // Token found and matched by initial connection token.
+                    bus.emit('state_machine.event', data);
+                } else {
+                    socket.emit('error', { message: 'Missing token in client request', code: 405 });
+                }
+            } else {
+                socket.emit('error', { message: 'Missing token in client request', code: 405 });
+            }
         });
 
-        // @TODO: Missing documentation?
+        /**
+         * Remove all events when client disconnects.
+         */
         socket.on('disconnect', () => {
             debug('Client disconnected');
-            bus.offAny(clientEvent);
+            bus.offAny(clientConnectionId);
+            bus.offAny(clientConfigEvent);
         });
     });
 

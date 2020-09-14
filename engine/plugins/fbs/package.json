@@ -1,7 +1,7 @@
 {
   "name": "fbs",
   "description": "Communication with FBS",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "fbs.js",
   "private": true,
   "plugin": {

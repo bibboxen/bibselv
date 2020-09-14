@@ -89,9 +89,18 @@ class BoxConfiguration
      *
      * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups("boxConfiguration")
      */
     private $sip2User;
     // phpcs:enable
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $defaultPassword;
 
     /**
      * BoxConfiguration toString.
@@ -353,6 +362,31 @@ class BoxConfiguration
     public function setSip2User(?Sip2User $sip2User): self
     {
         $this->sip2User = $sip2User;
+
+        return $this;
+    }
+
+    /**
+     * Get default box password (also known as pin code).
+     *
+     * @return string|null
+     *   The default password
+     */
+    public function getDefaultPassword(): ?string
+    {
+        return $this->defaultPassword;
+    }
+
+    /**
+     * Set default password (or pin code).
+     *
+     * @param string $defaultPassword
+     *
+     * @return $this
+     */
+    public function setDefaultPassword(string $defaultPassword): self
+    {
+        $this->defaultPassword = $defaultPassword;
 
         return $this;
     }

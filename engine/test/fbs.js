@@ -25,9 +25,9 @@ const setup = function setup() {
                 packagePath: './../plugins/bus'
             },
             {
-                packagePath: './../plugins/ctrl',
-                // @TODO: this config have to be removed and build from the symfony box-configuration.
-                config: config.fbs
+                packagePath: './../plugins/config',
+                config: config.boxConfig,
+                isEventExpired: 1000
             },
             {
                 packagePath: './../plugins/network'
@@ -131,7 +131,8 @@ it('Check the response date parser', function(done) {
 
 it('Login with test user', function(done) {
     setup().then(function(app) {
-        app.services.fbs.login(config.username, config.pin).then(function() {
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.login(config.username, config.pin).then(function() {
             // Resolved without error, hence logged in.
             done();
         }, done).catch(done.fail);
@@ -140,7 +141,8 @@ it('Login with test user', function(done) {
 
 it('Login with a user that not valid - test that it fails', function(done) {
     setup().then(function(app) {
-        app.services.fbs.login('3210519792', '54321').then(function(val) {
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.login('3210519792', '54321').then(function(val) {
             try {
                 assert(false, 'User was logged in, which it should not.');
             } catch (err) {
@@ -158,7 +160,8 @@ it('Login with a user that not valid - test that it fails', function(done) {
 
 it('Request library status', function(done) {
     setup().then(function(app) {
-        app.services.fbs.libraryStatus().then(function(res) {
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.libraryStatus().then(function(res) {
             try {
                 res.error.should.equal('');
                 res.institutionId.should.equal('DK-775100');
@@ -175,7 +178,8 @@ it('Load patron information', function(done) {
     this.timeout('4000');
 
     setup().then(function(app) {
-        app.services.fbs.patronInformation(config.username, config.pin)
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.patronInformation(config.username, config.pin)
             .then(function(res) {
                 try {
                     res.institutionId.should.equal('DK-775100');
@@ -190,7 +194,8 @@ it('Load patron information', function(done) {
 
 it('Checkout (loan) book with id "3274626533"', function(done) {
     setup().then(function(app) {
-        app.services.fbs.checkout(config.username, config.pin, '3274626533')
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.checkout(config.username, config.pin, '3274626533')
             .then(function(res) {
                 try {
                     res.ok.should.equal('1');
@@ -204,7 +209,8 @@ it('Checkout (loan) book with id "3274626533"', function(done) {
 
 it('Renew book with is "3274626533"', function(done) {
     setup().then(function(app) {
-        app.services.fbs.renew(config.username, config.pin, '3274626533')
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.renew(config.username, config.pin, '3274626533')
             .then(function(res) {
                 try {
                     // This renew will always fail as we only can renew item after due
@@ -222,7 +228,8 @@ it('Renew book with is "3274626533"', function(done) {
 
 it('Renew all books all', function(done) {
     setup().then(function(app) {
-        app.services.fbs.renewAll(config.username, config.pin)
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.renewAll(config.username, config.pin)
             .then(function(res) {
                 try {
                     res.unrenewedItems.pop().id.should.equal('3274626533');
@@ -237,7 +244,8 @@ it('Renew all books all', function(done) {
 
 it('Check-in (return) book with id "3274626533"', function(done) {
     setup().then(function(app) {
-        app.services.fbs.checkIn('3274626533').then(function(res) {
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
+        fbs.checkIn('3274626533').then(function(res) {
             try {
                 res.ok.should.equal('1');
                 done();
@@ -261,13 +269,14 @@ const loans = [
 it('Check-out (loan) of 6 books fast', function(done) {
     this.timeout(10000);
     setup().then(function(app) {
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
         Q.all([
-            app.services.fbs.checkout(config.username, config.pin, loans[0]),
-            app.services.fbs.checkout(config.username, config.pin, loans[1]),
-            app.services.fbs.checkout(config.username, config.pin, loans[2]),
-            app.services.fbs.checkout(config.username, config.pin, loans[3]),
-            app.services.fbs.checkout(config.username, config.pin, loans[4]),
-            app.services.fbs.checkout(config.username, config.pin, loans[5])
+            fbs.checkout(config.username, config.pin, loans[0]),
+            fbs.checkout(config.username, config.pin, loans[1]),
+            fbs.checkout(config.username, config.pin, loans[2]),
+            fbs.checkout(config.username, config.pin, loans[3]),
+            fbs.checkout(config.username, config.pin, loans[4]),
+            fbs.checkout(config.username, config.pin, loans[5])
         ]).then(function(res) {
             try {
                 res.length.should.equal(loans.length);
@@ -286,13 +295,14 @@ it('Check-out (loan) of 6 books fast', function(done) {
 it('Check-in (return) of 6 books fast', function(done) {
     this.timeout(10000);
     setup().then(function(app) {
+        const fbs = new app.services.fbs(app.services.bus, config.fbs);
         Q.all([
-            app.services.fbs.checkIn(loans[0]),
-            app.services.fbs.checkIn(loans[1]),
-            app.services.fbs.checkIn(loans[2]),
-            app.services.fbs.checkIn(loans[3]),
-            app.services.fbs.checkIn(loans[4]),
-            app.services.fbs.checkIn(loans[5])
+            fbs.checkIn(loans[0]),
+            fbs.checkIn(loans[1]),
+            fbs.checkIn(loans[2]),
+            fbs.checkIn(loans[3]),
+            fbs.checkIn(loans[4]),
+            fbs.checkIn(loans[5])
         ]).then(function(res) {
             try {
                 res.length.should.equal(loans.length);

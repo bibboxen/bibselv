@@ -25,7 +25,6 @@ import Input from './components/input';
  *
  * Supplies a page for returning materials.
  *
- * @param props
  * @return {*}
  * @constructor
  */
