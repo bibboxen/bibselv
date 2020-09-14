@@ -25,25 +25,6 @@ const ActionHandler = require('./action_handler.js');
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const clientModule = imports.client;
-    let defaultPassword = null;
-
-    const fbsConfigEvent = uniqid('ctrl.config.fbs.');
-
-    /**
-     * Listen for config events.
-     * @TODO: What is the default password and why can it be NULL as default?
-     */
-    bus.on(fbsConfigEvent, config => {
-        defaultPassword = config.defaultPassword;
-    });
-
-    /**
-     * Request config.
-     * @TODO: Request config for the given client.
-     */
-    bus.emit('ctrl.config.fbs', {
-        busEvent: fbsConfigEvent
-    });
 
     // Setup state machine.
     const stateMachine = new machina.BehavioralFsm({
@@ -140,7 +121,7 @@ module.exports = function(options, imports, register) {
                  */
                 login: function(client) {
                     debug('Triggered login on client: ' + client.token, client.actionData);
-                    client.actionData.password = defaultPassword;
+                    client.actionData.password = client.config.defaultPassword;
                     actionHandler.login(client);
                 },
                 /**

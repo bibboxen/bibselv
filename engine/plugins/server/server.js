@@ -72,7 +72,8 @@ module.exports = function(options, imports, register) {
                 threshold: 5,
                 onlineTimeout: 30000,
                 offlineTimeout: 30000
-            }
+            },
+            defaultPassword: null
         };
 
         bus.once(clientConnectionId, (client) => {
@@ -116,9 +117,11 @@ module.exports = function(options, imports, register) {
                     fbsConfig.agency = config.sip2User.agencyId;
                     fbsConfig.location = config.sip2User.location;
                     fbsConfig.endpoint = options.fbsEndPoint + fbsConfig.agency;
+                    fbsConfig.defaultPassword = config.defaultPassword;
 
                     // Remove it from configuration, so FBS info is not sent to the frontend.
                     delete config.sip2User;
+                    delete config.defaultPassword;
 
                     // Send the front end related config to the front end.
                     socket.emit('Configuration', config);

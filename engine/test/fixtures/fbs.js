@@ -3,7 +3,7 @@ var nock = require('nock');
 /**
  * Login request
  */
-nock('https://cicero-fbs.com')
+nock('https://cicero-fbs.com:443')
     .post('/rest/sip2/DK-775100', /<request>23009\d{8}\s{4}\d{6}\|AODK-775100\|AA3210\d{6}\|AC\|AD\d{5}\|<\/request>/)
     .reply(200, '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>24              00920170619    125151AODK-775100|AALN:3210519784|AETestkort Mickey Mouse|BLY|CQY|</response></ns2:sip>');
 

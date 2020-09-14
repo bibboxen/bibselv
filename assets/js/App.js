@@ -15,6 +15,8 @@ import CheckOutItems from './Steps/CheckOutItems';
 import { useIdleTimer } from 'react-idle-timer';
 import PropTypes from 'prop-types';
 
+let socket = {};
+
 /**
  * App. The main entrypoint of the react application.
  *
@@ -32,7 +34,7 @@ function App({ token, socketUri, boxConfiguration }) {
     // the socket connection. Until then the app should be "loading".
     const [machineState, setMachineState] = useState({ step: 'initial' });
     const [boxConfig, setBoxConfig] = useState(boxConfiguration);
-    let socket = {};
+
     // @TODO: Add a comment about the store.
     const store = {
         machineState: { get: machineState, set: setMachineState },
