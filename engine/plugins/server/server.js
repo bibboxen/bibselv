@@ -93,7 +93,7 @@ module.exports = function(options, imports, register) {
 
         /**
          * The first message the client should send is "ClientReady" which will validate the token and send
-         * configuration to the client base on that token.
+         * configuration to the client based on that token.
          */
         socket.on('ClientReady', (data) => {
             token = data.token;
