@@ -36,7 +36,7 @@ function App({ token, socketUri, boxConfiguration }) {
     // @TODO: Add a comment about the store.
     const store = {
         machineState: { get: machineState, set: setMachineState },
-        boxConfig: { get: boxConfig, set: setBoxConfig },
+        boxConfig: { get: boxConfig, set: setBoxConfig }
     };
 
     // Setup idle tester.
