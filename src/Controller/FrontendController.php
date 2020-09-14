@@ -30,6 +30,8 @@ class FrontendController extends AbstractController
      *   The box configuration repository
      * @param TokenRepository $tokenRepository
      *   The token repository
+     * @param string $bindEngineSocketURI
+     *   URI for the websocket from the environment
      */
     public function __construct(EntityManagerInterface $entityManager, BoxConfigurationRepository $boxConfigurationRepository, TokenRepository $tokenRepository, string $bindEngineSocketURI)
     {
