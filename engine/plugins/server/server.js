@@ -57,6 +57,7 @@ module.exports = function(options, imports, register) {
     io.on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
+        const clientConfigEvent = uniqId();
         const clientConnectionId = uniqId();
         let isTokenValid = false;
         let token = '';
@@ -109,8 +110,7 @@ module.exports = function(options, imports, register) {
                 isTokenValid = true;
 
                 // Get configuration for this client box based on config id from token validation.
-                const clientEvent = uniqId();
-                bus.on(clientEvent, (config) => {
+                bus.on(clientConfigEvent, (config) => {
                     // Set FBS related configuration.
                     fbsConfig.username = config.sip2User.username;
                     fbsConfig.password = config.sip2User.password;
@@ -119,7 +119,7 @@ module.exports = function(options, imports, register) {
                     fbsConfig.endpoint = options.fbsEndPoint + fbsConfig.agency;
                     fbsConfig.defaultPassword = config.defaultPassword;
 
-                    // Remove it from configuration, so FBS info is not sent to the frontend.
+                    // Remove engine only configuration, so secrets are not sent to the frontend.
                     delete config.sip2User;
                     delete config.defaultPassword;
 
@@ -137,7 +137,7 @@ module.exports = function(options, imports, register) {
                 bus.emit('getBoxConfiguration', {
                     id: data.id,
                     token: token,
-                    busEvent: clientEvent
+                    busEvent: clientConfigEvent
                 });
             });
         });
@@ -168,6 +168,7 @@ module.exports = function(options, imports, register) {
         socket.on('disconnect', () => {
             debug('Client disconnected');
             bus.offAny(clientConnectionId);
+            bus.offAny(clientConfigEvent);
         });
     });
 
