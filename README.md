@@ -85,18 +85,19 @@ To see logs for the compilation, run
 docker-compose logs frontend
 ```
 
-### Access the frontend
+## Using the systen
+To get a running frontend you need to first goto the administration interface and setup a box configuration. Start by adding an SIP2 user, then a school an lastly a bibbox box configuration where you select the other two.
 
-Get url of the frontend:
+Get url for the administration:
 ```sh
-echo http://$(docker-compose port nginx 80)
+open http://$(docker-compose port nginx 80)/admin
 ```
 
-__Note__: to restart the engine after changing configuration, run
-
-```sh
-docker-compose restart engine
+Next access the React frontend where `x` below is the id of the configuration entity you just created in the administrative interface.
 ```
+open http://$(docker-compose port nginx 80)?id=x
+```
+
 
 ## Code Linting
 
