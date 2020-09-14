@@ -27,7 +27,7 @@ const setup = function setup() {
             {
                 packagePath: './../plugins/config',
                 config: config.boxConfig,
-                isEventExpired: isEventExpired
+                isEventExpired: 1000
             },
             {
                 packagePath: './../plugins/network'

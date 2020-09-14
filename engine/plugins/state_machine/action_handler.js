@@ -260,9 +260,8 @@ class ActionHandler {
             debug('Login success');
 
             const user = resp.patron;
-            //const names = user.personalName.split(' ');
+            const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
             let birthdayToday = false;
-
 
             /**
              * @TODO: when would the response have 'PB' that?
@@ -278,7 +277,7 @@ class ActionHandler {
 
             const actionData = {
                 user: {
-                    name: 'TEST', //names[0],
+                    name: names[0],
                     birthdayToday: birthdayToday
                 },
                 internal: {
