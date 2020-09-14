@@ -108,6 +108,7 @@ class AppFixtures extends Fixture
             $boxConfiguration->setSchool($faker->randomElement($schools));
             $boxConfiguration->setSip2User($faker->randomElement($sip2users));
             $boxConfiguration->setLoginMethod($faker->randomElement(LoginMethods::getLoginMethodList()));
+            $boxConfiguration->setDefaultPassword('0000');
 
             $manager->persist($boxConfiguration);
         }

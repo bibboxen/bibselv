@@ -366,11 +366,24 @@ class BoxConfiguration
         return $this;
     }
 
+    /**
+     * Get default box password (also known as pin code).
+     *
+     * @return string|null
+     *   The default password
+     */
     public function getDefaultPassword(): ?string
     {
         return $this->defaultPassword;
     }
 
+    /**
+     * Set default password (or pin code).
+     *
+     * @param string $defaultPassword
+     *
+     * @return $this
+     */
     public function setDefaultPassword(string $defaultPassword): self
     {
         $this->defaultPassword = $defaultPassword;
