@@ -9,7 +9,6 @@
 
 const machina = require('machina');
 const debug = require('debug')('bibbox:STATE_MACHINE:main');
-const uniqid = require('uniqid');
 const ActionHandler = require('./action_handler.js');
 
 /**
