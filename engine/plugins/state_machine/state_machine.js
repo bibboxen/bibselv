@@ -381,11 +381,10 @@ module.exports = function(options, imports, register) {
      * Listener for start event.
      */
     bus.on('state_machine.start', (data) => {
-        debug('state_machine.start', data);
+        debug('state_machine.start', data.token);
 
-        let client = clientModule.load(data.token);
+        let client = clientModule.load(data.token, data.config);
         client = stateMachine.reset(client);
-
         clientModule.save(data.token, client);
 
         bus.emit(data.busEvent, client);

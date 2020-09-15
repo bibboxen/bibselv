@@ -27,7 +27,6 @@ import {
  *
  * Supplies a front page.
  *
- * @param props
  * @return {*}
  * @constructor
  */

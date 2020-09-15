@@ -28,7 +28,6 @@ import { faBook } from "@fortawesome/free-solid-svg-icons";
  *
  * Supplies a page for returning materials.
  *
- * @param props
  * @return {*}
  * @constructor
  */

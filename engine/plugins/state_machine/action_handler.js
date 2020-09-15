@@ -150,6 +150,7 @@ class ActionHandler {
          * Emit the check out event.
          */
         this.bus.emit('fbs.checkout', {
+            config: client.config,
             busEvent: busEvent,
             errorEvent: errEvent,
             itemIdentifier: newItem.itemIdentifier,
@@ -233,6 +234,7 @@ class ActionHandler {
          * Emit the check in event.
          */
         this.bus.emit('fbs.checkin', {
+            config: client.config,
             busEvent: busEvent,
             errorEvent: errEvent,
             itemIdentifier: newItem.itemIdentifier
@@ -258,9 +260,13 @@ class ActionHandler {
             debug('Login success');
 
             const user = resp.patron;
-            const names = user.personalName.split(' ');
+            //const names = user.personalName.split(' ');
             let birthdayToday = false;
 
+
+            /**
+             * @TODO: when would the response have 'PB' that?
+             */
             if (Object.prototype.hasOwnProperty.call(user, 'PB')) {
                 const nowDate = new Date();
                 const birthday = user.PB;
@@ -272,7 +278,7 @@ class ActionHandler {
 
             const actionData = {
                 user: {
-                    name: names[0],
+                    name: 'TEST', //names[0],
                     birthdayToday: birthdayToday
                 },
                 internal: {
@@ -312,6 +318,7 @@ class ActionHandler {
          * Emit login event.
          */
         this.bus.emit('fbs.patron', {
+            config: client.config,
             busEvent: busEvent,
             errorEvent: errEvent,
             username: loginData.username,
@@ -420,6 +427,7 @@ class ActionHandler {
              * Emit patron event.
              */
             this.bus.emit('fbs.patron', {
+                config: client.config,
                 busEvent: busEvent,
                 errorEvent: errEvent,
                 username: client.internal.username,

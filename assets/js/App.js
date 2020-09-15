@@ -13,23 +13,26 @@ import NavBar from './steps/components/Navbar';
 import MachineStateContext from './context/machineStateContext';
 import CheckOutItems from './Steps/CheckOutItems';
 import { useIdleTimer } from 'react-idle-timer';
+import PropTypes from 'prop-types';
 
 
 /**
  * App. The main entrypoint of the react application.
  *
+<<<<<<< HEAD
  * @param initialState
  *   The initial state of the app ("loading")
  *   is overridden in useEffect on updateState
  * @return {*}
  * @constructor
  */
-function App({ initialState }) {
+function App({ token, socketUri, boxConfiguration initialState }) {
     // @TODO: Get from configuration.
     const socket = socketIOClient("http://bibbox-website.local.itkdev.dk:8010");
     const [machineState, setMachineState] = useState(initialState);
-    // @TODO: Should come from configuration.
-    const [library, setLibrary] = useState("Tranbjerg bibliotek");
+    const [boxConfig, setBoxConfig] = useState(boxConfiguration);
+    let socket = {};
+
     /**
      *
      * The storage contains the machinestate, which is the state of the app.
@@ -40,7 +43,7 @@ function App({ initialState }) {
      */
     const storage = {
         machineState: { get: machineState, set: setMachineState },
-        library: { get: library, set: setLibrary },
+        boxConfig: { get: boxConfig, set: setBoxConfig },
     };
 
     // Setup idle tester.
@@ -51,10 +54,9 @@ function App({ initialState }) {
         onIdle: () => {
             // Return to initial step if not already there.
             if (machineState.step !== 'initial') {
-                // @TODO: Use token from local storage.
                 socket.emit('ClientEvent', {
                     name: 'Reset',
-                    token: '123'
+                    token: token
                 });
             } else {
                 // Reset the idle timer if already on initial step.
@@ -66,13 +68,18 @@ function App({ initialState }) {
     });
 
     /**
-     * Set up socket connection.
+     * Set up application with configuration and socket connections.
      */
     useEffect(() => {
+        socket = socketIOClient(socketUri);
+
         // Signal that the client is ready.
-        // @TODO: Use token from local storage.
         socket.emit('ClientReady', {
-            token: '123'
+            token: token
+        });
+
+        socket.on('Configuration', (data) => {
+            setBoxConfig(data);
         });
 
         // Listen for changes to machine state.
@@ -95,7 +102,7 @@ function App({ initialState }) {
             socket.emit('ClientEvent', {
                 name: 'Action',
                 action: action,
-                token: '123',
+                token: token,
                 data: data
             });
     }
@@ -125,10 +132,11 @@ function App({ initialState }) {
 
     return (
         <>
-            <MachineStateContext.Provider value={storage}>
+
+            <MachineStateContext.Provider value={store}>
                 <NavBar actionHandler={handleAction} />
-                <div className="container">
-                    <div className="row" style={{ width: "100%" }}>
+                <div className='container'>
+                    <div className='row' style={{ width: '100%' }}>
                         {renderStep(machineState.step)}
                     </div>
                 </div>
@@ -136,5 +144,11 @@ function App({ initialState }) {
         </>
     );
 }
+
+App.propTypes = {
+    token: PropTypes.string.isRequired,
+    socketUri: PropTypes.string.isRequired,
+    boxConfiguration: PropTypes.object.isRequired
+};
 
 export default App;

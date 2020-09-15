@@ -27,9 +27,9 @@ const setup = () => {
                 packagePath: './../plugins/network'
             },
             {
-                packagePath: './../plugins/ctrl',
-                // @TODO: this config have to be removed and build from the symfony box-configuration.
-                config: config.fbs
+                packagePath: './../plugins/config',
+                config: config.boxConfig,
+                isEventExpired: isEventExpired
             },
             {
                 packagePath: './../plugins/fbs'

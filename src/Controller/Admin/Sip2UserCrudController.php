@@ -38,6 +38,7 @@ class Sip2UserCrudController extends AbstractCrudController
                 TextField::new('username'),
                 TextField::new('password')->hideOnIndex(),
                 TextField::new('agencyId'),
+                TextField::new('location'),
                 AssociationField::new('boxConfigurations'),
         ];
     }
