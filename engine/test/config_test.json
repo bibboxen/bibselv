@@ -7,7 +7,8 @@
         "password": "xxx",
         "endpoint": "https://cicero-fbs.com/rest/sip2/DK-775100",
         "agency": "DK-775100",
-        "location": "hb"
+        "location": "hb",
+        "defaultPassword": "00000"
     },
     "paths": {
         "base": "files",

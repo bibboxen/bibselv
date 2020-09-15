@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * User with information obtained during authentication.
+ * User with information obtained during authentication with token.
  */
 
 namespace App\Security;

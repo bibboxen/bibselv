@@ -96,6 +96,13 @@ class BoxConfiguration
     // phpcs:enable
 
     /**
+     * @ORM\Column(type="string", length=32)
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $defaultPassword;
+
+    /**
      * BoxConfiguration toString.
      *
      * @return mixed
@@ -355,6 +362,31 @@ class BoxConfiguration
     public function setSip2User(?Sip2User $sip2User): self
     {
         $this->sip2User = $sip2User;
+
+        return $this;
+    }
+
+    /**
+     * Get default box password (also known as pin code).
+     *
+     * @return string|null
+     *   The default password
+     */
+    public function getDefaultPassword(): ?string
+    {
+        return $this->defaultPassword;
+    }
+
+    /**
+     * Set default password (or pin code).
+     *
+     * @param string $defaultPassword
+     *
+     * @return $this
+     */
+    public function setDefaultPassword(string $defaultPassword): self
+    {
+        $this->defaultPassword = $defaultPassword;
 
         return $this;
     }

@@ -24,7 +24,7 @@ const Client = function Client() {};
  *   The client for the token.
  */
 Client.prototype.load = (token, config = {}, state = {}) => {
-    // If client don't exists
+    // If client does not exists
     if (!Object.prototype.hasOwnProperty.call(clients, token)) {
         clients[token] = {
             token: token,

@@ -39,7 +39,7 @@ function App({ token, socketUri, boxConfiguration, initialState }) {
      */
     const storage = {
         machineState: { get: machineState, set: setMachineState },
-        boxConfig: { get: boxConfig, set: setBoxConfig },
+        boxConfig: { get: boxConfig, set: setBoxConfig }
     };
 
     // Setup idle tester.
