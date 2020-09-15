@@ -73,9 +73,10 @@ function CheckInItems({ actionHandler }) {
             barcodeScanner.stop();
         };
     }, [actionHandler]);
-
-    let items = adaptListOfBooksToBanner(context.machineState.get.items);
-
+    let items = [];
+    if (context.machineState.get.items) {
+        items = adaptListOfBooksToBanner(context.machineState.get.items);
+    }
     return (
         <>
             <div className="col-md-9">

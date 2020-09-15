@@ -30,18 +30,14 @@ function App({ token, socketUri }) {
     // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
     const idleTimer = useIdleTimer({
         // timeout will be overridden
-        timeout: 3000,
+        timeout: 60000,
         onIdle: () => {
             // Return to initial step if not already there.
-            if (machineState.step !== "initial") {
-                socket.emit("ClientEvent", {
-                    name: "Reset",
-                    token: token,
-                });
-            } else {
-                // Reset the idle timer if already on initial step.
-                idleTimer.reset();
-            }
+            socket.emit("ClientEvent", {
+                name: "Reset",
+                token: token,
+            });
+            idleTimer.reset();
         },
         debounce: 500,
         eventsThrottle: 500,

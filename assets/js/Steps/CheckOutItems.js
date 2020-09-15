@@ -21,9 +21,7 @@ import BannerList from "./components/BannerList";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { adaptListOfBooksToBanner } from "./utils/BannerAdapter";
-import {
-    faBookReader,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBookReader } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * CheckOutItems component.
@@ -74,8 +72,10 @@ function CheckOutItems({ actionHandler }) {
             barcodeScanner.stop();
         };
     }, [actionHandler]);
-
-    let items = adaptListOfBooksToBanner(context.machineState.get.items);
+    let items = [];
+    if (context.machineState.get.items) {
+        items = adaptListOfBooksToBanner(context.machineState.get.items);
+    }
 
     return (
         <>

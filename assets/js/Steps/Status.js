@@ -89,7 +89,6 @@ function Status({ actionHandler }) {
     let unavailableHoldItems = adaptListOfBooks(
         context.machineState.get.unavailableHoldItems
     );
-    debugger;
     return (
         <div className="col-md">
             <div className="col-md-9" style={{ paddingLeft: "0" }}>

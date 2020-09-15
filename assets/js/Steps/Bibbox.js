@@ -3,7 +3,7 @@
  * The main entrypoint of the react application.
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Initial from "./Initial";
 import Login from "./Login";
 import Status from "./Status";
@@ -28,8 +28,6 @@ import MachineStateContext from '../context/machineStateContext';
  * @constructor
  */
 function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
-    const [machineState, setMachineState] = useState(machineStateInput);
-    const [boxConfig, setBoxConfig] = useState(boxConfigurationInput);
     /**
      *
      * The storage contains the machinestate, which is the state of the app.
@@ -39,8 +37,8 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      *
      */
     const storage = {
-        machineState: { get: machineState, set: setMachineState },
-        boxConfig: { get: boxConfig, set: setBoxConfig },
+        machineState: { get: machineStateInput },
+        boxConfig: { get: boxConfigurationInput },
     };
 
     /**
@@ -59,7 +57,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
                 return <CheckInItems actionHandler={actionHandler} />;
             case "status":
                 return <Status actionHandler={actionHandler} />;
-            case "login":
+            case "loginScan":
                 return <Login actionHandler={actionHandler} />;
             case "initial":
                 return <Initial actionHandler={actionHandler} />;
@@ -73,7 +71,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
             <NavBar actionHandler={actionHandler} />
             <div className="container">
                 <div className="row" style={{ width: "100%" }}>
-                    {renderStep(machineState.step)}
+                    {renderStep(machineStateInput.step)}
                 </div>
             </div>
         </MachineStateContext.Provider>
