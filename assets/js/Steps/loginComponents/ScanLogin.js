@@ -4,19 +4,17 @@
  * For users that log in with scanner.
  */
 
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import BarcodeScanner from "../BarcodeScanner";
 import PropTypes from "prop-types";
 import HelpBox from "../components/Helpbox";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBarcode } from "@fortawesome/free-solid-svg-icons";
+import { faSignInAlt, faBarcode } from "@fortawesome/free-solid-svg-icons";
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
 } from "../../constants";
-import MachineStateContext from "../../context/machineStateContext";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 /**
  * Scan login component.
  *
@@ -29,8 +27,6 @@ import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
  * @constructor
  */
 function ScanLogin({ actionHandler }) {
-    const context = useContext(MachineStateContext);
-
     /**
      * Setup component.
      *
@@ -40,11 +36,11 @@ function ScanLogin({ actionHandler }) {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = (code) => {
-            if (code === BARCODE_COMMAND_FINISH) {
-                actionHandler("changeFlow", { flow: "reset" });
-            }
+            if (code.length === BARCODE_COMMAND_LENGTH) {
+                if (code === BARCODE_COMMAND_FINISH) {
+                    actionHandler("changeFlow", { flow: "reset" });
+                }
 
-            if (!context.machineState.get.user) {
                 actionHandler("login", {
                     username: code,
                     password: "",
@@ -63,7 +59,7 @@ function ScanLogin({ actionHandler }) {
             <div className="col-md-9">
                 <Header
                     header="Login"
-                    subheader="Scan låner stregkode"
+                    subheader="Scan dit bibliotekskort"
                     which="login"
                     icon={faSignInAlt}
                 />
@@ -87,7 +83,7 @@ function ScanLogin({ actionHandler }) {
             <div className="col-md-3">
                 <HelpBox
                     text={
-                        "Brug håndscanneren til at scanne stregkoden på bogen."
+                        "Brug håndscanneren til at scanne stregkoden din lånerkort."
                     }
                 />
             </div>

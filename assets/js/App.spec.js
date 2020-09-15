@@ -13,8 +13,21 @@ it("renders without crashing", () => {
 });
 
 describe("Initial component (Vælg en funktion...)", () => {
-    it("Renders the initial component when state is initial and it is logged out", () => {
-        let wrapper = mount(<App initialState={{ step: "initial" }} />);
+    it("renders the initial component when state is initial and it is logged out", () => {
+        let wrapper = mount(
+            <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
+                initialState={{ step: "initial" }}
+            />
+        );
+
         expect(
             wrapper.contains(
                 <h1 className="mb-5">Vælg en funktion for at starte</h1>
@@ -24,27 +37,43 @@ describe("Initial component (Vælg en funktion...)", () => {
 });
 
 describe("Check out items component (Udlån)", () => {
-    it("Renders login component when it is logged out", () => {
+    it("renders login component when it is logged out", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                    loginMethod: "login_barcode",
+                }}
                 initialState={{
                     flow: "checkOutItems",
-                    step: "loginScan",
+                    step: "login",
                     items: [],
                 }}
             />
         );
-        expect(wrapper.contains(<div className="header">Login</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find(".header").text()).toEqual("Login");
     });
 
-    it("Renders login component when logged out, even if there is items", () => {
+    it("renders login component when logged out, even if there is items", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                    loginMethod: "login_barcode",
+                }}
                 initialState={{
                     flow: "checkOutItems",
-                    step: "loginScan",
+                    step: "login",
                     items: [
                         {
                             id: "5313004378",
@@ -60,14 +89,20 @@ describe("Check out items component (Udlån)", () => {
             />
         );
 
-        expect(wrapper.contains(<div className="header">Login</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find(".header").text()).toEqual("Login");
     });
 
-    it("Renders check out items component when it is logged in", () => {
+    it("renders check out items component when it is logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkOutItems",
                     step: "checkOutItems",
@@ -84,9 +119,17 @@ describe("Check out items component (Udlån)", () => {
         );
     });
 
-    it("Renders item (book) with error in check out items component when logged in", () => {
+    it("renders item (book) with error in check out items component when logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkOutItems",
                     step: "checkOutItems",
@@ -114,9 +157,17 @@ describe("Check out items component (Udlån)", () => {
         );
     });
 
-    it("Renders item (book) in progress in check out items component when logged in", () => {
+    it("renders item (book) in progress in check out items component when logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkOutItems",
                     step: "checkOutItems",
@@ -141,9 +192,17 @@ describe("Check out items component (Udlån)", () => {
         ).toEqual(true);
     });
 
-    it("Renders item (book) that is checked in check out items component when logged in", () => {
+    it("renders item (book) that is checked in check out items component when logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkOutItems",
                     step: "checkOutItems",
@@ -170,9 +229,17 @@ describe("Check out items component (Udlån)", () => {
 });
 
 describe("Check in items component (Aflever)", () => {
-    it("Renders check in items component when it is logged out", () => {
+    it("renders check in items component when it is logged out", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -185,9 +252,17 @@ describe("Check in items component (Aflever)", () => {
         );
     });
 
-    it("Renders item (book) with error in check in items component when logged out", () => {
+    it("renders item (book) with error in check in items component when logged out", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -211,9 +286,17 @@ describe("Check in items component (Aflever)", () => {
         );
     });
 
-    it("Renders item (book) in progress in check in items component when logged out", () => {
+    it("renders item (book) in progress in check in items component when logged out", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -234,9 +317,17 @@ describe("Check in items component (Aflever)", () => {
         ).toEqual(true);
     });
 
-    it("Renders item (book) that is checked in check in items component when logged out", () => {
+    it("renders item (book) that is checked in check in items component when logged out", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -261,9 +352,17 @@ describe("Check in items component (Aflever)", () => {
         ).toEqual(true);
     });
 
-    it("Renders check in items component when it is logged in", () => {
+    it("renders check in items component when it is logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -280,9 +379,17 @@ describe("Check in items component (Aflever)", () => {
         );
     });
 
-    it("Renders item (book) with error in check in items component when logged in", () => {
+    it("renders item (book) with error in check in items component when logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -310,9 +417,17 @@ describe("Check in items component (Aflever)", () => {
         );
     });
 
-    it("Renders item (book) in progress in check in items component when logged in", () => {
+    it("renders item (book) in progress in check in items component when logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -337,9 +452,17 @@ describe("Check in items component (Aflever)", () => {
         ).toEqual(true);
     });
 
-    it("Renders item (book) that is checked in check in items component when logged in", () => {
+    it("renders item (book) that is checked in check in items component when logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
@@ -366,18 +489,37 @@ describe("Check in items component (Aflever)", () => {
 });
 
 describe("Status component", () => {
-    it("Renders the login page, when state is status and it is not logged in", () => {
+    it("renders the login page, when state is status and it is not logged in", () => {
         let wrapper = mount(
-            <App initialState={{ flow: "status", step: "loginScan" }} />
+            <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    loginMethod: "unilogin",
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
+                initialState={{ flow: "status", step: "login" }}
+            />
         );
         expect(wrapper.contains(<div className="header">Login</div>)).toEqual(
             true
         );
     });
 
-    it("Renders the status component when the state is status and it is logged in", () => {
+    it("renders the status component when the state is status and it is logged in", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     step: "status",
                     flow: "status",
@@ -400,9 +542,17 @@ describe("Status component", () => {
         );
     });
 
-    it("Renders the books from machine state when the state is status, it is logged in and there are books", () => {
+    it("renders the books from machine state when the state is status, it is logged in and there are books", () => {
         let wrapper = mount(
             <App
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
                 initialState={{
                     step: "status",
                     flow: "status",
@@ -502,46 +652,242 @@ describe("Status component", () => {
     });
 });
 
-
-
 describe("Tests of navbar component", () => {
-
-    it("Renders the navbar component when state is initial", () => {
+    it("renders the navbar component when state is initial", () => {
         let wrapper = mount(
             <App
                 initialState={{
                     step: "initial",
-                    // user: {
-                    //     birthdayToday: false,
-                    //     name: "ITK",
-                    // },
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
                 }}
             />
         );
-        expect(wrapper.exists(".navbar")).toEqual(true);
-        expect(wrapper.exists(".initial")).toEqual(true);
+        expect(wrapper.exists(".navbar.initial")).toEqual(true);
     });
 
-    // Todo test name of library
-    // Todo test name of logged in user
+    it("renders the name of the logged in user in the navbar", () => {
+        let wrapper = mount(
+            <App
+                initialState={{
+                    step: "initial",
+                    user: {
+                        birthdayToday: false,
+                        name: "ITK",
+                    },
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
+            />
+        );
+        expect(wrapper.find(".text.bold").text()).toEqual("ITK");
+    });
 
-
-    it("Renders the navbar component when state is initial", () => {
+    it("renders the four buttons in the navbar", () => {
         let wrapper = mount(
             <App
                 initialState={{
                     flow: "checkInItems",
                     step: "checkInItems",
+                    user: {
+                        birthdayToday: false,
+                        name: "ITK",
+                    },
                     items: [],
-                    // user: {
-                    //     birthdayToday: false,
-                    //     name: "ITK",
-                    // },
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
                 }}
             />
         );
-        console.log(wrapper.debug())
-        expect(wrapper.exists(".navbar")).toEqual(true);
-        expect(wrapper.exists(".initial")).toEqual(true);
+        expect(wrapper.find(".button-container button").length).toEqual(4);
+        expect(wrapper.find(".button-container button").at(0).text()).toEqual(
+            "Lån"
+        );
+        expect(wrapper.find(".button-container button").at(1).text()).toEqual(
+            "Status"
+        );
+        expect(wrapper.find(".button-container button").at(2).text()).toEqual(
+            "Aflever"
+        );
+        expect(wrapper.find(".button-container button").at(3).text()).toEqual(
+            "Afslut"
+        );
+    });
+
+    it("renders the four buttons in the navbar", () => {
+        let wrapper = mount(
+            <App
+                initialState={{
+                    flow: "checkInItems",
+                    step: "checkInItems",
+                    user: {
+                        birthdayToday: false,
+                        name: "ITK",
+                    },
+                    items: []
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    inactivityTimeOut: 3000,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                }}
+            />
+        );
+        expect(wrapper.find(".button-container button").length).toEqual(4);
+        expect(wrapper.find(".button-container button").at(0).text()).toEqual(
+            "Lån"
+        );
+        expect(wrapper.find(".button-container button").at(1).text()).toEqual(
+            "Status"
+        );
+        expect(wrapper.find(".button-container button").at(2).text()).toEqual(
+            "Aflever"
+        );
+        expect(wrapper.find(".button-container button").at(3).text()).toEqual(
+            "Afslut"
+        );
+    });
+});
+
+describe("Tests of configuration", () => {
+    it("render the logincomponent defined in the config (login barcode password)", () => {
+        let wrapper = mount(
+            <App
+                initialState={{
+                    flow: "checkOutItems",
+                    step: "login",
+                    items: [],
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    id: 1,
+                    hasPrinter: true,
+                    reservedMaterialInstruction: "NotSure",
+                    inactivityTimeOut: 3000,
+                    soundEnabled: true,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                    loginMethod: "login_barcode_password",
+                    hasTouch: true,
+                    hasKeyboard: true,
+                }}
+            />
+        );
+        expect(wrapper.find(".sub-header").text()).toEqual(
+            "Scan dit bibliotekskort"
+        );
+    });
+
+    it("render the logincomponent defined in the config (unilogin)", () => {
+        let wrapper = mount(
+            <App
+                initialState={{
+                    flow: "checkOutItems",
+                    step: "login",
+                    items: [],
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    id: 1,
+                    hasPrinter: true,
+                    reservedMaterialInstruction: "NotSure",
+                    inactivityTimeOut: 3000,
+                    soundEnabled: true,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                    loginMethod: "unilogin",
+                    hasTouch: true,
+                    hasKeyboard: true,
+                }}
+            />
+        );
+        expect(wrapper.find(".sub-header").text()).toEqual(
+            "Login med Unilogin"
+        );
+    });
+
+    it("render the logincomponent defined in the config (login barcode)", () => {
+        let wrapper = mount(
+            <App
+                initialState={{
+                    flow: "checkOutItems",
+                    step: "login",
+                    items: [],
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    id: 1,
+                    hasPrinter: true,
+                    reservedMaterialInstruction: "NotSure",
+                    inactivityTimeOut: 3000,
+                    soundEnabled: true,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                    loginMethod: "login_barcode",
+                    hasTouch: true,
+                    hasKeyboard: true,
+                }}
+            />
+        );
+        expect(wrapper.find(".sub-header").text()).toEqual(
+            "Scan dit bibliotekskort"
+        );
+    });
+
+    it("render the school name from the configuration", () => {
+        let wrapper = mount(
+            <App
+                initialState={{
+                    flow: "checkOutItems",
+                    step: "login",
+                    items: [],
+                }}
+                token="123"
+                socketUri="123"
+                boxConfiguration={{
+                    id: 1,
+                    hasPrinter: true,
+                    reservedMaterialInstruction: "NotSure",
+                    inactivityTimeOut: 3000,
+                    soundEnabled: true,
+                    school: {
+                        name: "Mårslet Skole",
+                    },
+                    loginMethod: "login_barcode",
+                    hasTouch: true,
+                    hasKeyboard: true,
+                }}
+            />
+        );
+        expect(wrapper.find(".navbar .text-container").text()).toEqual(
+            "Mårslet Skole"
+        );
     });
 });

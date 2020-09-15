@@ -1,0 +1,13 @@
+.loading-screen {
+    // Display & position
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+.loading-text {
+    // Text
+    font-family: "Roboto", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+}

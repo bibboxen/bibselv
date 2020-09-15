@@ -1,47 +1,58 @@
 /**
  * @file
  *
- * Renders the right type of login, based on configuration.
- *
-
- */
-
-import React from 'react';
-import ScanLogin from './loginComponents/ScanLogin';
-import PropTypes from 'prop-types';
-
-/**
  * Login.
  *
+ */
+
+import React, { useContext } from "react";
+import PropTypes from "prop-types";
+import MachineStateContext from "../context/machineStateContext";
+import ScanLogin from "./loginComponents/ScanLogin";
+import UniLogin from "./loginComponents/UniLogin";
+import ScanPasswordLogin from "../steps/loginComponents/ScanPasswordLogin";
+
+/**
+ * Renders a login component based on configuration
+ *
  * @param actionHandler
- *  As the state can only be changed by the statemachine, the actionHandler 
+ *  As the state can only be changed by the statemachine, the actionHandler
  *  calls the statemachine if a user requests a state change.
  * @return {*}
  * @constructor
  */
 function Login({ actionHandler }) {
-    // @TODO: fix this, when configuration is available
-    /*
+    // The context of the machine
     const context = useContext(MachineStateContext);
-
+    /**
+     * Renders a login component based on configuration
+     */
     function renderStep(loginConfig) {
-        switch (loginConfig) {
-            case 'scan':
-                return <ScanLogin actionHandler={actionHandler} />;
-            case 'type':
-                return <TypeLogin actionHandler={actionHandler} />;
-            case 'uni':
+        switch (loginConfig.toLowerCase()) {
+            case "login_barcode":
+                return (
+                    <ScanLogin
+                        actionHandler={actionHandler}
+                    />
+                );
+            case "login_barcode_password":
+                return (
+                    <ScanPasswordLogin
+                        actionHandler={actionHandler}
+                    />
+                );
+            case "unilogin":
                 return <UniLogin actionHandler={actionHandler} />;
             default:
                 return <span>Loginmetode er ikke konfigureret</span>;
         }
     }
-    */
-    return <ScanLogin actionHandler={actionHandler} />;
+
+    return renderStep(context.boxConfig.get.loginMethod);
 }
 
 Login.propTypes = {
-    actionHandler: PropTypes.func.isRequired
+    actionHandler: PropTypes.func.isRequired,
 };
 
 export default Login;

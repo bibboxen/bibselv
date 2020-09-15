@@ -3,36 +3,32 @@
  * The main entrypoint of the react application.
  */
 
-import React, { useState, useEffect } from 'react';
-import socketIOClient from 'socket.io-client';
-import Initial from './Steps/Initial';
-import Login from './Steps/Login';
-import Status from './Steps/Status';
-import CheckInItems from './Steps/CheckInItems';
-import NavBar from './steps/components/Navbar';
-import MachineStateContext from './context/machineStateContext';
-import CheckOutItems from './Steps/CheckOutItems';
-import { useIdleTimer } from 'react-idle-timer';
-import PropTypes from 'prop-types';
-
+import React, { useState, useEffect } from "react";
+import socketIOClient from "socket.io-client";
+import Initial from "./Steps/Initial";
+import Login from "./Steps/Login";
+import Status from "./Steps/Status";
+import CheckInItems from "./Steps/CheckInItems";
+import NavBar from "./steps/components/Navbar";
+import MachineStateContext from "./context/machineStateContext";
+import CheckOutItems from "./Steps/CheckOutItems";
+import { useIdleTimer } from "react-idle-timer";
+import PropTypes from "prop-types";
+import Loading from "./steps/Loading";
 
 /**
  * App. The main entrypoint of the react application.
  *
-<<<<<<< HEAD
  * @param initialState
  *   The initial state of the app ("loading")
  *   is overridden in useEffect on updateState
  * @return {*}
  * @constructor
  */
-function App({ token, socketUri, boxConfiguration initialState }) {
-    // @TODO: Get from configuration.
-    const socket = socketIOClient("http://bibbox-website.local.itkdev.dk:8010");
+function App({ token, socketUri, boxConfiguration, initialState }) {
     const [machineState, setMachineState] = useState(initialState);
     const [boxConfig, setBoxConfig] = useState(boxConfiguration);
-    let socket = {};
-
+    let socket = socketIOClient(socketUri);
     /**
      *
      * The storage contains the machinestate, which is the state of the app.
@@ -49,14 +45,14 @@ function App({ token, socketUri, boxConfiguration initialState }) {
     // Setup idle tester.
     // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
     const idleTimer = useIdleTimer({
-        // @TODO: Timeout (30 s.) should come from configuration.
-        timeout: 1000 * 30,
+        // timeout will be overridden
+        timeout: 3000,
         onIdle: () => {
             // Return to initial step if not already there.
-            if (machineState.step !== 'initial') {
-                socket.emit('ClientEvent', {
-                    name: 'Reset',
-                    token: token
+            if (machineState.step !== "initial") {
+                socket.emit("ClientEvent", {
+                    name: "Reset",
+                    token: token,
                 });
             } else {
                 // Reset the idle timer if already on initial step.
@@ -64,28 +60,27 @@ function App({ token, socketUri, boxConfiguration initialState }) {
             }
         },
         debounce: 500,
-        eventsThrottle: 500
+        eventsThrottle: 500,
     });
 
     /**
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
-        socket = socketIOClient(socketUri);
-
         // Signal that the client is ready.
-        socket.emit('ClientReady', {
-            token: token
+        socket.emit("ClientReady", {
+            token: token,
         });
 
-        socket.on('Configuration', (data) => {
+        socket.on("Configuration", (data) => {
             setBoxConfig(data);
+            idleTimer.timeout = data.inactivityTimeOut;
         });
 
         // Listen for changes to machine state.
-        socket.on('UpdateState', (data) => {
+        socket.on("UpdateState", (data) => {
             idleTimer.reset();
-            setMachineState(data);
+            setMachineState(data); 
         });
     }, []);
 
@@ -99,12 +94,12 @@ function App({ token, socketUri, boxConfiguration initialState }) {
     function handleAction(action, data) {
         idleTimer.reset();
 
-            socket.emit('ClientEvent', {
-                name: 'Action',
-                action: action,
-                token: token,
-                data: data
-            });
+        socket.emit("ClientEvent", {
+            name: "Action",
+            action: action,
+            token: token,
+            data: data,
+        });
     }
 
     /**
@@ -123,20 +118,23 @@ function App({ token, socketUri, boxConfiguration initialState }) {
                 return <CheckInItems actionHandler={handleAction} />;
             case "status":
                 return <Status actionHandler={handleAction} />;
-            case "loginScan":
+            case "login":
                 return <Login actionHandler={handleAction} />;
-            default:
+            case "initial":
                 return <Initial actionHandler={handleAction} />;
+            default:
+                return <Loading></Loading>;
         }
     }
 
     return (
         <>
-
-            <MachineStateContext.Provider value={store}>
-                <NavBar actionHandler={handleAction} />
-                <div className='container'>
-                    <div className='row' style={{ width: '100%' }}>
+            <MachineStateContext.Provider value={storage}>
+                {machineState.step !== "loading" && (
+                    <NavBar actionHandler={handleAction} />
+                )}
+                <div className="container">
+                    <div className="row" style={{ width: "100%" }}>
                         {renderStep(machineState.step)}
                     </div>
                 </div>
@@ -148,7 +146,7 @@ function App({ token, socketUri, boxConfiguration initialState }) {
 App.propTypes = {
     token: PropTypes.string.isRequired,
     socketUri: PropTypes.string.isRequired,
-    boxConfiguration: PropTypes.object.isRequired
+    boxConfiguration: PropTypes.object.isRequired,
 };
 
 export default App;
