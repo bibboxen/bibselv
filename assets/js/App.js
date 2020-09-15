@@ -5,42 +5,26 @@
 
 import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
-import Initial from "./Steps/Initial";
-import Login from "./Steps/Login";
-import Status from "./Steps/Status";
-import CheckInItems from "./Steps/CheckInItems";
-import NavBar from "./steps/components/Navbar";
-import MachineStateContext from "./context/machineStateContext";
-import CheckOutItems from "./Steps/CheckOutItems";
 import { useIdleTimer } from "react-idle-timer";
 import PropTypes from "prop-types";
+import Bibbox from "./steps/Bibbox";
 import Loading from "./steps/Loading";
 
 /**
  * App. The main entrypoint of the react application.
  *
- * @param initialState
- *   The initial state of the app ("loading")
- *   is overridden in useEffect on updateState
+ * @param token
+ *   Token, the identifier that connects to the backend
+ *
+ * @param socketUri
+ *   The URI for the socket
  * @return {*}
  * @constructor
  */
-function App({ token, socketUri, boxConfiguration, initialState }) {
-    const [machineState, setMachineState] = useState(initialState);
-    const [boxConfig, setBoxConfig] = useState(boxConfiguration);
-    let socket = socketIOClient(socketUri);
-    /**
-     *
-     * The storage contains the machinestate, which is the state of the app.
-     * The state of the app determines the which component is rendered, and
-     * can only be changed by the state machine.
-     * The library is the name of the library the machine is installed on.
-     *
-     */
-    const storage = {
-        machineState: { get: machineState, set: setMachineState },
-        boxConfig: { get: boxConfig, set: setBoxConfig }
-    };
+let socket;
+function App({ token, socketUri }) {
+    const [machineState, setMachineState] = useState();
+    const [boxConfig, setBoxConfig] = useState();
 
     // Setup idle tester.
     // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
@@ -67,11 +51,13 @@ function App({ token, socketUri, boxConfiguration, initialState }) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
+        socket = socketIOClient(socketUri);
         // Signal that the client is ready.
         socket.emit("ClientReady", {
             token: token,
         });
 
+        // Configuration recieved from backend.
         socket.on("Configuration", (data) => {
             setBoxConfig(data);
             idleTimer.timeout = data.inactivityTimeOut;
@@ -80,7 +66,7 @@ function App({ token, socketUri, boxConfiguration, initialState }) {
         // Listen for changes to machine state.
         socket.on("UpdateState", (data) => {
             idleTimer.reset();
-            setMachineState(data); 
+            setMachineState(data);
         });
     }, []);
 
@@ -90,6 +76,7 @@ function App({ token, socketUri, boxConfiguration, initialState }) {
      * @param action
      *   Name of the action
      * @param data
+     *   Data that defines the request to the state machine, e.g. "flow: "checkOutItems""
      */
     function handleAction(action, data) {
         idleTimer.reset();
@@ -102,43 +89,16 @@ function App({ token, socketUri, boxConfiguration, initialState }) {
         });
     }
 
-    /**
-     * renderStep determines which component to render based on the step
-     * returned from the state machine.
-     *
-     * @param step
-     *   The step from the machinestate
-     * @return component to be rendered
-     */
-    function renderStep(step) {
-        switch (step) {
-            case "checkOutItems":
-                return <CheckOutItems actionHandler={handleAction} />;
-            case "checkInItems":
-                return <CheckInItems actionHandler={handleAction} />;
-            case "status":
-                return <Status actionHandler={handleAction} />;
-            case "login":
-                return <Login actionHandler={handleAction} />;
-            case "initial":
-                return <Initial actionHandler={handleAction} />;
-            default:
-                return <Loading></Loading>;
-        }
-    }
-
     return (
         <>
-            <MachineStateContext.Provider value={storage}>
-                {machineState.step !== "loading" && (
-                    <NavBar actionHandler={handleAction} />
-                )}
-                <div className="container">
-                    <div className="row" style={{ width: "100%" }}>
-                        {renderStep(machineState.step)}
-                    </div>
-                </div>
-            </MachineStateContext.Provider>
+            {machineState && boxConfig && (
+                <Bibbox
+                    boxConfigurationInput={boxConfig}
+                    machineStateInput={machineState}
+                    actionHandler={handleAction}
+                ></Bibbox>
+            )}
+            {!machineState && !boxConfig && <Loading></Loading>}
         </>
     );
 }
@@ -146,7 +106,6 @@ function App({ token, socketUri, boxConfiguration, initialState }) {
 App.propTypes = {
     token: PropTypes.string.isRequired,
     socketUri: PropTypes.string.isRequired,
-    boxConfiguration: PropTypes.object.isRequired,
 };
 
 export default App;

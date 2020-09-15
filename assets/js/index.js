@@ -14,8 +14,6 @@ ReactDOM.render(
         <App
             token={rootElement.getAttribute("data-token")}
             socketUri={rootElement.getAttribute("data-socket-uri")}
-            initialState={{ step: "loading" }}
-            boxConfiguration={{ school: { name: "Vent et øjeblik" } }}
         />
     </React.StrictMode>,
     rootElement
