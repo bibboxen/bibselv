@@ -85,7 +85,7 @@ To see logs for the compilation, run
 docker-compose logs frontend
 ```
 
-## Using the systen
+## Using the system
 To get a running frontend you need to first goto the administration interface and setup a box configuration. Start by adding an SIP2 user, then a school an lastly a bibbox box configuration where you select the other two.
 
 Get url for the administration:
@@ -94,10 +94,20 @@ open http://$(docker-compose port nginx 80)/admin
 ```
 
 Next access the React frontend where `x` below is the id of the configuration entity you just created in the administrative interface.
-```
+```sh
 open http://$(docker-compose port nginx 80)?id=x
 ```
 
+## Loggin
+The engine use logstash to log messages and these can be seen in the docket setup with the following command.
+```sh
+idc logs -f logstash
+```
+
+Which will show lines as json objects eg.
+```json
+{"@version":"1","level":"info","name":"Unknown","message":"Listening on port 3000","@timestamp":"2020-09-15T09:20:11.838Z","type":"server","location":"Unknown"}
+```
 
 ## Code Linting
 

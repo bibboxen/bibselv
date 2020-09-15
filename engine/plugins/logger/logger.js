@@ -81,7 +81,7 @@ Logger.prototype.send = function send(level, message) {
             level: level,
             type: type,
             name: Object.prototype.hasOwnProperty.call(message, 'machine_name') ? message.machine_name : 'Unknown',
-            location: Object.prototype.hasOwnProperty.call(message, 'location') ? message.location : 'location'
+            location: Object.prototype.hasOwnProperty.call(message, 'location') ? message.location : 'Unknown'
         });
     }
 };

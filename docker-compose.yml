@@ -91,4 +91,5 @@ services:
       - 28777
     volumes:
       - ${PWD}/.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ${PWD}/.docker/jvm.options:/usr/share/logstash/config/jvm.options:ro
       - .docker/pipeline:/usr/share/logstash/pipeline:ro
