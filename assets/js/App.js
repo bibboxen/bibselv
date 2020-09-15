@@ -77,12 +77,20 @@ function App({ token, socketUri }) {
     function handleAction(action, data) {
         idleTimer.reset();
 
-        socket.emit("ClientEvent", {
-            name: "Action",
-            action: action,
-            token: token,
-            data: data,
-        });
+        // @TODO: Replace so it is the action that is reset instead of flow.
+        if (data.flow === "reset") {
+            socket.emit("ClientEvent", {
+                name: "Reset",
+                token: token,
+            });
+        } else {
+            socket.emit("ClientEvent", {
+                name: "Action",
+                action: action,
+                token: token,
+                data: data,
+            });
+        }
     }
 
     return (
