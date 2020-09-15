@@ -37,8 +37,6 @@ export class BarcodeScanner {
      * Handles result of scanning.
      */
     result() {
-        console.log(this.code);
-        console.log("#################");
         if (this.resultCallback === null) {
             return;
         }
@@ -65,18 +63,12 @@ export class BarcodeScanner {
      * @param event
      */
     handleKeypress(event) {
-        console.log(event.keyCode);
         this.code += event.key;
 
         if (this.timeout !== null) {
             clearTimeout(this.timeout);
         }
-        // TODO TROELS I did this for testing purposes
-        if (this.timeoutLimit === 0) {
-            this.result();
-        } else {
-            this.timeout = setTimeout(this.result, this.timeoutLimit);
-        }
+        this.timeout = setTimeout(this.result, this.timeoutLimit);
     }
 
     /**

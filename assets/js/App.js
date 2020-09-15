@@ -25,23 +25,26 @@ function App({ token, socketUri }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [socket] = useState(socketIOClient(socketUri));
+    let idleTimer;
 
-    // Setup idle tester.
-    // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
-    const idleTimer = useIdleTimer({
-        // timeout will be overridden
-        timeout: 60000,
-        onIdle: () => {
-            // Return to initial step if not already there.
-            socket.emit("ClientEvent", {
-                name: "Reset",
-                token: token,
-            });
-            idleTimer.reset();
-        },
-        debounce: 500,
-        eventsThrottle: 500,
-    });
+    function createIdleTimer(timeout) {
+        // Setup idle tester.
+        // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
+        idleTimer = useIdleTimer({
+            // timeout will be overridden
+            timeout: timeout,
+            onIdle: () => {
+                // Return to initial step if not already there.
+                socket.emit("ClientEvent", {
+                    name: "Reset",
+                    token: token,
+                });
+                idleTimer.reset();
+            },
+            debounce: 500,
+            eventsThrottle: 500,
+        });
+    }
 
     /**
      * Set up application with configuration and socket connections.
@@ -55,12 +58,14 @@ function App({ token, socketUri }) {
         // Configuration recieved from backend.
         socket.on("Configuration", (data) => {
             setBoxConfig(data);
-            idleTimer.timeout = data.inactivityTimeOut;
+            createIdleTimer(data.inactivityTimeOut);
         });
 
         // Listen for changes to machine state.
         socket.on("UpdateState", (data) => {
-            idleTimer.reset();
+            if (idleTimer) {
+                idleTimer.reset();
+            }
             setMachineState(data);
         });
     }, []);
@@ -74,8 +79,9 @@ function App({ token, socketUri }) {
      *   Data that defines the request to the state machine, e.g. "flow: "checkOutItems""
      */
     function handleAction(action, data) {
-        idleTimer.reset();
-
+        if (idleTimer) {
+            idleTimer.reset();
+        }
         // @TODO: Replace so it is the action that is reset instead of flow.
         if (data.flow === "reset") {
             socket.emit("ClientEvent", {

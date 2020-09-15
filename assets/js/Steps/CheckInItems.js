@@ -6,7 +6,7 @@
  */
 
 import React, { useContext, useState, useEffect } from "react";
-import BarcodeScanner from "./BarcodeScanner";
+import BarcodeScanner from "./utils/BarcodeScanner";
 import PropTypes from "prop-types";
 import MachineStateContext from "../context/machineStateContext";
 import {
@@ -42,30 +42,31 @@ function CheckInItems({ actionHandler }) {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
         const barcodeCallback = (code) => {
+            const whichFlow = context.machineState.get.user
+                ? "changeFlow"
+                : "enterFlow";
             if (code.length === BARCODE_COMMAND_LENGTH) {
-                if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler("changeFlow", { flow: "reset" });
+                switch (code) {
+                    case BARCODE_COMMAND_FINISH:
+                        actionHandler("reset");
+                        break;
+                    case BARCODE_COMMAND_STATUS:
+                        actionHandler(whichFlow, {
+                            flow: "status",
+                        });
+                        break;
+                    case BARCODE_COMMAND_CHECKIN:
+                        actionHandler(whichFlow, {
+                            flow: "checkOutItem",
+                        });
+                        break;
+                    default:
+                        actionHandler("checkInItem", {
+                            itemIdentifier: code,
+                        });
                 }
-                const whichFlow = context.machineState.get.user
-                    ? "changeFlow"
-                    : "enterFlow";
-                if (code === BARCODE_COMMAND_STATUS) {
-                    actionHandler(whichFlow, {
-                        flow: "status",
-                    });
-                }
-
-                if (code === BARCODE_COMMAND_CHECKOUT) {
-                    actionHandler(whichFlow, {
-                        flow: "checkOutItems",
-                    });
-                }
-                return;
+                setScannedBarcode(code);
             }
-            setScannedBarcode(code);
-            actionHandler("checkInItem", {
-                itemIdentifier: code,
-            });
         };
 
         barcodeScanner.start(barcodeCallback);

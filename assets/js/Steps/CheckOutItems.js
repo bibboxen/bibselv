@@ -6,8 +6,8 @@
  */
 
 import React, { useContext, useState, useEffect } from "react";
-import BarcodeScanner from "./BarcodeScanner";
 import PropTypes from "prop-types";
+import { BarcodeScanner } from "./utils/BarcodeScanner";
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
@@ -45,26 +45,27 @@ function CheckOutItems({ actionHandler }) {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
-                if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler("reset");
+                switch (code) {
+                    case BARCODE_COMMAND_FINISH:
+                        actionHandler("reset");
+                        break;
+                    case BARCODE_COMMAND_STATUS:
+                        actionHandler("changeFlow", {
+                            flow: "status",
+                        });
+                        break;
+                    case BARCODE_COMMAND_CHECKIN:
+                        actionHandler("changeFlow", {
+                            flow: "checkInItems",
+                        });
+                        break;
+                    default:
+                        actionHandler("checkOutItem", {
+                            itemIdentifier: code,
+                        });
                 }
-                if (code === BARCODE_COMMAND_STATUS) {
-                    actionHandler("changeFlow", {
-                        flow: "status",
-                    });
-                }
-
-                if (code === BARCODE_COMMAND_CHECKIN) {
-                    actionHandler("changeFlow", {
-                        flow: "checkInItems",
-                    });
-                }
-                return;
             }
             setScannedBarcode(code);
-            actionHandler("checkOutItem", {
-                itemIdentifier: code,
-            });
         };
 
         barcodeScanner.start(barcodeCallback);
@@ -72,6 +73,7 @@ function CheckOutItems({ actionHandler }) {
             barcodeScanner.stop();
         };
     }, [actionHandler]);
+
     let items = [];
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);

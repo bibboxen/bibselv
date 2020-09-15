@@ -15,7 +15,7 @@ import {
     BARCODE_COMMAND_CHECKOUT,
     BARCODE_COMMAND_CHECKIN,
 } from "../constants";
-import BarcodeScanner from "./BarcodeScanner";
+import BarcodeScanner from "./utils/BarcodeScanner";
 import PropTypes from "prop-types";
 import {
     adaptListOfBooksWithError,

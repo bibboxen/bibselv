@@ -1072,3 +1072,46 @@ describe("Tests of callback data", () => {
         ]);
     });
 });
+
+
+
+
+
+it("renders second subheader on change in state", () => {
+    const mockCallBack = jest.fn();
+    mount(
+        <Bibbox
+            boxConfigurationInput={{
+                inactivityTimeOut: 0,
+                school: {
+                    name: "Mårslet Skole",
+                },
+            }}
+            machineStateInput={{
+                flow: "checkOutItems",
+                step: "checkOutItems",
+                user: {
+                    birthdayToday: false,
+                    name: "ITK",
+                },
+                items: [],
+            }}
+            actionHandler={mockCallBack}
+        />
+    );
+    keypresses([33, 66, 65, 67, 48, 50, 51, 54, 52, 56, 54, 55, 52, 33, 67]);
+    console.log(mockCallBack.mock.calls);
+    expect(mockCallBack.mock.calls).toEqual(33);
+});
+
+function keypresses(arrayOfKeypresses) {
+    arrayOfKeypresses.forEach((element) => {
+        keypress(element);
+    });
+}
+
+function keypress(keyCode) {
+    let event = new KeyboardEvent("keypress", { keyCode: keyCode });
+    document.dispatchEvent(event);
+}
+

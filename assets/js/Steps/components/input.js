@@ -24,15 +24,15 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
  * @constructor
  */
 const Input = ({ name, label, value, which }) => {
-    let classes = "input";
-    if (which) {
-        classes =
+    let cssClass = "input";
+    if (which && value) {
+        cssClass =
             which.toLowerCase() === "checkoutitems"
-                ? `info ${classes}`
-                : `${classes} info purple`;
+                ? `info ${cssClass}`
+                : `${cssClass} info purple`;
     }
     return (
-        <div className={classes}>
+        <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
             <input value={value} name={name} id={name} type="text" />
             {value && which && (

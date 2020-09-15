@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect } from "react";
-import BarcodeScanner from "../BarcodeScanner";
+import BarcodeScanner from "../utils/BarcodeScanner";
 import PropTypes from "prop-types";
 import HelpBox from "../components/Helpbox";
 import Header from "../components/Header";

@@ -14,7 +14,7 @@ import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 import PropTypes from "prop-types";
 import { faSignInAlt, faBarcode } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BarcodeScanner from "../BarcodeScanner";
+import BarcodeScanner from "../utils/BarcodeScanner";
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
