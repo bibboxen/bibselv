@@ -21,10 +21,10 @@ import Loading from "./steps/Loading";
  * @return {*}
  * @constructor
  */
-let socket;
 function App({ token, socketUri }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
+    const [socket] = useState(socketIOClient(socketUri));
 
     // Setup idle tester.
     // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
@@ -47,7 +47,6 @@ function App({ token, socketUri }) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
-        socket = socketIOClient(socketUri);
         // Signal that the client is ready.
         socket.emit("ClientReady", {
             token: token,
