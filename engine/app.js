@@ -47,6 +47,12 @@ const plugins = [
         isEventExpired: isEventExpired
     },
     {
+        packagePath: './plugins/logger',
+        host: config.logstash.host,
+        port: config.logstash.port,
+        isEventExpired: isEventExpired
+    },
+    {
         packagePath: './plugins/network',
         isEventExpired: isEventExpired
     },

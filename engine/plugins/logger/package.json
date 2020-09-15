@@ -1,0 +1,16 @@
+{
+  "name": "logger",
+  "description": "Plugin to log message to logstash",
+  "version": "0.0.1",
+  "main": "logger.js",
+  "private": true,
+  "dependencies": {
+    "logstash-client": "^1.1.1"
+  },
+  "plugin": {
+    "consumes": [
+      "bus"
+    ],
+    "provides": []
+  }
+}

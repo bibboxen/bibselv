@@ -82,3 +82,13 @@ services:
     volumes:
       - .:/app:delegated
     command: npm run watch
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.9.1
+    networks:
+      - app
+    ports:
+      - 28777
+    volumes:
+      - ${PWD}/.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - .docker/pipeline:/usr/share/logstash/pipeline:ro
