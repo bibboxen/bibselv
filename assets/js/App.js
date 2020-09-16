@@ -63,7 +63,7 @@ function App({ token, socket }) {
         }
 
         // If the action is reset, send Reset event, otherwise send Action event.
-        if (data.action === 'reset') {
+        if (action === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
                 token: token,
