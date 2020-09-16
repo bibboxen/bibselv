@@ -7,14 +7,14 @@ import React from 'react';
 import Button from './Button';
 import { shallow, mount } from 'enzyme';
 import { expect, it, describe } from '@jest/globals';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 describe('Test of button component', () => {
     it('Renders without crashing', () => {
         shallow(
             <Button
                 label='knap'
-                icon={faInfoCircle}
+                icon={faCheck}
                 handleButtonPress={() => console.log()}
                 which='class'
             />
@@ -25,7 +25,7 @@ describe('Test of button component', () => {
         const wrapper = mount(
             <Button
                 label='knap'
-                icon={faInfoCircle}
+                icon={faCheck}
                 handleButtonPress={() => console.log()}
                 which='reset'
             />
@@ -37,7 +37,7 @@ describe('Test of button component', () => {
         const wrapper = mount(
             <Button
                 label='knap'
-                icon={faInfoCircle}
+                icon={faCheck}
                 handleButtonPress={() => console.log()}
                 which='reset'
             />
@@ -49,7 +49,7 @@ describe('Test of button component', () => {
         const wrapper = mount(
             <Button
                 label='knap'
-                icon={faInfoCircle}
+                icon={faCheck}
                 handleButtonPress={() => console.log()}
                 which='class'
             />
@@ -64,7 +64,7 @@ describe('Test of button component', () => {
         const button = shallow(
             <Button
                 label='knap'
-                icon={faInfoCircle}
+                icon={faCheck}
                 handleButtonPress={mockCallBack}
                 which='class'
             />

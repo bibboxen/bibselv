@@ -18,7 +18,7 @@ it("renders without crashing", () => {
                 },
             }}
             machineStateInput={{ step: "initial" }}
-            actionHandler={() => {}}
+            actionHandler={() => { }}
         ></Bibbox>
     );
 });
@@ -34,7 +34,7 @@ describe("Initial component (Vælg en funktion...)", () => {
                     },
                 }}
                 machineStateInput={{ step: "initial" }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -59,10 +59,10 @@ describe("Check out items component (Udlån)", () => {
                 }}
                 machineStateInput={{
                     flow: "checkOutItems",
-                    step: "login",
+                    step: "scanlogin",
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".header").text()).toEqual("Login");
@@ -80,7 +80,7 @@ describe("Check out items component (Udlån)", () => {
                 }}
                 machineStateInput={{
                     flow: "checkOutItems",
-                    step: "login",
+                    step: "ScanLogin",
                     items: [
                         {
                             id: "5313004378",
@@ -93,7 +93,7 @@ describe("Check out items component (Udlån)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -118,7 +118,7 @@ describe("Check out items component (Udlån)", () => {
                     },
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.contains(<div className="header">Lån</div>)).toEqual(
@@ -154,7 +154,7 @@ describe("Check out items component (Udlån)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -188,7 +188,7 @@ describe("Check out items component (Udlån)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -223,7 +223,7 @@ describe("Check out items component (Udlån)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(
@@ -247,7 +247,7 @@ describe("Check in items component (Aflever)", () => {
                     step: "checkInItems",
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.contains(<div className="header">Aflever</div>)).toEqual(
@@ -279,7 +279,7 @@ describe("Check in items component (Aflever)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -309,7 +309,7 @@ describe("Check in items component (Aflever)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -344,7 +344,7 @@ describe("Check in items component (Aflever)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(
@@ -370,7 +370,7 @@ describe("Check in items component (Aflever)", () => {
                     },
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.contains(<div className="header">Aflever</div>)).toEqual(
@@ -406,7 +406,7 @@ describe("Check in items component (Aflever)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -440,7 +440,7 @@ describe("Check in items component (Aflever)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
 
@@ -475,7 +475,7 @@ describe("Check in items component (Aflever)", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(
@@ -495,12 +495,12 @@ describe("Status component", () => {
                         name: "Mårslet Skole",
                     },
                 }}
-                machineStateInput={{ flow: "status", step: "login" }}
-                actionHandler={() => {}}
+                machineStateInput={{ flow: "status", step: "scanlogin" }}
+                actionHandler={() => { }}
             />
         );
-        expect(wrapper.contains(<div className="header">Login</div>)).toEqual(
-            true
+        expect(wrapper.find(".header").text()).toEqual(
+            "Login"
         );
     });
 
@@ -528,7 +528,7 @@ describe("Status component", () => {
                     recallItems: [],
                     unavailableHoldItems: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.contains(<div className="header">Status</div>)).toEqual(
@@ -605,7 +605,7 @@ describe("Status component", () => {
                         },
                     ],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(
@@ -658,7 +658,7 @@ describe("Tests of navbar component", () => {
                 machineStateInput={{
                     step: "initial",
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.exists(".navbar.initial")).toEqual(true);
@@ -680,7 +680,7 @@ describe("Tests of navbar component", () => {
                         name: "ITK",
                     },
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".text.bold").text()).toEqual("ITK");
@@ -704,7 +704,7 @@ describe("Tests of navbar component", () => {
                     },
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".button-container button").length).toEqual(4);
@@ -740,7 +740,7 @@ describe("Tests of navbar component", () => {
                     },
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".button-container button").length).toEqual(4);
@@ -764,24 +764,18 @@ describe("Tests of configuration", () => {
         let wrapper = mount(
             <Bibbox
                 boxConfigurationInput={{
-                    id: 1,
-                    hasPrinter: true,
-                    reservedMaterialInstruction: "NotSure",
                     inactivityTimeOut: 3000,
-                    soundEnabled: true,
                     school: {
                         name: "Mårslet Skole",
                     },
                     loginMethod: "login_barcode_password",
-                    hasTouch: true,
-                    hasKeyboard: true,
                 }}
                 machineStateInput={{
                     flow: "checkOutItems",
-                    step: "login",
+                    step: "ScanLogin",
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".sub-header").text()).toEqual(
@@ -807,10 +801,10 @@ describe("Tests of configuration", () => {
                 }}
                 machineStateInput={{
                     flow: "checkOutItems",
-                    step: "login",
+                    step: "ScanLogin",
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".sub-header").text()).toEqual(
@@ -822,24 +816,18 @@ describe("Tests of configuration", () => {
         let wrapper = mount(
             <Bibbox
                 boxConfigurationInput={{
-                    id: 1,
-                    hasPrinter: true,
-                    reservedMaterialInstruction: "NotSure",
                     inactivityTimeOut: 3000,
-                    soundEnabled: true,
                     school: {
                         name: "Mårslet Skole",
                     },
                     loginMethod: "login_barcode",
-                    hasTouch: true,
-                    hasKeyboard: true,
                 }}
                 machineStateInput={{
                     flow: "checkOutItems",
-                    step: "login",
+                    step: "ScanLogin",
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".sub-header").text()).toEqual(
@@ -865,10 +853,10 @@ describe("Tests of configuration", () => {
                 }}
                 machineStateInput={{
                     flow: "checkOutItems",
-                    step: "login",
+                    step: "ScanLogin",
                     items: [],
                 }}
-                actionHandler={() => {}}
+                actionHandler={() => { }}
             />
         );
         expect(wrapper.find(".navbar .text-container").text()).toEqual(
@@ -1072,46 +1060,3 @@ describe("Tests of callback data", () => {
         ]);
     });
 });
-
-
-
-
-
-it("renders second subheader on change in state", () => {
-    const mockCallBack = jest.fn();
-    mount(
-        <Bibbox
-            boxConfigurationInput={{
-                inactivityTimeOut: 0,
-                school: {
-                    name: "Mårslet Skole",
-                },
-            }}
-            machineStateInput={{
-                flow: "checkOutItems",
-                step: "checkOutItems",
-                user: {
-                    birthdayToday: false,
-                    name: "ITK",
-                },
-                items: [],
-            }}
-            actionHandler={mockCallBack}
-        />
-    );
-    keypresses([33, 66, 65, 67, 48, 50, 51, 54, 52, 56, 54, 55, 52, 33, 67]);
-    console.log(mockCallBack.mock.calls);
-    expect(mockCallBack.mock.calls).toEqual(33);
-});
-
-function keypresses(arrayOfKeypresses) {
-    arrayOfKeypresses.forEach((element) => {
-        keypress(element);
-    });
-}
-
-function keypress(keyCode) {
-    let event = new KeyboardEvent("keypress", { keyCode: keyCode });
-    document.dispatchEvent(event);
-}
-

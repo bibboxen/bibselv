@@ -7,6 +7,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect, it, describe } from '@jest/globals';
 import Bubble from './Bubble';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 describe('Tests of bubble component', () => {
     it('renders without crashing', () => {
@@ -14,7 +15,7 @@ describe('Tests of bubble component', () => {
             <Bubble
                 which='checkInItems'
                 label='Bubble'
-                icon=''
+                icon={faCheck}
                 actionHandler={() => console.log()}
             />
         );
@@ -25,7 +26,7 @@ describe('Tests of bubble component', () => {
             <Bubble
                 which='bubble-test'
                 label='Bubble'
-                icon=''
+                icon={faCheck}
                 actionHandler={() => console.log()}
             />
         );
@@ -37,7 +38,7 @@ describe('Tests of bubble component', () => {
             <Bubble
                 which='bubble-test'
                 label='Bubble'
-                icon=''
+                icon={faCheck}
                 actionHandler={() => console.log()}
             />
         );
@@ -49,7 +50,7 @@ describe('Tests of bubble component', () => {
             <Bubble
                 which='bubble-test'
                 label='Bubble'
-                icon=''
+                icon={faCheck}
                 actionHandler={() => console.log()}
             />
         );
@@ -62,7 +63,7 @@ describe('Tests of bubble component', () => {
             <Bubble
                 which='bubble-test'
                 label='Bubble'
-                icon=''
+                icon={faCheck}
                 actionHandler={mockCallBack}
             />
         );

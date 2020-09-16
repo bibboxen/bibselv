@@ -7,6 +7,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { it } from '@jest/globals';
 import Header from './Header';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 describe('Test of header component', () => {
     it('Renders without crashing', () => {
@@ -15,7 +16,7 @@ describe('Test of header component', () => {
                 header='overskrift'
                 subheader='underoverskrift'
                 which=''
-                icon=''
+                icon={faCheck}
             />
         );
     });
@@ -26,7 +27,7 @@ describe('Test of header component', () => {
                 header='overskrift'
                 subheader='underoverskrift'
                 which=''
-                icon=''
+                icon={faCheck}
             />
         );
         expect(wrapper.find('.header').text()).toEqual('overskrift');
@@ -38,7 +39,7 @@ describe('Test of header component', () => {
                 header='overskrift'
                 subheader='underoverskrift'
                 which=''
-                icon=''
+                icon={faCheck}
             />
         );
         expect(wrapper.find('.sub-header').text()).toEqual('underoverskrift');

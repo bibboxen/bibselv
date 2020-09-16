@@ -72,7 +72,7 @@ function App({ token, socketUri }) {
 
     /**
      * Handle a user action.
-     *
+     
      * @param action
      *   Name of the action
      * @param data

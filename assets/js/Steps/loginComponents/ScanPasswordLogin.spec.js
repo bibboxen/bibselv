@@ -15,7 +15,6 @@ it('renders without crashing', () => {
 
 it('renders initial sub header', () => {
     const wrapper = mount(<ScanPasswordLogin actionHandler={() => {}} />);
-    console.log(wrapper.debug());
     expect(wrapper.find('.sub-header').text()).toEqual(
         'Scan dit bibliotekskort'
     );

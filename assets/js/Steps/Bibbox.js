@@ -3,7 +3,7 @@
  * The main entrypoint of the react application.
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Initial from './Initial';
 import Login from './Login';
 import Status from './Status';
@@ -50,14 +50,15 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      * @return component to be rendered
      */
     function renderStep(step) {
-        switch (step) {
-            case 'checkOutItems':
+        debugger
+        switch (step.toLowerCase()) {
+            case 'checkoutitems':
                 return <CheckOutItems actionHandler={actionHandler} />;
-            case 'checkInItems':
+            case 'checkinitems':
                 return <CheckInItems actionHandler={actionHandler} />;
             case 'status':
                 return <Status actionHandler={actionHandler} />;
-            case 'loginScan':
+            case 'scanlogin':
                 return <Login actionHandler={actionHandler} />;
             case 'initial':
                 return <Initial actionHandler={actionHandler} />;

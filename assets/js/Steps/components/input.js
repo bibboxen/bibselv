@@ -34,7 +34,7 @@ const Input = ({ name, label, value, which }) => {
     return (
         <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
-            <input value={value} name={name} id={name} type='text' />
+            <input value={value} name={name} id={name} type='text' readOnly />
             {value && which && (
                 <div className='info-banner'>
                     <span className='info-banner-icon'>
