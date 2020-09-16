@@ -98,8 +98,8 @@ Next access the React frontend where `x` below is the id of the configuration en
 open http://$(docker-compose port nginx 80)?id=x
 ```
 
-## Loggin
-The engine use logstash to log messages and these can be seen in the docket setup with the following command.
+## Logging
+The engine uses logstash to log messages, and these can be seen in the docker setup with the following command.
 ```sh
 idc logs -f logstash
 ```

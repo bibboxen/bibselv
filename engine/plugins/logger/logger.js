@@ -1,6 +1,6 @@
 /**
  * @file
- * This is a wrapper class to handel the system logger.
+ * This is a wrapper class to handle the system logger.
  */
 
 'use strict';
@@ -40,7 +40,7 @@ const Logger = function Logger(host, port) {
  */
 Logger.prototype.send = function send(level, message) {
     if (logstashClient !== null) {
-        // This is for to support legacy log messages.
+        // This is added to support legacy log messages.
         let type = 'unknown';
         if (Object.prototype.hasOwnProperty.call(message, 'type')) {
             type = message.type.toLowerCase();
@@ -98,7 +98,7 @@ Logger.prototype.send = function send(level, message) {
  */
 module.exports = function(options, imports, register) {
     // Add event listeners to logging events on the bus. For some reason they need
-    // to have a inner function to work!
+    // to have an inner function to work!
     const bus = imports.bus;
     const logger = new Logger(options.host, options.port);
 
