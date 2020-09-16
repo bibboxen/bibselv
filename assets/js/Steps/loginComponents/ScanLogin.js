@@ -38,7 +38,7 @@ function ScanLogin({ actionHandler }) {
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler('changeFlow', { action: 'reset' });
+                    actionHandler('reset');
                 }
 
                 actionHandler('login', {

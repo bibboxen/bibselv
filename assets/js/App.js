@@ -23,14 +23,14 @@ import Loading from './steps/Loading';
 function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
-    const [idleTimer, setIdleTimer] = useState(createIdleTimer())
+    const [idleTimer, setIdleTimer] = useState()
 
     function createIdleTimer(timeout = 60000) {
         // Setup idle tester.
         // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
-        return useIdleTimer({
+        return new useIdleTimer({
             // timeout will be overridden
-            timeout: 60000,
+            timeout: timeout,
             onIdle: () => {
                 // Return to initial step if not already there.
                 socket.emit('ClientEvent', {
@@ -48,6 +48,7 @@ function App({ token, socket }) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
+
         // Signal that the client is ready.
         socket.emit('ClientReady', {
             token: token,
@@ -56,7 +57,20 @@ function App({ token, socket }) {
         // Configuration recieved from backend.
         socket.on('Configuration', (data) => {
             setBoxConfig(data);
-            setIdleTimer(createIdleTimer(data.inactivityTimeOut));
+            setIdleTimer(useIdleTimer({
+                timeout: data.inactivityTimeOut,
+                onIdle: () => {
+                    // Return to initial step if not already there.
+                    // socket.emit('ClientEvent', {
+                    //     name: 'Reset',
+                    //     token: token,
+                    // });
+                    // idleTimer.reset();
+                    console.log("idle")
+                },
+                debounce: 500,
+                eventsThrottle: 500,
+            }));
         });
 
         // Listen for changes to machine state.
