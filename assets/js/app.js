@@ -14,9 +14,9 @@ import Loading from './steps/loading';
  *
  * @param token
  *   Token, the identifier that connects to the backend
+ * @param socket
+ *   The socket.
  *
- * @param socketUri
- *   The URI for the socket
  * @return {*}
  * @constructor
  */
@@ -54,7 +54,7 @@ function App({ token, socket }) {
      * @param action
      *   Name of the action
      * @param data
-     *   Data that defines the request to the state machine, e.g. 'flow: 'checkOutItems''
+     *   Data for the action
      */
     function handleAction(action, data) {
         // Reset idle timer.

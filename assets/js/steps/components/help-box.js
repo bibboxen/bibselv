@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * Used to display a help text to the user.
  */
 

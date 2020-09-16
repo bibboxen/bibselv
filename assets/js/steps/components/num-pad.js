@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * A numpad for entering book ids and login.
  */
 

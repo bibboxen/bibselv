@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * An input field component
  */
 

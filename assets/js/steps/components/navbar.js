@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * The navbar is the navigation bar in the top.
  */
 

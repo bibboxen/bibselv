@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * A bubble is the initial three buttons the user meets.
  */
 

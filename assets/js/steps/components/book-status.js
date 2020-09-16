@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * Enum for the different statusses the book can have.
  */
 

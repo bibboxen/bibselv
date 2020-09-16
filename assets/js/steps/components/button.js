@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * The button component is used to display a button on screen.
  */
 

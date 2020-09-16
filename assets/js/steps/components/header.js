@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * To display the header with icon in the different components.
  */
 

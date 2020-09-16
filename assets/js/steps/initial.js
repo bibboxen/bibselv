@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * The initial page the user meets, from here they can go to other pages.
  */
 

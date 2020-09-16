@@ -1,8 +1,7 @@
 /**
  * @file
- *
- * The component that is shown when the machinestate is checkOutItems.
- * This component creates af view of the books that the user checks out (borrows).
+ * The component that is shown when the machine state is checkOutItems.
+ * This component creates a view of the books that the user checks out (borrows).
  */
 
 import React, { useContext, useState, useEffect } from 'react';

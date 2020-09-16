@@ -1,8 +1,6 @@
 /**
  * @file
- *
- * Login.
- *
+ * Login component.
  */
 
 import React, { useContext } from 'react';
@@ -24,6 +22,7 @@ import ScanPasswordLogin from './login-components/scan-password-login';
 function Login({ actionHandler }) {
     // The context of the machine
     const context = useContext(MachineStateContext);
+
     /**
      * Renders a login component based on configuration
      */

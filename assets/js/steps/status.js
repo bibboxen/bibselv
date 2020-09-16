@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * The status component displays the status from the machinestate for the user.
  */
 
@@ -37,6 +36,7 @@ import {
  */
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
+
     /**
      * Set up barcode listener.
      */
@@ -83,12 +83,15 @@ function Status({ actionHandler }) {
         ),
         ...adaptListOfBooks(context.machineState.get.chargedItems)
     ];
+
     const holdItems = adaptListOfBooksWithSuccess(
         context.machineState.get.holdItems
     );
+
     const unavailableHoldItems = adaptListOfBooks(
         context.machineState.get.unavailableHoldItems
     );
+
     return (
         <div className='col-md'>
             <div className='col-md-9' style={{ paddingLeft: '0' }}>

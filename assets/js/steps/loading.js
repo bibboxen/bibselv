@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * The loading screen
  */
 

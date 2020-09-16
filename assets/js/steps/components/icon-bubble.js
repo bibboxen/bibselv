@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * Displays the icon bubble in the header
  */
 

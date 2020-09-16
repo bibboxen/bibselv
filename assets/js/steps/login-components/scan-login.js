@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * For users that log in with scanner.
  */
 

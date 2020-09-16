@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * For users that scans username and types password to login.
  */
 
@@ -66,6 +65,7 @@ function ScanPasswordLogin({ actionHandler }) {
         // Stop scanning when component is unmounted.
         return () => barcodeScanner.stop();
     }, [actionHandler]);
+
     /**
      * Handles key presses for username and password.
      *

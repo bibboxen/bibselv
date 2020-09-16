@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * Tests of ScanPasswordLogin
  */
 
