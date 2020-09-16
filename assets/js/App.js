@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import socketIOClient from 'socket.io-client';
 import { useIdleTimer } from 'react-idle-timer';
 import PropTypes from 'prop-types';
 import Bibbox from './steps/Bibbox';
@@ -21,10 +20,10 @@ import Loading from './steps/Loading';
  * @return {*}
  * @constructor
  */
-function App({ token, socketUri }) {
+function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
-    const [socket] = useState(socketIOClient(socketUri));
+
     let idleTimer = useIdleTimer({
         // timeout will be overridden
         timeout: 60000,
@@ -127,7 +126,7 @@ function App({ token, socketUri }) {
 
 App.propTypes = {
     token: PropTypes.string.isRequired,
-    socketUri: PropTypes.string.isRequired,
+    socket: PropTypes.object.isRequired,
 };
 
 export default App;
