@@ -12,7 +12,7 @@
     color: $white;
 
     // Text
-    font-family: 'Roboto', sans-serif;
+    font-family: $font-family-sans-serif;
     font-size: 1rem;
     
     &.login-button {

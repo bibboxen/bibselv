@@ -7,7 +7,7 @@
     border: 1px solid $grey-border;
 
     // Text
-    font-family: 'Roboto', sans-serif;
+    font-family: $font-family-sans-serif;
     
     // Color
     background-color: $grey;
@@ -47,7 +47,7 @@
     display: inline-flex;
 
     // Text
-    font-family: 'Roboto', sans-serif;
+    font-family: $font-family-sans-serif;
     font-size: 1rem;
 
     >.counter {
