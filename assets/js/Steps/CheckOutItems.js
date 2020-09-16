@@ -47,7 +47,7 @@ function CheckOutItems({ actionHandler }) {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 switch (code) {
                     case BARCODE_COMMAND_FINISH:
-                        actionHandler('reset');
+                        actionHandler('changeFlow', { flow: 'reset' });
                         break;
                     case BARCODE_COMMAND_STATUS:
                         actionHandler('changeFlow', {
@@ -59,13 +59,14 @@ function CheckOutItems({ actionHandler }) {
                             flow: 'checkInItems',
                         });
                         break;
-                    default:
-                        actionHandler('checkOutItem', {
-                            itemIdentifier: code,
-                        });
+
                 }
+            } else {
+                actionHandler('checkOutItem', {
+                    itemIdentifier: code,
+                });
+                setScannedBarcode(code);
             }
-            setScannedBarcode(code);
         };
 
         barcodeScanner.start(barcodeCallback);

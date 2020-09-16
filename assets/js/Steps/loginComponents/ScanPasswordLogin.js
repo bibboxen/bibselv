@@ -18,6 +18,7 @@ import BarcodeScanner from '../utils/BarcodeScanner';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
+    BARCODE_COMMAND_LENGTH
 } from '../../constants';
 /**
  * ScanPasswordLogin.
@@ -50,11 +51,12 @@ function ScanPasswordLogin({ actionHandler }) {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
                     actionHandler('changeFlow', { flow: 'reset' });
-                } else {
-                    setUsername(code);
-                    setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny')
-                    setSubheader('Tast dit password');
-                }
+                } 
+            }else {
+                setUsername(code);
+                setUsernameScanned(true)
+                setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny')
+                setSubheader('Tast dit password');
             }
         };
 

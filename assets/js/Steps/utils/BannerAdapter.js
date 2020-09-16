@@ -21,7 +21,10 @@ export function adaptListOfBooksToBanner(listOfBooks) {
             case bookStatus.CHECKED_IN:
             case bookStatus.CHECKED_OUT:
                 displayInfo.title = book.title;
-                displayInfo.text = `af ${book.author}`;
+                displayInfo.text = "";
+                if (book.author) {
+                    displayInfo.text = `af ${book.author}`;
+                }
                 break;
         }
 

@@ -50,7 +50,6 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      * @return component to be rendered
      */
     function renderStep(step) {
-        debugger
         switch (step.toLowerCase()) {
             case 'checkoutitems':
                 return <CheckOutItems actionHandler={actionHandler} />;
@@ -58,7 +57,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
                 return <CheckInItems actionHandler={actionHandler} />;
             case 'status':
                 return <Status actionHandler={actionHandler} />;
-            case 'scanlogin':
+            case 'loginscan':
                 return <Login actionHandler={actionHandler} />;
             case 'initial':
                 return <Initial actionHandler={actionHandler} />;
