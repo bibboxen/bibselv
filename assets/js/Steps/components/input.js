@@ -1,46 +1,46 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * An input field component
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import MachineStateContext from '../../context/machineStateContext';
 
 /**
  * Input.
  *
  * @param name
- *   @TODO: Describe prop.
+ *   Name of the input, used for id as well.
  * @param label
- *   @TODO: Describe prop.
- * @param error
- *   @TODO: Describe prop.
- * @param info
- *   @TODO: Describe prop.
- * @param rest
- *   @TODO: Describe prop.
+ *   The label of the input.
+ * @param value
+ *   The value of the input.
+ * @param which
+ *   Which determines whether the info bar should be shown, and which color it should have.
  * @return {*}
  * @constructor
  */
-const Input = ({ name, label, error, info, ...rest }) => {
-    const context = useContext(MachineStateContext);
-    let classes = info ? 'input info' : 'input';
-    classes = context.machineState.get.step === 'checkOutItems' ? `${classes}` : `${classes} purple`;
+const Input = ({ name, label, value, which, ...rest }) => {
+    let cssClass = 'input';
+    if (which && value) {
+        cssClass =
+            which.toLowerCase() === 'checkoutitems'
+                ? `info ${cssClass}`
+                : `${cssClass} info purple`;
+    }
     return (
-        <div className={classes}>
+        <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
-            <input {...rest} name={name} id={name} type={name}/>
-            {info && (
-                <div className="info-banner">
-                    <span className="info-banner-icon">
-                        <FontAwesomeIcon icon={faCheck}/>
+            <input value={value} name={name} id={name} type='text' {...rest} />
+            {value && which && (
+                <div className='info-banner'>
+                    <span className='info-banner-icon'>
+                        <FontAwesomeIcon icon={faCheck} />
                     </span>
-                    {info}
+                    Bogen blev registreret. Klar til næste
                 </div>
             )}
         </div>
@@ -50,7 +50,7 @@ const Input = ({ name, label, error, info, ...rest }) => {
 Input.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    error: PropTypes.array,
-    info: PropTypes.string
+    value: PropTypes.string.isRequired,
+    which: PropTypes.string,
 };
 export default Input;

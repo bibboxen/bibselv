@@ -1,72 +1,39 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * Displays the icon bubble in the header
  */
 
-import React, { useContext } from 'react';
-import MachineStateContext from '../../context/machineStateContext';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faBookReader,
-    faInfoCircle,
-    faBook,
-    faSignInAlt
-} from '@fortawesome/free-solid-svg-icons';
 
-/**
+ /**
  * IconBubble.
  *
+ * @param which
+ *   Which bubble to display, CheckInItems, CheckOutItems, Status or login. 
+ * @param icon
+ *   Which icon the bubble has. 
  * @return {*}
  * @constructor
  */
-function IconBubble() {
-    const context = useContext(MachineStateContext);
-
-    /**
-     * @TODO: Document function.
-     *
-     * @return {*}
-     */
-    function renderStep() {
-        switch (context.machineState.get.step.toLowerCase()) {
-            case 'checkoutitems':
-                return (
-                    <div className="header-icon checkoutitems">
-                        <div className="icon">
-                            <FontAwesomeIcon icon={faBookReader} />
-                        </div>
-                    </div>
-                );
-            case 'checkinitems':
-                return (
-                    <div className="header-icon checkinitems">
-                        <div className="icon">
-                            <FontAwesomeIcon icon={faBook} />
-                        </div>
-                    </div>
-                );
-            case 'status':
-                return (
-                    <div className="header-icon status">
-                        <div className="icon">
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                        </div>
-                    </div>
-                );
-            default:
-                return (
-                    <div className="header-icon login">
-                        <div className="icon">
-                            <FontAwesomeIcon icon={faSignInAlt} />
-                        </div>
-                    </div>
-                );
-        }
-    }
-
-    return <div className="col-md-2">{renderStep()}</div>;
+function IconBubble({ which, icon }) {
+    const classes = `header-icon ${which.toLowerCase()}`;
+    return (
+        <div className='col-md-2'>
+            <div className={classes}>
+                <div className='icon'>
+                    <FontAwesomeIcon icon={icon} />
+                </div>
+            </div>
+        </div>
+    );
 }
+
+IconBubble.propTypes = {
+    which: PropTypes.string.isRequired,
+    icon: PropTypes.object.isRequired,
+};
 
 export default IconBubble;

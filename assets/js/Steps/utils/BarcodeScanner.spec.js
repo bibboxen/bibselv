@@ -1,6 +1,6 @@
 /**
  * @file
- * Tests for BarcodeScanner class.
+ * Tests of BarcodeScanner class.
  */
 
 import BarcodeScanner from './BarcodeScanner';

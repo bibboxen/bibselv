@@ -1,13 +1,14 @@
 /**
  * @file
- * Tests for App.
+ * Tests of App.
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
 import App from './App';
+import { shallow } from 'enzyme';
 import { it } from '@jest/globals';
 
 it('renders without crashing', () => {
-    shallow(<App />);
+    shallow(<App token='123' socket={{"fake":"socket"}} />);
 });
+

@@ -2,8 +2,7 @@
  * @file
  * Barcode component.
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * Display a barcode for manoeuvring via the scanner, CheckInItems, CheckOutItems or Status. 
  */
 
 import React from 'react';
@@ -13,7 +12,7 @@ import PropTypes from 'prop-types';
  * Barcode.
  *
  * @param which
- *   @TODO: Rename to more meaningful name than 'which' and document.
+ *   Which barcode to display, CheckInItems, CheckOutItems or Status. 
  * @return {*}
  * @constructor
  */
@@ -22,7 +21,7 @@ function Barcode({ which }) {
 
     return (
         <div className={classes}>
-            <div className="barcode-inner" />
+            <div className='barcode-inner' />
         </div>
     );
 }

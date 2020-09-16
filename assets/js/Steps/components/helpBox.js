@@ -1,8 +1,7 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * Used to display a help text to the user.
  */
 
 import React from 'react';
@@ -14,15 +13,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * HelpBox.
  *
  * @param text
- *   @TODO: Describe prop.
+ *   The bread text of the helpbox.
  * @return {*}
  * @constructor
  */
 function HelpBox({ text }) {
     return (
-        <div className="help-box">
-            <div className="header">
-                <span className="icon-helpbox">
+        <div className='help-box'>
+            <div className='helpbox-header'>
+                <span className='icon-helpbox'>
                     <FontAwesomeIcon icon={faQuestionCircle} />
                 </span>
                 <span>Hjælp</span>

@@ -1,8 +1,7 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * The button component is used to display a button on screen.
  */
 
 import React from 'react';
@@ -13,29 +12,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * Button.
  *
  * @param label
- *   @TODO: Describe prop.
+ *   Label for the button.
  * @param icon
- *   @TODO: Describe prop.
+ *   Icon for the button.
  * @param handleButtonPress
- *   @TODO: Describe prop.
+ *   Function for when button is pressed.
  * @param which
- *   @TODO: Describe prop.
- * @param rest
- *   @TODO: Describe prop.
+ *   Which button, Reset, CheckInItems, CheckOutItems, Login, or Status.
  * @return {*}
  * @constructor
  */
-const Button = ({ label, icon, handleButtonPress, which, ...rest }) => {
+const Button = ({ label, icon, handleButtonPress, which }) => {
     const classes = `button ${which.toLowerCase()}`;
 
     return (
         <button
             onClick={() => handleButtonPress(which)}
             className={classes}
-            type="button"
+            type='button'
         >
             {label}
-            <span className="icon">
+            <span className='icon'>
                 <FontAwesomeIcon icon={icon} />
             </span>
         </button>
@@ -46,7 +43,7 @@ Button.propTypes = {
     label: PropTypes.string.isRequired,
     icon: PropTypes.object.isRequired,
     which: PropTypes.string,
-    handleButtonPress: PropTypes.func.isRequired
+    handleButtonPress: PropTypes.func.isRequired,
 };
 
 export default Button;

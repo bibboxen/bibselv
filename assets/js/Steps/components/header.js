@@ -1,31 +1,30 @@
 /**
  * @file
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * To display the header with icon in the different components. 
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import IconBubble from './iconBubble';
+import IconBubble from './IconBubble';
 
 /**
  * Header.
  *
  * @param header
- *   @TODO: Describe prop.
- * @param text
- *   @TODO: Describe prop.
+ *   Header text.
+ * @param subheader
+ *   Subheader subheader.
  * @return {*}
  * @constructor
  */
-function Header({ header, text }) {
+function Header({ header, subheader, which, icon }) {
     return (
-        <div className="row">
-            <IconBubble></IconBubble>
-            <div className="col-md-10">
-                <div className="header">{header}</div>
-                <div className="sub-header">{text}</div>
+        <div className='row'>
+            <IconBubble which={which} icon={icon}></IconBubble>
+            <div className='col-md-10'>
+                <div className='header'>{header}</div>
+                <div className='sub-header'>{subheader}</div>
             </div>
         </div>
     );
@@ -33,6 +32,6 @@ function Header({ header, text }) {
 
 Header.propTypes = {
     header: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired
+    subheader: PropTypes.string.isRequired
 };
 export default Header;

@@ -2,75 +2,64 @@
  * @file
  * Banner component.
  *
- * @TODO: Describe what it is used for.
- * @TODO: Missing tests.
+ * Displays a book banner (error, inprogress, neutral or success).
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import bookStatus from './bookStatus';
+import bookStatus from './BookStatus';
 import {
     faCheck,
     faSpinner,
-    faExclamationTriangle
+    faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Banner.
  *
  * @param item
- *   @TODO: Describe prop.
+ *   item to be displayed by the banner components.
  * @return {*}
  * @constructor
  */
 function Banner({ item }) {
     let classes = 'banner ';
-    let icon = '';
-    let title = item.title;
-    let text = '';
-    if (item.author) {
-        text = `af ${item.author}`;
-    }
-    switch (item.status) {
+    let { text, title, status, itemIdentifier } = item;
+    let icon = {};
+    switch (status) {
         case bookStatus.ERROR:
             classes += 'danger';
             icon = faExclamationTriangle;
-            title = item.message;
-            if (!item.renewelOk) {
-                title = 'Denne titel er reserveret til en anden';
-            }
-            text = `${item.title} af ${item.author}`;
             break;
         case bookStatus.IN_PROGRESS:
             icon = faSpinner;
-            title = 'Afventer informationer';
-            text = `${item.itemIdentifier}`;
+            text = `${itemIdentifier}`;
             break;
         case bookStatus.RENEWED:
         case bookStatus.CHECKED_OUT:
         case bookStatus.CHECKED_IN:
-            classes = 'banner success';
+        case bookStatus.SUCCESS:
+            classes += 'success';
             icon = faCheck;
             break;
     }
-
     return (
         <div className={classes}>
             {icon && (
-                <div className="icon">
+                <div className='icon'>
                     <FontAwesomeIcon icon={icon} />
                 </div>
             )}
-            <div className="d-flex flex-column">
-                <div className="header">{title}</div>
+            <div className='d-flex flex-column'>
+                <div className='header'>{title}</div>
                 <div>{text}</div>
             </div>
         </div>
     );
 }
 Banner.propTypes = {
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
 };
 
 export default Banner;
