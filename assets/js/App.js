@@ -23,26 +23,12 @@ import Loading from './steps/Loading';
 function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
+    const [idleTimer, setIdleTimer] = useState(createIdleTimer())
 
-    let idleTimer = useIdleTimer({
-        // timeout will be overridden
-        timeout: 60000,
-        onIdle: () => {
-            // Return to initial step if not already there.
-            socket.emit('ClientEvent', {
-                name: 'Reset',
-                token: token,
-            });
-            idleTimer.reset();
-        },
-        debounce: 500,
-        eventsThrottle: 500,
-    });
-
-    function createIdleTimer(timeout) {
+    function createIdleTimer(timeout = 60000) {
         // Setup idle tester.
         // See https://github.com/SupremeTechnopriest/react-idle-timer for info.
-        idleTimer = useIdleTimer({
+        return useIdleTimer({
             // timeout will be overridden
             timeout: 60000,
             onIdle: () => {
@@ -70,7 +56,7 @@ function App({ token, socket }) {
         // Configuration recieved from backend.
         socket.on('Configuration', (data) => {
             setBoxConfig(data);
-            // createIdleTimer(data.inactivityTimeOut);
+            setIdleTimer(data.inactivityTimeOut);
         });
 
         // Listen for changes to machine state.
