@@ -6,6 +6,12 @@
 
 import bookStatus from '../components/book-status';
 
+/**
+ * @TODO: Add documentation
+ *
+ * @param listOfBooks
+ * @return {[]}
+ */
 export function adaptListOfBooksToBanner(listOfBooks) {
     const items = [];
     listOfBooks.forEach((book) => {
@@ -34,6 +40,12 @@ export function adaptListOfBooksToBanner(listOfBooks) {
     return items;
 }
 
+/**
+ * @TODO: Add documentation
+ *
+ * @param listOfBooks
+ * @return {[]}
+ */
 export function adaptListOfBooksWithError(listOfBooks) {
     const items = [];
     listOfBooks.forEach((book) => {
@@ -45,6 +57,12 @@ export function adaptListOfBooksWithError(listOfBooks) {
     return items;
 }
 
+/**
+ * @TODO: Add documentation
+ *
+ * @param listOfBooks
+ * @return {[]}
+ */
 export function adaptListOfBooks(listOfBooks) {
     const items = [];
     listOfBooks.forEach((book) => {
@@ -55,6 +73,12 @@ export function adaptListOfBooks(listOfBooks) {
     return items;
 }
 
+/**
+ * @TODO: Add documentation
+ *
+ * @param listOfBooks
+ * @return {[]}
+ */
 export function adaptListOfBooksWithSuccess(listOfBooks) {
     const items = [];
     listOfBooks.forEach((book) => {

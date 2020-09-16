@@ -32,37 +32,25 @@ function NavBar({ actionHandler }) {
         {
             which: 'checkOutItems',
             action: 'changeFlow',
-            data: {flow: 'checkOutItems'},
+            data: { flow: 'checkOutItems' },
             label: 'Lån',
             icon: faBookReader
         },
         {
             which: 'status',
             action: 'changeFlow',
-            data: {flow: 'status'},
+            data: { flow: 'status' },
             label: 'Status',
             icon: faInfoCircle
         },
         {
             which: 'checkInItems',
             action: 'changeFlow',
-            data: {flow: 'checkInItems'},
+            data: { flow: 'checkInItems' },
             label: 'Aflever',
             icon: faBook
         }
     ];
-
-    /**
-     * When a button is pressed, this function is called and it request a state change.
-     *
-     * @param action
-     *   Which action to execute.
-     * @param data
-     *   Data for the action.
-     */
-    function onButtonPress(action, data) {
-        actionHandler(action, data);
-    }
 
     return (
         <div className={classes}>
