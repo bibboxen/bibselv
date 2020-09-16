@@ -45,7 +45,7 @@ function CheckInItems({ actionHandler }) {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 switch (code) {
                     case BARCODE_COMMAND_FINISH:
-                        actionHandler('changeFlow', { flow: 'reset' });
+                        actionHandler('changeFlow', { action: 'reset' });
                         break;
                     case BARCODE_COMMAND_STATUS:
                         actionHandler('changeFlow', {

@@ -56,7 +56,7 @@ function App({ token, socket }) {
         // Configuration recieved from backend.
         socket.on('Configuration', (data) => {
             setBoxConfig(data);
-            setIdleTimer(data.inactivityTimeOut);
+            setIdleTimer(createIdleTimer(data.inactivityTimeOut));
         });
 
         // Listen for changes to machine state.
@@ -80,8 +80,7 @@ function App({ token, socket }) {
         if (idleTimer) {
             idleTimer.reset();
         }
-        // @TODO: Replace so it is the action that is reset instead of flow.
-        if (data.flow === 'reset') {
+        if (data.action === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
                 token: token,

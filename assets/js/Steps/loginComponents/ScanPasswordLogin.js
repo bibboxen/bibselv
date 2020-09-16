@@ -50,7 +50,7 @@ function ScanPasswordLogin({ actionHandler }) {
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler('changeFlow', { flow: 'reset' });
+                    actionHandler('changeFlow', { action: 'reset' });
                 } 
             }else {
                 setUsername(code);

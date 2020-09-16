@@ -45,7 +45,7 @@ function Status({ actionHandler }) {
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler('changeFlow', { flow: 'reset' });                }
+                    actionHandler('changeFlow', { action: 'reset' });                }
 
                 if (code === BARCODE_COMMAND_CHECKOUT) {
                     actionHandler('changeFlow', {
