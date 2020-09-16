@@ -103,6 +103,13 @@ class BoxConfiguration
     private $defaultPassword;
 
     /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $debugEnabled = false;
+
+    /**
      * BoxConfiguration toString.
      *
      * @return mixed
@@ -387,6 +394,32 @@ class BoxConfiguration
     public function setDefaultPassword(string $defaultPassword): self
     {
         $this->defaultPassword = $defaultPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get debug state.
+     *
+     * @return bool
+     *   Is true if debug is enabled else false
+     */
+    public function isDebugEnabled(): bool
+    {
+        return $this->debugEnabled;
+    }
+
+    /**
+     * Set debug state.
+     *
+     * @param bool $debugEnabled
+     *  True to enable (default: false)
+     *
+     * @return $this
+     */
+    public function setDebugEnabled(bool $debugEnabled): self
+    {
+        $this->debugEnabled = $debugEnabled;
 
         return $this;
     }
