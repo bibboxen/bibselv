@@ -72,6 +72,7 @@ const plugins = [
         host: config.server.host,
         port: config.server.port,
         cors: config.server.cors,
+        namespace: config.server.namespace,
         tokenEndPoint: config.tokenEndPoint,
         fbsEndPoint: config.fbsEndPoint,
         isEventExpired: isEventExpired

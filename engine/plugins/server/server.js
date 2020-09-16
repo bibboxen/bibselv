@@ -28,6 +28,7 @@ module.exports = function(options, imports, register) {
     const port = options.port || 3000;
     const host = options.host || '0.0.0.0';
     const cors = options.cors || '*:*';
+    const namespace = options.namespace;
 
     const router = express.Router();
     const app = express();
@@ -54,7 +55,7 @@ module.exports = function(options, imports, register) {
 
     // Handle client connections in the web-socket. After connection the client should send a valid token with every
     // call to the engine.
-    io.on('connection', socket => {
+    io.of(namespace).on('connection', socket => {
         debug('Client connected with socket id: ' + socket.id);
 
         const clientConfigEvent = uniqId();
