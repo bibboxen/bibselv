@@ -5,9 +5,9 @@
  * Displays a list of items with the banner component and with optional header.
  */
 
-import React from "react";
-import Banner from "./Banner";
-import PropTypes from "prop-types";
+import React from 'react';
+import Banner from './Banner';
+import PropTypes from 'prop-types';
 
 /**
  * BannerList.
@@ -23,9 +23,9 @@ function BannerList({ items, title }) {
     return (
         <>
             {title && (
-                <div className="banner-list-header">
+                <div className='banner-list-header'>
                     {title}
-                    {items && <div className="counter">{items.length}</div>}
+                    {items && <div className='counter'>{items.length}</div>}
                 </div>
             )}
             {items && items.map((item) => (

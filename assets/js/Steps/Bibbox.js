@@ -3,14 +3,14 @@
  * The main entrypoint of the react application.
  */
 
-import React, { useState, useEffect } from "react";
-import Initial from "./Initial";
-import Login from "./Login";
-import Status from "./Status";
-import CheckInItems from "./CheckInItems";
-import NavBar from "./components/Navbar";
-import CheckOutItems from "./CheckOutItems";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from 'react';
+import Initial from './Initial';
+import Login from './Login';
+import Status from './Status';
+import CheckInItems from './CheckInItems';
+import NavBar from './components/Navbar';
+import CheckOutItems from './CheckOutItems';
+import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machineStateContext';
 
 /**
@@ -51,15 +51,15 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      */
     function renderStep(step) {
         switch (step) {
-            case "checkOutItems":
+            case 'checkOutItems':
                 return <CheckOutItems actionHandler={actionHandler} />;
-            case "checkInItems":
+            case 'checkInItems':
                 return <CheckInItems actionHandler={actionHandler} />;
-            case "status":
+            case 'status':
                 return <Status actionHandler={actionHandler} />;
-            case "loginScan":
+            case 'loginScan':
                 return <Login actionHandler={actionHandler} />;
-            case "initial":
+            case 'initial':
                 return <Initial actionHandler={actionHandler} />;
             default:
                 return <Initial actionHandler={actionHandler} />;
@@ -69,8 +69,8 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
     return (
         <MachineStateContext.Provider value={storage}>
             <NavBar actionHandler={actionHandler} />
-            <div className="container">
-                <div className="row" style={{ width: "100%" }}>
+            <div className='container'>
+                <div className='row' style={{ width: '100%' }}>
                     {renderStep(machineStateInput.step)}
                 </div>
             </div>

@@ -3,73 +3,73 @@
  * Tests of Button.
  */
 
-import React from "react";
-import Button from "./Button";
-import { shallow, mount } from "enzyme";
-import { expect, it, describe } from "@jest/globals";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import Button from './Button';
+import { shallow, mount } from 'enzyme';
+import { expect, it, describe } from '@jest/globals';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
-describe("Test of button component", () => {
-    it("Renders without crashing", () => {
+describe('Test of button component', () => {
+    it('Renders without crashing', () => {
         shallow(
             <Button
-                label="knap"
+                label='knap'
                 icon={faInfoCircle}
                 handleButtonPress={() => console.log()}
-                which="class"
+                which='class'
             />
         );
     });
 
-    it("Renders reset", () => {
+    it('Renders reset', () => {
         const wrapper = mount(
             <Button
-                label="knap"
+                label='knap'
                 icon={faInfoCircle}
                 handleButtonPress={() => console.log()}
-                which="reset"
+                which='reset'
             />
         );
-        expect(wrapper.exists(".reset")).toEqual(true);
+        expect(wrapper.exists('.reset')).toEqual(true);
     });
 
-    it("Renders label", () => {
+    it('Renders label', () => {
         const wrapper = mount(
             <Button
-                label="knap"
+                label='knap'
                 icon={faInfoCircle}
                 handleButtonPress={() => console.log()}
-                which="reset"
+                which='reset'
             />
         );
-        expect(wrapper.text()).toEqual("knap");
+        expect(wrapper.text()).toEqual('knap');
     });
 
-    it("Renders icon", () => {
+    it('Renders icon', () => {
         const wrapper = mount(
             <Button
-                label="knap"
+                label='knap'
                 icon={faInfoCircle}
                 handleButtonPress={() => console.log()}
-                which="class"
+                which='class'
             />
         );
-        expect(wrapper.exists(".icon")).toEqual(true);
-        expect(wrapper.find(".icon").length).toEqual(1);
+        expect(wrapper.exists('.icon')).toEqual(true);
+        expect(wrapper.find('.icon').length).toEqual(1);
     });
 
-    it("works when button is clicked", () => {
+    it('works when button is clicked', () => {
         const mockCallBack = jest.fn();
 
         const button = shallow(
             <Button
-                label="knap"
+                label='knap'
                 icon={faInfoCircle}
                 handleButtonPress={mockCallBack}
-                which="class"
+                which='class'
             />
         );
-        button.find("button").simulate("click");
+        button.find('button').simulate('click');
         expect(mockCallBack.mock.calls.length).toEqual(1);
     });
 });

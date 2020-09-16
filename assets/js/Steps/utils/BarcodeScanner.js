@@ -21,10 +21,10 @@ export class BarcodeScanner {
      */
     constructor(timeoutLimit = null) {
         if (timeoutLimit !== null && !Number.isInteger(timeoutLimit)) {
-            throw new Error("timeoutLimit must be an integer");
+            throw new Error('timeoutLimit must be an integer');
         }
 
-        this.code = "";
+        this.code = '';
         this.timeoutLimit = timeoutLimit;
         this.resultCallback = null;
         this.timeout = null;
@@ -50,10 +50,10 @@ export class BarcodeScanner {
 
             if (matches !== null && matches.groups.code) {
                 this.resultCallback(matches.groups.code);
-                this.code = "";
+                this.code = '';
             }
         } else {
-            this.code = "";
+            this.code = '';
         }
     }
 
@@ -78,16 +78,16 @@ export class BarcodeScanner {
      *   The callback function to invoke when a result has been registered.
      */
     start(resultCallback) {
-        this.code = "";
+        this.code = '';
         this.resultCallback = resultCallback;
-        document.addEventListener("keypress", this.handleKeypress);
+        document.addEventListener('keypress', this.handleKeypress);
     }
 
     /**
      * Stop listening for key presses.
      */
     stop() {
-        document.removeEventListener("keypress", this.handleKeypress);
+        document.removeEventListener('keypress', this.handleKeypress);
         this.resultCallback = null;
 
         if (this.timeout !== null) {

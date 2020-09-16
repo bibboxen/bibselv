@@ -4,10 +4,10 @@
  * An input field component
  */
 
-import React from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Input.
@@ -24,20 +24,20 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
  * @constructor
  */
 const Input = ({ name, label, value, which }) => {
-    let cssClass = "input";
+    let cssClass = 'input';
     if (which && value) {
         cssClass =
-            which.toLowerCase() === "checkoutitems"
+            which.toLowerCase() === 'checkoutitems'
                 ? `info ${cssClass}`
                 : `${cssClass} info purple`;
     }
     return (
         <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
-            <input value={value} name={name} id={name} type="text" />
+            <input value={value} name={name} id={name} type='text' />
             {value && which && (
-                <div className="info-banner">
-                    <span className="info-banner-icon">
+                <div className='info-banner'>
+                    <span className='info-banner-icon'>
                         <FontAwesomeIcon icon={faCheck} />
                     </span>
                     Bogen blev registreret. Klar til næste

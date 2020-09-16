@@ -19,9 +19,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  */
 function HelpBox({ text }) {
     return (
-        <div className="help-box">
-            <div className="helpbox-header">
-                <span className="icon-helpbox">
+        <div className='help-box'>
+            <div className='helpbox-header'>
+                <span className='icon-helpbox'>
                     <FontAwesomeIcon icon={faQuestionCircle} />
                 </span>
                 <span>Hjælp</span>

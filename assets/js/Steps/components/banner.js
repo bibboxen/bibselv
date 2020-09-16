@@ -5,15 +5,15 @@
  * Displays a book banner (error, inprogress, neutral or success).
  */
 
-import React from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import bookStatus from "./BookStatus";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import bookStatus from './BookStatus';
 import {
     faCheck,
     faSpinner,
     faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
 /**
  * Banner.
@@ -24,12 +24,12 @@ import {
  * @constructor
  */
 function Banner({ item }) {
-    let classes = "banner ";
+    let classes = 'banner ';
     let { text, title, status, itemIdentifier } = item;
     let icon = {};
     switch (status) {
         case bookStatus.ERROR:
-            classes += "danger";
+            classes += 'danger';
             icon = faExclamationTriangle;
             break;
         case bookStatus.IN_PROGRESS:
@@ -40,19 +40,19 @@ function Banner({ item }) {
         case bookStatus.CHECKED_OUT:
         case bookStatus.CHECKED_IN:
         case bookStatus.SUCCESS:
-            classes += "success";
+            classes += 'success';
             icon = faCheck;
             break;
     }
     return (
         <div className={classes}>
             {icon && (
-                <div className="icon">
+                <div className='icon'>
                     <FontAwesomeIcon icon={icon} />
                 </div>
             )}
-            <div className="d-flex flex-column">
-                <div className="header">{title}</div>
+            <div className='d-flex flex-column'>
+                <div className='header'>{title}</div>
                 <div>{text}</div>
             </div>
         </div>

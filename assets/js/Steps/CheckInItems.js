@@ -5,23 +5,22 @@
  * This component creates af view of the books that the user hands in (returns).
  */
 
-import React, { useContext, useState, useEffect } from "react";
-import BarcodeScanner from "./utils/BarcodeScanner";
-import PropTypes from "prop-types";
-import MachineStateContext from "../context/machineStateContext";
+import React, { useContext, useState, useEffect } from 'react';
+import BarcodeScanner from './utils/BarcodeScanner';
+import PropTypes from 'prop-types';
+import MachineStateContext from '../context/machineStateContext';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
     BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_CHECKOUT,
     BARCODE_COMMAND_STATUS,
-} from "../constants";
-import HelpBox from "./components/Helpbox";
-import BannerList from "./components/BannerList";
-import Header from "./components/Header";
-import Input from "./components/Input";
-import { adaptListOfBooksToBanner } from "./utils/BannerAdapter";
-import { faBook } from "@fortawesome/free-solid-svg-icons";
+} from '../constants';
+import HelpBox from './components/Helpbox';
+import BannerList from './components/BannerList';
+import Header from './components/Header';
+import Input from './components/Input';
+import { adaptListOfBooksToBanner } from './utils/BannerAdapter';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * CheckInItems component.
@@ -33,7 +32,7 @@ import { faBook } from "@fortawesome/free-solid-svg-icons";
  */
 function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const [scannedBarcode, setScannedBarcode] = useState("");
+    const [scannedBarcode, setScannedBarcode] = useState('');
 
     /**
      * Set up barcode scanner listener.
@@ -43,25 +42,25 @@ function CheckInItems({ actionHandler }) {
 
         const barcodeCallback = (code) => {
             const whichFlow = context.machineState.get.user
-                ? "changeFlow"
-                : "enterFlow";
+                ? 'changeFlow'
+                : 'enterFlow';
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 switch (code) {
                     case BARCODE_COMMAND_FINISH:
-                        actionHandler("reset");
+                        actionHandler('reset');
                         break;
                     case BARCODE_COMMAND_STATUS:
                         actionHandler(whichFlow, {
-                            flow: "status",
+                            flow: 'status',
                         });
                         break;
                     case BARCODE_COMMAND_CHECKIN:
                         actionHandler(whichFlow, {
-                            flow: "checkOutItem",
+                            flow: 'checkOutItem',
                         });
                         break;
                     default:
-                        actionHandler("checkInItem", {
+                        actionHandler('checkInItem', {
                             itemIdentifier: code,
                         });
                 }
@@ -80,32 +79,32 @@ function CheckInItems({ actionHandler }) {
     }
     return (
         <>
-            <div className="col-md-9">
+            <div className='col-md-9'>
                 <Header
-                    header="Aflever"
-                    subheader="Scan stregkoden på bogen du vil aflevere"
-                    which="checkInItems"
+                    header='Aflever'
+                    subheader='Scan stregkoden på bogen du vil aflevere'
+                    which='checkInItems'
                     icon={faBook}
                 />
-                <div className="row">
-                    <div className="col-md-2" />
+                <div className='row'>
+                    <div className='col-md-2' />
 
-                    <div className="col-md mt-4">
+                    <div className='col-md mt-4'>
                         <Input
-                            name="barcode"
-                            label="Stregkode"
+                            name='barcode'
+                            label='Stregkode'
                             value={scannedBarcode}
-                            which="CheckInItems"
+                            which='CheckInItems'
                             readOnly
                         />
                         {items && <BannerList items={items} />}
                     </div>
                 </div>
             </div>
-            <div className="col-md-3">
+            <div className='col-md-3'>
                 <HelpBox
                     text={
-                        "Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer."
+                        'Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.'
                     }
                 />
             </div>

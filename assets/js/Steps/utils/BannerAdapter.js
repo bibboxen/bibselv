@@ -4,7 +4,7 @@
  *
  */
 
-import bookStatus from "../components/BookStatus";
+import bookStatus from '../components/BookStatus';
 export function adaptListOfBooksToBanner(listOfBooks) {
     let items = [];
     listOfBooks.forEach((book) => {
@@ -15,7 +15,7 @@ export function adaptListOfBooksToBanner(listOfBooks) {
                 displayInfo.text = `${book.title} af ${book.author}`;
                 break;
             case bookStatus.IN_PROGRESS:
-                displayInfo.title = "Henter informationer";
+                displayInfo.title = 'Henter informationer';
                 displayInfo.text = book.itemIdentifier;
                 break;
             case bookStatus.CHECKED_IN:

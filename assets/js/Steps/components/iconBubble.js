@@ -4,9 +4,9 @@
  * Displays the icon bubble in the header
  */
 
-import React from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
  /**
  * IconBubble.
@@ -21,9 +21,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function IconBubble({ which, icon }) {
     const classes = `header-icon ${which.toLowerCase()}`;
     return (
-        <div className="col-md-2">
+        <div className='col-md-2'>
             <div className={classes}>
-                <div className="icon">
+                <div className='icon'>
                     <FontAwesomeIcon icon={icon} />
                 </div>
             </div>

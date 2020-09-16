@@ -21,7 +21,7 @@ function Barcode({ which }) {
 
     return (
         <div className={classes}>
-            <div className="barcode-inner" />
+            <div className='barcode-inner' />
         </div>
     );
 }

@@ -1,17 +1,17 @@
-@import "bootstrap";
-@import "variables";
-@import "banner";
-@import "barcode";
-@import "bubble";
-@import "button";
-@import "content";
-@import "header";
-@import "help-box";
-@import "icon-bubble";
-@import "input";
-@import "loading";
-@import "navbar";
-@import "numpad";
+@import 'bootstrap';
+@import 'variables';
+@import 'banner';
+@import 'barcode';
+@import 'bubble';
+@import 'button';
+@import 'content';
+@import 'header';
+@import 'help-box';
+@import 'icon-bubble';
+@import 'input';
+@import 'loading';
+@import 'navbar';
+@import 'numpad';
 
 html {
     height: 100%;
@@ -35,7 +35,7 @@ h1 {
     color: $font-color;
 
     // Text
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.5rem;
     text-align: center;
 }
@@ -60,8 +60,8 @@ h1 {
         z-index: -1;
     
         // Image
-        content: "";
-        background: url("images/books.jpg");
+        content: '';
+        background: url('images/books.jpg');
         background-size: cover;
 
     }

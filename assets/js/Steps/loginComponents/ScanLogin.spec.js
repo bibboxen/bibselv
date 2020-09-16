@@ -4,11 +4,11 @@
  * Tests of scanlogin
  */
 
-import React from "react";
-import ScanLogin from "./ScanLogin";
-import { shallow } from "enzyme";
-import { it } from "@jest/globals";
+import React from 'react';
+import ScanLogin from './ScanLogin';
+import { shallow } from 'enzyme';
+import { it } from '@jest/globals';
 
-it("renders without crashing", () => {
+it('renders without crashing', () => {
     shallow(<ScanLogin actionHandler={() => {}} />);
 });

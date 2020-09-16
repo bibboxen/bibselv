@@ -31,9 +31,9 @@ function Bubble({ which, label, icon, actionHandler }) {
             className={classes}
             onClick={() => actionHandler('enterFlow', { flow: which })}
         >
-            <div className="inner-bubble">
-                <div className="text-and-icon">
-                    <div className="icon">
+            <div className='inner-bubble'>
+                <div className='text-and-icon'>
+                    <div className='icon'>
                         <FontAwesomeIcon icon={icon} />
                     </div>
                     {label}

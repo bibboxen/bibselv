@@ -20,11 +20,11 @@ import IconBubble from './IconBubble';
  */
 function Header({ header, subheader, which, icon }) {
     return (
-        <div className="row">
+        <div className='row'>
             <IconBubble which={which} icon={icon}></IconBubble>
-            <div className="col-md-10">
-                <div className="header">{header}</div>
-                <div className="sub-header">{subheader}</div>
+            <div className='col-md-10'>
+                <div className='header'>{header}</div>
+                <div className='sub-header'>{subheader}</div>
             </div>
         </div>
     );

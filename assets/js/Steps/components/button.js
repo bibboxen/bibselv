@@ -4,9 +4,9 @@
  * The button component is used to display a button on screen.
  */
 
-import React from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * Button.
@@ -29,10 +29,10 @@ const Button = ({ label, icon, handleButtonPress, which }) => {
         <button
             onClick={() => handleButtonPress(which)}
             className={classes}
-            type="button"
+            type='button'
         >
             {label}
-            <span className="icon">
+            <span className='icon'>
                 <FontAwesomeIcon icon={icon} />
             </span>
         </button>

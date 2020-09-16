@@ -3,12 +3,12 @@
  * The main entrypoint of the react application.
  */
 
-import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
-import { useIdleTimer } from "react-idle-timer";
-import PropTypes from "prop-types";
-import Bibbox from "./steps/Bibbox";
-import Loading from "./steps/Loading";
+import React, { useState, useEffect } from 'react';
+import socketIOClient from 'socket.io-client';
+import { useIdleTimer } from 'react-idle-timer';
+import PropTypes from 'prop-types';
+import Bibbox from './steps/Bibbox';
+import Loading from './steps/Loading';
 
 /**
  * App. The main entrypoint of the react application.
@@ -35,8 +35,8 @@ function App({ token, socketUri }) {
             timeout: timeout,
             onIdle: () => {
                 // Return to initial step if not already there.
-                socket.emit("ClientEvent", {
-                    name: "Reset",
+                socket.emit('ClientEvent', {
+                    name: 'Reset',
                     token: token,
                 });
                 idleTimer.reset();
@@ -51,18 +51,18 @@ function App({ token, socketUri }) {
      */
     useEffect(() => {
         // Signal that the client is ready.
-        socket.emit("ClientReady", {
+        socket.emit('ClientReady', {
             token: token,
         });
 
         // Configuration recieved from backend.
-        socket.on("Configuration", (data) => {
+        socket.on('Configuration', (data) => {
             setBoxConfig(data);
             createIdleTimer(data.inactivityTimeOut);
         });
 
         // Listen for changes to machine state.
-        socket.on("UpdateState", (data) => {
+        socket.on('UpdateState', (data) => {
             if (idleTimer) {
                 idleTimer.reset();
             }
@@ -76,21 +76,21 @@ function App({ token, socketUri }) {
      * @param action
      *   Name of the action
      * @param data
-     *   Data that defines the request to the state machine, e.g. "flow: "checkOutItems""
+     *   Data that defines the request to the state machine, e.g. 'flow: 'checkOutItems''
      */
     function handleAction(action, data) {
         if (idleTimer) {
             idleTimer.reset();
         }
         // @TODO: Replace so it is the action that is reset instead of flow.
-        if (data.flow === "reset") {
-            socket.emit("ClientEvent", {
-                name: "Reset",
+        if (data.flow === 'reset') {
+            socket.emit('ClientEvent', {
+                name: 'Reset',
                 token: token,
             });
         } else {
-            socket.emit("ClientEvent", {
-                name: "Action",
+            socket.emit('ClientEvent', {
+                name: 'Action',
                 action: action,
                 token: token,
                 data: data,

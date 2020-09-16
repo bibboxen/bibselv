@@ -4,21 +4,21 @@
  * For users that scans username and types password to login.
  */
 
-import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
-import Input from "../components/Input";
-import HelpBox from "../components/HelpBox";
-import NumPad from "../components/NumPad";
-import Button from "../components/Button";
-import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
-import PropTypes from "prop-types";
-import { faSignInAlt, faBarcode } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BarcodeScanner from "../utils/BarcodeScanner";
+import React, { useState, useEffect } from 'react';
+import Header from '../components/Header';
+import Input from '../components/Input';
+import HelpBox from '../components/HelpBox';
+import NumPad from '../components/NumPad';
+import Button from '../components/Button';
+import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
+import PropTypes from 'prop-types';
+import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import BarcodeScanner from '../utils/BarcodeScanner';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
-} from "../../constants";
+} from '../../constants';
 /**
  * ScanPasswordLogin.
  *
@@ -30,11 +30,11 @@ import {
  * @constructor
  */
 function ScanPasswordLogin({ actionHandler }) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [subheader, setSubheader] = useState("Scan dit bibliotekskort");
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [subheader, setSubheader] = useState('Scan dit bibliotekskort');
     const [helpboxText, setHelpboxText] = useState(
-        "Brug håndscanneren til at scanne stregkoden din lånerkort."
+        'Brug håndscanneren til at scanne stregkoden din lånerkort.'
     );
     const [usernameScanned, setUsernameScanned] = useState(false);
 
@@ -49,11 +49,11 @@ function ScanPasswordLogin({ actionHandler }) {
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler("changeFlow", { flow: "reset" });
+                    actionHandler('changeFlow', { flow: 'reset' });
                 } else {
                     setUsername(code);
-                    setHelpboxText("Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny")
-                    setSubheader("Tast dit password");
+                    setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny')
+                    setSubheader('Tast dit password');
                 }
             }
         };
@@ -70,12 +70,12 @@ function ScanPasswordLogin({ actionHandler }) {
      */
     function onNumPadPress({ key }) {
         if (!usernameScanned) {
-            key.toLowerCase() === "c"
-                ? setUsername("")
+            key.toLowerCase() === 'c'
+                ? setUsername('')
                 : setUsername(`${username}${key}`);
         } else {
-            key.toLowerCase() === "c"
-                ? setPassword("")
+            key.toLowerCase() === 'c'
+                ? setPassword('')
                 : setPassword(`${password}${key}`);
         }
     }
@@ -88,7 +88,7 @@ function ScanPasswordLogin({ actionHandler }) {
         if (!usernameScanned) {
             setUsernameScanned(true);
         } else {
-            actionHandler("login", {
+            actionHandler('login', {
                 username: username,
                 password: password,
             });
@@ -97,23 +97,23 @@ function ScanPasswordLogin({ actionHandler }) {
 
     return (
         <>
-            <div className="col-md m-3">
+            <div className='col-md m-3'>
                 <Header
-                    header="Login"
+                    header='Login'
                     subheader={subheader}
-                    which="login"
+                    which='login'
                     icon={faSignInAlt}
                 />
-                <div className="row">
-                    <div className="col-md-2" />
-                    <div className="col-md mt-4">
+                <div className='row'>
+                    <div className='col-md-2' />
+                    <div className='col-md mt-4'>
                         {!usernameScanned && (
                             <div
-                                className="content"
+                                className='content'
                                 onClick={() =>
-                                    actionHandler("login", {
-                                        username: "C023648674",
-                                        password: "",
+                                    actionHandler('login', {
+                                        username: 'C023648674',
+                                        password: '',
                                     })
                                 }
                             >
@@ -122,8 +122,8 @@ function ScanPasswordLogin({ actionHandler }) {
                         )}
                         {usernameScanned && (
                             <Input
-                                name="password"
-                                label="Password"
+                                name='password'
+                                label='Password'
                                 value={password}
                                 readOnly
                             />
@@ -134,14 +134,14 @@ function ScanPasswordLogin({ actionHandler }) {
                     </div>
                 </div>
             </div>
-            <div className="col-md-3 m-3 d-flex flex-column justify-content-between">
+            <div className='col-md-3 m-3 d-flex flex-column justify-content-between'>
                 {!usernameScanned && <HelpBox text={helpboxText} />}
                 {usernameScanned && (
                     <Button
-                        label={"Login"}
+                        label={'Login'}
                         icon={faArrowAltCircleRight}
                         handleButtonPress={onButtonPress}
-                        which="login-button"
+                        which='login-button'
                     />
                 )}
             </div>

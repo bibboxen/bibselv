@@ -4,7 +4,7 @@
  * The loading screen
  */
 
-import React from "react";
+import React from 'react';
 
 /**
  * Loading.
@@ -14,8 +14,8 @@ import React from "react";
  */
 function Loading() {
     return (
-        <div className="loading-screen">
-            <span className="loading-text">Afventer konfiguration...</span>
+        <div className='loading-screen'>
+            <span className='loading-text'>Afventer konfiguration...</span>
         </div>
     );
 }
