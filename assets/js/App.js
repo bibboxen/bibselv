@@ -61,12 +61,11 @@ function App({ token, socket }) {
                 timeout: data.inactivityTimeOut,
                 onIdle: () => {
                     // Return to initial step if not already there.
-                    // socket.emit('ClientEvent', {
-                    //     name: 'Reset',
-                    //     token: token,
-                    // });
-                    // idleTimer.reset();
-                    console.log("idle")
+                    socket.emit('ClientEvent', {
+                        name: 'Reset',
+                        token: token,
+                    });
+                    idleTimer.reset();
                 },
                 debounce: 500,
                 eventsThrottle: 500,

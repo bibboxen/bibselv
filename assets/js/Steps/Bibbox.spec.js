@@ -1056,7 +1056,7 @@ describe('Tests of callback data', () => {
         wrapper.find('.button-container button').at(3).simulate('click');
 
         expect(mockCallBack.mock.calls).toEqual([
-            ['changeFlow', { action: 'reset' }],
+            ['reset'],
         ]);
     });
 });
