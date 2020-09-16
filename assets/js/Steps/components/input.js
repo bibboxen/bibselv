@@ -23,7 +23,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
  * @return {*}
  * @constructor
  */
-const Input = ({ name, label, value, which }) => {
+const Input = ({ name, label, value, which, ...rest }) => {
     let cssClass = 'input';
     if (which && value) {
         cssClass =
@@ -34,7 +34,7 @@ const Input = ({ name, label, value, which }) => {
     return (
         <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
-            <input value={value} name={name} id={name} type='text' readOnly />
+            <input value={value} name={name} id={name} type='text' {...rest} />
             {value && which && (
                 <div className='info-banner'>
                     <span className='info-banner-icon'>
