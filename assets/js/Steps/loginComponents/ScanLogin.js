@@ -14,6 +14,7 @@ import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
+    BARCODE_COMMAND_LENGTH
 } from '../../constants';
 /**
  * Scan login component.
@@ -34,21 +35,19 @@ function ScanLogin({ actionHandler }) {
      */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 if (code === BARCODE_COMMAND_FINISH) {
                     actionHandler('reset');
                 }
-
-                actionHandler('login', {
-                    username: code,
-                    password: '',
-                });
             }
+            actionHandler('login', {
+                username: code,
+                password: '',
+            });
         };
 
-        barcodeScanner.start(barcodeCallback);
+        barcodeScanner.start(barcodeCallback)
 
         // Stop scanning when component is unmounted.
         return () => barcodeScanner.stop();
