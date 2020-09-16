@@ -45,13 +45,14 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 AssociationField::new('school'),
                 AssociationField::new('sip2User'),
                 TextField::new('reservedMaterialInstruction'),
-                TextField::new('defaultPassword'),
+                TextField::new('defaultPassword')->hideOnIndex(),
 
             FormField::addPanel('Options'),
                 BooleanField::new('hasTouch')->hideOnIndex(),
                 BooleanField::new('hasKeyboard')->hideOnIndex(),
                 BooleanField::new('hasPrinter')->hideOnIndex(),
                 BooleanField::new('soundEnabled')->hideOnIndex(),
+                BooleanField::new('debugEnabled'),
                 IntegerField::new('inactivityTimeOut')->hideOnIndex(),
                 ChoiceField::new('loginMethod')
                     ->setChoices(LoginMethods::getLoginMethodList())
