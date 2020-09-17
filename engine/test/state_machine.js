@@ -436,12 +436,10 @@ it('Tests that status is refreshed when visiting status again after login', done
                             flow: 'status'
                         }
                     });
-                    //client.state.statusRefreshing.should.equal(true);
 
                     setTimeout(() => {
                         client.state.step.should.equal('status');
                         client.state.flow.should.equal('status');
-                        client.state.statusRefreshing.should.equal(false);
                         client.state.holdItems.length.should.equal(4);
 
                         done();
