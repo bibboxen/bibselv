@@ -100,7 +100,7 @@ Client.prototype.load = function load(token, config = {}, state = {}) {
  * @param client
  *   The client.
  */
-Client.prototype.save = async function save(token, client) {
+Client.prototype.save = function save(token, client) {
     debug('Saving client: ' + token);
     if (this.persistent) {
         this.storage.set(token, JSON.stringify(client));

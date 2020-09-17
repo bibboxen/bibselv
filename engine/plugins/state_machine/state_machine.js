@@ -333,7 +333,7 @@ module.exports = function(options, imports, register) {
                     break;
                 default:
                     // Ignore other event names.
-                    return client;
+                    break;
             }
 
             client.actionData = null;
