@@ -118,6 +118,44 @@ class TokenService
     }
 
     /**
+     * Remove all expired tokens.
+     *
+     * @return int
+     *   The number of removed tokens
+     */
+    public function removeExpiredTokens(): int
+    {
+        $batchSize = 100;
+        $i = 1;
+        $q = $this->entityManager->createQuery('SELECT t from App\Entity\Token t WHERE t.tokenExpires < CURRENT_TIMESTAMP()');
+        $iterableResult = $q->iterate();
+        while (($row = $iterableResult->next()) !== false) {
+            $this->entityManager->remove($row[0]);
+            if (($i % $batchSize) === 0) {
+                $this->entityManager->flush();
+                $this->entityManager->clear();
+            }
+            ++$i;
+        }
+        $this->entityManager->flush();
+
+        return $i-1;
+    }
+
+    /**
+     * Remove token from storage.
+     *
+     * @param string $token
+     *   The token to remove
+     */
+    public function removeToken(string $token)
+    {
+        $entity = $this->getToken($token);
+        $this->entityManager->remove($entity);
+        $this->entityManager->flush();
+    }
+
+    /**
      * Generate new token.
      *
      * @return string
