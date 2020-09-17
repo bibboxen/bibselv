@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Service to handle tokens.
+ */
+
+namespace App\Service;
+
+use App\Entity\BoxConfiguration;
+use App\Entity\Token;
+use App\Repository\TokenRepository;
+use Doctrine\ORM\EntityManagerInterface;
+
+/**
+ * Class TokenService.
+ */
+class TokenService
+{
+    private EntityManagerInterface $entityManager;
+    private TokenRepository $tokenRepository;
+    private int $tokenExpireSeconds;
+
+    /**
+     * TokenService constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     *   Entity manager
+     * @param TokenRepository $tokenRepository
+     *   Token repository
+     * @param int $bindTokenExpireSeconds
+     *   The token expire in seconds
+     */
+    public function __construct(EntityManagerInterface $entityManager, TokenRepository $tokenRepository, int $bindTokenExpireSeconds)
+    {
+        $this->entityManager = $entityManager;
+        $this->tokenRepository = $tokenRepository;
+        $this->tokenExpireSeconds = $bindTokenExpireSeconds;
+    }
+
+    /**
+     * Check if token is valid.
+     *
+     * @param string $token
+     *   The token to check
+     *
+     * @return bool
+     *   If valid true else false
+     */
+    public function isValid(string $token): bool
+    {
+        $entity = $this->tokenRepository->findOneBy(['token' => $token]);
+        if (!is_null($entity) && $entity->getTokenExpires() > time()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get box configuration from token, if token is valid.
+     *
+     * @param string $token
+     *   The token to get config for
+     *
+     * @return boxConfiguration|null
+     *   Box configuration or null if not found
+     */
+    public function getBoxConfiguration(string $token): ?BoxConfiguration
+    {
+        if ($this->isValid($token)) {
+            $entity = $this->tokenRepository->findOneBy(['token' => $token]);
+            if (!is_null($entity)) {
+                return $entity->getBoxConfiguration();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get token entity from token.
+     *
+     * @param string $token
+     *   Token to load entity for
+     *
+     * @return token|null
+     *   Token entity if found else null
+     */
+    public function getToken(string $token): ?Token
+    {
+        return $this->tokenRepository->findOneBy(['token' => $token]);
+    }
+
+    /**
+     * Create new token.
+     *
+     * @param boxConfiguration $boxConfiguration
+     *   Box configuration to link to the token
+     *
+     * @return token
+     *   Token entity
+     *
+     * @throws \Exception
+     */
+    public function create(BoxConfiguration $boxConfiguration): Token
+    {
+        $token = new Token();
+        $token->setToken($this->generate())
+            ->setTokenExpires(time() + $this->tokenExpireSeconds)
+            ->setBoxConfiguration($boxConfiguration);
+
+        // Make it sticky in the database.
+        $this->entityManager->persist($token);
+        $this->entityManager->flush();
+
+        return $token;
+    }
+
+    /**
+     * Generate new token.
+     *
+     * @return string
+     *   Random 32 char token
+     *
+     * @throws \Exception
+     */
+    private function generate(): string
+    {
+        return bin2hex(random_bytes(16));
+    }
+}

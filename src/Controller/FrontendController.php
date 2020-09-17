@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * @file
+ * Front end controller mainly loading the index page.
+ */
+
 namespace App\Controller;
 
-use App\Entity\Token;
 use App\Repository\BoxConfigurationRepository;
-use App\Repository\TokenRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,29 +19,25 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FrontendController extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
     private BoxConfigurationRepository $boxConfigurationRepository;
-    private TokenRepository $tokenRepository;
-    private $engineSocketURI = '';
+    private string $engineSocketURI = '';
+    private TokenService $tokenService;
 
     /**
      * FrontendController constructor.
      *
-     * @param EntityManagerInterface $entityManager
-     *   The entity manager to access the database
      * @param BoxConfigurationRepository $boxConfigurationRepository
      *   The box configuration repository
-     * @param TokenRepository $tokenRepository
-     *   The token repository
+     * @param TokenService $tokenService
+     *   Token service used for token validation
      * @param string $bindEngineSocketURI
      *   URI for the websocket from the environment
      */
-    public function __construct(EntityManagerInterface $entityManager, BoxConfigurationRepository $boxConfigurationRepository, TokenRepository $tokenRepository, string $bindEngineSocketURI)
+    public function __construct(BoxConfigurationRepository $boxConfigurationRepository, TokenService $tokenService, string $bindEngineSocketURI)
     {
         $this->boxConfigurationRepository = $boxConfigurationRepository;
-        $this->tokenRepository = $tokenRepository;
-        $this->entityManager = $entityManager;
         $this->engineSocketURI = $bindEngineSocketURI;
+        $this->tokenService = $tokenService;
     }
 
     /**
@@ -52,7 +51,7 @@ class FrontendController extends AbstractController
      *
      * @throws \Exception
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $configId = $request->query->get('id');
         if (empty($configId)) {
@@ -65,21 +64,10 @@ class FrontendController extends AbstractController
             return new Response('Bad request wrong configuration id', 400);
         }
 
-        // Lookup token or generate new token.
-        $token = $this->tokenRepository->findOneBy(['boxConfiguration' => $boxConfig]);
-        if (is_null($token)) {
-            $token = new Token();
-            $token->setToken(bin2hex(random_bytes(16)))
-                ->setTokenExpires(time() + 86400)
-                ->setBoxConfiguration($boxConfig);
-        // @TODO: move expire into configuration.
-        } else {
-            $token->setTokenExpires(time() + 86400);
-        }
-
-        // Make it sticky in the database.
-        $this->entityManager->persist($token);
-        $this->entityManager->flush();
+        // Generate new token on each page load. We have currently no way to identifier an page load/reload on a given
+        // client, so we assume that every new frontpage is a new connection.
+        // @TODO: change the front-end to request an token if it don't have one or needs a new one.
+        $token = $this->tokenService->create($boxConfig);
 
         return $this->render(
             'frontend.html.twig',

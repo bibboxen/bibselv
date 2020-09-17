@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * @file
+ * Token request controller.
+ */
+
 namespace App\Controller;
 
 use App\Repository\BoxConfigurationRepository;
-use App\Repository\TokenRepository;
+use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,22 +18,66 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TokenController extends AbstractController
 {
+    private TokenService $tokenService;
+    private BoxConfigurationRepository $boxConfigurationRepository;
+
+    /**
+     * TokenController constructor.
+     *
+     * @param tokenService $tokenService
+     *   Token service to validate tokens and more
+     * @param boxConfigurationRepository $boxConfigurationRepository
+     *   Box configuration repository to load configuration
+     */
+    public function __construct(TokenService $tokenService, BoxConfigurationRepository $boxConfigurationRepository)
+    {
+        $this->tokenService = $tokenService;
+        $this->boxConfigurationRepository = $boxConfigurationRepository;
+    }
+
     /**
      * @Route("/token/validate/{token}", name="validate_token")
      *
-     * @param $token
-     * @param TokenRepository $tokenRepository
-     * @param BoxConfigurationRepository $boxConfigurationRepository
+     * @param string $token
+     *   Token to validate
      *
      * @return JsonResponse
      */
-    public function index($token, TokenRepository $tokenRepository, BoxConfigurationRepository $boxConfigurationRepository)
+    public function validateToken(string $token): JsonResponse
     {
-        $entity = $tokenRepository->findOneBy(['token' => $token]);
-        if (is_null($entity)) {
+        if (!$this->tokenService->isValid($token)) {
             return new JsonResponse(['valid' => false]);
         }
 
-        return new JsonResponse(['valid' => true, 'id' => $entity->getBoxConfiguration()->getId()]);
+        $boxConfiguration = $this->tokenService->getBoxConfiguration($token);
+
+        return new JsonResponse(['valid' => true, 'id' => $boxConfiguration->getId()]);
+    }
+
+    /**
+     * @Route("/token/get/{id}", name="get_token")
+     *
+     * @param string $id
+     *   Box configuration ID to create token for
+     *
+     * @return JsonResponse
+     *
+     * @throws \Exception
+     */
+    public function getToken($id): JsonResponse
+    {
+        if (empty($id)) {
+            return new JsonResponse(['message' => 'Bad request missing configuration id'], 400);
+        }
+
+        // Check that configuration exists.
+        $boxConfig = $this->boxConfigurationRepository->findOneBy(['id' => $id]);
+        if (is_null($boxConfig)) {
+            return new JsonResponse(['message' => 'Bad request wrong configuration id'], 400);
+        }
+
+        $token = $this->tokenService->create($boxConfig);
+
+        return new JsonResponse(['token' => $token->getToken(), 'expire' => $token->getTokenExpires()]);
     }
 }
