@@ -15,7 +15,7 @@ const Q = require('q');
  * @param redisConfig
  *   Redis configuration.
  * @param persistent
- *   If true redis will be use else in-memory store (mostly useful for testing).
+ *   If true redis will be used. Otherwise in-memory store will be used (mostly useful for testing)..
  *
  * @constructor
  */
@@ -24,7 +24,7 @@ const Client = function Client(redisConfig, persistent = false) {
     this.clients = [];
 
     if (this.persistent) {
-        // Extend configuration object with an connection plan.
+        // Extend configuration object with a connection plan.
         redisConfig.retry_strategy = function(options) {
             if (options.error && options.error.code === 'ECONNREFUSED') {
                 return new Error('The server refused the connection');
@@ -63,12 +63,12 @@ Client.prototype.load = function load(token, config = {}, state = {}) {
     if (this.persistent) {
         this.storage.get(token, function get(err, data) {
             if (err) {
+                debug('Loaded error, client created: ' + token);
                 deferred.resolve({
                     token: token,
                     config: config,
                     state: state
                 });
-                debug('Loaded error new client: ' + token);
             } else {
                 client = JSON.parse(data);
                 debug('Loaded client: ' + token);
@@ -80,12 +80,12 @@ Client.prototype.load = function load(token, config = {}, state = {}) {
             debug('Loaded client: ' + token);
             deferred.resolve(this.clients[token]);
         } else {
+            debug('Client created: ' + token);
             deferred.resolve({
                 token: token,
                 config: config,
                 state: state
             });
-            debug('Client created: ' + token);
         }
     }
 
