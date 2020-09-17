@@ -129,6 +129,8 @@ it('Check the response date parser', function(done) {
     done();
 });
 
+// Disable new-cap rule to fix FBS object creation during tests.
+/* eslint-disable new-cap */
 it('Login with test user', function(done) {
     setup().then(function(app) {
         // eslint-disable-next-line new-cap
@@ -323,6 +325,7 @@ it('Check-in (return) of 6 books fast', function(done) {
         }, done).catch(done.fail);
     }, done).catch(done.fail);
 });
+/* eslint-enable new-cap */
 
 it('Teardown', function(done) {
     setup().then(function(app) {
