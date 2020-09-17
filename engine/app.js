@@ -67,6 +67,8 @@ const plugins = [
     },
     {
         packagePath: './plugins/client',
+        config: config.redis,
+        persistent: true,
         isEventExpired: isEventExpired
     },
     {

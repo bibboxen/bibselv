@@ -21,7 +21,9 @@ const setup = () => {
                 packagePath: './../plugins/bus'
             },
             {
-                packagePath: './../plugins/client'
+                packagePath: './../plugins/client',
+                persistent: false,
+                redisConfig: {}
             },
             {
                 packagePath: './../plugins/network'
@@ -79,7 +81,7 @@ it('Test that the checkOutItems flow can be entered from initial state', done =>
 });
 
 it('Test that test user can log in and check out an item', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
@@ -90,11 +92,11 @@ it('Test that test user can log in and check out an item', done => {
         // Set client configuration in state.
         app.services.client.save(client.token, client);
 
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Reset'
         });
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
             action: 'enterFlow',
@@ -102,7 +104,7 @@ it('Test that test user can log in and check out an item', done => {
                 flow: 'checkOutItems'
             }
         });
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
             action: 'login',
@@ -114,40 +116,40 @@ it('Test that test user can log in and check out an item', done => {
 
         // @TODO: Handle this better than timeout.
         setTimeout(() => {
-            client = app.services.client.load('123');
+            app.services.client.load('123').then(function(client) {
+                client.state.step.should.equal('checkOutItems');
+                client.state.flow.should.equal('checkOutItems');
 
-            client.state.step.should.equal('checkOutItems');
-            client.state.flow.should.equal('checkOutItems');
+                client.state.user.name.should.equal('Testkort');
+                client.internal.username.should.equal('3210000000');
+                client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
 
-            client.state.user.name.should.equal('Testkort');
-            client.internal.username.should.equal('3210000000');
-            client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
+                app.services.state_machine.handleEvent({
+                    token: '123',
+                    name: 'Action',
+                    action: 'checkOutItem',
+                    data: {
+                        itemIdentifier: '3274626533'
+                    }
+                });
 
-            app.services.state_machine.handleEvent({
-                token: '123',
-                name: 'Action',
-                action: 'checkOutItem',
-                data: {
-                    itemIdentifier: '3274626533'
-                }
-            });
+                setTimeout(() => {
+                    const spyCall = app.services.state_machine.handleEvent.getCall(3);
+                    spyCall.firstArg.action.should.equal('checkOutItem');
 
-            setTimeout(() => {
-                const spyCall = app.services.state_machine.handleEvent.getCall(3);
-                spyCall.firstArg.action.should.equal('checkOutItem');
+                    app.services.client.load('123').then(function(client) {
+                        client.state.items.length.should.equal(1);
+                        client.state.items[0].itemIdentifier.should.equal('3274626533');
+                        client.state.items[0].title.should.equal('Helbred dit liv');
+                        client.state.items[0].status.should.equal('checkedOut');
 
-                client = app.services.client.load('123');
+                        // Remove spy.
+                        spy.restore();
 
-                client.state.items.length.should.equal(1);
-                client.state.items[0].itemIdentifier.should.equal('3274626533');
-                client.state.items[0].title.should.equal('Helbred dit liv');
-                client.state.items[0].status.should.equal('checkedOut');
-
-                // Remove spy.
-                spy.restore();
-
-                done();
-            }, 400);
+                        done();
+                    }).catch(done.fail);
+                }, 400);
+            }).catch(done.fail);
         }, 400);
     }).catch(done.fail);
 });
@@ -169,25 +171,21 @@ it('Test that the checkInItems flow can be entered from initial state', done => 
 });
 
 it('Test that an item can be checked in', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
 
     setup().then(app => {
-        client = app.services.state_machine.handleEvent({
-            token: '123',
-            name: 'Reset'
-        });
-
-        client = app.services.state_machine.action(client, 'enterFlow', {
+        app.services.state_machine.reset(client);
+        app.services.state_machine.action(client, 'enterFlow', {
             flow: 'checkInItems'
         });
         client.state.step.should.equal('checkInItems');
         client.state.flow.should.equal('checkInItems');
 
         const spy = sinon.spy(app.services.state_machine, 'handleEvent');
-
+        app.services.client.save(client.token, client);
         app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
@@ -201,17 +199,17 @@ it('Test that an item can be checked in', done => {
             const spyCall = app.services.state_machine.handleEvent.getCall(0);
             spyCall.firstArg.action.should.equal('checkInItem');
 
-            client = app.services.client.load('123');
+            app.services.client.load('123').then(function(client) {
+                client.state.items.length.should.equal(1);
+                client.state.items[0].itemIdentifier.should.equal('3274626533');
+                client.state.items[0].title.should.equal('Helbred dit liv');
+                client.state.items[0].status.should.equal('checkedIn');
 
-            client.state.items.length.should.equal(1);
-            client.state.items[0].itemIdentifier.should.equal('3274626533');
-            client.state.items[0].title.should.equal('Helbred dit liv');
-            client.state.items[0].status.should.equal('checkedIn');
+                // Remove spy.
+                spy.restore();
 
-            // Remove spy.
-            spy.restore();
-
-            done();
+                done();
+            }).catch(done.fail);
         }, 500);
     }).catch(done.fail);
 });
@@ -239,21 +237,19 @@ it('Test that the user ends in loginScan when changing flow from checkInItems to
 });
 
 it('Test that the user can change to checkOutItems when logged in', done => {
-    let client = {
+    const client = {
         token: '234',
         config: config.fbs
     };
 
     setup().then(app => {
-        // Set client configuration in state.
         app.services.client.save(client.token, client);
-
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '234',
             name: 'Reset'
         });
 
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '234',
             name: 'Action',
             action: 'enterFlow',
@@ -262,7 +258,7 @@ it('Test that the user can change to checkOutItems when logged in', done => {
             }
         });
 
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '234',
             name: 'Action',
             action: 'login',
@@ -272,61 +268,63 @@ it('Test that the user can change to checkOutItems when logged in', done => {
             }
         });
 
-        // @TODO: Handle this better than timeout.
+        // Timeout here is due to the fact the the system bus sends message to FBS that have to make changes.
         setTimeout(() => {
-            client = app.services.client.load('234');
+            app.services.client.load('234').then(function(client) {
+                client.state.step.should.equal('checkOutItems');
+                client.state.flow.should.equal('checkOutItems');
 
-            client.state.step.should.equal('checkOutItems');
-            client.state.flow.should.equal('checkOutItems');
+                client.state.user.name.should.equal('Testkort');
+                client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
 
-            client.state.user.name.should.equal('Testkort');
-            client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
+                app.services.state_machine.handleEvent({
+                    token: '234',
+                    name: 'Action',
+                    action: 'changeFlow',
+                    data: {
+                        flow: 'checkInItems'
+                    }
+                });
 
-            client = app.services.state_machine.handleEvent({
-                token: '234',
-                name: 'Action',
-                action: 'changeFlow',
-                data: {
-                    flow: 'checkInItems'
-                }
-            });
+                setTimeout(() => {
+                    client.state.step.should.equal('checkInItems');
+                    client.state.flow.should.equal('checkInItems');
 
-            client.state.step.should.equal('checkInItems');
-            client.state.flow.should.equal('checkInItems');
+                    app.services.state_machine.handleEvent({
+                        token: '234',
+                        name: 'Action',
+                        action: 'changeFlow',
+                        data: {
+                            flow: 'checkOutItems'
+                        }
+                    });
 
-            client = app.services.state_machine.handleEvent({
-                token: '234',
-                name: 'Action',
-                action: 'changeFlow',
-                data: {
-                    flow: 'checkOutItems'
-                }
-            });
+                    setTimeout(() => {
+                        client.state.step.should.equal('checkOutItems');
+                        client.state.flow.should.equal('checkOutItems');
 
-            client.state.step.should.equal('checkOutItems');
-            client.state.flow.should.equal('checkOutItems');
-
-            done();
+                        done();
+                    }, 500);
+                }, 500);
+            }).catch(done.fail);
         }, 500);
     }).catch(done.fail);
 });
 
 it('Tests that status can be retrieved', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
 
     setup().then(app => {
-        // Set client configuration in state.
         app.services.client.save(client.token, client);
-
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Reset'
         });
 
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
             action: 'enterFlow',
@@ -335,10 +333,7 @@ it('Tests that status can be retrieved', done => {
             }
         });
 
-        client.state.step.should.equal('loginScan');
-        client.state.flow.should.equal('status');
-
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
             action: 'login',
@@ -349,28 +344,28 @@ it('Tests that status can be retrieved', done => {
         });
 
         setTimeout(() => {
-            client = app.services.client.load('123');
+            app.services.client.load('123').then(function(client) {
+                client.state.step.should.equal('status');
+                client.state.flow.should.equal('status');
 
-            client.state.step.should.equal('status');
-            client.state.flow.should.equal('status');
+                client.state.user.name.should.equal('Testkort');
+                client.state.user.birthdayToday.should.equal(false);
 
-            client.state.user.name.should.equal('Testkort');
-            client.state.user.birthdayToday.should.equal(false);
+                client.state.holdItems.length.should.equal(3);
+                client.state.overdueItems.length.should.equal(1);
+                client.state.chargedItems.length.should.equal(3);
+                client.state.fineItems.length.should.equal(1);
+                client.state.recallItems.length.should.equal(1);
+                client.state.unavailableHoldItems.length.should.equal(1);
 
-            client.state.holdItems.length.should.equal(3);
-            client.state.overdueItems.length.should.equal(1);
-            client.state.chargedItems.length.should.equal(3);
-            client.state.fineItems.length.should.equal(1);
-            client.state.recallItems.length.should.equal(1);
-            client.state.unavailableHoldItems.length.should.equal(1);
-
-            done();
+                done();
+            }).catch(done.fail);
         }, 400);
     }).catch(done.fail);
 });
 
 it('Tests that status is refreshed when visiting status again after login', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
@@ -378,13 +373,12 @@ it('Tests that status is refreshed when visiting status again after login', done
     setup().then(app => {
         // Set client configuration in state.
         app.services.client.save(client.token, client);
-
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Reset'
         });
 
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
             action: 'enterFlow',
@@ -393,10 +387,7 @@ it('Tests that status is refreshed when visiting status again after login', done
             }
         });
 
-        client.state.step.should.equal('loginScan');
-        client.state.flow.should.equal('status');
-
-        client = app.services.state_machine.handleEvent({
+        app.services.state_machine.handleEvent({
             token: '123',
             name: 'Action',
             action: 'login',
@@ -407,48 +398,54 @@ it('Tests that status is refreshed when visiting status again after login', done
         });
 
         setTimeout(() => {
-            client = app.services.client.load('123');
-
-            client.state.step.should.equal('status');
-            client.state.flow.should.equal('status');
-            client.state.statusRefreshing.should.equal(false);
-
-            client.state.user.name.should.equal('Testkort');
-            client.state.user.birthdayToday.should.equal(false);
-
-            client.state.holdItems.length.should.equal(3);
-
-            client = app.services.state_machine.handleEvent({
-                token: '123',
-                name: 'Action',
-                action: 'changeFlow',
-                data: {
-                    flow: 'checkOutItems'
-                }
-            });
-
-            client.state.step.should.equal('checkOutItems');
-            client.state.flow.should.equal('checkOutItems');
-
-            client = app.services.state_machine.handleEvent({
-                token: '123',
-                name: 'Action',
-                action: 'changeFlow',
-                data: {
-                    flow: 'status'
-                }
-            });
-
-            client.state.statusRefreshing.should.equal(true);
-
-            setTimeout(() => {
+            app.services.client.load('123').then(function(client) {
                 client.state.step.should.equal('status');
                 client.state.flow.should.equal('status');
                 client.state.statusRefreshing.should.equal(false);
-                client.state.holdItems.length.should.equal(4);
 
-                done();
-            }, 400);
-        }, 400);
+                // Current number of items.
+                client.state.holdItems.length.should.equal(3);
+
+                app.services.state_machine.handleEvent({
+                    token: '123',
+                    name: 'Action',
+                    action: 'changeFlow',
+                    data: {
+                        flow: 'checkOutItems'
+                    }
+                });
+
+                app.services.state_machine.handleEvent({
+                    token: '123',
+                    name: 'Action',
+                    action: 'checkOutItem',
+                    data: {
+                        flow: 'checkOutItems'
+                    }
+                });
+
+                setTimeout(() => {
+                    client.state.step.should.equal('checkOutItems');
+                    client.state.flow.should.equal('checkOutItems');
+
+                    app.services.state_machine.handleEvent({
+                        token: '123',
+                        name: 'Action',
+                        action: 'changeFlow',
+                        data: {
+                            flow: 'status'
+                        }
+                    });
+
+                    setTimeout(() => {
+                        client.state.step.should.equal('status');
+                        client.state.flow.should.equal('status');
+                        client.state.holdItems.length.should.equal(4);
+
+                        done();
+                    }, 400);
+                }, 500);
+            }).catch(done.fail);
+        }, 500);
     }).catch(done.fail);
 });

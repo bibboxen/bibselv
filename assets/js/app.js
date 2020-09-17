@@ -34,7 +34,14 @@ function App({ token, socket }) {
             token: token
         });
 
-        // Configuration recieved from backend.
+        // Handle socket reconnections, by sending 'ClientReady' event.
+        socket.on('reconnect', (data) => {
+            socket.emit('ClientReady', {
+                token: token
+            });
+        });
+
+        // Configuration received from backend.
         socket.on('Configuration', (data) => {
             setBoxConfig(data);
         });
