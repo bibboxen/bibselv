@@ -130,9 +130,9 @@ it('Check the response date parser', function(done) {
 });
 
 // Disable new-cap rule to fix FBS object creation during tests.
-/* eslint-disable new-cap */
 it('Login with test user', function(done) {
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.login(config.username, config.pin).then(function() {
             // Resolved without error, hence logged in.
@@ -143,6 +143,7 @@ it('Login with test user', function(done) {
 
 it('Login with a user that not valid - test that it fails', function(done) {
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.login('3210519792', '54321').then(function(val) {
             try {
@@ -162,6 +163,7 @@ it('Login with a user that not valid - test that it fails', function(done) {
 
 it('Request library status', function(done) {
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.libraryStatus().then(function(res) {
             try {
@@ -180,6 +182,7 @@ it('Load patron information', function(done) {
     this.timeout('4000');
 
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.patronInformation(config.username, config.pin)
             .then(function(res) {
@@ -196,6 +199,7 @@ it('Load patron information', function(done) {
 
 it('Checkout (loan) book with id "3274626533"', function(done) {
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.checkout(config.username, config.pin, '3274626533')
             .then(function(res) {
@@ -211,6 +215,7 @@ it('Checkout (loan) book with id "3274626533"', function(done) {
 
 it('Renew book with is "3274626533"', function(done) {
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.renew(config.username, config.pin, '3274626533')
             .then(function(res) {
@@ -230,6 +235,7 @@ it('Renew book with is "3274626533"', function(done) {
 
 it('Renew all books all', function(done) {
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.renewAll(config.username, config.pin)
             .then(function(res) {
@@ -246,6 +252,7 @@ it('Renew all books all', function(done) {
 
 it('Check-in (return) book with id "3274626533"', function(done) {
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         fbs.checkIn('3274626533').then(function(res) {
             try {
@@ -271,6 +278,7 @@ const loans = [
 it('Check-out (loan) of 6 books fast', function(done) {
     this.timeout(10000);
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         Q.all([
             fbs.checkout(config.username, config.pin, loans[0]),
@@ -297,6 +305,7 @@ it('Check-out (loan) of 6 books fast', function(done) {
 it('Check-in (return) of 6 books fast', function(done) {
     this.timeout(10000);
     setup().then(function(app) {
+        // eslint-disable-next-line new-cap
         const fbs = new app.services.fbs(app.services.bus, config.fbs);
         Q.all([
             fbs.checkIn(loans[0]),
@@ -315,7 +324,6 @@ it('Check-in (return) of 6 books fast', function(done) {
         }, done).catch(done.fail);
     }, done).catch(done.fail);
 });
-/* eslint-enable new-cap */
 
 it('Teardown', function(done) {
     setup().then(function(app) {

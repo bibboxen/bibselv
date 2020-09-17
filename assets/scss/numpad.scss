@@ -18,7 +18,7 @@
 
         // Text
         font-size: 2rem;
-        font-family: "Roboto", sans-serif;
+        font-family: $font-family-sans-serif;
 
         // Shadow
         @include box-shadow(3px, 3px, 6px, 1px, rgba(0, 0, 0, 0.4));

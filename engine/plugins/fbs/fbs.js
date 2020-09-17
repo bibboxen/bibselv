@@ -295,6 +295,8 @@ module.exports = function(options, imports, register) {
      *
      * State machine that handles the FBS online/offline state.
      */
+    // @TODO: Remove eslint exception when the variable is used again.
+    /* eslint-disable no-unused-vars */
     const checkOnlineState = (config) => {
         // Clear extra timeout, to make sure only one is running.
         if (ensureCheckOnlineStateTimeout != null) {
@@ -376,7 +378,9 @@ module.exports = function(options, imports, register) {
     // @TODO: GET CONFIG FOR TESTING ONLINE STATE. SHOULD BE AN BUS EVENT AND KILL ON DISCONNECTION.
     // @TODO: GLOBAL ONLINE CHECKER.
     //
-    //checkOnlineState();
+    // checkOnlineState();
+    // @TODO: Remove eslint exception when the variable is used again.
+    /* eslint-enable no-unused-vars */
 
     /**
      * Listen to login requests.
