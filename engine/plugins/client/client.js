@@ -6,26 +6,31 @@
 'use strict';
 
 const debug = require('debug')('bibbox:CLIENT:main');
-const redis = require("redis");
+const redis = require('redis');
 const Q = require('q');
 
 /**
  * The Client object.
  *
+ * @param redisConfig
+ *   Redis configuration.
+ * @param persistent
+ *   If true redis will be use else in-memory store (mostly useful for testing).
+ *
  * @constructor
  */
 const Client = function Client(redisConfig, persistent = false) {
     this.persistent = persistent;
-    this.clients = []
+    this.clients = [];
 
     if (this.persistent) {
         // Extend configuration object with an connection plan.
         redisConfig.retry_strategy = function(options) {
-            if (options.error && options.error.code === "ECONNREFUSED") {
-                return new Error("The server refused the connection");
+            if (options.error && options.error.code === 'ECONNREFUSED') {
+                return new Error('The server refused the connection');
             }
             if (options.total_retry_time > 1000 * 60 * 60) {
-                return new Error("Retry time exhausted");
+                return new Error('Retry time exhausted');
             }
             if (options.attempt > 10) {
                 return undefined;
@@ -44,7 +49,9 @@ const Client = function Client(redisConfig, persistent = false) {
  * @param token
  *   The token for the client.
  * @param config
+ *   Configuration for FBS.
  * @param state
+ *   The current state.
  *
  * @return {*}
  *   The client for the token.
@@ -54,7 +61,7 @@ Client.prototype.load = function load(token, config = {}, state = {}) {
     let client = false;
 
     if (this.persistent) {
-        this.storage.get(token, function (err, data) {
+        this.storage.get(token, function get(err, data) {
             if (err) {
                 deferred.resolve({
                     token: token,
@@ -68,8 +75,7 @@ Client.prototype.load = function load(token, config = {}, state = {}) {
                 deferred.resolve(client);
             }
         });
-    }
-    else {
+    } else {
         if (Object.prototype.hasOwnProperty.call(this.clients, token)) {
             debug('Loaded client: ' + token);
             deferred.resolve(this.clients[token]);
@@ -94,7 +100,7 @@ Client.prototype.load = function load(token, config = {}, state = {}) {
  * @param client
  *   The client.
  */
-Client.prototype.save = async function save (token, client) {
+Client.prototype.save = async function save(token, client) {
     debug('Saving client: ' + token);
     if (this.persistent) {
         this.storage.set(token, JSON.stringify(client));
@@ -113,11 +119,10 @@ Client.prototype.remove = function remove(token) {
     debug('Remove client: ' + token);
     if (this.persistent) {
         this.storage.del(token);
-    }
-    else {
+    } else {
         delete this.clients[token];
     }
-}
+};
 
 /**
  * Register the plugin with architect.
@@ -130,7 +135,7 @@ Client.prototype.remove = function remove(token) {
  *   Callback function used to register this plugin.
  */
 module.exports = function(options, imports, register) {
-    const persistent = Object.prototype.hasOwnProperty.call(options, 'persistent') ? options.persistent : false
+    const persistent = Object.prototype.hasOwnProperty.call(options, 'persistent') ? options.persistent : false;
     const client = new Client(options.config, persistent);
 
     register(null, {

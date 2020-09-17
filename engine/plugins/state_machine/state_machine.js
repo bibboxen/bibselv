@@ -323,7 +323,7 @@ module.exports = function(options, imports, register) {
         debug('handleEvent');
         debug(event);
 
-        clientModule.load(event.token).then(function (client) {
+        clientModule.load(event.token).then(function load(client) {
             switch (event.name) {
                 case 'Reset':
                     client = stateMachine.reset(client);
@@ -361,7 +361,7 @@ module.exports = function(options, imports, register) {
     bus.on('state_machine.start', (data) => {
         debug('state_machine.start', data.token);
 
-        clientModule.load(data.token, data.config).then(function (client) {
+        clientModule.load(data.token, data.config).then(function load(client) {
             client = stateMachine.reset(client);
             clientModule.save(data.token, client);
 

@@ -81,7 +81,7 @@ it('Test that the checkOutItems flow can be entered from initial state', done =>
 });
 
 it('Test that test user can log in and check out an item', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
@@ -116,7 +116,7 @@ it('Test that test user can log in and check out an item', done => {
 
         // @TODO: Handle this better than timeout.
         setTimeout(() => {
-            app.services.client.load('123').then(function (client) {
+            app.services.client.load('123').then(function(client) {
                 client.state.step.should.equal('checkOutItems');
                 client.state.flow.should.equal('checkOutItems');
 
@@ -137,7 +137,7 @@ it('Test that test user can log in and check out an item', done => {
                     const spyCall = app.services.state_machine.handleEvent.getCall(3);
                     spyCall.firstArg.action.should.equal('checkOutItem');
 
-                    app.services.client.load('123').then(function (client) {
+                    app.services.client.load('123').then(function(client) {
                         client.state.items.length.should.equal(1);
                         client.state.items[0].itemIdentifier.should.equal('3274626533');
                         client.state.items[0].title.should.equal('Helbred dit liv');
@@ -147,9 +147,9 @@ it('Test that test user can log in and check out an item', done => {
                         spy.restore();
 
                         done();
-                    });
+                    }).catch(done.fail);
                 }, 400);
-            });
+            }).catch(done.fail);
         }, 400);
     }).catch(done.fail);
 });
@@ -171,7 +171,7 @@ it('Test that the checkInItems flow can be entered from initial state', done => 
 });
 
 it('Test that an item can be checked in', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
@@ -199,7 +199,7 @@ it('Test that an item can be checked in', done => {
             const spyCall = app.services.state_machine.handleEvent.getCall(0);
             spyCall.firstArg.action.should.equal('checkInItem');
 
-            app.services.client.load('123').then(function (client) {
+            app.services.client.load('123').then(function(client) {
                 client.state.items.length.should.equal(1);
                 client.state.items[0].itemIdentifier.should.equal('3274626533');
                 client.state.items[0].title.should.equal('Helbred dit liv');
@@ -209,7 +209,7 @@ it('Test that an item can be checked in', done => {
                 spy.restore();
 
                 done();
-            });
+            }).catch(done.fail);
         }, 500);
     }).catch(done.fail);
 });
@@ -237,7 +237,7 @@ it('Test that the user ends in loginScan when changing flow from checkInItems to
 });
 
 it('Test that the user can change to checkOutItems when logged in', done => {
-    let client = {
+    const client = {
         token: '234',
         config: config.fbs
     };
@@ -270,7 +270,7 @@ it('Test that the user can change to checkOutItems when logged in', done => {
 
         // Timeout here is due to the fact the the system bus sends message to FBS that have to make changes.
         setTimeout(() => {
-            app.services.client.load('234').then(function (client) {
+            app.services.client.load('234').then(function(client) {
                 client.state.step.should.equal('checkOutItems');
                 client.state.flow.should.equal('checkOutItems');
 
@@ -306,13 +306,13 @@ it('Test that the user can change to checkOutItems when logged in', done => {
                         done();
                     }, 500);
                 }, 500);
-            });
+            }).catch(done.fail);
         }, 500);
     }).catch(done.fail);
 });
 
 it('Tests that status can be retrieved', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
@@ -344,7 +344,7 @@ it('Tests that status can be retrieved', done => {
         });
 
         setTimeout(() => {
-            app.services.client.load('123').then(function (client) {
+            app.services.client.load('123').then(function(client) {
                 client.state.step.should.equal('status');
                 client.state.flow.should.equal('status');
 
@@ -359,13 +359,13 @@ it('Tests that status can be retrieved', done => {
                 client.state.unavailableHoldItems.length.should.equal(1);
 
                 done();
-            });
+            }).catch(done.fail);
         }, 400);
     }).catch(done.fail);
 });
 
 it('Tests that status is refreshed when visiting status again after login', done => {
-    let client = {
+    const client = {
         token: '123',
         config: config.fbs
     };
@@ -398,7 +398,7 @@ it('Tests that status is refreshed when visiting status again after login', done
         });
 
         setTimeout(() => {
-            app.services.client.load('123').then(function (client) {
+            app.services.client.load('123').then(function(client) {
                 client.state.step.should.equal('status');
                 client.state.flow.should.equal('status');
                 client.state.statusRefreshing.should.equal(false);
@@ -445,7 +445,7 @@ it('Tests that status is refreshed when visiting status again after login', done
                         done();
                     }, 400);
                 }, 500);
-            });
+            }).catch(done.fail);
         }, 500);
     }).catch(done.fail);
 });
