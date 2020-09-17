@@ -323,27 +323,25 @@ module.exports = function(options, imports, register) {
         debug('handleEvent');
         debug(event);
 
-        let client = clientModule.load(event.token);
+        clientModule.load(event.token).then(function (client) {
+            switch (event.name) {
+                case 'Reset':
+                    client = stateMachine.reset(client);
+                    break;
+                case 'Action':
+                    client = stateMachine.action(client, event.action, event.data);
+                    break;
+                default:
+                    // Ignore other event names.
+                    return client;
+            }
 
-        switch (event.name) {
-            case 'Reset':
-                client = stateMachine.reset(client);
-                break;
-            case 'Action':
-                client = stateMachine.action(client, event.action, event.data);
-                break;
-            default:
-                // Ignore other event names.
-                return client;
-        }
+            client.actionData = null;
+            clientModule.save(event.token, client);
 
-        client.actionData = null;
-        clientModule.save(event.token, client);
-
-        // Emit new client state.
-        bus.emit('state_machine.state_update.' + client.token, client.state);
-
-        return client;
+            // Emit new client state.
+            bus.emit('state_machine.state_update.' + client.token, client.state);
+        });
     };
 
     stateMachine.handleEvent = handleEvent;
@@ -363,11 +361,12 @@ module.exports = function(options, imports, register) {
     bus.on('state_machine.start', (data) => {
         debug('state_machine.start', data.token);
 
-        let client = clientModule.load(data.token, data.config);
-        client = stateMachine.reset(client);
-        clientModule.save(data.token, client);
+        clientModule.load(data.token, data.config).then(function (client) {
+            client = stateMachine.reset(client);
+            clientModule.save(data.token, client);
 
-        bus.emit(data.busEvent, client);
+            bus.emit(data.busEvent, client);
+        });
     });
 
     // Register exposed function with architect.

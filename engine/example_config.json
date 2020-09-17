@@ -14,5 +14,10 @@
     "logstash": {
         "host": "logstash",
         "port": 28777
+    },
+    "redis": {
+        "host": "redis",
+        "port": 6379,
+        "db": 0
     }
 }
