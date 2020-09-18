@@ -47,6 +47,12 @@ const plugins = [
         isEventExpired: isEventExpired
     },
     {
+        packagePath: './plugins/logger',
+        host: config.logstash.host,
+        port: config.logstash.port,
+        isEventExpired: isEventExpired
+    },
+    {
         packagePath: './plugins/network',
         isEventExpired: isEventExpired
     },
@@ -61,6 +67,8 @@ const plugins = [
     },
     {
         packagePath: './plugins/client',
+        config: config.redis,
+        persistent: true,
         isEventExpired: isEventExpired
     },
     {
