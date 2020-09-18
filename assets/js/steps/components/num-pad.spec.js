@@ -13,14 +13,14 @@ describe('Tests of numpad component', () => {
         shallow(<NumPad handleNumpadPress={() => console.log()} />);
     });
 
-    it('renders from 1 to 9, number sign, zero and C', () => {
+    it('renders from 1 to 9, delete, zero and ok', () => {
         const wrapper = mount(
             <NumPad handleNumpadPress={() => console.log()} />
         );
         expect(wrapper.text()).toEqual('123456789Slet0Ok');
     });
 
-    it('renders from 1 to 9, number sign, zero and C', () => {
+    it('renders from 1 to 9, inputted delete, zero and inputted ok', () => {
         const wrapper = mount(
             <NumPad deleteButtonLabel="delete" okButtonLabel="okidoki" handleNumpadPress={() => console.log()} />
         );
