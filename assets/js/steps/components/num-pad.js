@@ -1,10 +1,14 @@
 /**
  * @file
+ *
  * A numpad for entering book ids and login.
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
+import { faEraser } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * NumPad.
@@ -14,13 +18,18 @@ import PropTypes from 'prop-types';
  * @return {*}
  * @constructor
  */
-function NumPad({ handleNumpadPress }) {
-    const buttons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '#', '0', 'C'];
+function NumPad({ handleNumpadPress, okButtonLabel, deleteButtonLabel }) {
+    const buttons = [{ label: '1' }, { label: '2' }, { label: '3' }, { label: '4' }, { label: '5' }, { label: '6' }, { label: '7' }, { label: '8' }, { label: '9' }, { label: deleteButtonLabel ? deleteButtonLabel : 'Slet', icon: faEraser, extraClass: 'red' }, { label: '0' }, { label: okButtonLabel ? okButtonLabel : 'Ok', icon: faArrowAltCircleRight, extraClass: 'green' }];
     return (
         <div className='num-pad'>
-            {buttons.map((button) => (
-                <div key={button} className='button-numpad' onClick={() => handleNumpadPress( button )}>
-                    {button}
+            {buttons.map(({ label, icon, extraClass }) => (
+                <div key={label} className={extraClass ? `button-numpad ${extraClass}` : `button-numpad`} onClick={() => handleNumpadPress(label)}>
+                    {label}
+                    {icon &&
+                        <div className="icon">
+                            <FontAwesomeIcon icon={icon} />
+                        </div>
+                    }
                 </div>
             ))}
         </div>
@@ -28,7 +37,9 @@ function NumPad({ handleNumpadPress }) {
 }
 
 NumPad.propTypes = {
-    handleNumpadPress: PropTypes.func.isRequired
+    handleNumpadPress: PropTypes.func.isRequired,
+    okButtonLabel: PropTypes.string,
+    deleteButtonLabel: PropTypes.string,
 };
 
 export default NumPad;

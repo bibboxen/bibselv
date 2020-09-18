@@ -21,7 +21,7 @@ import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import NumPad from '../steps/components/numPad';
+import NumPad from './components/num-pad';
 
 /**
  * CheckInItems component.
@@ -77,13 +77,24 @@ function CheckInItems({ actionHandler }) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
 
-    /**
+   /**
    * Handles numpadpresses.
    *
    * @param key
+   *   The pressed button.
    */
     function onNumPadPress(key) {
-        let typedBarcode = `${scannedBarcode}${key}`;
+        let typedBarcode = `${scannedBarcode}`;
+        if (key.toLowerCase() === 'slet') {
+            typedBarcode = typedBarcode.slice(0, -1);
+        } else if (key.toLowerCase() === 'ok') {
+            actionHandler('checkInItem', {
+                itemIdentifier: scannedBarcode
+            });
+            setScannedBarcode('');
+        } else {
+            typedBarcode = `${scannedBarcode}${key}`;
+        }
         setScannedBarcode(typedBarcode)
     }
     return (

@@ -3,7 +3,7 @@
  * For users that scans username and types password to login.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
 import Input from '../components/input';
 import HelpBox from '../components/help-box';
@@ -19,7 +19,7 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
-
+import MachineStateContext from '../../context/machine-state-context';
 /**
  * ScanPasswordLogin.
  *
@@ -31,14 +31,16 @@ import {
  * @constructor
  */
 function ScanPasswordLogin({ actionHandler }) {
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState('C023648674');
     const [password, setPassword] = useState('');
     const [subheader, setSubheader] = useState('Scan dit bibliotekskort');
     const [helpboxText, setHelpboxText] = useState(
         'Brug håndscanneren til at scanne stregkoden din lånerkort.'
     );
-    const [usernameScanned, setUsernameScanned] = useState(false);
-
+    const [usernameScanned, setUsernameScanned] = useState(true);
+    const context = useContext(MachineStateContext);
+    const loginButtonLabel = "Login";
+    const deleteButtonLabel = "Slet";
     /**
      * Setup component.
      *
@@ -67,35 +69,33 @@ function ScanPasswordLogin({ actionHandler }) {
     }, [actionHandler]);
 
     /**
-     * Handles key presses for username and password.
-     *
-     * @param key
-     */
-    function onNumPadPress({ key }) {
+       * Handles numpadpresses.
+       *
+       * @param key
+       *   The pressed button.
+       */
+    function onNumPadPress(key) {
         if (!usernameScanned) {
-            key.toLowerCase() === 'c'
+            key === deleteButtonLabel
                 ? setUsername('')
                 : setUsername(`${username}${key}`);
         } else {
-            key.toLowerCase() === 'c'
-                ? setPassword('')
-                : setPassword(`${password}${key}`);
+            if (key === loginButtonLabel) {
+                login();
+                return;
+            } else {
+                key === deleteButtonLabel
+                    ? setPassword(password.slice(0, -1))
+                    : setPassword(`${password}${key}`);
+            }
         }
     }
 
-    /**
-     * Handles button press for going from username to password,
-     * and for password to actual login.
-     */
-    function onButtonPress() {
-        if (!usernameScanned) {
-            setUsernameScanned(true);
-        } else {
-            actionHandler('login', {
-                username: username,
-                password: password
-            });
-        }
+    function login() {
+        actionHandler('login', {
+            username: username,
+            password: password
+        });
     }
 
     return (
@@ -111,15 +111,7 @@ function ScanPasswordLogin({ actionHandler }) {
                     <div className='col-md-2' />
                     <div className='col-md mt-4'>
                         {!usernameScanned && (
-                            <div
-                                className='content'
-                                onClick={() =>
-                                    actionHandler('login', {
-                                        username: 'C023648674',
-                                        password: ''
-                                    })
-                                }
-                            >
+                            <div className='content'>
                                 <FontAwesomeIcon icon={faBarcode} />
                             </div>
                         )}
@@ -128,22 +120,27 @@ function ScanPasswordLogin({ actionHandler }) {
                                 name='password'
                                 label='Password'
                                 value={password}
+                                type="password"
                                 readOnly
                             />
                         )}
                         {usernameScanned && (
-                            <NumPad handleNumpadPress={onNumPadPress} />
+                            <NumPad okButtonLabel={loginButtonLabel} deleteButtonLabel={deleteButtonLabel} handleNumpadPress={onNumPadPress} />
                         )}
                     </div>
                 </div>
             </div>
             <div className='col-md-3 m-3 d-flex flex-column justify-content-between'>
                 {!usernameScanned && <HelpBox text={helpboxText} />}
-                {usernameScanned && (
+                {context.boxConfig.get.debugEnabled && (
                     <Button
-                        label={'Login'}
+                        label={'Snydelogin'}
                         icon={faArrowAltCircleRight}
-                        handleButtonPress={onButtonPress}
+                        handleButtonPress={() =>
+                            actionHandler('login', {
+                                username: 'C023648674',
+                                password: ''
+                            })}
                         which='login-button'
                     />
                 )}

@@ -21,6 +21,7 @@ import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBookReader } from '@fortawesome/free-solid-svg-icons';
+import NumPad from './components/num-pad';
 
 /**
  * CheckOutItems component.
@@ -73,6 +74,29 @@ function CheckOutItems({ actionHandler }) {
         };
     }, [actionHandler]);
 
+/**
+   * Handles numpadpresses.
+   *
+   * @param key
+   *   The pressed button.
+   */
+  function onNumPadPress(key) {
+    let typedBarcode = `${scannedBarcode}`;
+    if (key.toLowerCase() === 'slet') {
+        typedBarcode = typedBarcode.slice(0, -1);
+    } else if (key.toLowerCase() === 'ok') {
+        actionHandler('checkOutItem', {
+            itemIdentifier: scannedBarcode
+        });
+        setScannedBarcode('');
+    } else {
+        typedBarcode = `${scannedBarcode}${key}`;
+    }
+    setScannedBarcode(typedBarcode)
+
+}
+
+
     let items = [];
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
@@ -99,6 +123,10 @@ function CheckOutItems({ actionHandler }) {
                             readOnly
                         />
                         {items && <BannerList items={items} />}
+                                                {context.boxConfig.get.debugEnabled && (
+                            <NumPad handleNumpadPress={onNumPadPress} />
+                        )}
+
                     </div>
                 </div>
             </div>
