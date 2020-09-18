@@ -31,13 +31,13 @@ import MachineStateContext from '../../context/machine-state-context';
  * @constructor
  */
 function ScanPasswordLogin({ actionHandler }) {
-    const [username, setUsername] = useState('C023648674');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [subheader, setSubheader] = useState('Scan dit bibliotekskort');
     const [helpboxText, setHelpboxText] = useState(
         'Brug håndscanneren til at scanne stregkoden din lånerkort.'
     );
-    const [usernameScanned, setUsernameScanned] = useState(true);
+    const [usernameScanned, setUsernameScanned] = useState(false);
     const context = useContext(MachineStateContext);
     const loginButtonLabel = "Login";
     const deleteButtonLabel = "Slet";
@@ -125,7 +125,9 @@ function ScanPasswordLogin({ actionHandler }) {
                             />
                         )}
                         {usernameScanned && (
-                            <NumPad okButtonLabel={loginButtonLabel} deleteButtonLabel={deleteButtonLabel} handleNumpadPress={onNumPadPress} />
+                            <NumPad okButtonLabel={loginButtonLabel} 
+                                    deleteButtonLabel={deleteButtonLabel} 
+                                    handleNumpadPress={onNumPadPress} />
                         )}
                     </div>
                 </div>

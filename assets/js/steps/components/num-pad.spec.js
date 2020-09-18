@@ -17,7 +17,14 @@ describe('Tests of numpad component', () => {
         const wrapper = mount(
             <NumPad handleNumpadPress={() => console.log()} />
         );
-        expect(wrapper.text()).toEqual('123456789#0C');
+        expect(wrapper.text()).toEqual('123456789Slet0Ok');
+    });
+
+    it('renders from 1 to 9, number sign, zero and C', () => {
+        const wrapper = mount(
+            <NumPad deleteButtonLabel="delete" okButtonLabel="okidoki" handleNumpadPress={() => console.log()} />
+        );
+        expect(wrapper.text()).toEqual('123456789delete0okidoki');
     });
 
     it('works when a button is clicked', () => {

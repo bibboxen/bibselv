@@ -34,6 +34,8 @@ import NumPad from './components/num-pad';
 function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
+    const loginButtonLabel = "Ok";
+    const deleteButtonLabel = "Slet";
 
     /**
      * Set up barcode scanner listener.
@@ -85,9 +87,9 @@ function CheckInItems({ actionHandler }) {
    */
     function onNumPadPress(key) {
         let typedBarcode = `${scannedBarcode}`;
-        if (key.toLowerCase() === 'slet') {
+        if (key === deleteButtonLabel) {
             typedBarcode = typedBarcode.slice(0, -1);
-        } else if (key.toLowerCase() === 'ok') {
+        } else if (key === loginButtonLabel) {
             actionHandler('checkInItem', {
                 itemIdentifier: scannedBarcode
             });
@@ -120,7 +122,9 @@ function CheckInItems({ actionHandler }) {
                         />
                         {items && <BannerList items={items} />}
                         {context.boxConfig.get.debugEnabled && (
-                            <NumPad handleNumpadPress={onNumPadPress} />
+                            <NumPad handleNumpadPress={onNumPadPress} 
+                                    deleteButtonLabel={deleteButtonLabel} 
+                                    okButtonLabel={okButtonLabel} />
                         )}
                     </div>
                 </div>

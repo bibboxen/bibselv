@@ -5,9 +5,20 @@
 
 import React from 'react';
 import ScanPasswordLogin from './scan-password-login';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { it } from '@jest/globals';
-
+import MachineStateContext from '../../context/machine-state-context';
 it('renders without crashing', () => {
-    shallow(<ScanPasswordLogin actionHandler={() => {}} />);
+    const machineState = {
+        user: {
+            name: 'TestName'
+        },
+        items: []
+    };
+
+    shallow(
+        <MachineStateContext.Provider value={machineState}>
+            <ScanPasswordLogin actionHandler={() => {}} />
+        </MachineStateContext.Provider>
+    );
 });
