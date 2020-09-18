@@ -127,11 +127,12 @@ class TokenService
     {
         $batchSize = 100;
         $i = 1;
-        $q = $this->entityManager->createQuery('SELECT t from App\Entity\Token t WHERE t.tokenExpires < CURRENT_TIMESTAMP()');
+        $q = $this->entityManager->createQuery('SELECT t from App\Entity\Token t WHERE t.tokenExpires < :time')
+            ->setParameter('time', time());
         $iterableResult = $q->iterate();
-        while (($row = $iterableResult->next()) !== false) {
+        while (false !== ($row = $iterableResult->next())) {
             $this->entityManager->remove($row[0]);
-            if (($i % $batchSize) === 0) {
+            if (0 === ($i % $batchSize)) {
                 $this->entityManager->flush();
                 $this->entityManager->clear();
             }
@@ -139,7 +140,7 @@ class TokenService
         }
         $this->entityManager->flush();
 
-        return $i-1;
+        return $i - 1;
     }
 
     /**
