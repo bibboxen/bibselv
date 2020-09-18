@@ -84,9 +84,9 @@ function CheckOutItems({ actionHandler }) {
    */
   function onNumPadPress(key) {
     let typedBarcode = `${scannedBarcode}`;
-    if (key.toLowerCase() === 'slet') {
+    if (key.toLowerCase() === deleteButtonLabel) {
         typedBarcode = typedBarcode.slice(0, -1);
-    } else if (key.toLowerCase() === 'ok') {
+    } else if (key.toLowerCase() === okButtonLabel) {
         actionHandler('checkOutItem', {
             itemIdentifier: scannedBarcode
         });
