@@ -20,7 +20,7 @@ function NumPad({ handleNumpadPress }) {
     return (
         <div className='num-pad'>
             {buttons.map((button) => (
-                <div key={button} className='button-numpad' onClick={() => handleNumpadPress({ button })}>
+                <div key={button} className='button-numpad' onClick={() => handleNumpadPress( button )}>
                     {button}
                 </div>
             ))}

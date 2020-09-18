@@ -22,6 +22,7 @@ import Header from './components/Header';
 import Input from './components/Input';
 import { adaptListOfBooksToBanner } from './utils/BannerAdapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
+import NumPad from '../steps/components/numPad';
 
 /**
  * CheckInItems component.
@@ -76,6 +77,16 @@ function CheckInItems({ actionHandler }) {
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
+
+      /**
+     * Handles numpadpresses.
+     *
+     * @param key
+     */
+    function onNumPadPress(key) {
+        let typedBarcode = `${scannedBarcode}${key}`;
+        setScannedBarcode(typedBarcode)
+    }
     return (
         <>
             <div className='col-md-9'>
@@ -85,6 +96,7 @@ function CheckInItems({ actionHandler }) {
                     which='checkInItems'
                     icon={faBook}
                 />
+
                 <div className='row'>
                     <div className='col-md-2' />
 
@@ -97,6 +109,9 @@ function CheckInItems({ actionHandler }) {
                             readOnly
                         />
                         {items && <BannerList items={items} />}
+                        {context.boxConfig.get.debugEnabled && (
+                            <NumPad handleNumpadPress={onNumPadPress} />
+                        )}
                     </div>
                 </div>
             </div>

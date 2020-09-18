@@ -21,6 +21,7 @@ body {
     margin: 0;
     height: 100%;
     width: 100%;
+    background-color: $slightly-white !important;
 }
 
 p {
@@ -48,21 +49,4 @@ h1 {
     height: 100%;
     max-width: 70%;
     margin: 0 auto;
-
-    &:after {
-        // Dislay & position
-        opacity: 0.3;
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: -1;
-    
-        // Image
-        content: '';
-        background: url('images/books.jpg');
-        background-size: cover;
-
-    }
 }
