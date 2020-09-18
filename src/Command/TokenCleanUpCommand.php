@@ -42,7 +42,7 @@ class TokenCleanUpCommand extends Command
     {
         $this
             ->setDescription('Handle tokens clean up')
-            ->addOption('token', null, InputOption::VALUE_OPTIONAL, 'If given only this token will be removed');
+            ->addOption('token', null, InputOption::VALUE_OPTIONAL, 'If specified only this token will be removed. It will be removed no matter if it is expired or not.');
     }
 
     /**
@@ -52,6 +52,7 @@ class TokenCleanUpCommand extends Command
     {
         $token = $input->getOption('token');
 
+        // If token is supplied then that token is removed, otherwise remove all expired tokens.
         if (!is_null($token)) {
             $this->tokenService->removeToken($token);
             $output->writeln('Token removed:'.$token);

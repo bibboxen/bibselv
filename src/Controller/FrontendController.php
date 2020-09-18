@@ -64,9 +64,9 @@ class FrontendController extends AbstractController
             return new Response('Bad request wrong configuration id', 400);
         }
 
-        // Generate new token on each page load. We have currently no way to identifier an page load/reload on a given
-        // client, so we assume that every new frontpage is a new connection.
-        // @TODO: change the front-end to request an token if it don't have one or needs a new one.
+        // Generate new token on each page load. We have currently no way to identify if a page is a reload of a given
+        // client, so we assume that every new frontpage is a new connection..
+        // @TODO: Change the front-end to request a token if it does not have one or if it needs a new one.
         $token = $this->tokenService->create($boxConfig);
 
         return $this->render(
