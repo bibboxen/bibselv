@@ -7,7 +7,7 @@
 namespace App\Security;
 
 use App\Exception\UnsupportedCredentialsTypeException;
-use App\Repository\TokenRepository;
+use App\Service\TokenService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,16 +22,17 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    private TokenRepository $tokenRepository;
+    private TokenService $tokenService;
 
     /**
      * TokenAuthenticator constructor.
      *
-     * @param TokenRepository $tokenRepository
+     * @param tokenService $tokenService
+     *  Token service for token handling
      */
-    public function __construct(TokenRepository $tokenRepository)
+    public function __construct(TokenService $tokenService)
     {
-        $this->tokenRepository = $tokenRepository;
+        $this->tokenService = $tokenService;
     }
 
     /**
@@ -73,12 +74,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
 
-        $entity = $this->tokenRepository->findOneBy([
-            'token' => $this->getToken($credentials),
-        ]);
+        // Token form the request headers.
+        $token = $this->getToken($credentials);
 
         $user = null;
-        if (!is_null($entity)) {
+        if ($this->tokenService->isValid($token)) {
+            $entity = $this->tokenService->getToken($token);
             $user = new TokenUser();
             $user->setToken($entity->getToken());
             $user->setExpires($entity->getTokenExpires());
