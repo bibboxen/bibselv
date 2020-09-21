@@ -39,8 +39,8 @@ function ScanPasswordLogin({ actionHandler }) {
     );
     const [usernameScanned, setUsernameScanned] = useState(false);
     const context = useContext(MachineStateContext);
-    const loginButtonLabel = "Login";
-    const deleteButtonLabel = "Slet";
+    const loginButtonLabel = 'Login';
+    const deleteButtonLabel = 'Slet';
     /**
      * Setup component.
      *
@@ -82,7 +82,6 @@ function ScanPasswordLogin({ actionHandler }) {
         } else {
             if (key === loginButtonLabel) {
                 login();
-                return;
             } else {
                 key === deleteButtonLabel
                     ? setPassword(password.slice(0, -1))
@@ -125,9 +124,9 @@ function ScanPasswordLogin({ actionHandler }) {
                             />
                         )}
                         {usernameScanned && (
-                            <NumPad okButtonLabel={loginButtonLabel} 
-                                    deleteButtonLabel={deleteButtonLabel} 
-                                    handleNumpadPress={onNumPadPress} />
+                            <NumPad okButtonLabel={loginButtonLabel}
+                                deleteButtonLabel={deleteButtonLabel}
+                                handleNumpadPress={onNumPadPress} />
                         )}
                     </div>
                 </div>

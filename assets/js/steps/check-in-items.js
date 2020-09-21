@@ -79,10 +79,9 @@ function CheckInItems({ actionHandler }) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
 
-
     /**
      * Handles numpadpresses.
-     * 
+     *
      * @param key
      *    The pressed button.
      */
@@ -125,8 +124,8 @@ function CheckInItems({ actionHandler }) {
                         {items && <BannerList items={items} />}
                         {context.boxConfig.get.debugEnabled && (
                             <NumPad handleNumpadPress={onNumPadPress}
-                                    deleteButtonLabel={deleteButtonLabel}
-                                    okButtonLabel={loginButtonLabel} />
+                                deleteButtonLabel={deleteButtonLabel}
+                                okButtonLabel={loginButtonLabel} />
                         )}
                     </div>
                 </div>

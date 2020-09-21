@@ -76,10 +76,9 @@ function CheckOutItems({ actionHandler }) {
         };
     }, [actionHandler]);
 
-
     /**
      * Handles numpadpresses.
-     * 
+     *
      * @param key
      *   The pressed button.
      */
@@ -125,9 +124,9 @@ function CheckOutItems({ actionHandler }) {
                         />
                         {items && <BannerList items={items} />}
                         {context.boxConfig.get.debugEnabled && (
-                            <NumPad handleNumpadPress={onNumPadPress} 
-                                    deleteButtonLabel={deleteButtonLabel} 
-                                    okButtonLabel={loginButtonLabel} />
+                            <NumPad handleNumpadPress={onNumPadPress}
+                                deleteButtonLabel={deleteButtonLabel}
+                                okButtonLabel={loginButtonLabel} />
                         )}
 
                     </div>
