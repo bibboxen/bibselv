@@ -37,8 +37,8 @@ import NumPad from './components/num-pad';
 function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
-    const loginButtonLabel = "Ok";
-    const deleteButtonLabel = "Slet";
+    const loginButtonLabel = 'Ok';
+    const deleteButtonLabel = 'Slet';
 
     /**
      * Set up barcode scanner listener.
@@ -76,28 +76,27 @@ function CheckOutItems({ actionHandler }) {
         };
     }, [actionHandler]);
 
-/**
-   * Handles numpadpresses.
-   *
-   * @param key
-   *   The pressed button.
-   */
-  function onNumPadPress(key) {
-    let typedBarcode = `${scannedBarcode}`;
-    if (key.toLowerCase() === deleteButtonLabel) {
-        typedBarcode = typedBarcode.slice(0, -1);
-    } else if (key.toLowerCase() === okButtonLabel) {
-        actionHandler('checkOutItem', {
-            itemIdentifier: scannedBarcode
-        });
-        setScannedBarcode('');
-    } else {
-        typedBarcode = `${scannedBarcode}${key}`;
+
+    /**
+     * Handles numpadpresses.
+     * 
+     * @param key
+     *   The pressed button.
+     */
+    function onNumPadPress(key) {
+        let typedBarcode = `${scannedBarcode}`;
+        if (key.toLowerCase() === deleteButtonLabel) {
+            typedBarcode = typedBarcode.slice(0, -1);
+        } else if (key.toLowerCase() === loginButtonLabel) {
+            actionHandler('checkOutItem', {
+                itemIdentifier: scannedBarcode
+            });
+            setScannedBarcode('');
+        } else {
+            typedBarcode = `${scannedBarcode}${key}`;
+        }
+        setScannedBarcode(typedBarcode);
     }
-    setScannedBarcode(typedBarcode)
-
-}
-
 
     let items = [];
     if (context.machineState.get.items) {
@@ -128,7 +127,7 @@ function CheckOutItems({ actionHandler }) {
                         {context.boxConfig.get.debugEnabled && (
                             <NumPad handleNumpadPress={onNumPadPress} 
                                     deleteButtonLabel={deleteButtonLabel} 
-                                    okButtonLabel={okButtonLabel} />
+                                    okButtonLabel={loginButtonLabel} />
                         )}
 
                     </div>
