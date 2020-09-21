@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Token entity.
+ */
+
 namespace App\Entity;
 
 use App\Repository\TokenRepository;
