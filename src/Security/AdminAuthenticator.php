@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Authenticator for "/admin" user login.
+ */
+
 namespace App\Security;
 
 use App\Entity\User;
@@ -20,17 +25,28 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+/**
+ * Class AdminAuthenticator.
+ */
 class AdminAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
 
-    private $entityManager;
-    private $urlGenerator;
-    private $csrfTokenManager;
-    private $passwordEncoder;
+    private EntityManagerInterface $entityManager;
+    private UrlGeneratorInterface $urlGenerator;
+    private CsrfTokenManagerInterface $csrfTokenManager;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
+    /**
+     * AdminAuthenticator constructor.
+     *
+     * @param EntityManagerInterface $entityManager
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param CsrfTokenManagerInterface $csrfTokenManager
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     */
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->entityManager = $entityManager;
@@ -39,12 +55,18 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supports(Request $request)
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCredentials(Request $request)
     {
         $credentials = [
@@ -60,6 +82,9 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         return $credentials;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
@@ -70,36 +95,44 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            // Fail authentication with a custom error.
+            throw new CustomUserMessageAuthenticationException('Access denied');
         }
 
         return $user;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
+     * {@inheritdoc}
      */
     public function getPassword($credentials): ?string
     {
         return $credentials['password'];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('admin'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getLoginUrl()
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
