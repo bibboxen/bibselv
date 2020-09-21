@@ -81,7 +81,10 @@ function ScanPasswordLogin({ actionHandler }) {
                 : setUsername(`${username}${key}`);
         } else {
             if (key === loginButtonLabel) {
-                login();
+                actionHandler('login', {
+                    username: username,
+                    password: password
+                });
             } else {
                 key === deleteButtonLabel
                     ? setPassword(password.slice(0, -1))
@@ -89,14 +92,6 @@ function ScanPasswordLogin({ actionHandler }) {
             }
         }
     }
-
-    function login() {
-        actionHandler('login', {
-            username: username,
-            password: password
-        });
-    }
-
     return (
         <>
             <div className='col-md m-3'>
