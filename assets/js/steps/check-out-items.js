@@ -37,7 +37,8 @@ import NumPad from './components/num-pad';
 function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
-    const loginButtonLabel = 'Ok';
+    const [activerBanner, setActiverBanner] = useState(false);
+    const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
 
     /**
@@ -63,10 +64,8 @@ function CheckOutItems({ actionHandler }) {
                         break;
                 }
             } else {
-                actionHandler('checkOutItem', {
-                    itemIdentifier: code
-                });
                 setScannedBarcode(code);
+                handleItemCheckout();
             }
         };
 
@@ -80,21 +79,49 @@ function CheckOutItems({ actionHandler }) {
      * Handles numpadpresses.
      *
      * @param key
-     *   The pressed button.
+     *    The pressed button.
      */
     function onNumPadPress(key) {
         let typedBarcode = `${scannedBarcode}`;
-        if (key.toLowerCase() === deleteButtonLabel) {
-            typedBarcode = typedBarcode.slice(0, -1);
-        } else if (key.toLowerCase() === loginButtonLabel) {
-            actionHandler('checkOutItem', {
-                itemIdentifier: scannedBarcode
-            });
-            setScannedBarcode('');
-        } else {
-            typedBarcode = `${scannedBarcode}${key}`;
+        setActiverBanner(false);
+        switch (key) {
+            case deleteButtonLabel:
+                typedBarcode = typedBarcode.slice(0, -1);
+                break;
+            case okButtonLabel:
+                setActiverBanner(true);
+                handleItemCheckout();
+                break;
+            default:
+                typedBarcode = `${scannedBarcode}${key}`;
+                break;
         }
         setScannedBarcode(typedBarcode);
+    }
+
+    /**
+     * Handles keyboard inputs.
+     *
+     * @param target
+     *    The pressed target.
+     */
+    function onKeyboardInput({ target }) {
+        setActiverBanner(false);
+        setScannedBarcode(target.value);
+    }
+
+    /**
+     * Handles keyboard inputs.
+     *
+     * @param target
+     *    The pressed target.
+     */
+    function handleItemCheckout() {
+        setActiverBanner(true);
+        actionHandler('checkOutItem', {
+            itemIdentifier: scannedBarcode
+        });
+        setScannedBarcode('');
     }
 
     let items = [];
@@ -119,14 +146,14 @@ function CheckOutItems({ actionHandler }) {
                             name='barcode'
                             label='Stregkode'
                             value={scannedBarcode}
-                            which='CheckOutItems'
-                            readOnly
+                            activeBanner={activerBanner}
+                            onChange={onKeyboardInput}
                         />
                         {items && <BannerList items={items} />}
                         {context.boxConfig.get.debugEnabled && (
                             <NumPad handleNumpadPress={onNumPadPress}
                                 deleteButtonLabel={deleteButtonLabel}
-                                okButtonLabel={loginButtonLabel} />
+                                okButtonLabel={okButtonLabel}/>
                         )}
 
                     </div>

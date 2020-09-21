@@ -55,10 +55,7 @@ function ScanPasswordLogin({ actionHandler }) {
                     actionHandler('reset');
                 }
             } else {
-                setUsername(code);
-                setUsernameScanned(true);
-                setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny');
-                setSubheader('Tast dit password');
+                handleUserNameInput(code);
             }
         };
 
@@ -67,6 +64,19 @@ function ScanPasswordLogin({ actionHandler }) {
         // Stop scanning when component is unmounted.
         return () => barcodeScanner.stop();
     }, [actionHandler]);
+
+    /**
+       * For setting the username
+       *
+       * @param key
+       *   The username.
+       */
+    function handleUserNameInput(username) {
+        setUsername(username);
+        setUsernameScanned(true);
+        setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny');
+        setSubheader('Tast dit password');
+    }
 
     /**
        * Handles numpadpresses.
@@ -92,6 +102,17 @@ function ScanPasswordLogin({ actionHandler }) {
             }
         }
     }
+
+    /**
+     * Handles keyboard inputs.
+     *
+     * @param target
+     *    The pressed target.
+     */
+    function onKeyboardInput({ target }) {
+        setPassword(target.value);
+    }
+
     return (
         <>
             <div className='col-md m-3'>
@@ -105,24 +126,24 @@ function ScanPasswordLogin({ actionHandler }) {
                     <div className='col-md-2' />
                     <div className='col-md mt-4'>
                         {!usernameScanned && (
-                            <div className='content'>
-                                <FontAwesomeIcon icon={faBarcode} />
+                            // Todo Remember to remove thisss
+                            <div className='content' onClick={() => handleUserNameInput('C023648674')}>
+                                <FontAwesomeIcon icon={faBarcode}/>
                             </div>
                         )}
                         {usernameScanned && (
-                            <Input
-                                name='password'
-                                label='Password'
-                                value={password}
-                                type="password"
-                                readOnly
-                            />
-                        )}
-                        {usernameScanned && (
-                            <NumPad okButtonLabel={loginButtonLabel}
-                                deleteButtonLabel={deleteButtonLabel}
-                                handleNumpadPress={onNumPadPress} />
-                        )}
+                            <>
+                                <Input
+                                    name='password'
+                                    label='Password'
+                                    value={password}
+                                    type="password"
+                                    onChange={onKeyboardInput}
+                                />
+                                <NumPad okButtonLabel={loginButtonLabel}
+                                    deleteButtonLabel={deleteButtonLabel}
+                                    handleNumpadPress={onNumPadPress} />
+                            </>)}
                     </div>
                 </div>
             </div>

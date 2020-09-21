@@ -17,26 +17,20 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
  *   The label of the input.
  * @param value
  *   The value of the input.
- * @param which
- *   Which determines whether the info bar should be shown, and which color it should have.
+ * @param activeBanner
+ *   Determines if the banner is active.
  * @param rest
  *   Remaining attributes
  * @return {*}
  * @constructor
  */
-const Input = ({ name, label, value, readOnly, which, ...rest }) => {
-    let cssClass = 'input';
-    if (which && value) {
-        cssClass =
-            which.toLowerCase() === 'checkoutitems'
-                ? `info ${cssClass}`
-                : `${cssClass} info purple`;
-    }
+const Input = ({ name, label, value, activeBanner = false, ...rest }) => {
+    const cssClass = activeBanner ? 'input info' : 'input';
     return (
         <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
-            <input value={value} readOnly={readOnly} name={name} id={name} type='text' {...rest} />
-            {value && which && (
+            <input name={name} id={name} type='text' {...rest} value={value} />
+            {activeBanner && (
                 <div className='info-banner'>
                     <span className='info-banner-icon'>
                         <FontAwesomeIcon icon={faCheck} />
@@ -52,8 +46,8 @@ Input.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    readOnly: PropTypes.bool,
-    which: PropTypes.string
+    activeBanner: PropTypes.bool.isRequired,
+    rest: PropTypes.object
 };
 
 export default Input;

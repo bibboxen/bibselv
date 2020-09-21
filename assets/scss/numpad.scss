@@ -25,14 +25,14 @@
 
         &.green {
             // Color
-            background-color:$green;
+            border: 2px solid $green;
             font-size: 1.5rem;
             align-items: center;
         }
 
         &.red {
             // Color
-            background-color:$red;
+            border: 2px solid $red;
             font-size: 1.5rem;
             align-items: center;
         }
