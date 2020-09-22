@@ -42,7 +42,7 @@ export function adaptListOfBooksToBanner(listOfBooks) {
 }
 
 /**
- * Adapts books from state machine with message to the banner component. 
+ * Adapts books from state machine with message to the banner component.
  *
  * @param listOfBooks
  * @return {[]}
@@ -60,7 +60,7 @@ export function adaptListOfBooksWithMessage(listOfBooks) {
 
 /**
  * Adapts books from state machine to the banner component in status
- * where they are not sent with a status. 
+ * where they are not sent with a status.
  *
  * @param listOfBooks
  * @return {[]}
@@ -79,7 +79,7 @@ export function adaptListOfBooks(listOfBooks, status) {
 }
 
 /**
- * Adapts books from state machine with success (green banner) to the banner component. 
+ * Adapts books from state machine with success (green banner) to the banner component.
  *
  * @param listOfBooks
  * @return {[]}
