@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\BoxConfiguration;
+use App\Service\UuidEncoder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BoxConfigurationRepository extends ServiceEntityRepository
 {
+    use RepositoryUuidFinderTrait;
+
     /**
      * BoxConfigurationRepository constructor.
      *

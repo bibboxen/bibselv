@@ -18,28 +18,28 @@ class Sip2User
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups("boxConfiguration")
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups("boxConfiguration")
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @ORM\Column(type="string", length=16)
      *
      * @Groups("boxConfiguration")
      */
-    private $agencyId;
+    private ?string $agencyId;
 
     /**
      * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="sip2User")
@@ -51,7 +51,7 @@ class Sip2User
      *
      * @Groups("boxConfiguration")
      */
-    private $location;
+    private ?string $location;
 
     /**
      * Sip2User constructor.

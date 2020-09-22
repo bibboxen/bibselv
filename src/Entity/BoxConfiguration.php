@@ -5,49 +5,44 @@ namespace App\Entity;
 use App\Repository\BoxConfigurationRepository;
 use App\Utils\Types\LoginMethods;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BoxConfigurationRepository::class)
  */
-class BoxConfiguration
+class BoxConfiguration implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      * @ORM\Column(type="boolean")
      *
      * @Groups("boxConfiguration")
      */
-    private $hasPrinter;
+    private ?bool $hasPrinter;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups("boxConfiguration")
      */
-    private $reservedMaterialInstruction;
+    private ?string $reservedMaterialInstruction;
 
     /**
      * @ORM\Column(type="integer")
      *
      * @Groups("boxConfiguration")
      */
-    private $inactivityTimeOut;
+    private ?int $inactivityTimeOut;
 
     /**
      * @ORM\Column(type="boolean")
      *
      * @Groups("boxConfiguration")
      */
-    private $soundEnabled;
+    private ?bool $soundEnabled;
 
     /**
      * @ORM\ManyToOne(targetEntity=School::class, inversedBy="boxConfigurations")
@@ -55,33 +50,33 @@ class BoxConfiguration
      *
      * @Groups("boxConfiguration")
      */
-    private $school;
+    private ?School $school;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=25, nullable=true)
      *
      * @Groups("boxConfiguration")
      */
-    private $loginMethod;
+    private ?string $loginMethod;
 
     /**
      * @ORM\Column(type="boolean")
      *
      * @Groups("boxConfiguration")
      */
-    private $hasTouch;
+    private ?bool $hasTouch;
 
     /**
      * @ORM\Column(type="boolean")
      *
      * @Groups("boxConfiguration")
      */
-    private $hasKeyboard;
+    private ?bool $hasKeyboard;
 
     // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
     /**
@@ -92,7 +87,7 @@ class BoxConfiguration
      *
      * @Groups("boxConfiguration")
      */
-    private $sip2User;
+    private ?Sip2User $sip2User;
     // phpcs:enable
 
     /**
@@ -100,14 +95,22 @@ class BoxConfiguration
      *
      * @Groups("boxConfiguration")
      */
-    private $defaultPassword;
+    private ?string $defaultPassword;
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
      *
      * @Groups("boxConfiguration")
      */
-    private $debugEnabled = false;
+    private bool $debugEnabled = false;
+
+    /**
+     * BoxConfiguration constructor.
+     */
+    public function __construct()
+    {
+        $this->uuid = Uuid::uuid4();
+    }
 
     /**
      * BoxConfiguration toString.
@@ -422,5 +425,37 @@ class BoxConfiguration
         $this->debugEnabled = $debugEnabled;
 
         return $this;
+    }
+
+    /** {@inheritdoc} */
+    public function getRoles()
+    {
+        return [
+            'ROLE_BIBBOX_BOX'
+        ];
+    }
+
+    /** {@inheritdoc} */
+    public function getPassword(): ?string
+    {
+        return null;
+    }
+
+    /** {@inheritdoc} */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /** {@inheritdoc} */
+    public function getUsername(): string
+    {
+        return $this->id;
+    }
+
+    /** {@inheritdoc} */
+    public function eraseCredentials()
+    {
+        // Do nothing
     }
 }

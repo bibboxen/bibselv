@@ -20,22 +20,22 @@ class Token
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=32)
      */
-    private $token;
+    private ?string $token;
 
     /**
      * @ORM\Column(type="integer", options={"default" = 0})
      */
-    private $tokenExpires = 0;
+    private int $tokenExpires = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=BoxConfiguration::class)
      */
-    private $boxConfiguration;
+    private ?BoxConfiguration $boxConfiguration;
 
     /**
      * @return int|null

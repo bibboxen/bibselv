@@ -14,10 +14,10 @@ trait EntityIdTrait
      * @var int|null
      *
      * @ORM\Id
-     * @ORM\Column(type="integer", options={"unsigned": true})
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
-    protected $id;
+    protected ?int $id;
 
     /**
      * The internal primary identity key.
@@ -26,13 +26,23 @@ trait EntityIdTrait
      *
      * @ORM\Column(type="uuid", unique=true)
      */
-    protected $uuid;
+    protected UuidInterface $uuid;
 
+    /**
+     * Get the id
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get the uuid
+     *
+     * @return UuidInterface
+     */
     public function getUuid(): UuidInterface
     {
         return $this->uuid;

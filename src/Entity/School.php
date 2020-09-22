@@ -18,14 +18,14 @@ class School
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups("boxConfiguration")
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="school")
