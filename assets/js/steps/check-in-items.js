@@ -21,7 +21,7 @@ import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import NumPad from './components/num-pad';
+import NumPad from './utils/num-pad';
 
 /**
  * CheckInItems component.

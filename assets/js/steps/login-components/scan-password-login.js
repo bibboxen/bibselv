@@ -7,7 +7,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
 import Input from '../components/input';
 import HelpBox from '../components/help-box';
-import NumPad from '../components/num-pad';
+import NumPad from '../utils/num-pad';
 import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
