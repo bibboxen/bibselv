@@ -13,7 +13,7 @@ it('renders without crashing', () => {
     const machineState = {
         user: {
             name: 'TestName'
-        },
+        }
     };
 
     shallow(

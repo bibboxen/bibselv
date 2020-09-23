@@ -82,18 +82,18 @@ function CheckOutItems({ actionHandler }) {
      *    The pressed button.
      */
     function onNumPadPress(key) {
-        let typedBarcode = `${scannedBarcode}`;
+        const typedBarcode = `${scannedBarcode}`;
         setActiveBanner(false);
         switch (key) {
             case deleteButtonLabel:
-                setScannedBarcode(typedBarcode.slice(0, -1))
+                setScannedBarcode(typedBarcode.slice(0, -1));
                 break;
             case okButtonLabel:
                 setActiveBanner(true);
                 handleItemCheckOut(scannedBarcode);
                 break;
             default:
-                setScannedBarcode(`${typedBarcode}${key}`)
+                setScannedBarcode(`${typedBarcode}${key}`);
                 break;
         }
     }
