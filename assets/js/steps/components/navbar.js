@@ -13,6 +13,7 @@ import {
     faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * NavBar.
@@ -32,21 +33,21 @@ function NavBar({ actionHandler }) {
             which: 'checkOutItems',
             action: 'changeFlow',
             data: { flow: 'checkOutItems' },
-            label: 'Lån',
+            label: <FormattedMessage id='button-navbar-check-out' defaultMessage='Lån' />,
             icon: faBookReader
         },
         {
             which: 'status',
             action: 'changeFlow',
             data: { flow: 'status' },
-            label: 'Status',
+            label: <FormattedMessage id='button-navbar-status' defaultMessage='Status' />,
             icon: faInfoCircle
         },
         {
             which: 'checkInItems',
             action: 'changeFlow',
             data: { flow: 'checkInItems' },
-            label: 'Aflever',
+            label: <FormattedMessage id='button-navbar-check-in' defaultMessage='Aflever' />,
             icon: faBook
         }
     ];

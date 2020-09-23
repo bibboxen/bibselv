@@ -24,6 +24,7 @@ import {
 import {
     faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * Status.
@@ -36,7 +37,11 @@ import {
  */
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
-
+    const statusHeaderCurrentLoans = <FormattedMessage id='status-header-current-loans' defaultMessage='Aktuelle lån' />;
+    const statusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='Reservationer' />;
+    const statusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='Klar til afhentning' />;
+    const bannerHeaderBookWithFine = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='Denne bog har en bøde' />;
+    const bannerHeaderBookForCheckIn = <FormattedMessage id='banner-heaeder-book-for-check-in' defaultMessage='Denne bog skal afleveres' />;
     /**
      * Set up barcode listener.
      */
@@ -71,15 +76,15 @@ function Status({ actionHandler }) {
     const loanedItems = [
         ...adaptListOfBooksWithError(
             context.machineState.get.fineItems,
-            'Denne bog har en bøde'
+            bannerHeaderBookWithFine
         ),
         ...adaptListOfBooksWithError(
             context.machineState.get.overdueItems,
-            'Denne bog skal afleveres'
+            bannerHeaderBookForCheckIn
         ),
         ...adaptListOfBooksWithError(
             context.machineState.get.recallItems,
-            'Denne bog skal afleveres'
+            bannerHeaderBookForCheckIn
         ),
         ...adaptListOfBooks(context.machineState.get.chargedItems)
     ];
@@ -104,17 +109,19 @@ function Status({ actionHandler }) {
             </div>
             <div className='row'>
                 <div className='col-md-4 mt-4'>
-                    <BannerList title={'Aktuelle lån'} items={loanedItems} />
+                    <BannerList
+                        title={statusHeaderCurrentLoans}
+                        items={loanedItems} />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
-                        title={'Reservationer'}
+                        title={statusHeaderReservations}
                         items={unavailableHoldItems}
                     />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
-                        title={'Klar til afhentning'}
+                        title={statusHeaderReadyForPickup}
                         items={holdItems}
                     />
                 </div>

@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * Input.
@@ -41,7 +42,7 @@ const Input = ({ name, label, value, readOnly, which, ...rest }) => {
                     <span className='info-banner-icon'>
                         <FontAwesomeIcon icon={faCheck} />
                     </span>
-                    Bogen blev registreret. Klar til næste
+                    <FormattedMessage id='book-is-registered' defaultMessage='Bogen blev registreret. Klar til næste' />
                 </div>
             )}
         </div>

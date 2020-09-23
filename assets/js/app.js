@@ -8,7 +8,7 @@ import IdleTimer from 'react-idle-timer';
 import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
-
+import { IntlProvider } from 'react-intl';
 /**
  * App. The main entrypoint of the react application.
  *
@@ -23,6 +23,7 @@ import Loading from './steps/loading';
 function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
+    const [translations, setTranslations] = useState();
     const idleTimerRef = useRef(null);
 
     /**
@@ -104,7 +105,7 @@ function App({ token, socket }) {
     }
 
     return (
-        <>
+        <IntlProvider messages={translations}>
             {machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
@@ -121,8 +122,8 @@ function App({ token, socket }) {
                     />
                 </div>
             )}
-            {!machineState && !boxConfig && <Loading/>}
-        </>
+            {!machineState && !boxConfig && <Loading />}
+        </IntlProvider>
     );
 }
 
