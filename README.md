@@ -93,7 +93,7 @@ Get url for the administration:
 open http://$(docker-compose port nginx 80)/admin
 ```
 
-Before logging in to the box configuration administrative interface. First create an administrative user.
+Before logging into the box configuration administrative interface, create an administrative user:
 ```sh
 docker-compose exec phpfpm bash -c 'bin/console app:user:create --email=admin@itkdev.dk --password=admin'
 ```
