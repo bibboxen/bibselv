@@ -33,6 +33,11 @@ export function adaptListOfBooksToBanner(listOfBooks) {
                 if (book.author) {
                     displayInfo.text = `af ${book.author}`;
                 }
+                if (book.message === 'Reserveret') {
+                    displayInfo.status = bookStatus.RESERVED;
+                    displayInfo.title = book.message;
+                    displayInfo.text = book.title;
+                }
                 break;
         }
 

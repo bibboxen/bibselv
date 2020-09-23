@@ -22,6 +22,8 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
+import bookStatus from './utils/book-status';
+import Print from '../Steps/utils/print';
 
 /**
  * CheckInItems component.
@@ -37,13 +39,12 @@ function CheckInItems({ actionHandler }) {
     const [activerBanner, setActiverBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
-
+    let reservedItems = [];
     /**
      * Set up barcode scanner listener.
      */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-
         const barcodeCallback = (code) => {
             if (code.length === BARCODE_COMMAND_LENGTH) {
                 switch (code) {
@@ -77,7 +78,8 @@ function CheckInItems({ actionHandler }) {
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
-
+    reservedItems = items.filter(book => book.status === bookStatus.RESERVED);
+    reservedItems.reverse();
     /**
      * Handles numpadpresses.
      *
@@ -129,6 +131,9 @@ function CheckInItems({ actionHandler }) {
 
     return (
         <>
+            {reservedItems.length > 0 &&
+            <Print key={reservedItems[0].text} book={reservedItems[0]}></Print>
+            }
             <div className='col-md-9'>
                 <Header
                     header='Aflever'
@@ -165,6 +170,7 @@ function CheckInItems({ actionHandler }) {
                     }
                 />
             </div>
+            <div className="print"></div>
         </>
     );
 }

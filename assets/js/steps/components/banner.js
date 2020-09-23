@@ -29,6 +29,7 @@ function Banner({ item }) {
     let icon = null;
     switch (status) {
         case bookStatus.ERROR:
+        case bookStatus.RESERVED:
             classes += 'danger';
             icon = faExclamationTriangle;
             break;
@@ -44,6 +45,7 @@ function Banner({ item }) {
             icon = faCheck;
             break;
     }
+
     return (
         <div className={classes}>
             {icon && (
@@ -52,7 +54,7 @@ function Banner({ item }) {
                 </div>
             )}
             <div className='d-flex flex-column'>
-                <div className='header'>{title}</div>
+                <div className='banner-header'>{title}</div>
                 <div>{text}</div>
             </div>
         </div>
