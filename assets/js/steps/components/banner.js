@@ -23,8 +23,9 @@ import {
  * @return {*}
  * @constructor
  */
-function Banner({ item }) {
-    let classes = 'banner ';
+function Banner({ item, visibleOnPrint = false }) {
+    console.log(visibleOnPrint);
+    let classes = visibleOnPrint ? 'banner visibe-on-print ' : 'banner ';
     let { text, title, status, itemIdentifier } = item;
     let icon = null;
     switch (status) {
@@ -61,7 +62,8 @@ function Banner({ item }) {
     );
 }
 Banner.propTypes = {
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
+    visibleOnPrint: PropTypes.bool
 };
 
 export default Banner;
