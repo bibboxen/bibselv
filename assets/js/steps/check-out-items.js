@@ -37,7 +37,7 @@ import NumPad from './utils/num-pad';
 function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
-    const [activerBanner, setActiverBanner] = useState(false);
+    const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
 
@@ -76,27 +76,26 @@ function CheckOutItems({ actionHandler }) {
     }, [actionHandler]);
 
     /**
-     * Handles numpadpresses.
+     * Handles numpad presses.
      *
      * @param key
      *    The pressed button.
      */
     function onNumPadPress(key) {
         let typedBarcode = `${scannedBarcode}`;
-        setActiverBanner(false);
+        setActiveBanner(false);
         switch (key) {
             case deleteButtonLabel:
-                typedBarcode = typedBarcode.slice(0, -1);
+                setScannedBarcode(typedBarcode.slice(0, -1))
                 break;
             case okButtonLabel:
-                setActiverBanner(true);
-                handleItemCheckout();
+                setActiveBanner(true);
+                handleItemCheckout(scannedBarcode);
                 break;
             default:
-                typedBarcode = `${scannedBarcode}${key}`;
+                setScannedBarcode(`${typedBarcode}${key}`)
                 break;
         }
-        setScannedBarcode(typedBarcode);
     }
 
     /**
@@ -106,7 +105,7 @@ function CheckOutItems({ actionHandler }) {
      *    The pressed target.
      */
     function onKeyboardInput({ target }) {
-        setActiverBanner(false);
+        setActiveBanner(false);
         setScannedBarcode(target.value);
     }
 
@@ -117,7 +116,7 @@ function CheckOutItems({ actionHandler }) {
      *    The pressed target.
      */
     function handleItemCheckout() {
-        setActiverBanner(true);
+        setActiveBanner(true);
         actionHandler('checkOutItem', {
             itemIdentifier: scannedBarcode
         });
@@ -146,7 +145,7 @@ function CheckOutItems({ actionHandler }) {
                             name='barcode'
                             label='Stregkode'
                             value={scannedBarcode}
-                            activeBanner={activerBanner}
+                            activeBanner={activeBanner}
                             onChange={onKeyboardInput}
                         />
                         {items && <BannerList items={items} />}

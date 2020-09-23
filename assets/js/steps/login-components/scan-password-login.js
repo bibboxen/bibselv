@@ -79,7 +79,7 @@ function ScanPasswordLogin({ actionHandler }) {
     }
 
     /**
-       * Handles numpadpresses.
+       * Handles numpad presses.
        *
        * @param key
        *   The pressed button.
