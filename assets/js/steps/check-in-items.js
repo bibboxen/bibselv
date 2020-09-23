@@ -63,7 +63,7 @@ function CheckInItems({ actionHandler }) {
                 }
             } else {
                 setScannedBarcode(code);
-                handleItemCheckin();
+                handleItemCheckIn();
             }
         };
 
@@ -93,7 +93,7 @@ function CheckInItems({ actionHandler }) {
                 break;
             case okButtonLabel:
                 setActiveBanner(true);
-                handleItemCheckin(scannedBarcode);
+                handleItemCheckIn(scannedBarcode);
                 break;
             default:
                 setScannedBarcode(`${typedBarcode}${key}`)
@@ -115,10 +115,8 @@ function CheckInItems({ actionHandler }) {
     /**
      * Handles keyboard inputs.
      *
-     * @param target
-     *    The pressed target.
      */
-    function handleItemCheckin() {
+    function handleItemCheckIn() {
         setActiveBanner(true);
         actionHandler('checkInItem', {
             itemIdentifier: scannedBarcode

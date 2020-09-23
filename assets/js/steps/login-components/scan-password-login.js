@@ -20,6 +20,7 @@ import {
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
+
 /**
  * ScanPasswordLogin.
  *
@@ -55,7 +56,7 @@ function ScanPasswordLogin({ actionHandler }) {
                     actionHandler('reset');
                 }
             } else {
-                handleUserNameInput(code);
+                handleUsernameInput(code);
             }
         };
 
@@ -71,15 +72,15 @@ function ScanPasswordLogin({ actionHandler }) {
        * @param key
        *   The username.
        */
-    function handleUserNameInput(username) {
+    function handleUsernameInput(username) {
         setUsername(username);
         setUsernameScanned(true);
         setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny');
-        setSubheader('Tast dit password');
+        setSubheader('Tast dit pinkode');
     }
 
     /**
-       * Handles numpad presses.
+       * Handles numpad  presses.
        *
        * @param key
        *   The pressed button.
@@ -127,7 +128,7 @@ function ScanPasswordLogin({ actionHandler }) {
                     <div className='col-md mt-4'>
                         {!usernameScanned && (
                             // Todo Remember to remove thisss
-                            <div className='content' onClick={() => handleUserNameInput('C023648674')}>
+                            <div className='content' onClick={() => handleUsernameInput('C023648674')}>
                                 <FontAwesomeIcon icon={faBarcode}/>
                             </div>
                         )}

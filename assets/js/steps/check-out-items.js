@@ -65,7 +65,7 @@ function CheckOutItems({ actionHandler }) {
                 }
             } else {
                 setScannedBarcode(code);
-                handleItemCheckout();
+                handleItemCheckOut();
             }
         };
 
@@ -90,7 +90,7 @@ function CheckOutItems({ actionHandler }) {
                 break;
             case okButtonLabel:
                 setActiveBanner(true);
-                handleItemCheckout(scannedBarcode);
+                handleItemCheckOut(scannedBarcode);
                 break;
             default:
                 setScannedBarcode(`${typedBarcode}${key}`)
@@ -112,10 +112,8 @@ function CheckOutItems({ actionHandler }) {
     /**
      * Handles keyboard inputs.
      *
-     * @param target
-     *    The pressed target.
      */
-    function handleItemCheckout() {
+    function handleItemCheckOut() {
         setActiveBanner(true);
         actionHandler('checkOutItem', {
             itemIdentifier: scannedBarcode
