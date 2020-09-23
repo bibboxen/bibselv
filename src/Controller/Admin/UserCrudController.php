@@ -12,14 +12,26 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Security\Core\Encoder\EncoderFactory;
-use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserCrudController.
  */
 class UserCrudController extends AbstractCrudController
 {
+    private UserPasswordEncoderInterface $passwordEncoder;
+
+    /**
+     * UserCrudController constructor.
+     *
+     * @param userPasswordEncoderInterface $passwordEncoder
+     *   Password encoder
+     */
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * Get entity fqcn.
      *
@@ -54,8 +66,7 @@ class UserCrudController extends AbstractCrudController
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if (is_a($entityInstance, User::class)) {
-            $encodedPassword = $this->encodePassword($entityInstance, $entityInstance->getPlainPassword());
-            $entityInstance->setPassword($encodedPassword);
+            $this->setUserPassword($entityInstance);
         }
 
         parent::persistEntity($entityManager, $entityInstance);
@@ -69,31 +80,21 @@ class UserCrudController extends AbstractCrudController
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if (is_a($entityInstance, User::class)) {
-            $encodedPassword = $this->encodePassword($entityInstance, $entityInstance->getPlainPassword());
-            $entityInstance->setPassword($encodedPassword);
+            $this->setUserPassword($entityInstance);
         }
 
         parent::updateEntity($entityManager, $entityInstance);
     }
 
     /**
-     * Helper function to encode users plain password.
+     * Set encoded user password on entity.
      *
      * @param user $user
-     *   The user to encode password for
-     * @param string $password
-     *   The password to encode
-     *
-     * @return string
-     *   The encoded password
+     *   The user entity to set encoded password on
      */
-    private function encodePassword(User $user, string $password)
+    private function setUserPassword(User $user)
     {
-        $passwordEncoderFactory = new EncoderFactory([
-            User::class => new MessageDigestPasswordEncoder(),
-        ]);
-        $encoder = $passwordEncoderFactory->getEncoder($user);
-
-        return $encoder->encodePassword($password, $user->getSalt());
+        $encodedPassword = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
+        $user->setPassword($encodedPassword);
     }
 }
