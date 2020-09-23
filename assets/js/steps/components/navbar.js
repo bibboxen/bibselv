@@ -10,9 +10,11 @@ import {
     faBookReader,
     faInfoCircle,
     faBook,
-    faSignOutAlt
+    faSignOutAlt,
+    faBug
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * NavBar.
@@ -60,6 +62,13 @@ function NavBar({ actionHandler }) {
                         {context.machineState.get.user.name}
                     </span>
                 )}
+                {context.boxConfig.get.debugEnabled && (
+                    <span className='text bold'>
+                        Debug mode!
+                        <FontAwesomeIcon icon={faBug}></FontAwesomeIcon>
+                    </span>
+                )}
+
             </div>
             <div className='button-container'>
                 {context.machineState.get.user &&
@@ -69,7 +78,7 @@ function NavBar({ actionHandler }) {
                         label={button.label}
                         icon={button.icon}
                         handleButtonPress={() => actionHandler(button.action, button.data)}
-                        which={ button.which}
+                        which={button.which}
                     />
                 ))}
                 {context.machineState.get.step !== 'initial' &&
