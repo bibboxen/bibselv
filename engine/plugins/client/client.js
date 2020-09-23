@@ -62,7 +62,7 @@ Client.prototype.load = function load(token, config = {}, state = {}) {
 
     if (this.persistent) {
         this.storage.get(token, function get(err, data) {
-            if (err || data === null) {
+            if (err || null === data) {
                 debug('Loaded error, client created: ' + token);
                 deferred.resolve({
                     token: token,
