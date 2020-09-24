@@ -36,7 +36,7 @@ import Print from '../Steps/utils/print';
 function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
-    const [activerBanner, setActiverBanner] = useState(false);
+    const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
     let reservedItems = [];
@@ -64,7 +64,7 @@ function CheckInItems({ actionHandler }) {
                 }
             } else {
                 setScannedBarcode(code);
-                handleItemCheckin();
+                handleItemCheckIn();
             }
         };
 
@@ -81,27 +81,26 @@ function CheckInItems({ actionHandler }) {
     reservedItems = items.filter(book => book.status === bookStatus.RESERVED);
     reservedItems.reverse();
     /**
-     * Handles numpadpresses.
+     * Handles numpad presses.
      *
      * @param key
      *    The pressed button.
      */
     function onNumPadPress(key) {
-        let typedBarcode = `${scannedBarcode}`;
-        setActiverBanner(false);
+        const typedBarcode = `${scannedBarcode}`;
+        setActiveBanner(false);
         switch (key) {
             case deleteButtonLabel:
-                typedBarcode = typedBarcode.slice(0, -1);
+                setScannedBarcode(typedBarcode.slice(0, -1));
                 break;
             case okButtonLabel:
-                setActiverBanner(true);
-                handleItemCheckin(scannedBarcode);
+                setActiveBanner(true);
+                handleItemCheckIn(scannedBarcode);
                 break;
             default:
-                typedBarcode = `${scannedBarcode}${key}`;
+                setScannedBarcode(`${typedBarcode}${key}`);
                 break;
         }
-        setScannedBarcode(typedBarcode);
     }
 
     /**
@@ -111,18 +110,16 @@ function CheckInItems({ actionHandler }) {
      *    The pressed target.
      */
     function onKeyboardInput({ target }) {
-        setActiverBanner(false);
+        setActiveBanner(false);
         setScannedBarcode(target.value);
     }
 
     /**
      * Handles keyboard inputs.
      *
-     * @param target
-     *    The pressed target.
      */
-    function handleItemCheckin() {
-        setActiverBanner(true);
+    function handleItemCheckIn() {
+        setActiveBanner(true);
         actionHandler('checkInItem', {
             itemIdentifier: scannedBarcode
         });
@@ -150,7 +147,7 @@ function CheckInItems({ actionHandler }) {
                             name='barcode'
                             label='Stregkode'
                             value={scannedBarcode}
-                            activeBanner={activerBanner}
+                            activeBanner={activeBanner}
                             onChange={onKeyboardInput}
 
                         />

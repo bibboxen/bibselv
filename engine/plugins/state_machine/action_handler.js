@@ -57,6 +57,9 @@ class ActionHandler {
     changeFlow(client, flow) {
         client.state.flow = flow;
 
+        // Clear loaded items.
+        client.state.items = [];
+
         if (flow === 'checkInItems') {
             // Check in flow does not require that the user is logged in.
             this.stateMachine.transition(client, 'checkInItems');

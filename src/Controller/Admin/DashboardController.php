@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\BoxConfiguration;
 use App\Entity\School;
 use App\Entity\Sip2User;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -47,5 +48,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Bibboxes', 'fa fa-laptop', BoxConfiguration::class);
         yield MenuItem::linkToCrud('Schools', 'fa fa-school', School::class);
         yield MenuItem::linkToCrud('SIP2users', 'fa fa-users-cog', Sip2User::class);
+        yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class);
     }
 }
