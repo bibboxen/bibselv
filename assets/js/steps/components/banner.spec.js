@@ -35,7 +35,7 @@ describe('Test of banner component', () => {
                 }}
             />
         );
-        expect(wrapper.contains(<div className='header'>Illustreret svampeflora</div>)).toEqual(
+        expect(wrapper.contains(<div className='banner-header'>Illustreret svampeflora</div>)).toEqual(
             true
         );
     });

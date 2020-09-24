@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
  * @return {*}
  * @constructor
  */
-function BannerList({ items, title }) {
+function BannerList({ items, title, visibleOnPrint }) {
     return (
         <>
             {title && (
@@ -29,14 +29,15 @@ function BannerList({ items, title }) {
                 </div>
             )}
             {items && items.map((item) => (
-                <Banner item={item} key={item.id || item.itemIdentifier} />
+                <Banner item={item} key={item.id || item.itemIdentifier} visibleOnPrint={visibleOnPrint} />
             ))}
         </>
     );
 }
 BannerList.propTypes = {
     items: PropTypes.array.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    visibleOnPrint: PropTypes.bool
 };
 
 export default BannerList;

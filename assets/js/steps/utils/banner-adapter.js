@@ -4,7 +4,7 @@
  *
  */
 
-import bookStatus from './book-status';
+import BookStatus from './book-status';
 
 /**
  * Adapts books from state machine to the banner component from checkinitems
@@ -18,20 +18,25 @@ export function adaptListOfBooksToBanner(listOfBooks) {
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
         switch (book.status) {
-            case bookStatus.ERROR:
+            case BookStatus.ERROR:
                 displayInfo.title = book.message;
                 displayInfo.text = `${book.title} af ${book.author}`;
                 break;
-            case bookStatus.IN_PROGRESS:
+            case BookStatus.IN_PROGRESS:
                 displayInfo.title = 'Henter informationer';
                 displayInfo.text = book.itemIdentifier;
                 break;
-            case bookStatus.CHECKED_IN:
-            case bookStatus.CHECKED_OUT:
+            case BookStatus.CHECKED_IN:
+            case BookStatus.CHECKED_OUT:
                 displayInfo.title = book.title;
                 displayInfo.text = '';
                 if (book.author) {
                     displayInfo.text = `af ${book.author}`;
+                }
+                if (book.message === 'Reserveret') {
+                    displayInfo.status = BookStatus.RESERVED;
+                    displayInfo.title = book.message;
+                    displayInfo.text = book.title;
                 }
                 break;
         }
@@ -85,5 +90,5 @@ export function adaptListOfBooks(listOfBooks, status) {
  * @return {[]}
  */
 export function adaptListOfBooksWithSuccess(listOfBooks) {
-    return adaptListOfBooks(listOfBooks, bookStatus.SUCCESS);
+    return adaptListOfBooks(listOfBooks, BookStatus.SUCCESS);
 }

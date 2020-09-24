@@ -42,3 +42,9 @@
         margin: 0.4rem;
     }
 }
+
+@media print {
+    .num-pad {
+        display:none;
+    }
+}

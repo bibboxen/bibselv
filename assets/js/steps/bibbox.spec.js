@@ -158,7 +158,7 @@ describe('Check out items component (Udlån)', () => {
             />
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
+        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
             true
         );
     });
@@ -193,7 +193,7 @@ describe('Check out items component (Udlån)', () => {
         );
 
         expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
+            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
         ).toEqual(true);
     });
 
@@ -227,7 +227,7 @@ describe('Check out items component (Udlån)', () => {
             />
         );
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
     });
 });
@@ -283,7 +283,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
+        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
             true
         );
     });
@@ -314,7 +314,7 @@ describe('Check in items component (Aflever)', () => {
         );
 
         expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
+            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
         ).toEqual(true);
     });
 
@@ -348,7 +348,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
     });
 
@@ -410,7 +410,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
+        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
             true
         );
     });
@@ -445,7 +445,7 @@ describe('Check in items component (Aflever)', () => {
         );
 
         expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
+            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
         ).toEqual(true);
     });
 
@@ -479,7 +479,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
     });
 });
@@ -608,7 +608,7 @@ describe('Status component', () => {
         );
         expect(
             wrapper.contains(
-                <div className='header'>
+                <div className='banner-header'>
                     Det eksperimenterende billedværksted: [Bind] 1: indføring i
                     den kunstneriske proces
                 </div>
@@ -626,18 +626,18 @@ describe('Status component', () => {
         ).toEqual(true);
         expect(
             wrapper.contains(
-                <div className='header'>Mellem rejer og hundestejler</div>
+                <div className='banner-header'>Mellem rejer og hundestejler</div>
             )
         ).toEqual(true);
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
         expect(
             wrapper.contains(<div>Open book af Simpson, Jessica</div>)
         ).toEqual(true);
         expect(
             wrapper.contains(
-                <div className='header'>Bogtitel som ikke eksisterer</div>
+                <div className='banner-header'>Bogtitel som ikke eksisterer</div>
             )
         ).toEqual(false);
     });

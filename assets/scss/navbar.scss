@@ -43,3 +43,9 @@
         justify-content: flex-end;
     }
 }
+
+@media print {
+    .navbar {
+        display: none;
+    }
+}

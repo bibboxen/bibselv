@@ -15,3 +15,9 @@
     font-weight: 700;
 }
 
+@media print {
+    .header, .sub-header {
+        display:none;
+    }
+}
+
