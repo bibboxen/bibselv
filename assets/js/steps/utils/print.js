@@ -19,10 +19,8 @@ function Print({ book }) {
      * Print on load
      */
     useEffect(() => {
-        console.log('sdf');
         window.print();
     }, []);
-    console.log('sdfsdfsdf');
     return (
         <div key={book.text} className='flex-column visible-on-print'>
             <div>{book.title}</div>

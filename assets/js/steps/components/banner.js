@@ -24,7 +24,6 @@ import {
  * @constructor
  */
 function Banner({ item, visibleOnPrint = false }) {
-    console.log(visibleOnPrint);
     let classes = visibleOnPrint ? 'banner visibe-on-print ' : 'banner ';
     let { text, title, status, itemIdentifier } = item;
     let icon = null;
