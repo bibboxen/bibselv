@@ -261,7 +261,7 @@ class ActionHandler {
          */
         this.bus.once(busEvent, resp => {
             debug('Login success');
-
+            
             const user = resp.patron;
             const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
             let birthdayToday = false;
@@ -281,7 +281,8 @@ class ActionHandler {
             const actionData = {
                 user: {
                     name: names[0],
-                    birthdayToday: birthdayToday
+                    birthdayToday: birthdayToday,
+                    id: user.id
                 },
                 internal: {
                     username: loginData.username,

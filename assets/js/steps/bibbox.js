@@ -12,7 +12,7 @@ import NavBar from './components/navbar';
 import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machine-state-context';
-
+import BibboxSounds from './utils/bibbox-sound';
 /**
  * App. The main entrypoint of the react application.
  *
@@ -20,13 +20,15 @@ import MachineStateContext from '../context/machine-state-context';
  *   The configuration of the bibbox.
  * @param machineStateInput
  *   The state of the app.
+ *  @param lastHandedInReservedBook
+ *   The last book handed in that was reserved for someone else. Is used for print + sound. Only injected for DI. 
  * @param actionHandler
  *   Callback on requested state change.
  *
  * @return {*}
  * @constructor
  */
-function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
+function Bibbox({ boxConfigurationInput, machineStateInput, lastHandedInReservedBook, actionHandler }) {
     /**
      * The storage contains the machine state.
      * The step of the machine state determines which component is rendered, and
@@ -34,7 +36,8 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      */
     const storage = {
         machineState: { get: machineStateInput },
-        boxConfig: { get: boxConfigurationInput }
+        boxConfig: { get: boxConfigurationInput },
+        lastHandedInReservedBook: { get: lastHandedInReservedBook, set: lastHandedInReservedBook }
     };
 
     /**
@@ -70,6 +73,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
                     {renderStep(machineStateInput.step)}
                 </div>
             </div>
+            <BibboxSounds></BibboxSounds>
         </MachineStateContext.Provider>
     );
 }
@@ -77,6 +81,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
 Bibbox.propTypes = {
     boxConfigurationInput: PropTypes.object.isRequired,
     machineStateInput: PropTypes.object.isRequired,
+    lastHandedInReservedBook: PropTypes.object,
     actionHandler: PropTypes.func.isRequired
 };
 

@@ -51,6 +51,9 @@ function App({ token, socket }) {
             if (idleTimerRef.current !== null) {
                 idleTimerRef.current.reset();
             }
+            if (data.user){
+                data.user.birthdayToday = true
+            }
             setMachineState(data);
         });
     }, []);
