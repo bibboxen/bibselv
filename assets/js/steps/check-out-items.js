@@ -160,9 +160,7 @@ function CheckOutItems({ actionHandler }) {
                 </div>
             </div>
             <div className='col-md-3'>
-                <HelpBox
-                    text={helpBoxText}
-                />
+                <HelpBox text={helpBoxText} />
             </div>
         </>
     );
