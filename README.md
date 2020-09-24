@@ -93,6 +93,11 @@ Get url for the administration:
 open http://$(docker-compose port nginx 80)/admin
 ```
 
+Before logging into the box configuration administrative interface, create an administrative user:
+```sh
+docker-compose exec phpfpm bash -c 'bin/console app:user:create --email=admin@itkdev.dk --password=admin'
+```
+
 Next access the React frontend where `x` below is the id of the configuration entity you just created in the administrative interface.
 ```sh
 open http://$(docker-compose port nginx 80)?id=x

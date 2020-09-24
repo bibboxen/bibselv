@@ -35,9 +35,9 @@ describe('Tests of input component', () => {
                 <Input
                     name='input-test'
                     label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
                     value='123'
-                    readOnly={true}
-                    which='icon-bubble-text'
                 />
             </IntlProvider>
         );
@@ -47,12 +47,12 @@ describe('Tests of input component', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
                 <Input
-                    name='input-test'
-                    label='input-label'
-                    value=''
-                    readOnly={true}
-                    which='icon-bubble-text'
-                />
+                name='input-test'
+                label='input-label'
+                onChange={() => {}}
+                activeBanner={false}
+                value=''
+            />
             </IntlProvider>
         );
         expect(wrapper.find('label').text()).toEqual('input-label');
@@ -61,60 +61,60 @@ describe('Tests of input component', () => {
     it('renders the input', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-                <Input
-                    name='input-test'
-                    label='input-label'
-                    value=''
-                    readOnly={true}
-                    which='icon-bubble-text'
-                />
+               <Input
+                name='input-test'
+                label='input-label'
+                onChange={() => {}}
+                activeBanner={false}
+                value=''
+            />
             </IntlProvider>
         );
         expect(wrapper.exists('input')).toEqual(true);
     });
 
-    it('renders no .info class if which is checkoutitems and value is not set', () => {
+    it('renders no .info class when activeBanner is false', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-                <Input
-                    name='input-test'
-                    label='input-label'
-                    value=''
-                    readOnly={true}
-                    which='checkoutitems'
-                />
+                 <Input
+                name='input-test'
+                label='input-label'
+                onChange={() => {}}
+                activeBanner={false}
+                value=''
+            />
             </IntlProvider>
         );
         expect(wrapper.exists('.info')).toEqual(false);
     });
 
-    it('renders only the .info and .input classes if which is checkoutitems and value is set', () => {
+    it('renders only the .info and .input and bannertext classes if which activeBanner is true', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
                 <Input
-                    name='input-test'
-                    label='input-label'
-                    value='bib'
-                    readOnly={true}
-                    which='checkoutitems'
-                />
+                name='input-test'
+                label='input-label'
+                onChange={() => {}}
+                activeBanner={true}
+                value='bib'
+            />
             </IntlProvider>
         );
         expect(wrapper.exists('.info')).toEqual(true);
         expect(wrapper.exists('.input')).toEqual(true);
-        expect(wrapper.exists('.purple')).toEqual(false);
+        expect(wrapper.find('.info').text()).toContain('Bogen blev registreret. Klar til næste');
     });
 
     it('renders no .info class if which is checkinitems and value is not set', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-                <Input
-                    name='input-test'
-                    label='input-label'
-                    value=''
-                    readOnly={true}
-                    which='checkinitems'
-                />
+                 <Input
+                name='input-test'
+                label='input-label'
+                onChange={() => {}}
+                activeBanner={false}
+                value=''
+            />
             </IntlProvider>
         );
         expect(wrapper.exists('.info')).toEqual(false);
@@ -156,13 +156,13 @@ describe('Tests of input component', () => {
     it('renders value', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-                <Input
-                    name='input-test'
-                    label='input-label'
-                    value='123'
-                    readOnly={true}
-                    which='test'
-                />
+                  <Input
+                name='input-test'
+                label='input-label'
+                onChange={() => {}}
+                activeBanner={false}
+                value='123'
+            />
             </IntlProvider>
         );
         expect(wrapper.find('input').props().value).toEqual('123');

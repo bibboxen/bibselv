@@ -17,7 +17,7 @@ import {
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import {
-    adaptListOfBooksWithError,
+    adaptListOfBooksWithMessage,
     adaptListOfBooksWithSuccess,
     adaptListOfBooks
 } from './utils/banner-adapter';
@@ -74,15 +74,15 @@ function Status({ actionHandler }) {
     }, [actionHandler]);
 
     const loanedItems = [
-        ...adaptListOfBooksWithError(
+        ...adaptListOfBooksWithMessage(
             context.machineState.get.fineItems,
             bannerHeaderBookWithFine
         ),
-        ...adaptListOfBooksWithError(
+        ...adaptListOfBooksWithMessage(
             context.machineState.get.overdueItems,
             bannerHeaderBookForCheckIn
         ),
-        ...adaptListOfBooksWithError(
+        ...adaptListOfBooksWithMessage(
             context.machineState.get.recallItems,
             bannerHeaderBookForCheckIn
         ),

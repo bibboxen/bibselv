@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import bookStatus from './book-status';
+import bookStatus from '../utils/book-status';
 import {
     faCheck,
     faSpinner,

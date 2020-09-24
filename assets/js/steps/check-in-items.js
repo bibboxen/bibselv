@@ -21,6 +21,7 @@ import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
+import NumPad from './utils/num-pad';
 import { FormattedMessage } from 'react-intl';
 
 /**
@@ -36,6 +37,9 @@ function CheckInItems({ actionHandler }) {
     const [scannedBarcode, setScannedBarcode] = useState('');
     const helpBoxText = <FormattedMessage id='check-in-items-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.' />;
     const inputLabel = <FormattedMessage id='check-in-items-input-label' defaultMessage='Stregkode' />;
+    const [activeBanner, setActiveBanner] = useState(false);
+    const okButtonLabel = 'Ok';
+    const deleteButtonLabel = 'Slet';
 
     /**
      * Set up barcode scanner listener.
@@ -61,10 +65,8 @@ function CheckInItems({ actionHandler }) {
                         break;
                 }
             } else {
-                actionHandler('checkInItem', {
-                    itemIdentifier: code
-                });
                 setScannedBarcode(code);
+                handleItemCheckIn();
             }
         };
 
@@ -79,6 +81,52 @@ function CheckInItems({ actionHandler }) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
 
+    /**
+     * Handles numpad presses.
+     *
+     * @param key
+     *    The pressed button.
+     */
+    function onNumPadPress(key) {
+        const typedBarcode = `${scannedBarcode}`;
+        setActiveBanner(false);
+        switch (key) {
+            case deleteButtonLabel:
+                setScannedBarcode(typedBarcode.slice(0, -1));
+                break;
+            case okButtonLabel:
+                setActiveBanner(true);
+                handleItemCheckIn(scannedBarcode);
+                break;
+            default:
+                setScannedBarcode(`${typedBarcode}${key}`);
+                break;
+        }
+    }
+
+    /**
+     * Handles keyboard inputs.
+     *
+     * @param target
+     *    The pressed target.
+     */
+    function onKeyboardInput({ target }) {
+        setActiveBanner(false);
+        setScannedBarcode(target.value);
+    }
+
+    /**
+     * Handles keyboard inputs.
+     *
+     */
+    function handleItemCheckIn() {
+        setActiveBanner(true);
+        actionHandler('checkInItem', {
+            itemIdentifier: scannedBarcode
+        });
+        setScannedBarcode('');
+    }
+
     return (
         <>
             <div className='col-md-9'>
@@ -88,6 +136,7 @@ function CheckInItems({ actionHandler }) {
                     which='checkInItems'
                     icon={faBook}
                 />
+
                 <div className='row'>
                     <div className='col-md-2' />
 
@@ -96,10 +145,16 @@ function CheckInItems({ actionHandler }) {
                             name='barcode'
                             label={inputLabel}
                             value={scannedBarcode}
-                            which='CheckInItems'
-                            readOnly
+                            activeBanner={activeBanner}
+                            onChange={onKeyboardInput}
+
                         />
                         {items && <BannerList items={items} />}
+                        {context.boxConfig.get.debugEnabled && (
+                            <NumPad handleNumpadPress={onNumPadPress}
+                                deleteButtonLabel={deleteButtonLabel}
+                                okButtonLabel={okButtonLabel}/>
+                        )}
                     </div>
                 </div>
             </div>

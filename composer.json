@@ -22,6 +22,7 @@
         "symfony/security-bundle": "5.1.*",
         "symfony/serializer": "5.1.*",
         "symfony/twig-bundle": "5.0.*",
+        "symfony/validator": "5.1.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*"
     },
@@ -30,7 +31,7 @@
         "escapestudios/symfony2-coding-standard": "^3.11",
         "friendsofphp/php-cs-fixer": "^2.16",
         "fzaninotto/faker": "^1.9",
-        "symfony/maker-bundle": "^1.15"
+        "symfony/maker-bundle": "^1.21"
     },
     "config": {
         "preferred-install": {

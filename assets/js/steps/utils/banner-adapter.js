@@ -4,10 +4,11 @@
  *
  */
 
-import bookStatus from '../components/book-status';
+import bookStatus from './book-status';
 
 /**
- * @TODO: Add documentation
+ * Adapts books from state machine to the banner component from checkinitems
+ * or checkoutitems, where they are sent with a status.
  *
  * @param listOfBooks
  * @return {[]}
@@ -41,12 +42,12 @@ export function adaptListOfBooksToBanner(listOfBooks) {
 }
 
 /**
- * @TODO: Add documentation
+ * Adapts books from state machine with message to the banner component.
  *
  * @param listOfBooks
  * @return {[]}
  */
-export function adaptListOfBooksWithError(listOfBooks) {
+export function adaptListOfBooksWithMessage(listOfBooks) {
     const items = [];
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
@@ -58,15 +59,19 @@ export function adaptListOfBooksWithError(listOfBooks) {
 }
 
 /**
- * @TODO: Add documentation
+ * Adapts books from state machine to the banner component in status
+ * where they are not sent with a status.
  *
  * @param listOfBooks
  * @return {[]}
  */
-export function adaptListOfBooks(listOfBooks) {
+export function adaptListOfBooks(listOfBooks, status) {
     const items = [];
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
+        if (status) {
+            displayInfo.status = status;
+        }
         displayInfo.text = `af ${book.author}`;
         items.push(displayInfo);
     });
@@ -74,18 +79,11 @@ export function adaptListOfBooks(listOfBooks) {
 }
 
 /**
- * @TODO: Add documentation
+ * Adapts books from state machine with success (green banner) to the banner component.
  *
  * @param listOfBooks
  * @return {[]}
  */
 export function adaptListOfBooksWithSuccess(listOfBooks) {
-    const items = [];
-    listOfBooks.forEach((book) => {
-        const displayInfo = { ...book };
-        displayInfo.status = bookStatus.SUCCESS;
-        displayInfo.text = `af ${book.author}`;
-        items.push(displayInfo);
-    });
-    return items;
+    return adaptListOfBooks(listOfBooks, bookStatus.SUCCESS);
 }

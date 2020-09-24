@@ -5,7 +5,9 @@
             // Display & position
             padding: 10px 0 10px 5px;
             // Color
-            background-color: $yellow;
+            background-color: $light-green;
+            border: 2px solid $green-border;
+            border-top-style: 1px solid;
 
             // Text
             font-family: "Roboto", sans-serif;
@@ -19,20 +21,10 @@
         input {
             // Display & position
             border-style: double;
-            // Color
-            border-color: $yellow;
-        }
+            border-bottom: 0;
 
-        &.purple {
-            .info-banner {
-                // Color
-                background-color: $purple;
-                color: $white;
-            }
-            input {
-                // Color
-                border-color: $purple;
-            }
+            // Color
+            border-color: $green-border;
         }
     }
 }

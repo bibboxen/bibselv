@@ -3,11 +3,11 @@
  * For users that scans username and types password to login.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
 import Input from '../components/input';
 import HelpBox from '../components/help-box';
-import NumPad from '../components/num-pad';
+import NumPad from '../utils/num-pad';
 import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
@@ -19,6 +19,7 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
+import MachineStateContext from '../../context/machine-state-context';
 import { FormattedMessage } from 'react-intl';
 
 /**
@@ -40,7 +41,9 @@ function ScanPasswordLogin({ actionHandler }) {
     );
     const inputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='Password' />;
     const [usernameScanned, setUsernameScanned] = useState(false);
-
+    const context = useContext(MachineStateContext);
+    const loginButtonLabel = 'Login';
+    const deleteButtonLabel = 'Slet';
     /**
      * Setup component.
      *
@@ -55,10 +58,7 @@ function ScanPasswordLogin({ actionHandler }) {
                     actionHandler('reset');
                 }
             } else {
-                setUsername(code);
-                setUsernameScanned(true);
-                setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny' />);
-                setSubheader('Tast dit password');
+                handleUsernameInput(code);
             }
         };
 
@@ -69,35 +69,51 @@ function ScanPasswordLogin({ actionHandler }) {
     }, [actionHandler]);
 
     /**
-     * Handles key presses for username and password.
-     *
-     * @param key
-     */
-    function onNumPadPress({ key }) {
+       * For setting the username
+       *
+       * @param key
+       *   The username.
+       */
+    function handleUsernameInput(username) {
+        setUsername(username);
+        setUsernameScanned(true);
+        setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny' />);
+        setSubheader(<FormattedMessage id='scan-login-password-password-subheader' defaultMessage='Tast din pinkode' />);
+    }
+
+    /**
+       * Handles numpad  presses.
+       *
+       * @param key
+       *   The pressed button.
+       */
+    function onNumPadPress(key) {
         if (!usernameScanned) {
-            key.toLowerCase() === 'c'
+            key === deleteButtonLabel
                 ? setUsername('')
                 : setUsername(`${username}${key}`);
         } else {
-            key.toLowerCase() === 'c'
-                ? setPassword('')
-                : setPassword(`${password}${key}`);
+            if (key === loginButtonLabel) {
+                actionHandler('login', {
+                    username: username,
+                    password: password
+                });
+            } else {
+                key === deleteButtonLabel
+                    ? setPassword(password.slice(0, -1))
+                    : setPassword(`${password}${key}`);
+            }
         }
     }
 
     /**
-     * Handles button press for going from username to password,
-     * and for password to actual login.
+     * Handles keyboard inputs.
+     *
+     * @param target
+     *    The pressed target.
      */
-    function onButtonPress() {
-        if (!usernameScanned) {
-            setUsernameScanned(true);
-        } else {
-            actionHandler('login', {
-                username: username,
-                password: password
-            });
-        }
+    function onKeyboardInput({ target }) {
+        setPassword(target.value);
     }
 
     return (
@@ -113,39 +129,38 @@ function ScanPasswordLogin({ actionHandler }) {
                     <div className='col-md-2' />
                     <div className='col-md mt-4'>
                         {!usernameScanned && (
-                            <div
-                                className='content'
-                                onClick={() =>
-                                    actionHandler('login', {
-                                        username: 'C023648674',
-                                        password: ''
-                                    })
-                                }
-                            >
-                                <FontAwesomeIcon icon={faBarcode} />
+                            // Todo Remember to remove thisss
+                            <div className='content' onClick={() => handleUsernameInput('C023648674')}>
+                                <FontAwesomeIcon icon={faBarcode}/>
                             </div>
                         )}
                         {usernameScanned && (
-                            <Input
-                                name='password'
-                                label={inputLabel}
-                                value={password}
-                                readOnly
-                            />
-                        )}
-                        {usernameScanned && (
-                            <NumPad handleNumpadPress={onNumPadPress} />
-                        )}
+                            <>
+                                <Input
+                                    name='password'
+                                    label={inputLabel}
+                                    value={password}
+                                    type="password"
+                                    onChange={onKeyboardInput}
+                                />
+                                <NumPad okButtonLabel={loginButtonLabel}
+                                    deleteButtonLabel={deleteButtonLabel}
+                                    handleNumpadPress={onNumPadPress} />
+                            </>)}
                     </div>
                 </div>
             </div>
             <div className='col-md-3 m-3 d-flex flex-column justify-content-between'>
                 {!usernameScanned && <HelpBox text={helpboxText} />}
-                {usernameScanned && (
+                {context.boxConfig.get.debugEnabled && (
                     <Button
-                        label={'Login'}
+                        label={'Snydelogin'}
                         icon={faArrowAltCircleRight}
-                        handleButtonPress={onButtonPress}
+                        handleButtonPress={() =>
+                            actionHandler('login', {
+                                username: 'C023648674',
+                                password: ''
+                            })}
                         which='login-button'
                     />
                 )}
