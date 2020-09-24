@@ -22,7 +22,7 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
-import bookStatus from './utils/book-status';
+import BookStatus from './utils/book-status';
 import Print from '../steps/utils/print';
 
 /**
@@ -77,7 +77,8 @@ function CheckInItems({ actionHandler }) {
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
-    const reservedBookForPrint = items.filter(book => book.status === bookStatus.RESERVED).pop();
+    
+    const reservedBookForPrint = items.filter(book => book.status === BookStatus.RESERVED).pop();
 
     /**
      * Handles numpad presses.

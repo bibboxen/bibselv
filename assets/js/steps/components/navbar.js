@@ -53,7 +53,6 @@ function NavBar({ actionHandler }) {
 
     /**
      * Prints the page, available in status component.
-     *
      */
     function printPage() {
         window.print();

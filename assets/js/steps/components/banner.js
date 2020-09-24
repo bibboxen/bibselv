@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import bookStatus from '../utils/book-status';
+import BookStatus from '../utils/book-status';
 import {
     faCheck,
     faSpinner,
@@ -28,19 +28,19 @@ function Banner({ item, visibleOnPrint = false }) {
     let { text, title, status, itemIdentifier } = item;
     let icon = null;
     switch (status) {
-        case bookStatus.ERROR:
-        case bookStatus.RESERVED:
+        case BookStatus.ERROR:
+        case BookStatus.RESERVED:
             classes += 'danger';
             icon = faExclamationTriangle;
             break;
-        case bookStatus.IN_PROGRESS:
+        case BookStatus.IN_PROGRESS:
             icon = faSpinner;
             text = `${itemIdentifier}`;
             break;
-        case bookStatus.RENEWED:
-        case bookStatus.CHECKED_OUT:
-        case bookStatus.CHECKED_IN:
-        case bookStatus.SUCCESS:
+        case BookStatus.RENEWED:
+        case BookStatus.CHECKED_OUT:
+        case BookStatus.CHECKED_IN:
+        case BookStatus.SUCCESS:
             classes += 'success';
             icon = faCheck;
             break;
