@@ -37,10 +37,8 @@ it('renders without crashing', () => {
     };
 
     shallow(
-        <IntlProvider locale="en" translations={translations}>
-            <MachineStateContext.Provider value={machineState}>
-                <ScanPasswordLogin actionHandler={() => {}} />
-            </MachineStateContext.Provider>
-        </IntlProvider>
-    )
+        <MachineStateContext.Provider value={machineState}>
+            <ScanPasswordLogin actionHandler={() => {}} />
+        </MachineStateContext.Provider>
+    );
 });

@@ -62,11 +62,11 @@ describe('Tests of input component', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
                 <Input
-                     name='input-test'
-                     label='input-label'
-                     onChange={() => {}}
-                     activeBanner={false}
-                     value=''
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
+                    value=''
                 />
             </IntlProvider>
         );
@@ -92,11 +92,11 @@ describe('Tests of input component', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
                 <Input
-                     name='input-test'
-                     label='input-label'
-                     onChange={() => {}}
-                     activeBanner={true}
-                     value='bib'
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={true}
+                    value='bib'
                 />
             </IntlProvider>
         );
@@ -157,9 +157,9 @@ describe('Tests of input component', () => {
                 <Input
                     name='input-test'
                     label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
                     value='123'
-                    readOnly={true}
-                    which='test'
                 />
             </IntlProvider>
         );
