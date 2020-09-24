@@ -23,7 +23,6 @@ import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import bookStatus from './utils/book-status';
-import Print from './utils/print';
 import Print from '../steps/utils/print';
 
 /**
