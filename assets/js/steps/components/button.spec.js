@@ -13,7 +13,6 @@ describe('Test of button component', () => {
     it('Renders without crashing', () => {
         shallow(
             <Button
-                label='knap'
                 icon={faCheck}
                 handleButtonPress={() => console.log()}
                 which='class'
@@ -24,7 +23,6 @@ describe('Test of button component', () => {
     it('Renders reset', () => {
         const wrapper = mount(
             <Button
-                label='knap'
                 icon={faCheck}
                 handleButtonPress={() => console.log()}
                 which='reset'
@@ -33,22 +31,9 @@ describe('Test of button component', () => {
         expect(wrapper.exists('.reset')).toEqual(true);
     });
 
-    it('Renders label', () => {
-        const wrapper = mount(
-            <Button
-                label='knap'
-                icon={faCheck}
-                handleButtonPress={() => console.log()}
-                which='reset'
-            />
-        );
-        expect(wrapper.text()).toEqual('knap');
-    });
-
     it('Renders icon', () => {
         const wrapper = mount(
             <Button
-                label='knap'
                 icon={faCheck}
                 handleButtonPress={() => console.log()}
                 which='class'
@@ -63,7 +48,6 @@ describe('Test of button component', () => {
 
         const button = shallow(
             <Button
-                label='knap'
                 icon={faCheck}
                 handleButtonPress={mockCallBack}
                 which='class'

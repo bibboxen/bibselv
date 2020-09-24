@@ -45,7 +45,10 @@ const Input = ({ name, label, value, activeBanner = false, ...rest }) => {
 
 Input.propTypes = {
     name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     value: PropTypes.string.isRequired,
     activeBanner: PropTypes.bool.isRequired,
     rest: PropTypes.object

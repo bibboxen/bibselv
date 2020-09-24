@@ -22,6 +22,7 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBookReader } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * CheckOutItems component.
@@ -40,6 +41,8 @@ function CheckOutItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
+    const helpBoxText = <FormattedMessage id='check-out-items-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden på bogen.' />;
+    const inputLabel = <FormattedMessage id='check-out-items-input-label' defaultMessage='Stregkode' />;
 
     /**
      * Set up barcode scanner listener.
@@ -141,7 +144,7 @@ function CheckOutItems({ actionHandler }) {
                     <div className='col-md mt-4'>
                         <Input
                             name='barcode'
-                            label='Stregkode'
+                            label={inputLabel}
                             value={scannedBarcode}
                             activeBanner={activeBanner}
                             onChange={onKeyboardInput}
@@ -158,9 +161,7 @@ function CheckOutItems({ actionHandler }) {
             </div>
             <div className='col-md-3'>
                 <HelpBox
-                    text={
-                        'Brug håndscanneren til at scanne stregkoden på bogen.'
-                    }
+                    text={helpBoxText}
                 />
             </div>
         </>

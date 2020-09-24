@@ -34,7 +34,10 @@ function HelpBox({ text }) {
 }
 
 HelpBox.propTypes = {
-    text: PropTypes.string.isRequired
+    text: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ])
 };
 
 export default HelpBox;

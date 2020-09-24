@@ -20,6 +20,7 @@ import {
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * ScanPasswordLogin.
@@ -36,8 +37,9 @@ function ScanPasswordLogin({ actionHandler }) {
     const [password, setPassword] = useState('');
     const [subheader, setSubheader] = useState('Scan dit bibliotekskort');
     const [helpboxText, setHelpboxText] = useState(
-        'Brug håndscanneren til at scanne stregkoden din lånerkort.'
+        <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden din lånerkort.' />
     );
+    const inputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='Password' />;
     const [usernameScanned, setUsernameScanned] = useState(false);
     const context = useContext(MachineStateContext);
     const loginButtonLabel = 'Login';
@@ -57,6 +59,10 @@ function ScanPasswordLogin({ actionHandler }) {
                 }
             } else {
                 handleUsernameInput(code);
+                setUsername(code);
+                setUsernameScanned(true);
+                setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny' />);
+                setSubheader('Tast dit password');
             }
         };
 
@@ -145,6 +151,16 @@ function ScanPasswordLogin({ actionHandler }) {
                                     deleteButtonLabel={deleteButtonLabel}
                                     handleNumpadPress={onNumPadPress} />
                             </>)}
+                            <Input
+                                name='password'
+                                label={inputLabel}
+                                value={password}
+                                readOnly
+                            />
+                        )}
+                        {usernameScanned && (
+                            <NumPad handleNumpadPress={onNumPadPress} />
+                        )}
                     </div>
                 </div>
             </div>
