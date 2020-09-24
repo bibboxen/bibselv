@@ -28,26 +28,30 @@ function NavBar({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const classes = context.machineState.get.step === 'initial'
         ? 'navbar initial' : 'navbar';
+    const buttonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='Lån' />;
+    const buttonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='Status' />;
+    const buttonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='Aflever' />;
+    const buttonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='Afslut' />;
     const components = [
         {
             which: 'checkOutItems',
             action: 'changeFlow',
             data: { flow: 'checkOutItems' },
-            label: <FormattedMessage id='button-navbar-check-out' defaultMessage='Lån' />,
+            label: buttonCheckOut,
             icon: faBookReader
         },
         {
             which: 'status',
             action: 'changeFlow',
             data: { flow: 'status' },
-            label: <FormattedMessage id='button-navbar-status' defaultMessage='Status' />,
+            label: buttonStatus,
             icon: faInfoCircle
         },
         {
             which: 'checkInItems',
             action: 'changeFlow',
             data: { flow: 'checkInItems' },
-            label: <FormattedMessage id='button-navbar-check-in' defaultMessage='Aflever' />,
+            label: buttonCheckIn,
             icon: faBook
         }
     ];
@@ -75,7 +79,7 @@ function NavBar({ actionHandler }) {
                 ))}
                 {context.machineState.get.step !== 'initial' &&
                     <Button
-                        label='Afslut'
+                        label={buttonFinish}
                         icon={faSignOutAlt}
                         handleButtonPress={() => actionHandler('reset')}
                         which={ 'reset' }

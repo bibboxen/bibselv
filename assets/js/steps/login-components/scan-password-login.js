@@ -19,6 +19,7 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * ScanPasswordLogin.
@@ -35,8 +36,9 @@ function ScanPasswordLogin({ actionHandler }) {
     const [password, setPassword] = useState('');
     const [subheader, setSubheader] = useState('Scan dit bibliotekskort');
     const [helpboxText, setHelpboxText] = useState(
-        'Brug håndscanneren til at scanne stregkoden din lånerkort.'
+        <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden din lånerkort.' />
     );
+    const inputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='Password' />;
     const [usernameScanned, setUsernameScanned] = useState(false);
 
     /**
@@ -55,7 +57,7 @@ function ScanPasswordLogin({ actionHandler }) {
             } else {
                 setUsername(code);
                 setUsernameScanned(true);
-                setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny');
+                setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny' />);
                 setSubheader('Tast dit password');
             }
         };
@@ -126,7 +128,7 @@ function ScanPasswordLogin({ actionHandler }) {
                         {usernameScanned && (
                             <Input
                                 name='password'
-                                label='Password'
+                                label={inputLabel}
                                 value={password}
                                 readOnly
                             />

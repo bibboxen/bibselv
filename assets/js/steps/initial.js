@@ -31,20 +31,24 @@ import { FormattedMessage } from 'react-intl';
  * @constructor
  */
 function Initial({ actionHandler }) {
+    const bubbleCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='Lån' />;
+    const bubbleStatus = <FormattedMessage id='initial-button-status' defaultMessage='Status' />;
+    const bubbleCheckIn = <FormattedMessage id='initial-button-check-in' defaultMessage='Aflever' />;
+
     const components = [
         {
             which: 'checkOutItems',
-            label: <FormattedMessage id='initial-button-check-out' defaultMessage='Lån' />,
+            label: bubbleCheckOut,
             icon: faBookReader
         },
         {
             which: 'status',
-            label: <FormattedMessage id='initial-button-status' defaultMessage='Status' />,
+            label: bubbleStatus,
             icon: faInfoCircle
         },
         {
             which: 'checkInItems',
-            label: <FormattedMessage id='initial-button-check-in' defaultMessage='Aflever' />,
+            label: bubbleCheckIn,
             icon: faBook
         }
     ];

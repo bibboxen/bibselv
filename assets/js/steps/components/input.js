@@ -51,7 +51,10 @@ const Input = ({ name, label, value, readOnly, which, ...rest }) => {
 
 Input.propTypes = {
     name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     value: PropTypes.string.isRequired,
     readOnly: PropTypes.bool,
     which: PropTypes.string

@@ -105,7 +105,7 @@ function App({ token, socket }) {
     }
 
     return (
-        <IntlProvider messages={translations}>
+        <IntlProvider locale="da" translations={translations}>
             {machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}

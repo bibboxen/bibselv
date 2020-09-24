@@ -36,7 +36,10 @@ function BannerList({ items, title }) {
 }
 BannerList.propTypes = {
     items: PropTypes.array.isRequired,
-    title: PropTypes.string
+    title: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ])
 };
 
 export default BannerList;

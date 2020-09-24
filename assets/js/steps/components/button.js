@@ -39,7 +39,10 @@ const Button = ({ label, icon, handleButtonPress, which }) => {
 };
 
 Button.propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     icon: PropTypes.object.isRequired,
     which: PropTypes.string,
     handleButtonPress: PropTypes.func.isRequired

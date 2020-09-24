@@ -21,6 +21,7 @@ import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * CheckInItems component.
@@ -33,6 +34,8 @@ import { faBook } from '@fortawesome/free-solid-svg-icons';
 function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
+    const helpBoxText = <FormattedMessage id='check-in-items-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.' />;
+    const inputLabel = <FormattedMessage id='check-in-items-input-label' defaultMessage='Stregkode' />;
 
     /**
      * Set up barcode scanner listener.
@@ -91,7 +94,7 @@ function CheckInItems({ actionHandler }) {
                     <div className='col-md mt-4'>
                         <Input
                             name='barcode'
-                            label='Stregkode'
+                            label={inputLabel}
                             value={scannedBarcode}
                             which='CheckInItems'
                             readOnly
@@ -102,9 +105,7 @@ function CheckInItems({ actionHandler }) {
             </div>
             <div className='col-md-3'>
                 <HelpBox
-                    text={
-                        'Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.'
-                    }
+                    text={helpBoxText}
                 />
             </div>
         </>
