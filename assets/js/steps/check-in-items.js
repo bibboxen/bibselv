@@ -77,7 +77,7 @@ function CheckInItems({ actionHandler }) {
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
-    
+
     const reservedBookForPrint = items.filter(book => book.status === BookStatus.RESERVED).pop();
 
     /**

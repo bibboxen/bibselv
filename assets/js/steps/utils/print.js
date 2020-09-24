@@ -21,7 +21,7 @@ function Print({ book }) {
     useEffect(() => {
         window.print();
     }, []);
-    
+
     return (
         <div key={book.text} className='flex-column visible-on-print'>
             <div>{book.title}</div>
