@@ -5,8 +5,10 @@
 
 import React from 'react';
 import ScanPasswordLogin from './scan-password-login';
+import { shallow, mount } from 'enzyme';
 import { it } from '@jest/globals';
 import { IntlProvider } from 'react-intl';
+
 
 const translations = {
     'initial-choose-a-function': 'Vælg en funktion for at starte',
@@ -23,15 +25,16 @@ const translations = {
     'book-is-registered': 'Bogen blev registreret. Klar til næste',
     'button-navbar-check-out': 'Lån',
     'button-navbar-status': 'Status',
-    'button-navbar-check-in': 'Aflever',
-    'button-navbar-finish': 'Afslut'
+    'button-navbar-check-in': 'Aflever'
 };
 
+it('renders without crashing', () => {
+    shallow(<ScanPasswordLogin actionHandler={() => {}} />);
+});
+
 it('renders initial sub header', () => {
-    const wrapper = mount(
-        <IntlProvider locale="en" translations={translations}>
-            <ScanPasswordLogin actionHandler={() => {}} />
-        </IntlProvider>
+    const wrapper = mount(<IntlProvider locale="en" translations={translations}><ScanPasswordLogin actionHandler={() => {}} /></IntlProvider>);
+    expect(wrapper.find('.sub-header').text()).toEqual(
+        'Scan dit bibliotekskort'
     );
-    expect(wrapper.find('.sub-header').text()).toEqual('Scan dit bibliotekskort');
 });
