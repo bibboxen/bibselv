@@ -47,12 +47,12 @@ describe('Tests of input component', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
                 <Input
-                name='input-test'
-                label='input-label'
-                onChange={() => {}}
-                activeBanner={false}
-                value=''
-            />
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
+                    value=''
+                />
             </IntlProvider>
         );
         expect(wrapper.find('label').text()).toEqual('input-label');
@@ -61,13 +61,13 @@ describe('Tests of input component', () => {
     it('renders the input', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-               <Input
-                name='input-test'
-                label='input-label'
-                onChange={() => {}}
-                activeBanner={false}
-                value=''
-            />
+                <Input
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
+                    value=''
+                />
             </IntlProvider>
         );
         expect(wrapper.exists('input')).toEqual(true);
@@ -76,13 +76,13 @@ describe('Tests of input component', () => {
     it('renders no .info class when activeBanner is false', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-                 <Input
-                name='input-test'
-                label='input-label'
-                onChange={() => {}}
-                activeBanner={false}
-                value=''
-            />
+                <Input
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
+                    value=''
+                />
             </IntlProvider>
         );
         expect(wrapper.exists('.info')).toEqual(false);
@@ -92,12 +92,12 @@ describe('Tests of input component', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
                 <Input
-                name='input-test'
-                label='input-label'
-                onChange={() => {}}
-                activeBanner={true}
-                value='bib'
-            />
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={true}
+                    value='bib'
+                />
             </IntlProvider>
         );
         expect(wrapper.exists('.info')).toEqual(true);
@@ -108,13 +108,13 @@ describe('Tests of input component', () => {
     it('renders no .info class if which is checkinitems and value is not set', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-                 <Input
-                name='input-test'
-                label='input-label'
-                onChange={() => {}}
-                activeBanner={false}
-                value=''
-            />
+                <Input
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
+                    value=''
+                />
             </IntlProvider>
         );
         expect(wrapper.exists('.info')).toEqual(false);
@@ -123,13 +123,13 @@ describe('Tests of input component', () => {
     it('renders value', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
-                  <Input
-                name='input-test'
-                label='input-label'
-                onChange={() => {}}
-                activeBanner={false}
-                value='123'
-            />
+                <Input
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
+                    value='123'
+                />
             </IntlProvider>
         );
         expect(wrapper.find('input').props().value).toEqual('123');
