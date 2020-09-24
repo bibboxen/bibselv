@@ -10,6 +10,7 @@ import { it } from '@jest/globals';
 import MachineStateContext from '../../context/machine-state-context';
 import { IntlProvider } from 'react-intl';
 
+
 const translations = {
     'initial-choose-a-function': 'Vælg en funktion for at starte',
     'initial-button-check-out': 'Lån',
@@ -25,8 +26,7 @@ const translations = {
     'book-is-registered': 'Bogen blev registreret. Klar til næste',
     'button-navbar-check-out': 'Lån',
     'button-navbar-status': 'Status',
-    'button-navbar-check-in': 'Aflever',
-    'button-navbar-finish': 'Afslut'
+    'button-navbar-check-in': 'Aflever'
 };
 
 it('renders without crashing', () => {
@@ -37,8 +37,10 @@ it('renders without crashing', () => {
     };
 
     shallow(
-        <MachineStateContext.Provider value={machineState}>
-            <ScanPasswordLogin actionHandler={() => {}} />
-        </MachineStateContext.Provider>
-    );
+        <IntlProvider locale="en" translations={translations}>
+            <MachineStateContext.Provider value={machineState}>
+                <ScanPasswordLogin actionHandler={() => {}} />
+            </MachineStateContext.Provider>
+        </IntlProvider>
+    )
 });

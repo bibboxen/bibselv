@@ -120,7 +120,6 @@ describe('Tests of input component', () => {
         expect(wrapper.exists('.info')).toEqual(false);
     });
 
-
     it('renders only the .info, .purple and .input classes if which is checkinitems and value is set', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
@@ -152,7 +151,6 @@ describe('Tests of input component', () => {
             'Bogen blev registreret. Klar til næste'
         );
     });
-
     it('renders value', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
