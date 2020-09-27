@@ -142,7 +142,7 @@ function BibboxSounds() {
         reservedBooksPlayedForArray.push(itemIdentifier);
         setReservedBookSoundPlayedFor(reservedBooksPlayedForArray);
         setSoundPlaying(Sound.status.PLAYING);
-        setWhichSoundIsPlaying('sounds/reservedBook.wav');
+        setWhichSoundIsPlaying('sounds/error.wav');
     }
 
     /**
@@ -169,7 +169,7 @@ function BibboxSounds() {
     function playErrorSound() {
         setErrorBookPlayedForLength(errorBookItemsLength);
         setSoundPlaying(Sound.status.PLAYING);
-        setWhichSoundIsPlaying('sounds/reservedBook.wav');
+        setWhichSoundIsPlaying('sounds/error.wav');
     }
 
     /**
