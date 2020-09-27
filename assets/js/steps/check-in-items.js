@@ -38,7 +38,7 @@ function CheckInItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
-    let items = [];
+
     /**
      * Set up barcode scanner listener.
      */
@@ -73,6 +73,7 @@ function CheckInItems({ actionHandler }) {
         };
     }, [actionHandler]);
 
+    let items;
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
