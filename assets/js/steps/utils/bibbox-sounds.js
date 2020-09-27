@@ -131,7 +131,7 @@ function BibboxSounds() {
         birthdaySongPlayedForArray.push(id);
         setBirthdaySongPlayedFor(birthdaySongPlayedForArray);
         setSoundPlaying(Sound.status.PLAYING);
-        setWhichSoundIsPlaying('sounds/bday.wav');
+        setWhichSoundIsPlaying('sounds/birthday.wav');
     }
 
     /**
@@ -151,7 +151,7 @@ function BibboxSounds() {
     function playCheckedInBookSound() {
         setCheckedInBookPlayedForLength(checkedInItemsLength);
         setSoundPlaying(Sound.status.PLAYING);
-        setWhichSoundIsPlaying('sounds/hurray.wav');
+        setWhichSoundIsPlaying('sounds/success.wav');
     }
 
     /**
@@ -160,7 +160,7 @@ function BibboxSounds() {
     function playCheckedOutBookSound() {
         setCheckedOutBookPlayedForLength(checkedOutItemsLength);
         setSoundPlaying(Sound.status.PLAYING);
-        setWhichSoundIsPlaying('sounds/hurray.wav');
+        setWhichSoundIsPlaying('sounds/success.wav');
     }
 
     /**
