@@ -28,6 +28,7 @@ export function adaptListOfBooksToBanner(listOfBooks) {
                 break;
             case BookStatus.CHECKED_IN:
             case BookStatus.CHECKED_OUT:
+            case BookStatus.RENEWED:
                 displayInfo.title = book.title;
                 displayInfo.text = '';
                 if (book.author) {

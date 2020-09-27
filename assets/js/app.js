@@ -23,8 +23,8 @@ import Loading from './steps/loading';
 function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
-    const [reservedBook, setReservedBook] = useState()
-    const [previouslyHandedInReservedBooks, setPreviouslyHandedInReservedBooks] = useState([])
+    const [reservedBook, setReservedBook] = useState();
+    const [previouslyHandedInReservedBooks, setPreviouslyHandedInReservedBooks] = useState([]);
     const idleTimerRef = useRef(null);
 
     /**
@@ -53,17 +53,14 @@ function App({ token, socket }) {
             if (idleTimerRef.current !== null) {
                 idleTimerRef.current.reset();
             }
-            if (data.user){
-                data.user.birthdayToday = true
-            }
             setMachineState(data);
             if (data.step.toLowerCase() === 'checkinitems') {
-                data.items?.forEach(book => {
-                    if (book.message === "Reserveret" && !previouslyHandedInReservedBooks.includes(book.itemIdentifier)) {
+                data.items.forEach(book => {
+                    if (book.message === 'Reserveret' && !previouslyHandedInReservedBooks.includes(book.itemIdentifier)) {
                         setReservedBook(book);
-                        let reservedBooks = previouslyHandedInReservedBooks;
-                        reservedBooks.push(book.itemIdentifier)
-                        setPreviouslyHandedInReservedBooks(reservedBooks)
+                        const reservedBooks = previouslyHandedInReservedBooks;
+                        reservedBooks.push(book.itemIdentifier);
+                        setPreviouslyHandedInReservedBooks(reservedBooks);
                     }
                 });
             }

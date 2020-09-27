@@ -3,7 +3,7 @@
  * The main entrypoint of the react application.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import Initial from './initial';
 import Login from './login';
 import Status from './status';
@@ -21,7 +21,7 @@ import BibboxSounds from './utils/bibbox-sounds';
  * @param machineStateInput
  *   The state of the app.
  * @param reservedBookInput
- *   The last reserved book handed in. 
+ *   The last reserved book handed in.
  * @param actionHandler
  *   Callback on requested state change.
  *
@@ -39,7 +39,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, reservedBookInput, a
         boxConfig: { get: boxConfigurationInput },
         reservedBook: { get: reservedBookInput }
     };
-    
+
     /**
      * renderStep determines which component to render based on the step
      * returned from the state machine.
@@ -73,7 +73,9 @@ function Bibbox({ boxConfigurationInput, machineStateInput, reservedBookInput, a
                     {renderStep(machineStateInput.step)}
                 </div>
             </div>
-            <BibboxSounds></BibboxSounds>
+            {storage.boxConfig.get.soundEnabled &&
+                <BibboxSounds></BibboxSounds>
+            }
         </MachineStateContext.Provider>
     );
 }
@@ -81,6 +83,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, reservedBookInput, a
 Bibbox.propTypes = {
     boxConfigurationInput: PropTypes.object.isRequired,
     machineStateInput: PropTypes.object.isRequired,
+    reservedBookInput: PropTypes.object,
     actionHandler: PropTypes.func.isRequired
 };
 

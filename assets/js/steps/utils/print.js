@@ -19,13 +19,13 @@ function Print({ book }) {
      * Print on load
      */
     useEffect(() => {
-        window.print();
+        // window.print();
     }, []);
 
     return (
-        <div key={book.text} className='flex-column visible-on-print'>
+        <div key={book.title} className='flex-column visible-on-print'>
+            <div>{book.message}</div>
             <div>{book.title}</div>
-            <div>{book.text}</div>
         </div>
     );
 }

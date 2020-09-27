@@ -70,7 +70,7 @@ function NavBar({ actionHandler }) {
                 {context.boxConfig.get.debugEnabled && (
                     <span className='text bold'>
                         Debug mode!
-                        <FontAwesomeIcon icon={faBug} style={{paddingLeft: '4px', color:'hotpink'}}></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }}></FontAwesomeIcon>
                     </span>
                 )}
 

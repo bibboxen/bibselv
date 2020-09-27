@@ -22,7 +22,6 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
-import BookStatus from './utils/book-status';
 import Print from '../steps/utils/print';
 
 /**
@@ -39,7 +38,7 @@ function CheckInItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
-        let items = [];
+    let items = [];
     /**
      * Set up barcode scanner listener.
      */
@@ -74,13 +73,10 @@ function CheckInItems({ actionHandler }) {
         };
     }, [actionHandler]);
 
-
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
-    const reservedBookForPrint = items.filter(book => book.status === BookStatus.RESERVED).pop();
-    console.log("checkinitems reservedbook",reservedBookForPrint)
-    console.log("context reservedbook",context.reservedBook.get)
+
     /**
      * Handles numpad presses.
      *
@@ -129,8 +125,8 @@ function CheckInItems({ actionHandler }) {
 
     return (
         <>
-            {reservedBookForPrint && 
-                <Print key={reservedBookForPrint.text} book={reservedBookForPrint}></Print>
+            {context.reservedBook.get &&
+                <Print key={context.reservedBook.get.title} book={context.reservedBook.get}></Print>
             }
             <div className='col-md-9'>
                 <Header
