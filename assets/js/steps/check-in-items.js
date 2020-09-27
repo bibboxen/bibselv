@@ -39,6 +39,7 @@ function CheckInItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
+        let items = [];
     /**
      * Set up barcode scanner listener.
      */
@@ -73,13 +74,13 @@ function CheckInItems({ actionHandler }) {
         };
     }, [actionHandler]);
 
-    let items = [];
+
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
-
     const reservedBookForPrint = items.filter(book => book.status === BookStatus.RESERVED).pop();
-
+    console.log("checkinitems reservedbook",reservedBookForPrint)
+    console.log("context reservedbook",context.reservedBook.get)
     /**
      * Handles numpad presses.
      *
@@ -128,7 +129,7 @@ function CheckInItems({ actionHandler }) {
 
     return (
         <>
-            {reservedBookForPrint &&
+            {reservedBookForPrint && 
                 <Print key={reservedBookForPrint.text} book={reservedBookForPrint}></Print>
             }
             <div className='col-md-9'>

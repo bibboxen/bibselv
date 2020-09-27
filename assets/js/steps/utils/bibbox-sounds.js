@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Sound from 'react-sound';
 import MachineStateContext from '../../context/machine-state-context';
 
@@ -18,11 +17,9 @@ import MachineStateContext from '../../context/machine-state-context';
  */
 function BibboxSounds() {
     const context = useContext(MachineStateContext);
-
     const [soundPlaying, setSoundPlaying] = useState(Sound.status.STOPPED);
     const [whichSoundIsPlaying, setWhichSoundIsPlaying] = useState('');
-    const [birthdaySoundPlayedFor, setBirthdaySongPlayedFor] = useState([])
-    const [playFromPosition, setPlayFromPosition] = useState(false)
+    const [BibboxSoundsPlayedFor, setBirthdaySongPlayedFor] = useState([])
     let { id , birthdayToday} = context.machineState?.get?.user ? context.machineState.get.user : '';
 
     /**
@@ -32,40 +29,32 @@ function BibboxSounds() {
         if (shouldBirthdaySongBePlayed()) {
            playBirthdaySong();
         }
-
-
     });
 
     function shouldBirthdaySongBePlayed () {
-        return !birthdaySoundPlayedFor.includes(id) && birthdayToday;
+        return !BibboxSoundsPlayedFor.includes(id) && birthdayToday;
     }
 
     function playBirthdaySong() {
         setSoundPlaying(Sound.status.PLAYING);
         setWhichSoundIsPlaying('sounds/bday.wav')
-        let birthdaySongPlayedForArray = birthdaySoundPlayedFor;
+        let birthdaySongPlayedForArray = [...BibboxSoundsPlayedFor];
         birthdaySongPlayedForArray.push(id)
-        setBirthdaySongPlayedFor(birthdaySoundPlayedFor)
-        setPlayFromPosition(3000)
+        setBirthdaySongPlayedFor(birthdaySongPlayedForArray)
     }
 
     function setSoundStopped () {
         setSoundPlaying(Sound.status.STOPPED)
-        setPlayFromPosition(0)
     }
 
     return (
         <Sound
             url={whichSoundIsPlaying}
             playStatus={soundPlaying}
-            playFromPosition={playFromPosition}
+            playFromPosition={3000}
             onFinishedPlaying={setSoundStopped}
         />
     );
 }
-
-BibboxSounds.propTypes = {
-    actionHandler: PropTypes.func.isRequired
-};
 
 export default BibboxSounds;
