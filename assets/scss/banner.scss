@@ -1,8 +1,9 @@
 .banner {
     // Display & position
-    display: flex;
-    margin: 10px 0;
-    padding: 15px;
+    display: -webkit-box;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px;
     border-radius: 2px;
     border: 1px solid $grey-border;
 
@@ -16,6 +17,10 @@
     .banner-header {
         font-size: 1rem;
         font-weight: 700;
+
+        &:after {
+            content: '\00a0-\00a0';
+        }
     }
 
     &.danger {
@@ -35,10 +40,10 @@
         // Display & position
         display: flex;
         align-items: center;
-        margin-right: 15px;
+        margin-right: 5px;
 
         // Text
-        font-size: 30px;
+        font-size: 15px;
     }
 }
 
