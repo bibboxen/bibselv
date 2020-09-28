@@ -157,10 +157,7 @@ describe('Check out items component (Udlån)', () => {
                 actionHandler={() => { }}
             />
         );
-
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.banner .header').text()).toEqual('Fejl');
     });
 
     it('renders item (book) in progress in check out items component when logged in', () => {
@@ -192,9 +189,7 @@ describe('Check out items component (Udlån)', () => {
             />
         );
 
-        expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
     });
 
     it('renders item (book) that is checked in check out items component when logged in', () => {
@@ -226,9 +221,7 @@ describe('Check out items component (Udlån)', () => {
                 actionHandler={() => { }}
             />
         );
-        expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Insekter i farver');
     });
 });
 
@@ -283,9 +276,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.banner .header').text()).toEqual('Fejl');
     });
 
     it('renders item (book) in progress in check in items component when logged out', () => {
@@ -313,9 +304,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
 
-        expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
     });
 
     it('renders item (book) that is checked in check in items component when logged out', () => {
@@ -347,9 +336,7 @@ describe('Check in items component (Aflever)', () => {
                 actionHandler={() => { }}
             />
         );
-        expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Insekter i farver');
     });
 
     it('renders check in items component when it is logged in', () => {
@@ -410,9 +397,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.banner .header').text()).toEqual('Fejl');
     });
 
     it('renders item (book) in progress in check in items component when logged in', () => {
@@ -444,9 +429,7 @@ describe('Check in items component (Aflever)', () => {
             />
         );
 
-        expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
     });
 
     it('renders item (book) that is checked in check in items component when logged in', () => {
@@ -478,9 +461,7 @@ describe('Check in items component (Aflever)', () => {
                 actionHandler={() => { }}
             />
         );
-        expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Insekter i farver');
     });
 });
 
@@ -606,6 +587,7 @@ describe('Status component', () => {
                 actionHandler={() => { }}
             />
         );
+        console.log(wrapper.find('.banner .header').at(1).text())
         expect(
             wrapper.contains(
                 <div className='header'>
@@ -614,11 +596,7 @@ describe('Status component', () => {
                 </div>
             )
         ).toEqual(true);
-        expect(
-            wrapper.contains(
-                <div>Illustreret svampeflora af Lange, Morten</div>
-            )
-        ).toEqual(true);
+        expect(wrapper.find('.banner header').text()).toContain('Illustreret svampeflora af Lange, Morten');
         expect(
             wrapper.contains(
                 <div>Den lille bog om søgning på nettet af Knudsen, Werner</div>
