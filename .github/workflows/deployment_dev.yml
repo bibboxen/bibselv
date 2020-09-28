@@ -49,7 +49,7 @@ jobs:
             git checkout develop
             git fetch
             git reset origin/develop --hard
-            composer install --no-dev
+            composer install --no-dev -o
             bin/console cache:clear --no-debug
             cd engine
             scripts/update.sh
