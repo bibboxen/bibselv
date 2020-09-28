@@ -628,7 +628,6 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        console.log(wrapper.find('.banner .header').at(1).text())
         expect(
             wrapper.contains(
                 <div className='banner-header'>
