@@ -51,10 +51,8 @@ function Banner({ item }) {
                     <FontAwesomeIcon icon={icon} />
                 </div>
             )}
-            <div className='d-flex flex-column'>
-                <div className='header'>{title}</div>
-                <div>{text}</div>
-            </div>
+            <span className='header'>{title}</span>
+            <span>{text}</span>
         </div>
     );
 }

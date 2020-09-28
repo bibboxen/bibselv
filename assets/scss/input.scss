@@ -4,6 +4,8 @@
         .info-banner {
             // Display & position
             padding: 10px 0 10px 5px;
+            margin-bottom: 10px;
+            
             // Color
             background-color: $light-green;
             border: 2px solid $green-border;
@@ -12,7 +14,6 @@
             // Text
             font-family: "Roboto", sans-serif;
             font-size: 15px;
-
             .info-banner-icon {
                 // Display & position
                 margin: 0 10px;
@@ -31,7 +32,7 @@
 
 input {
     // Display & position
-    padding: 5%;
+    padding: 3%;
     box-sizing: border-box;
     width: 100%;
 
