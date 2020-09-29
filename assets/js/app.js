@@ -23,8 +23,6 @@ import Loading from './steps/loading';
 function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
-    const [reservedBook, setReservedBook] = useState();
-    const [previouslyHandedInReservedBooks, setPreviouslyHandedInReservedBooks] = useState([]);
     const idleTimerRef = useRef(null);
 
     /**
@@ -54,16 +52,6 @@ function App({ token, socket }) {
                 idleTimerRef.current.reset();
             }
             setMachineState(data);
-            if (data.step.toLowerCase() === 'checkinitems') {
-                data.items.forEach(book => {
-                    if (book.message === 'Reserveret' && !previouslyHandedInReservedBooks.includes(book.itemIdentifier)) {
-                        setReservedBook(book);
-                        const reservedBooks = previouslyHandedInReservedBooks;
-                        reservedBooks.push(book.itemIdentifier);
-                        setPreviouslyHandedInReservedBooks(reservedBooks);
-                    }
-                });
-            }
         });
     }, []);
 
@@ -129,7 +117,6 @@ function App({ token, socket }) {
                     <Bibbox
                         boxConfigurationInput={boxConfig}
                         machineStateInput={machineState}
-                        reservedBookInput={reservedBook}
                         actionHandler={handleAction}
                     />
                 </div>
