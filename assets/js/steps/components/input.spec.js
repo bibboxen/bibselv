@@ -33,11 +33,11 @@ describe('Tests of input component', () => {
         shallow(
             <IntlProvider locale="en" translations={translations}>
                 <Input
-                   name='input-test'
-                   label='input-label'
-                   onChange={() => {}}
-                   activeBanner={false}
-                   value='123'
+                    name='input-test'
+                    label='input-label'
+                    onChange={() => {}}
+                    activeBanner={false}
+                    value='123'
                 />
             </IntlProvider>
         );

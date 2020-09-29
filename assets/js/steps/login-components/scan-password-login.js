@@ -81,8 +81,8 @@ function ScanPasswordLogin({ actionHandler }) {
     function handleUsernameInput(username) {
         setUsername(username);
         setUsernameScanned(true);
-        setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny');
-        setSubheader('Tast dit pinkode');
+        setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny' />);
+        setSubheader(<FormattedMessage id='scan-login-password-password-subheader' defaultMessage='Tast din pinkode' />);
     }
 
     /**
@@ -142,7 +142,7 @@ function ScanPasswordLogin({ actionHandler }) {
                             <>
                                 <Input
                                     name='password'
-                                    label='Password'
+                                    label={inputLabel}
                                     value={password}
                                     type="password"
                                     onChange={onKeyboardInput}

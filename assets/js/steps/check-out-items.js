@@ -38,6 +38,8 @@ import { FormattedMessage } from 'react-intl';
 function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
+    const helpBoxText = <FormattedMessage id='check-out-items-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden på bogen.' />;
+    const inputLabel = <FormattedMessage id='check-out-items-input-label' defaultMessage='Stregkode' />;
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
