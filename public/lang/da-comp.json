@@ -1,0 +1,152 @@
+{
+  "banner-header-book-with-fine": [
+    {
+      "type": 0,
+      "value": "Denne bog har en bøde"
+    }
+  ],
+  "banner-heaeder-book-for-check-in": [
+    {
+      "type": 0,
+      "value": "Denne bog skal afleveres"
+    }
+  ],
+  "book-is-registered": [
+    {
+      "type": 0,
+      "value": "Bogen blev registreret. Klar til næste"
+    }
+  ],
+  "button-navbar-check-in": [
+    {
+      "type": 0,
+      "value": "Aflever"
+    }
+  ],
+  "button-navbar-check-out": [
+    {
+      "type": 0,
+      "value": "Lån"
+    }
+  ],
+  "button-navbar-finish": [
+    {
+      "type": 0,
+      "value": "Afslut"
+    }
+  ],
+  "button-navbar-status": [
+    {
+      "type": 0,
+      "value": "Status"
+    }
+  ],
+  "check-in-items-help-box-text": [
+    {
+      "type": 0,
+      "value": "Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer."
+    }
+  ],
+  "check-in-items-input-label": [
+    {
+      "type": 0,
+      "value": "Stregkode"
+    }
+  ],
+  "check-out-items-help-box-text": [
+    {
+      "type": 0,
+      "value": "Brug håndscanneren til at scanne stregkoden på bogen."
+    }
+  ],
+  "check-out-items-input-label": [
+    {
+      "type": 0,
+      "value": "Stregkode"
+    }
+  ],
+  "help-box-header": [
+    {
+      "type": 0,
+      "value": "Hjælp"
+    }
+  ],
+  "initial-button-check-in": [
+    {
+      "type": 0,
+      "value": "Aflever"
+    }
+  ],
+  "initial-button-check-out": [
+    {
+      "type": 0,
+      "value": "Lån"
+    }
+  ],
+  "initial-button-status": [
+    {
+      "type": 0,
+      "value": "Status"
+    }
+  ],
+  "initial-choose-a-function": [
+    {
+      "type": 0,
+      "value": "Vælg en funktion for at starte"
+    }
+  ],
+  "login-not-configured": [
+    {
+      "type": 0,
+      "value": "Loginmetode er ikke konfigureret"
+    }
+  ],
+  "scan-login-help-box-text": [
+    {
+      "type": 0,
+      "value": "Brug håndscanneren til at scanne stregkoden din lånerkort."
+    }
+  ],
+  "scan-login-password-input-label": [
+    {
+      "type": 0,
+      "value": "Password"
+    }
+  ],
+  "scan-login-password-password-help-box-text": [
+    {
+      "type": 0,
+      "value": "Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny"
+    }
+  ],
+  "scan-login-password-password-subheader": [
+    {
+      "type": 0,
+      "value": "Tast din pinkode"
+    }
+  ],
+  "scan-login-password-usename-help-box-text": [
+    {
+      "type": 0,
+      "value": "Brug håndscanneren til at scanne stregkoden din lånerkort."
+    }
+  ],
+  "status-header-current-loans": [
+    {
+      "type": 0,
+      "value": "Aktuelle lån"
+    }
+  ],
+  "status-header-ready-for-pickup": [
+    {
+      "type": 0,
+      "value": "Klar til afhentning"
+    }
+  ],
+  "status-header-reservations": [
+    {
+      "type": 0,
+      "value": "Reservationer"
+    }
+  ]
+}

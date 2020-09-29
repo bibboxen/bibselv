@@ -12,6 +12,7 @@
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
         "babel-jest": "^26.3.0",
+        "babel-plugin-react-intl": "^8.2.4",
         "babel-preset-react-app": "^9.1.2",
         "bootstrap": "^4.5.2",
         "core-js": "^3.0.0",
@@ -52,6 +53,7 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress",
         "extract": "formatjs extract",
+        "compile": "formatjs compile",
         "test": "node assets/js/scripts/test.js",
         "test-ci": "CI=true node assets/js/scripts/test.js",
         "test-coverage": "CI=true node assets/js/scripts/test.js --coverage",
@@ -61,6 +63,9 @@
         "apply-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js' --fix",
         "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
         "apply-coding-standards": "npm run apply-coding-standards-js"
+    },
+    "engines": {
+        "node": "=14.*"
     },
     "eslintConfig": {
         "extends": "react-app"
