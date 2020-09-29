@@ -12,7 +12,7 @@ import NavBar from './components/navbar';
 import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machine-state-context';
-import BibboxSounds from './utils/bibbox-sounds';
+
 /**
  * App. The main entrypoint of the react application.
  *
@@ -20,15 +20,13 @@ import BibboxSounds from './utils/bibbox-sounds';
  *   The configuration of the bibbox.
  * @param machineStateInput
  *   The state of the app.
- * @param reservedBookInput
- *   The last reserved book handed in.
  * @param actionHandler
  *   Callback on requested state change.
  *
  * @return {*}
  * @constructor
  */
-function Bibbox({ boxConfigurationInput, machineStateInput, reservedBookInput, actionHandler }) {
+function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
     /**
      * The storage contains the machine state.
      * The step of the machine state determines which component is rendered, and
@@ -36,8 +34,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, reservedBookInput, a
      */
     const storage = {
         machineState: { get: machineStateInput },
-        boxConfig: { get: boxConfigurationInput },
-        reservedBook: { get: reservedBookInput }
+        boxConfig: { get: boxConfigurationInput }
     };
 
     /**
@@ -73,9 +70,6 @@ function Bibbox({ boxConfigurationInput, machineStateInput, reservedBookInput, a
                     {renderStep(machineStateInput.step)}
                 </div>
             </div>
-            {storage.boxConfig.get.soundEnabled &&
-                <BibboxSounds></BibboxSounds>
-            }
         </MachineStateContext.Provider>
     );
 }

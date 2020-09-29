@@ -23,6 +23,7 @@ import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import Print from '../steps/utils/print';
+import Sound from './utils/sound';
 
 /**
  * CheckInItems component.
@@ -38,6 +39,8 @@ function CheckInItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
+    const [handledReservations, setHandledReservations] = useState([]);
+    const sound = new Sound();
 
     /**
      * Set up barcode scanner listener.
@@ -73,7 +76,7 @@ function CheckInItems({ actionHandler }) {
         };
     }, [actionHandler]);
 
-    let items;
+    let items = [];
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
@@ -124,10 +127,28 @@ function CheckInItems({ actionHandler }) {
         setScannedBarcode('');
     }
 
+    let newReservation = null;
+
+    // Evaluate if a new book has been checked in reserved, that is reserved.
+    useEffect(() => {
+        items.forEach(book => {
+            if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
+                newReservation = book;
+                const newHandledReservations = handledReservations;
+                newHandledReservations.push(book);
+                setHandledReservations(newHandledReservations);
+            }
+        });
+
+        if (newReservation) {
+            sound.playSound('reserved');
+        }
+    }, [items]);
+
     return (
         <>
-            {context.reservedBook.get &&
-                <Print key={context.reservedBook.get.title} book={context.reservedBook.get}></Print>
+            {newReservation &&
+                <Print key={newReservation.title} book={newReservation}/>
             }
             <div className='col-md-9'>
                 <Header
@@ -165,7 +186,7 @@ function CheckInItems({ actionHandler }) {
                     }
                 />
             </div>
-            <div className="print"></div>
+            <div className="print"/>
         </>
     );
 }
