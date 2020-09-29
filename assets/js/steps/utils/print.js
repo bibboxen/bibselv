@@ -19,7 +19,7 @@ function Print({ book }) {
      * Print on load
      */
     useEffect(() => {
-        // window.print();
+        window.print();
     }, []);
 
     return (

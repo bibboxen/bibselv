@@ -1,10 +1,25 @@
+/**
+ * @file
+ * Contains class for playing sounds.
+ */
+
+/* global Audio */
+
+/**
+ * Sound.
+ */
 export class Sound {
+    /**
+     * Play the sound for the given type.
+     *
+     * @param type
+     *   The type of the sound.
+     */
     playSound(type) {
         let filename = null;
         switch (type) {
             case 'reserved':
-                filename = 'sounds/error.wav'
-
+                filename = 'sounds/error.wav';
         }
 
         if (filename === null) {

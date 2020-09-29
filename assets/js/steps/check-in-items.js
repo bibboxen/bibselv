@@ -37,49 +37,11 @@ function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
     const [activeBanner, setActiveBanner] = useState(false);
+    const [handledReservations, setHandledReservations] = useState([]);
+    const [newReservation, setNewReservation] = useState(null);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
-    const [handledReservations, setHandledReservations] = useState([]);
     const sound = new Sound();
-
-    /**
-     * Set up barcode scanner listener.
-     */
-    useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                switch (code) {
-                    case BARCODE_COMMAND_FINISH:
-                        actionHandler('reset');
-                        break;
-                    case BARCODE_COMMAND_STATUS:
-                        actionHandler('changeFlow', {
-                            flow: 'status'
-                        });
-                        break;
-                    case BARCODE_COMMAND_CHECKOUT:
-                        actionHandler('changeFlow', {
-                            flow: 'checkOutItems'
-                        });
-                        break;
-                }
-            } else {
-                setScannedBarcode(code);
-                handleItemCheckIn();
-            }
-        };
-
-        barcodeScanner.start(barcodeCallback);
-        return () => {
-            barcodeScanner.stop();
-        };
-    }, [actionHandler]);
-
-    let items = [];
-    if (context.machineState.get.items) {
-        items = adaptListOfBooksToBanner(context.machineState.get.items);
-    }
 
     /**
      * Handles numpad presses.
@@ -117,37 +79,92 @@ function CheckInItems({ actionHandler }) {
 
     /**
      * Handles keyboard inputs.
-     *
      */
     function handleItemCheckIn() {
-        setActiveBanner(true);
-        actionHandler('checkInItem', {
-            itemIdentifier: scannedBarcode
-        });
-        setScannedBarcode('');
+        // Ignore empty check ins.
+        if (scannedBarcode && scannedBarcode.length > 0) {
+            setActiveBanner(true);
+            actionHandler('checkInItem', {
+                itemIdentifier: scannedBarcode
+            });
+            setScannedBarcode('');
+        }
     }
 
-    let newReservation = null;
-
-    // Evaluate if a new book has been checked in reserved, that is reserved.
+    /**
+     * Set up barcode scanner listener.
+     */
     useEffect(() => {
-        items.forEach(book => {
+        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
+        const barcodeCallback = (code) => {
+            if (code.length === BARCODE_COMMAND_LENGTH) {
+                switch (code) {
+                    case BARCODE_COMMAND_FINISH:
+                        actionHandler('reset');
+                        break;
+                    case BARCODE_COMMAND_STATUS:
+                        actionHandler('changeFlow', {
+                            flow: 'status'
+                        });
+                        break;
+                    case BARCODE_COMMAND_CHECKOUT:
+                        actionHandler('changeFlow', {
+                            flow: 'checkOutItems'
+                        });
+                        break;
+                }
+            } else {
+                setScannedBarcode(code);
+                handleItemCheckIn();
+            }
+        };
+
+        barcodeScanner.start(barcodeCallback);
+        return () => {
+            barcodeScanner.stop();
+        };
+    }, [actionHandler]);
+
+    /**
+     * Clear new reservation.
+     */
+    useEffect(() => {
+        setNewReservation(null);
+    }, [newReservation]);
+
+    /**
+     * Evaluate if a new checked-in book is reserved by another user.
+     */
+    useEffect(() => {
+        if (context.machineState.get.items === undefined) return;
+
+        let playSound = false;
+
+        context.machineState.get.items.forEach(book => {
             if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
-                newReservation = book;
+                setNewReservation(book);
+
                 const newHandledReservations = handledReservations;
                 newHandledReservations.push(book);
                 setHandledReservations(newHandledReservations);
+
+                playSound = true;
             }
         });
 
-        if (newReservation) {
+        if (context.boxConfig.get.soundEnabled && playSound) {
             sound.playSound('reserved');
         }
-    }, [items]);
+    }, [context.machineState.get.items]);
+
+    let items;
+    if (context.machineState.get.items) {
+        items = adaptListOfBooksToBanner(context.machineState.get.items);
+    }
 
     return (
         <>
-            {newReservation &&
+            {newReservation !== null &&
                 <Print key={newReservation.title} book={newReservation}/>
             }
             <div className='col-md-9'>
