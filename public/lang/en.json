@@ -1,0 +1,77 @@
+{
+  "banner-header-book-with-fine": {
+    "defaultMessage": "This book has a fine"
+  },
+  "banner-heaeder-book-for-check-in": {
+    "defaultMessage": "This book must be handed in"
+  },
+  "book-is-registered": {
+    "defaultMessage": "The book has been registered. Ready for the next one"
+  },
+  "button-navbar-check-in": {
+    "defaultMessage": "Hand in"
+  },
+  "button-navbar-check-out": {
+    "defaultMessage": "Loan"
+  },
+  "button-navbar-finish": {
+    "defaultMessage": "Afslut"
+  },
+  "button-navbar-status": {
+    "defaultMessage": "Exit"
+  },
+  "check-in-items-help-box-text": {
+    "defaultMessage": "Use the hand scanner to scan the barcode on the book. Or enter the book's ISBN number."
+  },
+  "check-in-items-input-label": {
+    "defaultMessage": "Barcode"
+  },
+  "check-out-items-help-box-text": {
+    "defaultMessage": "Use the hand scanner to scan the barcode on the book."
+  },
+  "check-out-items-input-label": {
+    "defaultMessage": "Barcode"
+  },
+  "help-box-header": {
+    "defaultMessage": "Help"
+  },
+  "initial-button-check-in": {
+    "defaultMessage": "Hand in"
+  },
+  "initial-button-check-out": {
+    "defaultMessage": "Loan"
+  },
+  "initial-button-status": {
+    "defaultMessage": "Exit"
+  },
+  "initial-choose-a-function": {
+    "defaultMessage": "Select a function to start"
+  },
+  "login-not-configured": {
+    "defaultMessage": "Login method is not configured"
+  },
+  "scan-login-help-box-text": {
+    "defaultMessage": "Use the hand scanner to scan the barcode of your library card."
+  },
+  "scan-login-password-input-label": {
+    "defaultMessage": "Password"
+  },
+  "scan-login-password-password-help-box-text": {
+    "defaultMessage": "If you have forgotten your PIN code, you can contact a librarian to get a new one"
+  },
+  "scan-login-password-password-subheader": {
+    "defaultMessage": "Enter your PIN code"
+  },
+  "scan-login-password-usename-help-box-text": {
+    "defaultMessage": "Use the hand scanner to scan the barcode of your library card."
+  },
+  "status-header-current-loans": {
+    "defaultMessage": "Current loans"
+  },
+  "status-header-ready-for-pickup": {
+    "defaultMessage": "Ready for pickup"
+  },
+  "status-header-reservations": {
+    "defaultMessage": "Reservations"
+  }
+}
