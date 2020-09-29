@@ -24,6 +24,7 @@ import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import Print from '../steps/utils/print';
 import Sound from './utils/sound';
+import BookStatus from './utils/book-status';
 
 /**
  * CheckInItems component.
@@ -39,6 +40,8 @@ function CheckInItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const [handledReservations, setHandledReservations] = useState([]);
     const [newReservation, setNewReservation] = useState(null);
+    const [checkedInBooksLength, setCheckedInBooksLength] = useState(0);
+    const [errorsLength, setErrorLength] = useState(0);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
     const sound = new Sound();
@@ -145,7 +148,7 @@ function CheckInItems({ actionHandler }) {
                 setNewReservation(book);
 
                 const newHandledReservations = handledReservations;
-                newHandledReservations.push(book);
+                newHandledReservations.push(book.itemIdentifier);
                 setHandledReservations(newHandledReservations);
 
                 playSound = true;
@@ -154,6 +157,42 @@ function CheckInItems({ actionHandler }) {
 
         if (context.boxConfig.get.soundEnabled && playSound) {
             sound.playSound('reserved');
+        }
+    }, [context.machineState.get.items]);
+
+    /**
+     * Play sound for successful checkin.
+     */
+    useEffect(() => {
+        if (context.machineState.get.items === undefined) return;
+
+        let playSound = false;
+        const booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_IN && book.message !== 'Reserveret').length;
+        if (booksLength > checkedInBooksLength) {
+            setCheckedInBooksLength(booksLength);
+            playSound = true;
+        }
+
+        if (context.boxConfig.get.soundEnabled && playSound) {
+            sound.playSound('success');
+        }
+    }, [context.machineState.get.items]);
+
+    /**
+     * Play sound for erring checkin.
+     */
+    useEffect(() => {
+        if (context.machineState.get.items === undefined) return;
+
+        let playSound = false;
+        const booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
+        if (booksLength > errorsLength) {
+            setErrorLength(booksLength);
+            playSound = true;
+        }
+
+        if (context.boxConfig.get.soundEnabled && playSound) {
+            sound.playSound('error');
         }
     }, [context.machineState.get.items]);
 

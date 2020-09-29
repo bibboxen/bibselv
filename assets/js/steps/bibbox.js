@@ -3,7 +3,7 @@
  * The main entrypoint of the react application.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Initial from './initial';
 import Login from './login';
 import Status from './status';
@@ -12,7 +12,7 @@ import NavBar from './components/navbar';
 import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machine-state-context';
-
+import { Sound } from './utils/sound';
 /**
  * App. The main entrypoint of the react application.
  *
@@ -27,6 +27,9 @@ import MachineStateContext from '../context/machine-state-context';
  * @constructor
  */
 function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
+    const sound = new Sound();
+    const { user } = machineStateInput;
+
     /**
      * The storage contains the machine state.
      * The step of the machine state determines which component is rendered, and
@@ -36,6 +39,30 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
         machineState: { get: machineStateInput },
         boxConfig: { get: boxConfigurationInput }
     };
+
+    /**
+     * Play birthday music if user has birthday.
+     */
+    useEffect(() => {
+        if (user === undefined) return;
+
+        let playSound = false;
+        const whenWasItLastPlayed = window.localStorage.getItem(user.id);
+        let lastPlayedForUser;
+        if (whenWasItLastPlayed) {
+            lastPlayedForUser = new Date(parseInt(whenWasItLastPlayed));
+        }
+        const today = new Date();
+        if (user.birthdayToday && lastPlayedForUser?.getFullYear() !== today.getFullYear()) {
+            playSound = true;
+            window.localStorage.removeItem(user.id);
+            window.localStorage.setItem(`${user.id}`, `${Date.now()}`);
+        }
+
+        if (boxConfigurationInput.soundEnabled && playSound) {
+            sound.playSound('birthday');
+        }
+    }, [user]);
 
     /**
      * renderStep determines which component to render based on the step

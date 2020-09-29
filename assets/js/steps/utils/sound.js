@@ -20,6 +20,16 @@ export class Sound {
         switch (type) {
             case 'reserved':
                 filename = 'sounds/error.wav';
+                break;
+            case 'success':
+                filename = 'sounds/success.wav';
+                break;
+            case 'error':
+                filename = 'sounds/error.wav';
+                break;
+            case 'birthday':
+                filename = 'sounds/birthday.wav';
+                break;
         }
 
         if (filename === null) {
