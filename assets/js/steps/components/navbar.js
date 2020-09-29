@@ -60,7 +60,7 @@ function NavBar({ actionHandler }) {
     ];
 
     return (
-        <div className={classes}>
+        <div className={classes} >
             <div className='text-container'>
                 <span className='text'>{context.boxConfig.get.school.name}</span>
                 {context.machineState.get.user && (
@@ -68,11 +68,11 @@ function NavBar({ actionHandler }) {
                         {context.machineState.get.user.name}
                     </span>
                 )}
-                {context.machineState?.get.user?.birthdayToday && (
-                    <span className='birthday-icon'>
-                        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>
-                    </span>
-                )}
+                {/*{context.machineState?.get.user?.birthdayToday && (*/}
+                {/*    <span className='birthday-icon'>*/}
+                {/*        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>*/}
+                {/*    </span>*/}
+                {/*)}*/}
                 {context.boxConfig.get.debugEnabled && (
                     <span className='text bold'>
                         Debug mode!

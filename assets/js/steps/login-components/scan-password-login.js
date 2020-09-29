@@ -150,14 +150,14 @@ function ScanPasswordLogin({ actionHandler }) {
                                 <NumPad okButtonLabel={loginButtonLabel}
                                     deleteButtonLabel={deleteButtonLabel}
                                     handleNumpadPress={onNumPadPress} />
-                            </>)}
-                            <Input
-                                name='password'
-                                label={inputLabel}
-                                value={password}
-                                readOnly
-                            />
+                            </>
                         )}
+                        <Input
+                            name='password'
+                            label={inputLabel}
+                            value={password}
+                            readOnly
+                        />
                         {usernameScanned && (
                             <NumPad handleNumpadPress={onNumPadPress} />
                         )}
