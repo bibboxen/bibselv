@@ -13,6 +13,7 @@ import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machine-state-context';
 import { Sound } from './utils/sound';
+
 /**
  * App. The main entrypoint of the react application.
  *
@@ -104,7 +105,6 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
 Bibbox.propTypes = {
     boxConfigurationInput: PropTypes.object.isRequired,
     machineStateInput: PropTypes.object.isRequired,
-    reservedBookInput: PropTypes.object,
     actionHandler: PropTypes.func.isRequired
 };
 
