@@ -435,7 +435,7 @@ class BoxConfiguration
      * Get the default language code.
      *
      * @return string
-     *   The language code.
+     *   The language code
      */
     public function getDefaultLanguageCode(): string
     {
@@ -446,7 +446,7 @@ class BoxConfiguration
      * Set default language code.
      *
      * @param string $defaultLanguageCode
-     *   The language code to use.
+     *   The language code to use
      *
      * @return $this
      */
@@ -456,5 +456,4 @@ class BoxConfiguration
 
         return $this;
     }
-
 }
