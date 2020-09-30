@@ -45,8 +45,8 @@ function App({ token, socket }) {
         });
 
         // Configuration received from backend.
-        socket.on('Configuration', (data) => {
-            loadLocaleData(data.defaultLanguageCode);
+        socket.on('Configuration', async (data) => {
+            loadTranslations(data.defaultLanguageCode);
             setLanguage(data.defaultLanguageCode);
             setBoxConfig(data);
         });
@@ -111,23 +111,24 @@ function App({ token, socket }) {
     /**
      * Load language based on language code.
      *
-     * @param locale
+     * @param languageCode
      *   The local language code to use. Defaults to "en".
      *
      * @returns {Object}
      *   Object with translations.
      */
-    function loadLocaleData(locale) {
-        switch (locale) {
+     function loadTranslations(languageCode) {
+        switch (languageCode) {
             case 'da':
-                import('../../public/lang/da-comp.json').then((module) => {
-                    setMessages(module)
+                import('../../public/lang/da-comp.json').then((data) => {
+                    setMessages(data)
                 });
                 break;
 
             default:
-                import('../../public/lang/en-comp.json').then((module) => {
-                    setMessages(module)
+                // Fallback to english.
+                import('../../public/lang/en-comp.json').then((data) => {
+                    setMessages(data)
                 });
                 break;
         }

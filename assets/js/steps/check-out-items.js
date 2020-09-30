@@ -41,8 +41,8 @@ function CheckOutItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
-    const helpBoxText = <FormattedMessage id='check-out-items-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden på bogen.' />;
-    const inputLabel = <FormattedMessage id='check-out-items-input-label' defaultMessage='Stregkode' />;
+    const helpBoxText = <FormattedMessage id='check-out-items-help-box-text' defaultMessage='Use the hand scanner to scan the barcode on the book.' />;
+    const inputLabel = <FormattedMessage id='check-out-items-input-label' defaultMessage='Barcode' />;
 
     /**
      * Set up barcode scanner listener.
@@ -133,7 +133,7 @@ function CheckOutItems({ actionHandler }) {
         <>
             <div className='col-md-9'>
                 <Header
-                    header='Lån'
+                    header='Loan'
                     subheader='Scan stregkoden på bogen du vil låne'
                     which='checkOutItems'
                     icon={faBookReader}

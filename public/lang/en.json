@@ -15,10 +15,10 @@
     "defaultMessage": "Loan"
   },
   "button-navbar-finish": {
-    "defaultMessage": "Afslut"
+    "defaultMessage": "Exit"
   },
   "button-navbar-status": {
-    "defaultMessage": "Exit"
+    "defaultMessage": "Status"
   },
   "check-in-items-help-box-text": {
     "defaultMessage": "Use the hand scanner to scan the barcode on the book. Or enter the book's ISBN number."
@@ -42,7 +42,7 @@
     "defaultMessage": "Loan"
   },
   "initial-button-status": {
-    "defaultMessage": "Exit"
+    "defaultMessage": "Status"
   },
   "initial-choose-a-function": {
     "defaultMessage": "Select a function to start"

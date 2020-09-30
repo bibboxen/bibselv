@@ -31,9 +31,9 @@ import { FormattedMessage } from 'react-intl';
  * @constructor
  */
 function Initial({ actionHandler }) {
-    const bubbleCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='Lån' />;
+    const bubbleCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='Loan' />;
     const bubbleStatus = <FormattedMessage id='initial-button-status' defaultMessage='Status' />;
-    const bubbleCheckIn = <FormattedMessage id='initial-button-check-in' defaultMessage='Aflever' />;
+    const bubbleCheckIn = <FormattedMessage id='initial-button-check-in' defaultMessage='Hand in' />;
 
     const components = [
         {
@@ -93,7 +93,7 @@ function Initial({ actionHandler }) {
     return (
         <div className='col-md-12'>
             <h1 className='mb-5'>
-                <FormattedMessage id='initial-choose-a-function' defaultMessage='Vælg en funktion for at starte' />
+                <FormattedMessage id='initial-choose-a-function' defaultMessage='Select a function to start' />
             </h1>
             <div className='row justify-content-center'>
                 {components.map((component) => (

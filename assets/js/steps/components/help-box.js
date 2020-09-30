@@ -25,7 +25,7 @@ function HelpBox({ text }) {
                     <FontAwesomeIcon icon={faQuestionCircle} />
                 </span>
                 <span>
-                    <FormattedMessage id='help-box-header' defaultMessage='Hjælp' />
+                    <FormattedMessage id='help-box-header' defaultMessage='Help' />
                 </span>
                 <p>{text}</p>
             </div>

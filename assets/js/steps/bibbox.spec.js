@@ -10,22 +10,22 @@ import { expect, it, describe } from '@jest/globals';
 import { IntlProvider } from 'react-intl';
 
 const translations = {
-    'initial-choose-a-function': 'Vælg en funktion for at starte',
-    'initial-button-check-out': 'Lån',
+    'initial-choose-a-function': 'Select a function to start',
+    'initial-button-check-out': 'Loan',
     'initial-button-status': 'Status',
-    'initial-button-check-in': 'Aflever',
-    'login-not-configured': 'Loginmetode er ikke konfigureret',
-    'status-header-current-loans': 'Aktuelle lån',
-    'status-header-reservations': 'Reservationer',
-    'status-header-ready-for-pickup': 'Klar til afhentning',
-    'banner-header-book-with-fine': 'Denne bog har en bøde',
-    'banner-heaeder-book-for-check-in': 'Denne bog skal afleveres',
-    'help-box-header': 'Hjælp',
-    'book-is-registered': 'Bogen blev registreret. Klar til næste',
-    'button-navbar-check-out': 'Lån',
+    'initial-button-check-in': 'Hand in',
+    'login-not-configured': 'Login method is not configured',
+    'status-header-current-loans': 'Current loans',
+    'status-header-reservations': 'Reservations',
+    'status-header-ready-for-pickup': 'Ready for pickup',
+    'banner-header-book-with-fine': 'This book has a fine',
+    'banner-heaeder-book-for-check-in': 'This book must be handed in',
+    'help-box-header': 'Help',
+    'book-is-registered': 'The book has been registered. Ready for the next one',
+    'button-navbar-check-out': 'Loan',
     'button-navbar-status': 'Status',
-    'button-navbar-check-in': 'Aflever',
-    'button-navbar-finish': 'Afslut'
+    'button-navbar-check-in': 'Hand in',
+    'button-navbar-finish': 'Exit'
 };
 
 // it('renders without crashing', () => {
@@ -59,7 +59,7 @@ describe('Initial component (Vælg en funktion...)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('h1').text()).toEqual('Vælg en funktion for at starte');
+        expect(wrapper.find('h1').text()).toEqual('Select a function to start');
     });
 });
 
@@ -145,7 +145,7 @@ describe('Check out items component (Udlån)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.contains(<div className='header'>Lån</div>)).toEqual(
+        expect(wrapper.contains(<div className='header'>Loan</div>)).toEqual(
             true
         );
     });
@@ -262,7 +262,7 @@ describe('Check out items component (Udlån)', () => {
     });
 });
 
-describe('Check in items component (Aflever)', () => {
+describe('Check in items component (Hand in)', () => {
     it('renders check in items component when it is logged out', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
@@ -282,7 +282,7 @@ describe('Check in items component (Aflever)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.contains(<div className='header'>Aflever</div>)).toEqual(
+        expect(wrapper.contains(<div className='header'>Hand in</div>)).toEqual(
             true
         );
     });
@@ -413,7 +413,7 @@ describe('Check in items component (Aflever)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.contains(<div className='header'>Aflever</div>)).toEqual(
+        expect(wrapper.contains(<div className='header'>Hand in</div>)).toEqual(
             true
         );
     });
@@ -771,16 +771,16 @@ describe('Tests of navbar component', () => {
         );
         expect(wrapper.find('.button-container button').length).toEqual(4);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
-            'Lån'
+            'Loan'
         );
         expect(wrapper.find('.button-container button').at(1).text()).toEqual(
             'Status'
         );
         expect(wrapper.find('.button-container button').at(2).text()).toEqual(
-            'Aflever'
+            'Hand in'
         );
         expect(wrapper.find('.button-container button').at(3).text()).toEqual(
-            'Afslut'
+            'Exit'
         );
     });
 
@@ -809,16 +809,16 @@ describe('Tests of navbar component', () => {
         );
         expect(wrapper.find('.button-container button').length).toEqual(4);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
-            'Lån'
+            'Loan'
         );
         expect(wrapper.find('.button-container button').at(1).text()).toEqual(
             'Status'
         );
         expect(wrapper.find('.button-container button').at(2).text()).toEqual(
-            'Aflever'
+            'Hand in'
         );
         expect(wrapper.find('.button-container button').at(3).text()).toEqual(
-            'Afslut'
+            'Exit'
         );
     });
 });

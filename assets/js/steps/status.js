@@ -37,11 +37,11 @@ import { FormattedMessage } from 'react-intl';
  */
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const statusHeaderCurrentLoans = <FormattedMessage id='status-header-current-loans' defaultMessage='Aktuelle lån' />;
-    const statusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='Reservationer' />;
-    const statusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='Klar til afhentning' />;
-    const bannerHeaderBookWithFine = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='Denne bog har en bøde' />;
-    const bannerHeaderBookForCheckIn = <FormattedMessage id='banner-heaeder-book-for-check-in' defaultMessage='Denne bog skal afleveres' />;
+    const statusHeaderCurrentLoans = <FormattedMessage id='status-header-current-loans' defaultMessage='Current loans' />;
+    const statusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='Reservations' />;
+    const statusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='Ready for pickup' />;
+    const bannerHeaderBookWithFine = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='This book has a fine' />;
+    const bannerHeaderBookForCheckIn = <FormattedMessage id='banner-heaeder-book-for-check-in' defaultMessage='This book must be handed in' />;
     /**
      * Set up barcode listener.
      */

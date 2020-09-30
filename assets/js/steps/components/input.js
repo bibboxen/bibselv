@@ -36,7 +36,7 @@ const Input = ({ name, label, value, activeBanner = false, ...rest }) => {
                     <span className='info-banner-icon'>
                         <FontAwesomeIcon icon={faCheck} />
                     </span>
-                    <FormattedMessage id='book-is-registered' defaultMessage='Bogen blev registreret. Klar til næste' />
+                    <FormattedMessage id='book-is-registered' defaultMessage='The book has been registered. Ready for the next one' />
                 </div>
             )}
         </div>

@@ -32,13 +32,13 @@
   "button-navbar-finish": [
     {
       "type": 0,
-      "value": "Afslut"
+      "value": "Exit"
     }
   ],
   "button-navbar-status": [
     {
       "type": 0,
-      "value": "Exit"
+      "value": "Status"
     }
   ],
   "check-in-items-help-box-text": [
@@ -86,7 +86,7 @@
   "initial-button-status": [
     {
       "type": 0,
-      "value": "Exit"
+      "value": "Status"
     }
   ],
   "initial-choose-a-function": [

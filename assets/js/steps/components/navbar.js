@@ -30,10 +30,10 @@ import { FormattedMessage } from 'react-intl';
 function NavBar({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const classes = context.machineState.get.step === 'initial' ? 'navbar initial' : 'navbar';
-    const buttonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='Lån' />;
+    const buttonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='Loan' />;
     const buttonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='Status' />;
-    const buttonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='Aflever' />;
-    const buttonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='Afslut' />;
+    const buttonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='Hand in' />;
+    const buttonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='Exit' />;
     const components = [
         {
             which: 'checkOutItems',

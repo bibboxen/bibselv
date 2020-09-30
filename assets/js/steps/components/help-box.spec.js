@@ -10,22 +10,22 @@ import HelpBox from './help-box';
 import { IntlProvider } from 'react-intl';
 
 const translations = {
-    'initial-choose-a-function': 'Vælg en funktion for at starte',
-    'initial-button-check-out': 'Lån',
+    'initial-choose-a-function': 'Select a function to start',
+    'initial-button-check-out': 'Loan',
     'initial-button-status': 'Status',
-    'initial-button-check-in': 'Aflever',
-    'login-not-configured': 'Loginmetode er ikke konfigureret',
-    'status-header-current-loans': 'Aktuelle lån',
-    'status-header-reservations': 'Reservationer',
-    'status-header-ready-for-pickup': 'Klar til afhentning',
-    'banner-header-book-with-fine': 'Denne bog har en bøde',
-    'banner-heaeder-book-for-check-in': 'Denne bog skal afleveres',
-    'help-box-header': 'Hjælp',
-    'book-is-registered': 'Bogen blev registreret. Klar til næste',
-    'button-navbar-check-out': 'Lån',
+    'initial-button-check-in': 'Hand in',
+    'login-not-configured': 'Login method is not configured',
+    'status-header-current-loans': 'Current loans',
+    'status-header-reservations': 'Reservations',
+    'status-header-ready-for-pickup': 'Ready for pickup',
+    'banner-header-book-with-fine': 'This book has a fine',
+    'banner-heaeder-book-for-check-in': 'This book must be handed in',
+    'help-box-header': 'Help',
+    'book-is-registered': 'The book has been registered. Ready for the next one',
+    'button-navbar-check-out': 'Loan',
     'button-navbar-status': 'Status',
-    'button-navbar-check-in': 'Aflever',
-    'button-navbar-finish': 'Afslut'
+    'button-navbar-check-in': 'Hand in',
+    'button-navbar-finish': 'Exit'
 };
 
 describe('Test of helpbox', () => {

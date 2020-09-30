@@ -38,8 +38,8 @@ function CheckInItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
-    const helpBoxText = <FormattedMessage id='check-in-items-help-box-text' defaultMessage='Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer.' />;
-    const inputLabel = <FormattedMessage id='check-in-items-input-label' defaultMessage='Stregkode' />;
+    const helpBoxText = <FormattedMessage id='check-in-items-help-box-text' defaultMessage='Use the hand scanner to scan the barcode on the book. Or enter the books ISBN number.' />;
+    const inputLabel = <FormattedMessage id='check-in-items-input-label' defaultMessage='Barcode' />;
 
     /**
      * Set up barcode scanner listener.
@@ -131,7 +131,7 @@ function CheckInItems({ actionHandler }) {
         <>
             <div className='col-md-9'>
                 <Header
-                    header='Aflever'
+                    header='Hand in'
                     subheader='Scan stregkoden på bogen du vil aflevere'
                     which='checkInItems'
                     icon={faBook}

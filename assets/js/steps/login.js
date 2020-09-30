@@ -44,7 +44,7 @@ function Login({ actionHandler }) {
             case 'unilogin':
                 return <UniLogin actionHandler={actionHandler} />;
             default:
-                return <span><FormattedMessage id='login-not-configured' defaultMessage='Loginmetode er ikke konfigureret' /></span>;
+                return <span><FormattedMessage id='login-not-configured' defaultMessage='Login method is not configured' /></span>;
         }
     }
 
