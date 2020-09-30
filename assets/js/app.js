@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
+
 /**
  * App. The main entrypoint of the react application.
  *
@@ -44,6 +45,7 @@ function App({ token, socket }) {
 
         // Configuration received from backend.
         socket.on('Configuration', (data) => {
+            setTranslations(loadLocaleData('en'));
             setBoxConfig(data);
         });
 
@@ -101,6 +103,21 @@ function App({ token, socket }) {
             if (idleTimerRef.current !== null) {
                 idleTimerRef.current.reset();
             }
+        }
+    }
+
+    /**
+     *
+     * @param locale
+     *
+     * @returns {Promise<{"banner-header-book-with-fine": *, "banner-heaeder-book-for-check-in": *, "book-is-registered": *, "button-navbar-check-in": *, "button-navbar-check-out": *, "button-navbar-finish": *, "button-navbar-status": *, "check-in-items-help-box-text": *, "check-in-items-input-label": *, "check-out-items-help-box-text": *, "check-out-items-input-label": *, "help-box-header": *, "initial-button-check-in": *, "initial-button-check-out": *, "initial-button-status": *, "initial-choose-a-function": *, "login-not-configured": *, "scan-login-help-box-text": *, "scan-login-password-input-label": *, "scan-login-password-password-help-box-text": *, "scan-login-password-password-subheader": *, "scan-login-password-usename-help-box-text": *, "status-header-current-loans": *, "status-header-ready-for-pickup": *, "status-header-reservations": *}>|Promise<{"banner-header-book-with-fine": *, "banner-heaeder-book-for-check-in": *, "book-is-registered": *, "button-navbar-check-in": *, "button-navbar-check-out": *, "button-navbar-finish": *, "button-navbar-status": *, "check-in-items-help-box-text": *, "check-in-items-input-label": *, "check-out-items-help-box-text": *, "check-out-items-input-label": *, "help-box-header": *, "initial-button-check-in": *, "initial-button-check-out": *, "initial-button-status": *, "initial-choose-a-function": *, "login-not-configured": *, "scan-login-help-box-text": *, "scan-login-password-input-label": *, "scan-login-password-password-help-box-text": *, "scan-login-password-password-subheader": *, "scan-login-password-usename-help-box-text": *, "status-header-current-loans": *, "status-header-ready-for-pickup": *, "status-header-reservations": *}>}
+     */
+    function loadLocaleData(locale) {
+        switch (locale) {
+            case 'da':
+                return import('../../public/lang/da-comp.json')
+            default:
+                return import('../../public/lang/en-comp.json')
         }
     }
 

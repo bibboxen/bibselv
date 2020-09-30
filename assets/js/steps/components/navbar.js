@@ -29,8 +29,7 @@ import { FormattedMessage } from 'react-intl';
  */
 function NavBar({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const classes = context.machineState.get.step === 'initial'
-        ? 'navbar initial' : 'navbar';
+    const classes = context.machineState.get.step === 'initial' ? 'navbar initial' : 'navbar';
     const buttonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='Lån' />;
     const buttonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='Status' />;
     const buttonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='Aflever' />;
@@ -68,11 +67,11 @@ function NavBar({ actionHandler }) {
                         {context.machineState.get.user.name}
                     </span>
                 )}
-                {context.machineState.get.user?.birthdayToday && (
-                    <span className='birthday-icon'>
-                        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>
-                    </span>
-                )}
+                {/*{context.machineState.get.user?.birthdayToday && (*/}
+                {/*    <span className='birthday-icon'>*/}
+                {/*        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>*/}
+                {/*    </span>*/}
+                {/*)}*/}
                 {context.boxConfig.get.debugEnabled && (
                     <span className='text bold'>
                         Debug mode!
