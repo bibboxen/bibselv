@@ -49,15 +49,11 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
 
         let playSound = false;
         const whenWasItLastPlayed = window.localStorage.getItem(user.id);
-        let lastPlayedForUser;
-        if (whenWasItLastPlayed) {
-            lastPlayedForUser = new Date(parseInt(whenWasItLastPlayed));
-        }
+        let lastPlayedForUser = whenWasItLastPlayed ? new Date(parseInt(whenWasItLastPlayed)) : undefined;
         const today = new Date();
         if (user.birthdayToday && lastPlayedForUser?.getFullYear() !== today.getFullYear()) {
             playSound = true;
-            window.localStorage.removeItem(user.id);
-            window.localStorage.setItem(`${user.id}`, `${Date.now()}`);
+            window.localStorage.setItem(user.id, Date.now());
         }
 
         if (boxConfigurationInput.soundEnabled && playSound) {
