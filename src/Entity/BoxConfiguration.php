@@ -110,7 +110,7 @@ class BoxConfiguration
     private $debugEnabled = false;
 
     /**
-     * @ORM\Column(type="string", length=2, nullable=true, options={"default": "en"}))
+     * @ORM\Column(type="string", length=2, nullable=true, options={"default": "EN"}))
      *
      * @Groups("boxConfiguration")
      */
