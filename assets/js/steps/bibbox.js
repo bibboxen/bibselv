@@ -49,7 +49,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
 
         let playSound = false;
         const whenWasItLastPlayed = window.localStorage.getItem(user.id);
-        let lastPlayedForUser = whenWasItLastPlayed ? new Date(parseInt(whenWasItLastPlayed)) : undefined;
+        const lastPlayedForUser = whenWasItLastPlayed ? new Date(parseInt(whenWasItLastPlayed)) : undefined;
         const today = new Date();
         if (user.birthdayToday && lastPlayedForUser?.getFullYear() !== today.getFullYear()) {
             playSound = true;
