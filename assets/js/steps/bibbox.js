@@ -47,17 +47,14 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
     useEffect(() => {
         if (user === undefined) return;
 
-        let playSound = false;
         const whenWasItLastPlayed = window.localStorage.getItem(user.id);
         const lastPlayedForUser = whenWasItLastPlayed ? new Date(parseInt(whenWasItLastPlayed)) : undefined;
         const today = new Date();
         if (user.birthdayToday && lastPlayedForUser?.getFullYear() !== today.getFullYear()) {
-            playSound = true;
             window.localStorage.setItem(user.id, Date.now());
-        }
-
-        if (boxConfigurationInput.soundEnabled && playSound) {
-            sound.playSound('birthday');
+            if (boxConfigurationInput.soundEnabled) {
+                sound.playSound('birthday');
+            }
         }
     }, [user]);
 
