@@ -152,15 +152,6 @@ function ScanPasswordLogin({ actionHandler }) {
                                     handleNumpadPress={onNumPadPress} />
                             </>
                         )}
-                        <Input
-                            name='password'
-                            label={inputLabel}
-                            value={password}
-                            readOnly
-                        />
-                        {usernameScanned && (
-                            <NumPad handleNumpadPress={onNumPadPress} />
-                        )}
                     </div>
                 </div>
             </div>
