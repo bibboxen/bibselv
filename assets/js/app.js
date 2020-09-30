@@ -45,9 +45,8 @@ function App({ token, socket }) {
         });
 
         // Configuration received from backend.
-        socket.on('Configuration', async (data) => {
+        socket.on('Configuration', (data) => {
             loadTranslations(data.defaultLanguageCode);
-            setLanguage(data.defaultLanguageCode);
             setBoxConfig(data);
         });
 
@@ -62,7 +61,7 @@ function App({ token, socket }) {
 
     /**
      * Handle a user action.
-
+     *
      * @param action
      *   Name of the action
      * @param data
@@ -109,6 +108,22 @@ function App({ token, socket }) {
     }
 
     /**
+     * Setting language and translations.
+     *
+     * The language should not be set before the translations is loaded, but just after they are load and messages
+     * are set. The prevent error in console with format message fallback to 'en'.
+     *
+     * @param data
+     *   The translations loaded.
+     * @param languageCode
+     *   The language code set.
+     */
+    function activateTranslations(data, languageCode) {
+        setLanguage(languageCode);
+        setMessages(data);
+    }
+
+    /**
      * Load language based on language code.
      *
      * @param languageCode
@@ -117,18 +132,18 @@ function App({ token, socket }) {
      * @returns {Object}
      *   Object with translations.
      */
-     function loadTranslations(languageCode) {
+    function loadTranslations(languageCode) {
         switch (languageCode) {
             case 'da':
                 import('../../public/lang/da-comp.json').then((data) => {
-                    setMessages(data)
+                    activateTranslations(data, languageCode);
                 });
                 break;
 
             default:
                 // Fallback to english.
                 import('../../public/lang/en-comp.json').then((data) => {
-                    setMessages(data)
+                    activateTranslations(data, languageCode);
                 });
                 break;
         }
