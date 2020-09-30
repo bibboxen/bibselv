@@ -12,7 +12,8 @@ import {
     faBook,
     faSignOutAlt,
     faBug,
-    faPrint
+    faPrint,
+    faBirthdayCake
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -67,13 +68,17 @@ function NavBar({ actionHandler }) {
                         {context.machineState.get.user.name}
                     </span>
                 )}
+                {context.machineState?.get.user?.birthdayToday && (
+                    <span className='birthday-icon'>
+                        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>
+                    </span>
+                )}
                 {context.boxConfig.get.debugEnabled && (
                     <span className='text bold'>
                         Debug mode!
                         <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }}></FontAwesomeIcon>
                     </span>
                 )}
-
             </div>
             <div className='button-container'>
                 {context.machineState.get.step === 'status' &&
