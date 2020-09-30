@@ -111,7 +111,7 @@ function App({ token, socket }) {
      * Setting language and translations.
      *
      * The language should not be set before the translations is loaded, but just after they are load and messages
-     * are set. The prevent error in console with format message fallback to 'en'.
+     * are set. This prevents errors in the console with format message fallback to 'en'.
      *
      * @param data
      *   The translations loaded.
@@ -119,8 +119,8 @@ function App({ token, socket }) {
      *   The language code set.
      */
     function activateTranslations(data, languageCode) {
-        setLanguage(languageCode);
         setMessages(data);
+        setLanguage(languageCode);
     }
 
     /**
