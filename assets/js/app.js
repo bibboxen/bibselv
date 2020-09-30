@@ -25,6 +25,7 @@ function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [messages, setMessages] = useState();
+    const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
 
     /**
@@ -45,7 +46,8 @@ function App({ token, socket }) {
 
         // Configuration received from backend.
         socket.on('Configuration', (data) => {
-            loadLocaleData('en');
+            loadLocaleData(data.defaultLanguageCode);
+            setLanguage(data.defaultLanguageCode);
             setBoxConfig(data);
         });
 
@@ -107,30 +109,32 @@ function App({ token, socket }) {
     }
 
     /**
+     * Load language based on language code.
      *
      * @param locale
+     *   The local language code to use. Defaults to "en".
      *
-     * @returns {Promise<{"banner-header-book-with-fine": *, "banner-heaeder-book-for-check-in": *, "book-is-registered": *, "button-navbar-check-in": *, "button-navbar-check-out": *, "button-navbar-finish": *, "button-navbar-status": *, "check-in-items-help-box-text": *, "check-in-items-input-label": *, "check-out-items-help-box-text": *, "check-out-items-input-label": *, "help-box-header": *, "initial-button-check-in": *, "initial-button-check-out": *, "initial-button-status": *, "initial-choose-a-function": *, "login-not-configured": *, "scan-login-help-box-text": *, "scan-login-password-input-label": *, "scan-login-password-password-help-box-text": *, "scan-login-password-password-subheader": *, "scan-login-password-usename-help-box-text": *, "status-header-current-loans": *, "status-header-ready-for-pickup": *, "status-header-reservations": *}>|Promise<{"banner-header-book-with-fine": *, "banner-heaeder-book-for-check-in": *, "book-is-registered": *, "button-navbar-check-in": *, "button-navbar-check-out": *, "button-navbar-finish": *, "button-navbar-status": *, "check-in-items-help-box-text": *, "check-in-items-input-label": *, "check-out-items-help-box-text": *, "check-out-items-input-label": *, "help-box-header": *, "initial-button-check-in": *, "initial-button-check-out": *, "initial-button-status": *, "initial-choose-a-function": *, "login-not-configured": *, "scan-login-help-box-text": *, "scan-login-password-input-label": *, "scan-login-password-password-help-box-text": *, "scan-login-password-password-subheader": *, "scan-login-password-usename-help-box-text": *, "status-header-current-loans": *, "status-header-ready-for-pickup": *, "status-header-reservations": *}>}
+     * @returns {Object}
+     *   Object with translations.
      */
     function loadLocaleData(locale) {
         switch (locale) {
             case 'da':
                 import('../../public/lang/da-comp.json').then((module) => {
                     setMessages(module)
-                    // Do something with the module.
                 });
-            break;
+                break;
+
             default:
                 import('../../public/lang/en-comp.json').then((module) => {
                     setMessages(module)
-                // Do something with the module.
                 });
-            break;
+                break;
         }
     }
 
     return (
-        <IntlProvider locale="da" messages={messages}>
+        <IntlProvider locale={language} messages={messages}>
             {machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}

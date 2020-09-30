@@ -34,6 +34,9 @@ class BoxConfigurationController extends AbstractController
             throw $this->createNotFoundException('Unknown box configuration');
         }
 
+        // HACK HACK HACK
+        $boxConfiguration->setDefaultLanguageCode(strtolower($boxConfiguration->getDefaultLanguageCode()));
+
         return $this->json($boxConfiguration, 200, [], ['groups' => ['boxConfiguration']]);
     }
 }

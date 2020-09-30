@@ -67,7 +67,7 @@ function NavBar({ actionHandler }) {
                         {context.machineState.get.user.name}
                     </span>
                 )}
-                {/*{context.machineState.get.user?.birthdayToday && (*/}
+                {/*{context.machineState.get.user.birthdayToday && (*/}
                 {/*    <span className='birthday-icon'>*/}
                 {/*        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>*/}
                 {/*    </span>*/}

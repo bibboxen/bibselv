@@ -110,6 +110,13 @@ class BoxConfiguration
     private $debugEnabled = false;
 
     /**
+     * @ORM\Column(type="string", length=2, nullable=true, options={"default": "en"}))
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $defaultLanguageCode = 'EN';
+
+    /**
      * BoxConfiguration toString.
      *
      * @return mixed
@@ -423,4 +430,31 @@ class BoxConfiguration
 
         return $this;
     }
+
+    /**
+     * Get the default language code.
+     *
+     * @return string
+     *   The language code.
+     */
+    public function getDefaultLanguageCode(): string
+    {
+        return $this->defaultLanguageCode;
+    }
+
+    /**
+     * Set default language code.
+     *
+     * @param string $defaultLanguageCode
+     *   The language code to use.
+     *
+     * @return $this
+     */
+    public function setDefaultLanguageCode(string $defaultLanguageCode): self
+    {
+        $this->defaultLanguageCode = $defaultLanguageCode;
+
+        return $this;
+    }
+
 }
