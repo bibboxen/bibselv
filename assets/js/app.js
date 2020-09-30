@@ -24,7 +24,7 @@ import { IntlProvider } from 'react-intl';
 function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
-    const [translations, setTranslations] = useState();
+    const [messages, setMessages] = useState();
     const idleTimerRef = useRef(null);
 
     /**
@@ -45,7 +45,7 @@ function App({ token, socket }) {
 
         // Configuration received from backend.
         socket.on('Configuration', (data) => {
-            setTranslations(loadLocaleData('en'));
+            loadLocaleData('en');
             setBoxConfig(data);
         });
 
@@ -115,14 +115,22 @@ function App({ token, socket }) {
     function loadLocaleData(locale) {
         switch (locale) {
             case 'da':
-                return import('../../public/lang/da-comp.json')
+                import('../../public/lang/da-comp.json').then((module) => {
+                    setMessages(module)
+                    // Do something with the module.
+                });
+            break;
             default:
-                return import('../../public/lang/en-comp.json')
+                import('../../public/lang/en-comp.json').then((module) => {
+                    setMessages(module)
+                // Do something with the module.
+                });
+            break;
         }
     }
 
     return (
-        <IntlProvider locale="da" translations={translations}>
+        <IntlProvider locale="da" messages={messages}>
             {machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
