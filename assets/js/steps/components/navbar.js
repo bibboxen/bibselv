@@ -67,11 +67,11 @@ function NavBar({ actionHandler }) {
                         {context.machineState.get.user.name}
                     </span>
                 )}
-                {/*{context.machineState.get.user.birthdayToday && (*/}
-                {/*    <span className='birthday-icon'>*/}
-                {/*        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>*/}
-                {/*    </span>*/}
-                {/*)}*/}
+                {context.machineState.get.user && scontext.machineState.get.user.birthdayToday && (
+                    <span className='birthday-icon'>
+                        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>
+                    </span>
+                )}
                 {context.boxConfig.get.debugEnabled && (
                     <span className='text bold'>
                         Debug mode!

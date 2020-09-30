@@ -120,37 +120,6 @@ describe('Tests of input component', () => {
         expect(wrapper.exists('.info')).toEqual(false);
     });
 
-    it('renders only the .info, .purple and .input classes if which is checkinitems and value is set', () => {
-        const wrapper = mount(
-            <IntlProvider locale="en" translations={translations}>
-                <Input
-                    name='input-test'
-                    label='input-label'
-                    value='bib'
-                    activeBanner={false}
-                />
-            </IntlProvider>
-        );
-        expect(wrapper.exists('.info')).toEqual(true);
-        expect(wrapper.exists('.input')).toEqual(true);
-        expect(wrapper.exists('.purple')).toEqual(true);
-    });
-    it('renders info banner on which and value', () => {
-        const wrapper = mount(
-            <IntlProvider locale="en" translations={translations}>
-                <Input
-                    name='input-test'
-                    label='input-label'
-                    value='123'
-                    readOnly={true}
-                    which='test'
-                />
-            </IntlProvider>
-        );
-        expect(wrapper.find('.info-banner').text()).toEqual(
-            'Bogen blev registreret. Klar til næste'
-        );
-    });
     it('renders value', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
