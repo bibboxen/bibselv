@@ -131,34 +131,30 @@ function CheckOutItems({ actionHandler }) {
      */
     useEffect(() => {
         if (context.machineState.get.items === undefined) return;
-
         let playSound = false;
-        const booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_OUT && book.message !== 'Reserveret').length;
+        let soundToPlay = '';
+        let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_OUT || book.status === BookStatus.RENEWED).length;
         if (booksLength > checkedOutBooksLength) {
             setCheckedOutBooksLength(booksLength);
             playSound = true;
+            soundToPlay = 'success';
         }
 
-        if (context.boxConfig.get.soundEnabled && playSound) {
-            sound.playSound('success');
-        }
-    }, [context.machineState.get.items]);
-
-    /**
-     * Play sound for erring checkout.
-     */
-    useEffect(() => {
-        if (context.machineState.get.items === undefined) return;
-
-        let playSound = false;
-        const booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
+        /**
+         * Play sound for erring checkout.
+         */
+        booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
         if (booksLength > errorsLength) {
             setErrorLength(booksLength);
             playSound = true;
+            soundToPlay = 'error';
         }
 
+        /**
+         * Play sound.
+         */
         if (context.boxConfig.get.soundEnabled && playSound) {
-            sound.playSound('error');
+            sound.playSound(soundToPlay);
         }
     }, [context.machineState.get.items]);
 

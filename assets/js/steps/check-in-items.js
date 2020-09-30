@@ -136,13 +136,16 @@ function CheckInItems({ actionHandler }) {
     }, [newReservation]);
 
     /**
-     * Evaluate if a new checked-in book is reserved by another user.
+     * Determines whether to play a soumd and which to play.
      */
     useEffect(() => {
+        /**
+        * Evaluate if a new checked-in book is reserved by another user.
+        */
         if (context.machineState.get.items === undefined) return;
 
         let playSound = false;
-
+        let soundToPlay = '';
         context.machineState.get.items.forEach(book => {
             if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
                 setNewReservation(book);
@@ -152,47 +155,37 @@ function CheckInItems({ actionHandler }) {
                 setHandledReservations(newHandledReservations);
 
                 playSound = true;
+                soundToPlay = 'reserved';
             }
         });
 
-        if (context.boxConfig.get.soundEnabled && playSound) {
-            sound.playSound('reserved');
-        }
-    }, [context.machineState.get.items]);
-
-    /**
-     * Play sound for successful checkin.
-     */
-    useEffect(() => {
-        if (context.machineState.get.items === undefined) return;
-
-        let playSound = false;
-        const booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_IN && book.message !== 'Reserveret').length;
+        /**
+         * Play sound for successful checkin.
+         */
+        let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_IN && book.message !== 'Reserveret').length;
         if (booksLength > checkedInBooksLength) {
+            console.log('prut');
             setCheckedInBooksLength(booksLength);
             playSound = true;
+            soundToPlay = 'success';
         }
 
-        if (context.boxConfig.get.soundEnabled && playSound) {
-            sound.playSound('success');
-        }
-    }, [context.machineState.get.items]);
-
-    /**
-     * Play sound for erring checkin.
-     */
-    useEffect(() => {
-        if (context.machineState.get.items === undefined) return;
-
-        let playSound = false;
-        const booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
+        /**
+         * Play sound for erring checkin.
+         */
+        booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
         if (booksLength > errorsLength) {
             setErrorLength(booksLength);
             playSound = true;
+            soundToPlay = 'error';
         }
 
+        /**
+         * Play sound.
+         */
         if (context.boxConfig.get.soundEnabled && playSound) {
-            sound.playSound('error');
+            console.log('prut2');
+            sound.playSound(soundToPlay);
         }
     }, [context.machineState.get.items]);
 
