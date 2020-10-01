@@ -22,6 +22,8 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBookReader } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
+import Sound from './utils/sound';
+import BookStatus from './utils/book-status';
 
 /**
  * CheckOutItems component.
@@ -40,6 +42,9 @@ function CheckOutItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
+    const [checkedOutBooksLength, setCheckedOutBooksLength] = useState(0);
+    const [errorsLength, setErrorLength] = useState(0);
+    const sound = new Sound();
 
     /**
      * Set up barcode scanner listener.
@@ -120,6 +125,39 @@ function CheckOutItems({ actionHandler }) {
         });
         setScannedBarcode('');
     }
+
+    /**
+     * Play sound for successful checkout.
+     */
+    useEffect(() => {
+        if (context.machineState.get.items === undefined) return;
+        let soundToPlay = null;
+
+        /**
+         * Play sound for successful checkout.
+         */
+        let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_OUT || book.status === BookStatus.RENEWED).length;
+        if (booksLength > checkedOutBooksLength) {
+            setCheckedOutBooksLength(booksLength);
+            soundToPlay = 'success';
+        }
+
+        /**
+         * Play sound for erring checkout.
+         */
+        booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
+        if (booksLength > errorsLength) {
+            setErrorLength(booksLength);
+            soundToPlay = 'error';
+        }
+
+        /**
+         * Play sound.
+         */
+        if (context.boxConfig.get.soundEnabled && soundToPlay) {
+            sound.playSound(soundToPlay);
+        }
+    }, [context.machineState.get.items]);
 
     let items = [];
     if (context.machineState.get.items) {

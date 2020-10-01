@@ -159,7 +159,6 @@ function ScanPasswordLogin({ actionHandler }) {
                                 username: 'C023648674',
                                 password: ''
                             })}
-                        which='login-button'
                     />
                 )}
             </div>
