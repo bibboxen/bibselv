@@ -67,10 +67,13 @@ jobs:
     frontend-build:
         name: Frontend build
         runs-on: ubuntu-latest
+        container: node:14
         steps:
             - uses: actions/checkout@v2
             - name: Run install and build assets
-              run: docker run -v ${GITHUB_WORKSPACE}:/app node:14 bash -c 'npm install && npm run build'
+              run: |
+                npm install
+                npm run build
 
     frontend-coding-standards:
         name: Frontend coding standards
