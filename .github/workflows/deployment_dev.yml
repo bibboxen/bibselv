@@ -1,0 +1,59 @@
+---
+on:
+  push:
+    branches:
+      - develop
+
+name: Deployment (dev)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: npm-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: npm-
+
+      - name: Install npm packages
+        run: docker run -v $PWD:/app:rw -v ${{ steps.npm-cache.outputs.dir }}:/root/.npm/_cacache:rw --workdir=/app node:14 bash -c 'npm install'
+
+      - name: Build assets
+        run: docker run -v $PWD:/app:rw -v ${{ steps.npm-cache.outputs.dir }}:/root/.npm/_cacache:rw --workdir=/app node:14 bash -c 'npm run build'
+
+      - name: Sync assets to remote server
+        uses: itk-dev/actions-rsync@master
+        with:
+          src: public/build
+          dest: ${{ secrets.APP_PATH_DEV }}/public/build
+          host: ${{ secrets.HOST_DEV }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          cert: ${{ secrets.PUBLIC_KEY_CERT }}
+
+  remote:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run remote commands
+        uses: itk-dev/actions-remote-ssh@master
+        with:
+          command: |
+            cd ${{ secrets.APP_PATH_DEV }}
+            git clean -d --force
+            git checkout develop
+            git fetch
+            git reset origin/develop --hard
+            composer install --no-dev -o
+            bin/console cache:clear --no-debug
+            cd engine
+            scripts/update.sh
+            sudo service supervisor restart
+          host: ${{ secrets.HOST_DEV }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          cert: ${{ secrets.PUBLIC_KEY_CERT }}
