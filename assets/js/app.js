@@ -133,20 +133,14 @@ function App({ token, socket }) {
      *   Object with translations.
      */
     function loadTranslations(languageCode) {
-        switch (languageCode) {
-            case 'da':
-                import('../../public/lang/da-comp.json').then((data) => {
-                    activateTranslations(data, languageCode);
-                });
-                break;
+        const supportedLanguageCodes = ['da', 'en'];
 
-            default:
-                // Fallback to english.
-                import('../../public/lang/en-comp.json').then((data) => {
-                    activateTranslations(data, languageCode);
-                });
-                break;
-        }
+        // Default to english.
+        let selectedLanguageCode = supportedLanguageCodes.includes(languageCode) ? languageCode : 'en';
+
+        import('../../public/lang/' + selectedLanguageCode + '-comp.json').then((data) => {
+            activateTranslations(data, languageCode);
+        });
     }
 
     return (

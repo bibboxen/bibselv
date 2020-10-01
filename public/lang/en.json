@@ -51,7 +51,7 @@
     "defaultMessage": "Login method is not configured"
   },
   "scan-login-help-box-text": {
-    "defaultMessage": "Use the hand scanner to scan the barcode of your library card."
+    "defaultMessage": "Use the barcode scanner to scan your library card."
   },
   "scan-login-password-input-label": {
     "defaultMessage": "Password"

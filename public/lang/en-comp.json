@@ -104,7 +104,7 @@
   "scan-login-help-box-text": [
     {
       "type": 0,
-      "value": "Use the hand scanner to scan the barcode of your library card."
+      "value": "Use the barcode scanner to scan your library card."
     }
   ],
   "scan-login-password-input-label": [

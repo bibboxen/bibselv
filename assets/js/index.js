@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import '../scss/index.scss';
 import App from './app';
 import socketIOClient from 'socket.io-client';
+
 const rootElement = document.getElementById('reactjs-root');
 const socket = socketIOClient(rootElement.getAttribute('data-socket-uri'));
 
