@@ -131,12 +131,14 @@ function CheckOutItems({ actionHandler }) {
      */
     useEffect(() => {
         if (context.machineState.get.items === undefined) return;
-        let playSound = false;
-        let soundToPlay = '';
+        let soundToPlay = null;
+
+        /**
+         * Play sound for successful checkout.
+         */
         let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_OUT || book.status === BookStatus.RENEWED).length;
         if (booksLength > checkedOutBooksLength) {
             setCheckedOutBooksLength(booksLength);
-            playSound = true;
             soundToPlay = 'success';
         }
 
@@ -146,14 +148,13 @@ function CheckOutItems({ actionHandler }) {
         booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
         if (booksLength > errorsLength) {
             setErrorLength(booksLength);
-            playSound = true;
             soundToPlay = 'error';
         }
 
         /**
          * Play sound.
          */
-        if (context.boxConfig.get.soundEnabled && playSound) {
+        if (context.boxConfig.get.soundEnabled && soundToPlay) {
             sound.playSound(soundToPlay);
         }
     }, [context.machineState.get.items]);

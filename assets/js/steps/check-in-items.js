@@ -139,13 +139,12 @@ function CheckInItems({ actionHandler }) {
      * Determines whether to play a soumd and which to play.
      */
     useEffect(() => {
+        if (context.machineState.get.items === undefined) return;
+        let soundToPlay = null;
+        
         /**
         * Evaluate if a new checked-in book is reserved by another user.
         */
-        if (context.machineState.get.items === undefined) return;
-
-        let playSound = false;
-        let soundToPlay = '';
         context.machineState.get.items.forEach(book => {
             if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
                 setNewReservation(book);
@@ -153,8 +152,6 @@ function CheckInItems({ actionHandler }) {
                 const newHandledReservations = handledReservations;
                 newHandledReservations.push(book.itemIdentifier);
                 setHandledReservations(newHandledReservations);
-
-                playSound = true;
                 soundToPlay = 'reserved';
             }
         });
@@ -165,24 +162,22 @@ function CheckInItems({ actionHandler }) {
         let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_IN && book.message !== 'Reserveret').length;
         if (booksLength > checkedInBooksLength) {
             setCheckedInBooksLength(booksLength);
-            playSound = true;
             soundToPlay = 'success';
         }
 
         /**
-         * Play sound for erring checkin.
+         * Play sound for check-in error.
          */
         booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
         if (booksLength > errorsLength) {
             setErrorLength(booksLength);
-            playSound = true;
             soundToPlay = 'error';
         }
 
         /**
          * Play sound.
          */
-        if (context.boxConfig.get.soundEnabled && playSound) {
+        if (context.boxConfig.get.soundEnabled && soundToPlay) {
             sound.playSound(soundToPlay);
         }
     }, [context.machineState.get.items]);

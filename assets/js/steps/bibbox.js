@@ -45,17 +45,15 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      * Play birthday music if user has birthday.
      */
     useEffect(() => {
-        if (user === undefined) return;
+        if (user === undefined || boxConfigurationInput.soundEnabled) return;
 
-        const whenWasItLastPlayed = window.localStorage.getItem(user.id);
-        const lastPlayedForUser = whenWasItLastPlayed ? new Date(parseInt(whenWasItLastPlayed)) : undefined;
+        const lastPlayed = window.localStorage.getItem(user.id);
+        const lastPlayedDate = lastPlayed ? new Date(parseInt(lastPlayed)) : undefined;
         const today = new Date();
-        if (user.birthdayToday && lastPlayedForUser?.getFullYear() !== today.getFullYear()) {
+        if (user.birthdayToday && lastPlayedDate?.getFullYear() !== today.getFullYear()) {
             window.localStorage.setItem(user.id, Date.now());
-            if (boxConfigurationInput.soundEnabled) {
                 sound.playSound('birthday');
             }
-        }
     }, [user]);
 
     /**
