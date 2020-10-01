@@ -122,13 +122,13 @@ When PRs are created towards the develop branch all coding styles are checked by
 To check for coding standards, run the following:
 
 ```sh
-docker-compose exec frontend bash -c 'npm run check-coding-standards'
+docker-compose run frontend bash -c 'npm run check-coding-standards'
 ```
 
 To automatically apply coding standards, run:
 
 ```sh
-docker-compose exec frontend bash -c 'npm run apply-coding-standards'
+docker-compose run frontend bash -c 'npm run apply-coding-standards'
 ```
 
 ### Engine
@@ -189,5 +189,5 @@ bin/console doctrine:migrations:migrate
 ### Building production assets for the frontend
 
 ```
-docker-compose run frontend bash -c 'npm run build'
+docker-compose exec frontend bash -c 'npm run build'
 ```
