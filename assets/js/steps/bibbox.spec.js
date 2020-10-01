@@ -598,7 +598,7 @@ describe('Status component', () => {
                         {
                             id: '5313004378',
                             title: 'Illustreret svampeflora',
-                            author: 'Lange, Morten',
+                            author: 'Lange, Morten'
                         }
                     ],
                     unavailableHoldItems: [
@@ -606,19 +606,19 @@ describe('Status component', () => {
                             id: '5313004351',
                             title:
                                 'Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces',
-                            author: 'Holm, Anna Marie',
+                            author: 'Holm, Anna Marie'
                         }
                     ]
                 }}
                 actionHandler={() => { }}
             />
         );
-        expect(wrapper.find('.banner .header').at(0).text()).toEqual('Denne bog har en bøde')
-        expect(wrapper.find('.banner .header').at(1).text()).toEqual('Denne bog skal afleveres')
-        expect(wrapper.find('.banner .header').at(2).text()).toEqual('Denne bog skal afleveres')
-        expect(wrapper.find('.banner .header').at(3).text()).toEqual('Mellem rejer og hundestejler')
-        expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces')
-        expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver')
+        expect(wrapper.find('.banner .header').at(0).text()).toEqual('Denne bog har en bøde');
+        expect(wrapper.find('.banner .header').at(1).text()).toEqual('Denne bog skal afleveres');
+        expect(wrapper.find('.banner .header').at(2).text()).toEqual('Denne bog skal afleveres');
+        expect(wrapper.find('.banner .header').at(3).text()).toEqual('Mellem rejer og hundestejler');
+        expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces');
+        expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver');
     });
 });
 

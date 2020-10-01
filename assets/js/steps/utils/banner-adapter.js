@@ -57,7 +57,7 @@ export function adaptListOfBooksWithMessage(listOfBooks, message) {
     const items = [];
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
-        displayInfo.title = message ? message : book.message;
+        displayInfo.title = message || book.message;
         displayInfo.text = `${book.title} af ${book.author}`;
         items.push(displayInfo);
     });
