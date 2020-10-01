@@ -81,7 +81,6 @@ services:
       - NODE_ENV=development
     volumes:
       - .:/app:delegated
-    command: npm run watch
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.9.1
