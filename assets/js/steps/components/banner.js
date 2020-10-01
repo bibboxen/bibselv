@@ -53,7 +53,7 @@ function Banner({ item, visibleOnPrint = false }) {
                     <FontAwesomeIcon icon={icon} />
                 </div>
             )}
-            <span className='banner-header'>{title}</span>
+            <span className='header'>{title}</span>
             <span>{text}</span>
         </div>
     );

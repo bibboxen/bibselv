@@ -35,7 +35,7 @@ describe('Test of banner component', () => {
                 }}
             />
         );
-        expect(wrapper.find(".header").text()).toEqual('Illustreret svampeflora');
+        expect(wrapper.find('.banner .header').text()).toEqual('Illustreret svampeflora');
     });
     it('Renders text', () => {
         const wrapper = mount(

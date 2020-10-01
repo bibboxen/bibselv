@@ -67,7 +67,6 @@ function Status({ actionHandler }) {
             barcodeScanner.stop();
         };
     }, [actionHandler]);
-
     const loanedItems = [
         ...adaptListOfBooksWithMessage(
             context.machineState.get.fineItems,

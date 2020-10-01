@@ -92,10 +92,8 @@ describe('Check out items component (Udlån)', () => {
                     items: [
                         {
                             id: '5313004378',
-                            recallDate: 1598832000000,
                             title: 'Illustreret svampeflora',
                             author: 'Lange, Morten',
-                            DK5: '57.4',
                             status: 'error',
                             message: 'Fejl'
                         }
@@ -157,10 +155,8 @@ describe('Check out items component (Udlån)', () => {
                     items: [
                         {
                             id: '5313004378',
-                            recallDate: 1598832000000,
                             title: 'Illustreret svampeflora',
                             author: 'Lange, Morten',
-                            DK5: '57.4',
                             status: 'error',
                             message: 'Fejl'
                         }
@@ -283,10 +279,8 @@ describe('Check in items component (Aflever)', () => {
                     items: [
                         {
                             id: '5313004378',
-                            recallDate: 1598832000000,
                             title: 'Illustreret svampeflora',
                             author: 'Lange, Morten',
-                            DK5: '57.4',
                             status: 'error',
                             message: 'Fejl'
                         }
@@ -412,10 +406,8 @@ describe('Check in items component (Aflever)', () => {
                     items: [
                         {
                             id: '5313004378',
-                            recallDate: 1598832000000,
                             title: 'Illustreret svampeflora',
                             author: 'Lange, Morten',
-                            DK5: '57.4',
                             status: 'error',
                             message: 'Fejl'
                         }
@@ -605,56 +597,28 @@ describe('Status component', () => {
                     recallItems: [
                         {
                             id: '5313004378',
-                            recallDate: 1598832000000,
                             title: 'Illustreret svampeflora',
                             author: 'Lange, Morten',
-                            DK5: '57.4'
                         }
                     ],
                     unavailableHoldItems: [
                         {
                             id: '5313004351',
-                            recallDate: 1598832000000,
                             title:
                                 'Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces',
                             author: 'Holm, Anna Marie',
-                            DK5: '70.7'
                         }
                     ]
                 }}
                 actionHandler={() => { }}
             />
         );
-        expect(
-            wrapper.contains(
-                <div className='banner-header'>
-                    Det eksperimenterende billedværksted: [Bind] 1: indføring i
-                    den kunstneriske proces
-                </div>
-            )
-        ).toEqual(true);
-        expect(wrapper.find('.banner header').text()).toContain('Illustreret svampeflora af Lange, Morten');
-        expect(
-            wrapper.contains(
-                <div>Den lille bog om søgning på nettet af Knudsen, Werner</div>
-            )
-        ).toEqual(true);
-        expect(
-            wrapper.contains(
-                <div className='banner-header'>Mellem rejer og hundestejler</div>
-            )
-        ).toEqual(true);
-        expect(
-            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
-        ).toEqual(true);
-        expect(
-            wrapper.contains(<div>Open book af Simpson, Jessica</div>)
-        ).toEqual(true);
-        expect(
-            wrapper.contains(
-                <div className='banner-header'>Bogtitel som ikke eksisterer</div>
-            )
-        ).toEqual(false);
+        expect(wrapper.find('.banner .header').at(0).text()).toEqual('Denne bog har en bøde')
+        expect(wrapper.find('.banner .header').at(1).text()).toEqual('Denne bog skal afleveres')
+        expect(wrapper.find('.banner .header').at(2).text()).toEqual('Denne bog skal afleveres')
+        expect(wrapper.find('.banner .header').at(3).text()).toEqual('Mellem rejer og hundestejler')
+        expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces')
+        expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver')
     });
 });
 
