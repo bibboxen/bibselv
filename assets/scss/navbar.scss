@@ -15,7 +15,7 @@
     }
     .text-container {
         // Display & position
-        width: 30%;
+        width: 35%;
 
         > .text {
             // Display & position
@@ -34,12 +34,26 @@
             // Text
             font-weight: 700;
         }
+
+        .birthday-icon {
+            // Display & position
+            margin-left: 10px;
+
+            // Text
+            font-size: 1.5rem;
+        }
     }
 
     .button-container {
         // Display & position
-        width: 70%;
+        width: 65%;
         display: flex;
         justify-content: flex-end;
+    }
+}
+
+@media print {
+    .navbar {
+        display: none;
     }
 }

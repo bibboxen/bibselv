@@ -2,7 +2,6 @@
 .button {
     // Display & position
     margin: 1%;
-    width: 15%;
     padding: 1%;
     border-radius: 3%;
     border-width: 1px;
@@ -10,34 +9,43 @@
 
     // Color
     color: $white;
+    border-color: $purple;
+    background-color: $purple;
+    
 
     // Text
     font-family: $font-family-sans-serif;
     font-size: 1rem;
     
-    &.login-button {
+    &.green {
         // Display & position
-        width: 100%;
-        margin-top: 5%;
-        
+        width: 15%;
+
         // Color
         border-color: $green-border;
         background-color: $green;
     }
 
-    &.checkoutitems {
+    &.yellow {
+        // Display & position
+        width: 15%;
+
         // Color
         border-color: $yellow;
         background-color: $yellow;
         color: $font-color;
     }
-    &.checkinitems {
+    &.purple {
+        // Display & position
+        width: 15%;
+
         // Color
         border-color: $purple;
         background-color: $purple;
     }
-    &.reset {
+    &.red {
         // Display & position
+        width: 15%;
         margin-left: 3%;
         
         // Color
@@ -45,7 +53,10 @@
         background-color: $red;
     }
 
-    &.status {
+    &.blue {
+        // Display & position
+        width: 15%;
+
         // Color
         border-color: $blue;
         background-color: $blue;

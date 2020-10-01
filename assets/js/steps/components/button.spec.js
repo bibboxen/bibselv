@@ -27,10 +27,10 @@ describe('Test of button component', () => {
                 label='knap'
                 icon={faCheck}
                 handleButtonPress={() => console.log()}
-                which='reset'
+                color='red'
             />
         );
-        expect(wrapper.exists('.reset')).toEqual(true);
+        expect(wrapper.exists('.red')).toEqual(true);
     });
 
     it('Renders label', () => {

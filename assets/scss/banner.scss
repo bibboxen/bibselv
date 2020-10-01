@@ -14,7 +14,7 @@
     background-color: $grey;
     color: $font-color;
 
-    .header {
+    .banner-header {
         font-size: 1rem;
         font-weight: 700;
 
@@ -78,5 +78,17 @@
 }
 
 .fa-spinner {
-    animation: banner-spinner 3s linear infinite;
+    animation: banner-spinner 5s linear infinite;
 }
+
+
+@media print {
+    .banner {
+        display: none;
+    }
+    .visibe-on-print { 
+        display: flex;
+        border:0;
+    }
+}
+

@@ -11,7 +11,9 @@ import { expect, it, describe } from '@jest/globals';
 it('renders without crashing', () => {
     shallow(
         <Bibbox
+            reservedBookInput={{}}
             boxConfigurationInput={{
+                soundEnabled: false,
                 inactivityTimeOut: 3000,
                 school: {
                     name: 'Mårslet Skole'
@@ -27,7 +29,9 @@ describe('Initial component (Vælg en funktion...)', () => {
     it('renders the initial component when state is initial and it is logged out', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -50,7 +54,9 @@ describe('Check out items component (Udlån)', () => {
     it('renders login component when it is logged out', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -71,7 +77,9 @@ describe('Check out items component (Udlån)', () => {
     it('renders login component when logged out, even if there is items', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -103,7 +111,9 @@ describe('Check out items component (Udlån)', () => {
     it('renders check out items component when it is logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -129,7 +139,9 @@ describe('Check out items component (Udlån)', () => {
     it('renders item (book) with error in check out items component when logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -163,7 +175,9 @@ describe('Check out items component (Udlån)', () => {
     it('renders item (book) in progress in check out items component when logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -195,7 +209,9 @@ describe('Check out items component (Udlån)', () => {
     it('renders item (book) that is checked in check out items component when logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -229,7 +245,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders check in items component when it is logged out', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -251,7 +269,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders item (book) with error in check in items component when logged out', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -282,7 +302,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders item (book) in progress in check in items component when logged out', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -310,7 +332,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders item (book) that is checked in check in items component when logged out', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -342,7 +366,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders check in items component when it is logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -368,7 +394,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders item (book) with error in check in items component when logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -403,7 +431,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders item (book) in progress in check in items component when logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -435,7 +465,9 @@ describe('Check in items component (Aflever)', () => {
     it('renders item (book) that is checked in check in items component when logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -469,7 +501,9 @@ describe('Status component', () => {
     it('renders the login page, when state is status and it is not logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     loginMethod: 'unilogin',
                     inactivityTimeOut: 3000,
                     school: {
@@ -486,7 +520,9 @@ describe('Status component', () => {
     it('renders the status component when the state is status and it is logged in', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -518,7 +554,9 @@ describe('Status component', () => {
     it('renders the books from machine state when the state is status, it is logged in and there are books', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -589,7 +627,7 @@ describe('Status component', () => {
         );
         expect(
             wrapper.contains(
-                <div className='header'>
+                <div className='banner-header'>
                     Det eksperimenterende billedværksted: [Bind] 1: indføring i
                     den kunstneriske proces
                 </div>
@@ -603,18 +641,18 @@ describe('Status component', () => {
         ).toEqual(true);
         expect(
             wrapper.contains(
-                <div className='header'>Mellem rejer og hundestejler</div>
+                <div className='banner-header'>Mellem rejer og hundestejler</div>
             )
         ).toEqual(true);
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
         expect(
             wrapper.contains(<div>Open book af Simpson, Jessica</div>)
         ).toEqual(true);
         expect(
             wrapper.contains(
-                <div className='header'>Bogtitel som ikke eksisterer</div>
+                <div className='banner-header'>Bogtitel som ikke eksisterer</div>
             )
         ).toEqual(false);
     });
@@ -624,7 +662,9 @@ describe('Tests of navbar component', () => {
     it('renders the navbar component when state is initial', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -642,7 +682,9 @@ describe('Tests of navbar component', () => {
     it('renders the name of the logged in user in the navbar', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -664,7 +706,9 @@ describe('Tests of navbar component', () => {
     it('renders the four buttons in the navbar', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -700,7 +744,9 @@ describe('Tests of navbar component', () => {
     it('renders the four buttons in the navbar', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -738,7 +784,9 @@ describe('Tests of configuration', () => {
     it('render the logincomponent defined in the config (login barcode password)', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -761,12 +809,13 @@ describe('Tests of configuration', () => {
     it('render the logincomponent defined in the config (unilogin)', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     id: 1,
                     hasPrinter: true,
                     reservedMaterialInstruction: 'NotSure',
                     inactivityTimeOut: 3000,
-                    soundEnabled: true,
                     school: {
                         name: 'Mårslet Skole'
                     },
@@ -790,7 +839,9 @@ describe('Tests of configuration', () => {
     it('render the logincomponent defined in the config (login barcode)', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -813,12 +864,13 @@ describe('Tests of configuration', () => {
     it('render the school name from the configuration', () => {
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     id: 1,
                     hasPrinter: true,
                     reservedMaterialInstruction: 'NotSure',
                     inactivityTimeOut: 3000,
-                    soundEnabled: true,
                     school: {
                         name: 'Mårslet Skole'
                     },
@@ -845,12 +897,13 @@ describe('Tests of callback data', () => {
         const mockCallBack = jest.fn();
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     id: 1,
                     hasPrinter: true,
                     reservedMaterialInstruction: 'NotSure',
                     inactivityTimeOut: 3000,
-                    soundEnabled: true,
                     school: {
                         name: 'Mårslet Skole'
                     },
@@ -875,7 +928,9 @@ describe('Tests of callback data', () => {
         const mockCallBack = jest.fn();
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -899,7 +954,9 @@ describe('Tests of callback data', () => {
         const mockCallBack = jest.fn();
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -923,7 +980,9 @@ describe('Tests of callback data', () => {
         const mockCallBack = jest.fn();
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -952,7 +1011,9 @@ describe('Tests of callback data', () => {
         const mockCallBack = jest.fn();
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -981,7 +1042,9 @@ describe('Tests of callback data', () => {
         const mockCallBack = jest.fn();
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'
@@ -1010,7 +1073,9 @@ describe('Tests of callback data', () => {
         const mockCallBack = jest.fn();
         const wrapper = mount(
             <Bibbox
+                reservedBookInput={{}}
                 boxConfigurationInput={{
+                    soundEnabled: false,
                     inactivityTimeOut: 3000,
                     school: {
                         name: 'Mårslet Skole'

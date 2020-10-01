@@ -50,3 +50,14 @@ h1 {
     max-width: 80%;
     margin: 0 auto;
 }
+
+.visible-on-print {
+    display: none;
+}
+
+@media print {
+    .visible-on-print {
+        display: flex;
+        font-size: 1.5rem;
+    }
+}
