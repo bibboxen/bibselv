@@ -22,6 +22,8 @@ function Print({ book }) {
         window.print();
     }, []);
 
+    const b =;
+
     return (
         <div key={book.title} className='flex-column visible-on-print'>
             <div>{book.message}</div>
