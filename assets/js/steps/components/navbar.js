@@ -12,6 +12,7 @@ import {
     faBook,
     faSignOutAlt,
     faBug,
+    faPrint,
     faBirthdayCake
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
@@ -36,27 +37,31 @@ function NavBar({ actionHandler }) {
     const buttonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='Exit' />;
     const components = [
         {
-            which: 'checkOutItems',
-            action: 'changeFlow',
+            color: 'yellow',
             data: { flow: 'checkOutItems' },
             label: buttonCheckOut,
             icon: faBookReader
         },
         {
-            which: 'status',
-            action: 'changeFlow',
+            color: 'blue',
             data: { flow: 'status' },
             label: buttonStatus,
             icon: faInfoCircle
         },
         {
-            which: 'checkInItems',
-            action: 'changeFlow',
+            color: 'purple',
             data: { flow: 'checkInItems' },
             label: buttonCheckIn,
             icon: faBook
         }
     ];
+
+    /**
+     * Prints the page, available in status component.
+     */
+    function printPage() {
+        window.print();
+    }
 
     return (
         <div className={classes} >
@@ -75,19 +80,27 @@ function NavBar({ actionHandler }) {
                 {context.boxConfig.get.debugEnabled && (
                     <span className='text bold'>
                         Debug mode!
-                        <FontAwesomeIcon icon={faBug}></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }}></FontAwesomeIcon>
                     </span>
                 )}
             </div>
             <div className='button-container'>
+                {context.machineState.get.step === 'status' &&
+                    <Button
+                        label='Print'
+                        icon={faPrint}
+                        handleButtonPress={() => printPage()}
+                        color='green'
+                    />
+                }
                 {context.machineState.get.user &&
                 components.map((button) => (
                     <Button
-                        key={button.which}
+                        key={button.color}
                         label={button.label}
                         icon={button.icon}
-                        handleButtonPress={() => actionHandler(button.action, button.data)}
-                        which={button.which}
+                        handleButtonPress={() => actionHandler('changeFlow', button.data)}
+                        color={button.color}
                     />
                 ))}
                 {context.machineState.get.step !== 'initial' &&
@@ -95,7 +108,7 @@ function NavBar({ actionHandler }) {
                         label={buttonFinish}
                         icon={faSignOutAlt}
                         handleButtonPress={() => actionHandler('reset')}
-                        which={ 'reset' }
+                        color='red'
                     />
                 }
             </div>

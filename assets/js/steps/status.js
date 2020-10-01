@@ -109,20 +109,20 @@ function Status({ actionHandler }) {
             </div>
             <div className='row'>
                 <div className='col-md-4 mt-4'>
-                    <BannerList
-                        title={statusHeaderCurrentLoans}
-                        items={loanedItems} />
+                    <BannerList title={statusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
                         title={statusHeaderReservations}
                         items={unavailableHoldItems}
+                        visibleOnPrint={true}
                     />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
                         title={statusHeaderReadyForPickup}
                         items={holdItems}
+                        visibleOnPrint={true}
                     />
                 </div>
             </div>

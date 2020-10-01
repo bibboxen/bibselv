@@ -281,7 +281,8 @@ class ActionHandler {
             const actionData = {
                 user: {
                     name: names[0],
-                    birthdayToday: birthdayToday
+                    birthdayToday: birthdayToday,
+                    id: user.id
                 },
                 internal: {
                     username: loginData.username,

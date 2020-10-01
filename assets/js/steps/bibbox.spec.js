@@ -28,27 +28,13 @@ const translations = {
     'button-navbar-finish': 'Exit'
 };
 
-// it('renders without crashing', () => {
-//     shallow(
-//         <Bibbox
-//             boxConfigurationInput={{
-//                 inactivityTimeOut: 3000,
-//                 school: {
-//                     name: 'Mårslet Skole'
-//                 }
-//             }}
-//             machineStateInput={{ step: 'initial' }}
-//             actionHandler={() => { }}
-//         />
-//     );
-// });
-
 describe('Initial component (Vælg en funktion...)', () => {
     it('renders the initial component when state is initial and it is logged out', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations}>
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -69,6 +55,7 @@ describe('Check out items component (Udlån)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -93,6 +80,7 @@ describe('Check out items component (Udlån)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -127,6 +115,7 @@ describe('Check out items component (Udlån)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -155,6 +144,7 @@ describe('Check out items component (Udlån)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -184,7 +174,7 @@ describe('Check out items component (Udlån)', () => {
             </IntlProvider>
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
+        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
             true
         );
     });
@@ -194,6 +184,7 @@ describe('Check out items component (Udlån)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -221,7 +212,7 @@ describe('Check out items component (Udlån)', () => {
         );
 
         expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
+            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
         ).toEqual(true);
     });
 
@@ -230,6 +221,7 @@ describe('Check out items component (Udlån)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -257,7 +249,7 @@ describe('Check out items component (Udlån)', () => {
             </IntlProvider>
         );
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
     });
 });
@@ -268,6 +260,7 @@ describe('Check in items component (Hand in)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -292,6 +285,7 @@ describe('Check in items component (Hand in)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -317,7 +311,7 @@ describe('Check in items component (Hand in)', () => {
             </IntlProvider>
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
+        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
             true
         );
     });
@@ -327,6 +321,7 @@ describe('Check in items component (Hand in)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -350,7 +345,7 @@ describe('Check in items component (Hand in)', () => {
         );
 
         expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
+            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
         ).toEqual(true);
     });
 
@@ -359,6 +354,7 @@ describe('Check in items component (Hand in)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -386,7 +382,7 @@ describe('Check in items component (Hand in)', () => {
             </IntlProvider>
         );
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
     });
 
@@ -396,6 +392,7 @@ describe('Check in items component (Hand in)', () => {
                 <Bibbox
                     boxConfigurationInput={{
                         inactivityTimeOut: 3000,
+                        soundEnabled: false,
                         school: {
                             name: 'Mårslet Skole'
                         }
@@ -423,6 +420,7 @@ describe('Check in items component (Hand in)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -453,7 +451,7 @@ describe('Check in items component (Hand in)', () => {
 
         );
 
-        expect(wrapper.contains(<div className='header'>Fejl</div>)).toEqual(
+        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
             true
         );
     });
@@ -464,6 +462,7 @@ describe('Check in items component (Hand in)', () => {
                 <Bibbox
                     boxConfigurationInput={{
                         inactivityTimeOut: 3000,
+                        soundEnabled: false,
                         school: {
                             name: 'Mårslet Skole'
                         }
@@ -491,7 +490,7 @@ describe('Check in items component (Hand in)', () => {
         );
 
         expect(
-            wrapper.contains(<div className='header'>Henter informationer</div>)
+            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
         ).toEqual(true);
     });
 
@@ -500,6 +499,7 @@ describe('Check in items component (Hand in)', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -528,7 +528,7 @@ describe('Check in items component (Hand in)', () => {
 
         );
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
     });
 });
@@ -539,6 +539,7 @@ describe('Status component', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         loginMethod: 'unilogin',
                         inactivityTimeOut: 3000,
                         school: {
@@ -560,6 +561,7 @@ describe('Status component', () => {
                 <Bibbox
                     boxConfigurationInput={{
                         inactivityTimeOut: 3000,
+                        soundEnabled: false,
                         school: {
                             name: 'Mårslet Skole'
                         }
@@ -594,6 +596,7 @@ describe('Status component', () => {
                 <Bibbox
                     boxConfigurationInput={{
                         inactivityTimeOut: 3000,
+                        soundEnabled: false,
                         school: {
                             name: 'Mårslet Skole'
                         }
@@ -664,7 +667,7 @@ describe('Status component', () => {
         );
         expect(
             wrapper.contains(
-                <div className='header'>
+                <div className='banner-header'>
                     Det eksperimenterende billedværksted: [Bind] 1: indføring i
                     den kunstneriske proces
                 </div>
@@ -682,18 +685,18 @@ describe('Status component', () => {
         ).toEqual(true);
         expect(
             wrapper.contains(
-                <div className='header'>Mellem rejer og hundestejler</div>
+                <div className='banner-header'>Mellem rejer og hundestejler</div>
             )
         ).toEqual(true);
         expect(
-            wrapper.contains(<div className='header'>Insekter i farver</div>)
+            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
         ).toEqual(true);
         expect(
             wrapper.contains(<div>Open book af Simpson, Jessica</div>)
         ).toEqual(true);
         expect(
             wrapper.contains(
-                <div className='header'>Bogtitel som ikke eksisterer</div>
+                <div className='banner-header'>Bogtitel som ikke eksisterer</div>
             )
         ).toEqual(false);
     });
@@ -705,6 +708,7 @@ describe('Tests of navbar component', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -726,6 +730,7 @@ describe('Tests of navbar component', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -750,6 +755,7 @@ describe('Tests of navbar component', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -789,6 +795,7 @@ describe('Tests of navbar component', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -829,6 +836,7 @@ describe('Tests of configuration', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -854,17 +862,12 @@ describe('Tests of configuration', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
-                        id: 1,
-                        hasPrinter: true,
-                        reservedMaterialInstruction: 'NotSure',
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
-                        soundEnabled: true,
                         school: {
                             name: 'Mårslet Skole'
                         },
                         loginMethod: 'unilogin',
-                        hasTouch: true,
-                        hasKeyboard: true
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
@@ -885,6 +888,7 @@ describe('Tests of configuration', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -910,17 +914,12 @@ describe('Tests of configuration', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
-                        id: 1,
-                        hasPrinter: true,
-                        reservedMaterialInstruction: 'NotSure',
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
-                        soundEnabled: true,
                         school: {
                             name: 'Mårslet Skole'
                         },
                         loginMethod: 'login_barcode',
-                        hasTouch: true,
-                        hasKeyboard: true
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
@@ -944,17 +943,12 @@ describe('Tests of callback data', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
-                        id: 1,
-                        hasPrinter: true,
-                        reservedMaterialInstruction: 'NotSure',
                         inactivityTimeOut: 3000,
-                        soundEnabled: true,
+                        soundEnabled: false,
                         school: {
                             name: 'Mårslet Skole'
                         },
                         loginMethod: 'login_barcode',
-                        hasTouch: true,
-                        hasKeyboard: true
                     }}
                     machineStateInput={{
                         step: 'initial'
@@ -977,6 +971,7 @@ describe('Tests of callback data', () => {
                 <Bibbox
                     boxConfigurationInput={{
                         inactivityTimeOut: 3000,
+                        soundEnabled: false,
                         school: {
                             name: 'Mårslet Skole'
                         },
@@ -1002,6 +997,7 @@ describe('Tests of callback data', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -1028,6 +1024,7 @@ describe('Tests of callback data', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -1059,6 +1056,7 @@ describe('Tests of callback data', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'
@@ -1091,6 +1089,7 @@ describe('Tests of callback data', () => {
                 <Bibbox
                     boxConfigurationInput={{
                         inactivityTimeOut: 3000,
+                        soundEnabled: false,
                         school: {
                             name: 'Mårslet Skole'
                         }
@@ -1121,6 +1120,7 @@ describe('Tests of callback data', () => {
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
                     boxConfigurationInput={{
+                        soundEnabled: false,
                         inactivityTimeOut: 3000,
                         school: {
                             name: 'Mårslet Skole'

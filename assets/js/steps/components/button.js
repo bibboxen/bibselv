@@ -16,13 +16,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  *   Icon for the button.
  * @param handleButtonPress
  *   Function for when button is pressed.
- * @param which
- *   Which button, Reset, CheckInItems, CheckOutItems, Login, or Status.
+ * @param color
+ *   Which color the button has.
  * @return {*}
  * @constructor
  */
-const Button = ({ label, icon, handleButtonPress, which }) => {
-    const classes = `button ${which.toLowerCase()}`;
+const Button = ({ label, icon, handleButtonPress, color }) => {
+    const classes = color ? `button ${color.toLowerCase()}` : 'button';
 
     return (
         <button
@@ -44,7 +44,7 @@ Button.propTypes = {
         PropTypes.string
     ]),
     icon: PropTypes.object.isRequired,
-    which: PropTypes.string,
+    color: PropTypes.string,
     handleButtonPress: PropTypes.func.isRequired
 };
 

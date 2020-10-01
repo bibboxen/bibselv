@@ -3,7 +3,7 @@
  * Enum for the different statusses the book can have.
  */
 
-const bookStatus = {
+const BookStatus = {
     RENEWED: 'renewed',
     ERROR: 'error',
     IN_PROGRESS: 'inProgress',
@@ -13,4 +13,4 @@ const bookStatus = {
     SUCCESS: 'success'
 };
 
-export default bookStatus;
+export default BookStatus;

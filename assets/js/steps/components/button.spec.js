@@ -25,10 +25,10 @@ describe('Test of button component', () => {
             <Button
                 icon={faCheck}
                 handleButtonPress={() => console.log()}
-                which='reset'
+                color='red'
             />
         );
-        expect(wrapper.exists('.reset')).toEqual(true);
+        expect(wrapper.exists('.red')).toEqual(true);
     });
 
     it('Renders icon', () => {

@@ -23,6 +23,9 @@ import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import { FormattedMessage } from 'react-intl';
+import Print from '../steps/utils/print';
+import Sound from './utils/sound';
+import BookStatus from './utils/book-status';
 
 /**
  * CheckInItems component.
@@ -36,50 +39,15 @@ function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
     const [activeBanner, setActiveBanner] = useState(false);
+    const [handledReservations, setHandledReservations] = useState([]);
+    const [newReservation, setNewReservation] = useState(null);
+    const [checkedInBooksLength, setCheckedInBooksLength] = useState(0);
+    const [errorsLength, setErrorLength] = useState(0);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
     const helpBoxText = <FormattedMessage id='check-in-items-help-box-text' defaultMessage='Use the hand scanner to scan the barcode on the book. Or enter the books ISBN number.' />;
     const inputLabel = <FormattedMessage id='check-in-items-input-label' defaultMessage='Barcode' />;
-
-    /**
-     * Set up barcode scanner listener.
-     */
-    useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                switch (code) {
-                    case BARCODE_COMMAND_FINISH:
-                        actionHandler('reset');
-                        break;
-                    case BARCODE_COMMAND_STATUS:
-                        actionHandler('changeFlow', {
-                            flow: 'status'
-                        });
-                        break;
-                    case BARCODE_COMMAND_CHECKOUT:
-                        actionHandler('changeFlow', {
-                            flow: 'checkOutItems'
-                        });
-                        break;
-                }
-            } else {
-                setScannedBarcode(code);
-                handleItemCheckIn();
-            }
-        };
-
-        barcodeScanner.start(barcodeCallback);
-        return () => {
-            barcodeScanner.stop();
-        };
-    }, [actionHandler]);
-
-    let items = [];
-    if (context.machineState.get.items) {
-        items = adaptListOfBooksToBanner(context.machineState.get.items);
-    }
+    const sound = new Sound();
 
     /**
      * Handles numpad presses.
@@ -117,18 +85,116 @@ function CheckInItems({ actionHandler }) {
 
     /**
      * Handles keyboard inputs.
-     *
      */
     function handleItemCheckIn() {
-        setActiveBanner(true);
-        actionHandler('checkInItem', {
-            itemIdentifier: scannedBarcode
+        // Ignore empty check ins.
+        if (scannedBarcode && scannedBarcode.length > 0) {
+            setActiveBanner(true);
+            actionHandler('checkInItem', {
+                itemIdentifier: scannedBarcode
+            });
+            setScannedBarcode('');
+        }
+    }
+
+    /**
+     * Set up barcode scanner listener.
+     */
+    useEffect(() => {
+        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
+        const barcodeCallback = (code) => {
+            if (code.length === BARCODE_COMMAND_LENGTH) {
+                switch (code) {
+                    case BARCODE_COMMAND_FINISH:
+                        actionHandler('reset');
+                        break;
+                    case BARCODE_COMMAND_STATUS:
+                        actionHandler('changeFlow', {
+                            flow: 'status'
+                        });
+                        break;
+                    case BARCODE_COMMAND_CHECKOUT:
+                        actionHandler('changeFlow', {
+                            flow: 'checkOutItems'
+                        });
+                        break;
+                }
+            } else {
+                setScannedBarcode(code);
+                handleItemCheckIn();
+            }
+        };
+
+        barcodeScanner.start(barcodeCallback);
+        return () => {
+            barcodeScanner.stop();
+        };
+    }, [actionHandler]);
+
+    /**
+     * Clear new reservation.
+     */
+    useEffect(() => {
+        setNewReservation(null);
+    }, [newReservation]);
+
+    /**
+     * Determines whether to play a soumd and which to play.
+     */
+    useEffect(() => {
+        if (context.machineState.get.items === undefined) return;
+        let soundToPlay = null;
+
+        /**
+        * Evaluate if a new checked-in book is reserved by another user.
+        */
+        context.machineState.get.items.forEach(book => {
+            if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
+                setNewReservation(book);
+
+                const newHandledReservations = handledReservations;
+                newHandledReservations.push(book.itemIdentifier);
+                setHandledReservations(newHandledReservations);
+                soundToPlay = 'reserved';
+            }
         });
-        setScannedBarcode('');
+
+        /**
+         * Play sound for successful checkin.
+         */
+        let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_IN && book.message !== 'Reserveret').length;
+        if (booksLength > checkedInBooksLength) {
+            setCheckedInBooksLength(booksLength);
+            soundToPlay = 'success';
+        }
+
+        /**
+         * Play sound for check-in error.
+         */
+        booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.ERROR).length;
+        if (booksLength > errorsLength) {
+            setErrorLength(booksLength);
+            soundToPlay = 'error';
+        }
+
+        /**
+         * Play sound.
+         */
+        if (context.boxConfig.get.soundEnabled && soundToPlay) {
+            sound.playSound(soundToPlay);
+        }
+    }, [context.machineState.get.items]);
+
+    let items;
+    if (context.machineState.get.items) {
+        items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
 
     return (
         <>
+            {newReservation !== null &&
+                <Print key={newReservation.title} book={newReservation}/>
+            }
             <div className='col-md-9'>
                 <Header
                     header='Hand in'
@@ -163,6 +229,7 @@ function CheckInItems({ actionHandler }) {
                     text={helpBoxText}
                 />
             </div>
+            <div className="print"/>
         </>
     );
 }

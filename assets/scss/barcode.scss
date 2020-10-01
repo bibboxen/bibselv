@@ -19,6 +19,13 @@
             // Color
             color: $blue;
         }
+
+        .barcode-inner {
+            &:after {
+                // Image
+                background-image: url('images/barcode_status.png');
+            }
+        }
     }
     
     &.checkinitems {
@@ -29,6 +36,13 @@
             // Color
             color: $purple;
         }
+        
+        .barcode-inner {
+            &:after {
+                // Image
+                background-image: url('images/barcode_checkinitems.png');
+            }
+        }
     }
     
     &.checkoutitems {
@@ -38,6 +52,13 @@
         .icon {
             // Color
             color: $yellow;
+        }
+
+        .barcode-inner {
+            &:after {
+                // Image
+                background-image: url('images/barcode_checkoutitems.png');
+            }
         }
     }
 
@@ -52,18 +73,19 @@
 
         // Color
         background-color: $white;
+
         &:after {
             // Display & position
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
             position: absolute;
-
+            top: 3px;
+            left: 5px;
+            bottom: 3px;
+            right: 5px;
+ 
             // Image
             content: '';
-            background: url('images/barcode.png');
             background-size: cover;
+            background-repeat: no-repeat;
         }
     }
 }

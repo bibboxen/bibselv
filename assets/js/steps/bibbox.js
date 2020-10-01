@@ -3,7 +3,7 @@
  * The main entrypoint of the react application.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Initial from './initial';
 import Login from './login';
 import Status from './status';
@@ -12,6 +12,7 @@ import NavBar from './components/navbar';
 import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machine-state-context';
+import { Sound } from './utils/sound';
 
 /**
  * App. The main entrypoint of the react application.
@@ -27,6 +28,9 @@ import MachineStateContext from '../context/machine-state-context';
  * @constructor
  */
 function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
+    const sound = new Sound();
+    const { user } = machineStateInput;
+
     /**
      * The storage contains the machine state.
      * The step of the machine state determines which component is rendered, and
@@ -36,6 +40,21 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
         machineState: { get: machineStateInput },
         boxConfig: { get: boxConfigurationInput }
     };
+
+    /**
+     * Play birthday music if user has birthday.
+     */
+    useEffect(() => {
+        if (user === undefined || !boxConfigurationInput.soundEnabled) return;
+
+        const lastPlayed = window.localStorage.getItem(user.id);
+        const lastPlayedDate = lastPlayed ? new Date(parseInt(lastPlayed)) : undefined;
+        const today = new Date();
+        if (user.birthdayToday && lastPlayedDate?.getFullYear() !== today.getFullYear()) {
+            window.localStorage.setItem(user.id, Date.now());
+            sound.playSound('birthday');
+        }
+    }, [user]);
 
     /**
      * renderStep determines which component to render based on the step
