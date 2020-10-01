@@ -136,7 +136,7 @@ function App({ token, socket }) {
         const supportedLanguageCodes = ['da', 'en'];
 
         // Default to english.
-        let selectedLanguageCode = supportedLanguageCodes.includes(languageCode) ? languageCode : 'en';
+        const selectedLanguageCode = supportedLanguageCodes.includes(languageCode) ? languageCode : 'en';
 
         import('../../public/lang/' + selectedLanguageCode + '-comp.json').then((data) => {
             activateTranslations(data, languageCode);
