@@ -29,7 +29,7 @@ import { FormattedMessage } from 'react-intl';
  * @constructor
  */
 function ScanLogin({ actionHandler }) {
-    const helpBoxText = <FormattedMessage id='scan-login-help-box-text' defaultMessage='Use the hand scanner to scan the barcode of your library card.' />;
+    const helpBoxText = <FormattedMessage id='scan-login-help-box-text' defaultMessage='Use the barcode scanner to scan your library card.' />;
 
     /**
      * Setup component.

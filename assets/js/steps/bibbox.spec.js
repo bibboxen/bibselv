@@ -8,25 +8,7 @@ import Bibbox from './bibbox';
 import { mount } from 'enzyme';
 import { expect, it, describe } from '@jest/globals';
 import { IntlProvider } from 'react-intl';
-
-const translations = {
-    'initial-choose-a-function': 'Select a function to start',
-    'initial-button-check-out': 'Loan',
-    'initial-button-status': 'Status',
-    'initial-button-check-in': 'Hand in',
-    'login-not-configured': 'Login method is not configured',
-    'status-header-current-loans': 'Current loans',
-    'status-header-reservations': 'Reservations',
-    'status-header-ready-for-pickup': 'Ready for pickup',
-    'banner-header-book-with-fine': 'This book has a fine',
-    'banner-heaeder-book-for-check-in': 'This book must be handed in',
-    'help-box-header': 'Help',
-    'book-is-registered': 'The book has been registered. Ready for the next one',
-    'button-navbar-check-out': 'Loan',
-    'button-navbar-status': 'Status',
-    'button-navbar-check-in': 'Hand in',
-    'button-navbar-finish': 'Exit'
-};
+import { translations } from './utils/translationsForTest';
 
 describe('Initial component (Vælg en funktion...)', () => {
     it('renders the initial component when state is initial and it is logged out', () => {
@@ -867,7 +849,7 @@ describe('Tests of configuration', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'unilogin',
+                        loginMethod: 'unilogin'
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
@@ -919,7 +901,7 @@ describe('Tests of configuration', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode',
+                        loginMethod: 'login_barcode'
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
@@ -948,7 +930,7 @@ describe('Tests of callback data', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode',
+                        loginMethod: 'login_barcode'
                     }}
                     machineStateInput={{
                         step: 'initial'
