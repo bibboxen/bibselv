@@ -7,7 +7,7 @@
         "@babel/preset-env": "^7.11.5",
         "@babel/preset-react": "^7.10.4",
         "@svgr/webpack": "^5.4.0",
-        "@symfony/webpack-encore": "^0.30.0",
+        "@symfony/webpack-encore": "^0.31.0",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
@@ -39,7 +39,7 @@
         "react-test-renderer": "^16.13.1",
         "regenerator-runtime": "^0.13.7",
         "sass": "^1.26.10",
-        "sass-loader": "^8.0.2",
+        "sass-loader": "^9.0.3",
         "socket.io-client": "^2.3.0",
         "style-loader": "^1.2.1",
         "webpack-notifier": "^1.8.0"

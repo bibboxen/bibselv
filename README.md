@@ -55,34 +55,33 @@ docker-compose exec engine bash -c './scripts/install.sh'
 
 Install the frontend react dependencies.
 ```sh
-docker-compose exec frontend bash -c 'npm install'
+docker-compose run frontend bash -c 'npm install'
 ```
+
+### Symfony
 
 Install composer packages.
 ```sh
 docker-compose exec phpfpm composer install
 ```
 
-Install database for Symfony using migrations, run
+Install database schema for Symfony using migrations, run
 ```sh
 docker-compose exec phpfpm bash -c 'bin/console doctrine:migrations:migrate'
 ```
 
 ### Restart
 
-Now that we have installed all the dependencies need by the frontend and engine, we need to restart the docker containers to ensure that everything gets loaded, run
+Now that we have installed all the dependencies need by the frontend and engine, we need to restart the docker container to ensure that everything gets loaded, run
 
 ```sh
 docker-compose restart engine
-docker-compose restart frontend
 ```
 
-### Install assets
-The React frontend is bootstrapped by the symfony backend and assets needs to by build, which happens when the frontend container is started. It's started with file watchers so the assets should be automatically compiled on code changes.
-
-To see logs for the compilation, run
+### Building assets
+To watch for changes in assets and then build:
 ```sh
-docker-compose logs frontend
+docker-compose run frontend bash -c 'npm run watch'
 ```
 
 ## Using the system
@@ -123,13 +122,13 @@ When PRs are created towards the develop branch all coding styles are checked by
 To check for coding standards, run the following:
 
 ```sh
-docker-compose exec frontend bash -c 'npm run check-coding-standards'
+docker-compose run frontend bash -c 'npm run check-coding-standards'
 ```
 
 To automatically apply coding standards, run:
 
 ```sh
-docker-compose exec frontend bash -c 'npm run apply-coding-standards'
+docker-compose run frontend bash -c 'npm run apply-coding-standards'
 ```
 
 ### Engine
