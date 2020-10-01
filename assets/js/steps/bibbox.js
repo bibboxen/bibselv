@@ -52,8 +52,8 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
         const today = new Date();
         if (user.birthdayToday && lastPlayedDate?.getFullYear() !== today.getFullYear()) {
             window.localStorage.setItem(user.id, Date.now());
-                sound.playSound('birthday');
-            }
+            sound.playSound('birthday');
+        }
     }, [user]);
 
     /**

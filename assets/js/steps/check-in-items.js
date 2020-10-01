@@ -141,7 +141,7 @@ function CheckInItems({ actionHandler }) {
     useEffect(() => {
         if (context.machineState.get.items === undefined) return;
         let soundToPlay = null;
-        
+
         /**
         * Evaluate if a new checked-in book is reserved by another user.
         */
