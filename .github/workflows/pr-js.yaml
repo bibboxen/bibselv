@@ -73,7 +73,8 @@ jobs:
             - name: Run install and build assets
               run: |
                 npm install
-                npm run build
+                npm run dev
+#                npm run build
 
     frontend-coding-standards:
         name: Frontend coding standards
