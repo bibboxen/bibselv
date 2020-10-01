@@ -43,7 +43,10 @@ function Bubble({ which, label, icon, actionHandler }) {
 }
 Bubble.propTypes = {
     which: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     icon: PropTypes.object.isRequired,
     actionHandler: PropTypes.func.isRequired
 };

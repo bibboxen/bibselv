@@ -11,6 +11,7 @@ import socketIOClient from 'socket.io-client';
 
 const rootElement = document.getElementById('reactjs-root');
 const socket = socketIOClient(rootElement.getAttribute('data-socket-uri'));
+
 ReactDOM.render(
     <React.StrictMode>
         <App

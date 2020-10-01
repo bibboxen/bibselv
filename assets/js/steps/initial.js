@@ -20,6 +20,7 @@ import {
     faInfoCircle,
     faBook
 } from '@fortawesome/free-solid-svg-icons';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * Initial component.
@@ -30,20 +31,24 @@ import {
  * @constructor
  */
 function Initial({ actionHandler }) {
+    const bubbleCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='Loan' />;
+    const bubbleStatus = <FormattedMessage id='initial-button-status' defaultMessage='Status' />;
+    const bubbleCheckIn = <FormattedMessage id='initial-button-check-in' defaultMessage='Hand in' />;
+
     const components = [
         {
             which: 'checkOutItems',
-            label: 'Lån',
+            label: bubbleCheckOut,
             icon: faBookReader
         },
         {
             which: 'status',
-            label: 'Status',
+            label: bubbleStatus,
             icon: faInfoCircle
         },
         {
             which: 'checkInItems',
-            label: 'Aflever',
+            label: bubbleCheckIn,
             icon: faBook
         }
     ];
@@ -87,7 +92,9 @@ function Initial({ actionHandler }) {
 
     return (
         <div className='col-md-12'>
-            <h1 className='mb-5'>Vælg en funktion for at starte</h1>
+            <h1 className='mb-5'>
+                <FormattedMessage id='initial-choose-a-function' defaultMessage='Select a function to start' />
+            </h1>
             <div className='row justify-content-center'>
                 {components.map((component) => (
                     <div key={component.which} className='col-md-3'>

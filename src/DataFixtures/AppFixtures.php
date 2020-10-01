@@ -109,6 +109,7 @@ class AppFixtures extends Fixture
             $boxConfiguration->setSip2User($faker->randomElement($sip2users));
             $boxConfiguration->setLoginMethod($faker->randomElement(LoginMethods::getLoginMethodList()));
             $boxConfiguration->setDefaultPassword('0000');
+            $boxConfiguration->setDefaultLanguageCode('DA');
 
             $manager->persist($boxConfiguration);
         }

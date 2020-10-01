@@ -22,6 +22,7 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBookReader } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
+import { FormattedMessage } from 'react-intl';
 import Sound from './utils/sound';
 import BookStatus from './utils/book-status';
 
@@ -42,6 +43,8 @@ function CheckOutItems({ actionHandler }) {
     const [activeBanner, setActiveBanner] = useState(false);
     const okButtonLabel = 'Ok';
     const deleteButtonLabel = 'Slet';
+    const helpBoxText = <FormattedMessage id='check-out-items-help-box-text' defaultMessage='Use the hand scanner to scan the barcode on the book.' />;
+    const inputLabel = <FormattedMessage id='check-out-items-input-label' defaultMessage='Barcode' />;
     const [checkedOutBooksLength, setCheckedOutBooksLength] = useState(0);
     const [errorsLength, setErrorLength] = useState(0);
     const sound = new Sound();
@@ -168,7 +171,7 @@ function CheckOutItems({ actionHandler }) {
         <>
             <div className='col-md-9'>
                 <Header
-                    header='Lån'
+                    header='Loan'
                     subheader='Scan stregkoden på bogen du vil låne'
                     which='checkOutItems'
                     icon={faBookReader}
@@ -179,7 +182,7 @@ function CheckOutItems({ actionHandler }) {
                     <div className='col-md mt-4'>
                         <Input
                             name='barcode'
-                            label='Stregkode'
+                            label={inputLabel}
                             value={scannedBarcode}
                             activeBanner={activeBanner}
                             onChange={onKeyboardInput}
@@ -195,11 +198,7 @@ function CheckOutItems({ actionHandler }) {
                 </div>
             </div>
             <div className='col-md-3'>
-                <HelpBox
-                    text={
-                        'Brug håndscanneren til at scanne stregkoden på bogen.'
-                    }
-                />
+                <HelpBox text={helpBoxText} />
             </div>
         </>
     );

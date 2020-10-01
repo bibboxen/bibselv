@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\BoxConfiguration;
+use App\Utils\Types\LanguageCodes;
 use App\Utils\Types\LoginMethods;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -56,6 +57,9 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 IntegerField::new('inactivityTimeOut')->hideOnIndex(),
                 ChoiceField::new('loginMethod')
                     ->setChoices(LoginMethods::getLoginMethodList())
+                    ->hideOnIndex(),
+                ChoiceField::new('defaultLanguageCode')
+                    ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))
                     ->hideOnIndex(),
         ];
     }

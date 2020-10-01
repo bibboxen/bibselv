@@ -34,6 +34,9 @@ class BoxConfigurationController extends AbstractController
             throw $this->createNotFoundException('Unknown box configuration');
         }
 
+        // @TODO: Hack - Output the languageCode is lowercase - this should be done in the serialisation process.
+        $boxConfiguration->setDefaultLanguageCode(strtolower($boxConfiguration->getDefaultLanguageCode()));
+
         return $this->json($boxConfiguration, 200, [], ['groups' => ['boxConfiguration']]);
     }
 }

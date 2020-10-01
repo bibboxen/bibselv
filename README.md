@@ -191,3 +191,22 @@ bin/console doctrine:migrations:migrate
 ```
 docker-compose exec frontend bash -c 'npm run build'
 ```
+
+## Translations
+The React front end used (formatJS)[https://formatjs.io/] to handle translations.
+
+To extract new strings in json.
+```sh
+docker-compose exec frontend bash -c "npm run extract -- 'assets/**/*.js*' --out-file public/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
+```
+Make a copy of this file into a new JSON file (public/lang/<LANGCODE>.json) and
+change the strings into your language and compile the json file with the
+following command (substitute <LANGCODE> with your language code):
+```sh
+docker-compose exec frontend bash -c "npm run compile -- public/lang/<LANGCODE>.json --ast --out-file public/lang/<LANGCODE>-comp.json"
+```
+
+To add the new language, edit `assets/js/app.js` and locate the
+`loadTranslations` function and add your translation. Next edit
+`src/Utils/Types/LanguageCodes.php` and your language. Re-compile the frontend
+and add the new language. You are now ready to use the new language.

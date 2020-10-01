@@ -59,7 +59,6 @@ services:
     image: node:14
     networks:
       - app
-    user: "node"
     working_dir: /app
     environment:
       - NODE_ENV=development
@@ -75,7 +74,6 @@ services:
     image: node:14
     networks:
       - app
-    user: "node"
     working_dir: /app
     environment:
       - NODE_ENV=development

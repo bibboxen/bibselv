@@ -17,6 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * NavBar.
@@ -29,25 +30,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  */
 function NavBar({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const classes = context.machineState.get.step === 'initial'
-        ? 'navbar initial' : 'navbar';
+    const classes = context.machineState.get.step === 'initial' ? 'navbar initial' : 'navbar';
+    const buttonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='Loan' />;
+    const buttonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='Status' />;
+    const buttonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='Hand in' />;
+    const buttonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='Exit' />;
     const components = [
         {
             color: 'yellow',
             data: { flow: 'checkOutItems' },
-            label: 'Lån',
+            label: buttonCheckOut,
             icon: faBookReader
         },
         {
             color: 'blue',
             data: { flow: 'status' },
-            label: 'Status',
+            label: buttonStatus,
             icon: faInfoCircle
         },
         {
             color: 'purple',
             data: { flow: 'checkInItems' },
-            label: 'Aflever',
+            label: buttonCheckIn,
             icon: faBook
         }
     ];
@@ -60,7 +64,7 @@ function NavBar({ actionHandler }) {
     }
 
     return (
-        <div className={classes}>
+        <div className={classes} >
             <div className='text-container'>
                 <span className='text'>{context.boxConfig.get.school.name}</span>
                 {context.machineState.get.user && (
@@ -68,7 +72,7 @@ function NavBar({ actionHandler }) {
                         {context.machineState.get.user.name}
                     </span>
                 )}
-                {context.machineState?.get.user?.birthdayToday && (
+                {context.machineState.get.user && context.machineState.get.user.birthdayToday && (
                     <span className='birthday-icon'>
                         <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>
                     </span>
@@ -101,7 +105,7 @@ function NavBar({ actionHandler }) {
                 ))}
                 {context.machineState.get.step !== 'initial' &&
                     <Button
-                        label='Afslut'
+                        label={buttonFinish}
                         icon={faSignOutAlt}
                         handleButtonPress={() => actionHandler('reset')}
                         color='red'

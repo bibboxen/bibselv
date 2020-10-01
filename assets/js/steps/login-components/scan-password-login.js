@@ -20,6 +20,7 @@ import {
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * ScanPasswordLogin.
@@ -36,8 +37,9 @@ function ScanPasswordLogin({ actionHandler }) {
     const [password, setPassword] = useState('');
     const [subheader, setSubheader] = useState('Scan dit bibliotekskort');
     const [helpboxText, setHelpboxText] = useState(
-        'Brug håndscanneren til at scanne stregkoden din lånerkort.'
+        <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='Use the hand scanner to scan the barcode of your library card.' />
     );
+    const inputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='Password' />;
     const [usernameScanned, setUsernameScanned] = useState(false);
     const context = useContext(MachineStateContext);
     const loginButtonLabel = 'Login';
@@ -57,6 +59,10 @@ function ScanPasswordLogin({ actionHandler }) {
                 }
             } else {
                 handleUsernameInput(code);
+                setUsername(code);
+                setUsernameScanned(true);
+                setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='If you have forgotten your PIN code, you can contact a librarian to get a new one' />);
+                setSubheader('Tast dit password');
             }
         };
 
@@ -75,8 +81,8 @@ function ScanPasswordLogin({ actionHandler }) {
     function handleUsernameInput(username) {
         setUsername(username);
         setUsernameScanned(true);
-        setHelpboxText('Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny');
-        setSubheader('Tast dit pinkode');
+        setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='If you have forgotten your PIN code, you can contact a librarian to get a new one' />);
+        setSubheader(<FormattedMessage id='scan-login-password-password-subheader' defaultMessage='Enter your PIN code' />);
     }
 
     /**
@@ -136,7 +142,7 @@ function ScanPasswordLogin({ actionHandler }) {
                             <>
                                 <Input
                                     name='password'
-                                    label='Password'
+                                    label={inputLabel}
                                     value={password}
                                     type="password"
                                     onChange={onKeyboardInput}
@@ -144,7 +150,8 @@ function ScanPasswordLogin({ actionHandler }) {
                                 <NumPad okButtonLabel={loginButtonLabel}
                                     deleteButtonLabel={deleteButtonLabel}
                                     handleNumpadPress={onNumPadPress} />
-                            </>)}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

@@ -10,17 +10,6 @@ import Bubble from './bubble';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 describe('Tests of bubble component', () => {
-    it('renders without crashing', () => {
-        shallow(
-            <Bubble
-                which='checkInItems'
-                label='Bubble'
-                icon={faCheck}
-                actionHandler={() => console.log()}
-            />
-        );
-    });
-
     it('renders which css-class', () => {
         const wrapper = mount(
             <Bubble

@@ -24,6 +24,7 @@ import {
 import {
     faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
+import { FormattedMessage } from 'react-intl';
 
 /**
  * Status.
@@ -36,7 +37,11 @@ import {
  */
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
-
+    const statusHeaderCurrentLoans = <FormattedMessage id='status-header-current-loans' defaultMessage='Current loans' />;
+    const statusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='Reservations' />;
+    const statusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='Ready for pickup' />;
+    const bannerHeaderBookWithFine = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='This book has a fine' />;
+    const bannerHeaderBookForCheckIn = <FormattedMessage id='banner-heaeder-book-for-check-in' defaultMessage='This book must be handed in' />;
     /**
      * Set up barcode listener.
      */
@@ -71,15 +76,15 @@ function Status({ actionHandler }) {
     const loanedItems = [
         ...adaptListOfBooksWithMessage(
             context.machineState.get.fineItems,
-            'Denne bog har en bøde'
+            bannerHeaderBookWithFine
         ),
         ...adaptListOfBooksWithMessage(
             context.machineState.get.overdueItems,
-            'Denne bog skal afleveres'
+            bannerHeaderBookForCheckIn
         ),
         ...adaptListOfBooksWithMessage(
             context.machineState.get.recallItems,
-            'Denne bog skal afleveres'
+            bannerHeaderBookForCheckIn
         ),
         ...adaptListOfBooks(context.machineState.get.chargedItems)
     ];
@@ -104,18 +109,18 @@ function Status({ actionHandler }) {
             </div>
             <div className='row'>
                 <div className='col-md-4 mt-4'>
-                    <BannerList title={'Aktuelle lån'} items={loanedItems} visibleOnPrint={true} />
+                    <BannerList title={statusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
-                        title={'Reservationer'}
+                        title={statusHeaderReservations}
                         items={unavailableHoldItems}
                         visibleOnPrint={true}
                     />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
-                        title={'Klar til afhentning'}
+                        title={statusHeaderReadyForPickup}
                         items={holdItems}
                         visibleOnPrint={true}
                     />

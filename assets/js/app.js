@@ -8,6 +8,7 @@ import IdleTimer from 'react-idle-timer';
 import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
+import { IntlProvider } from 'react-intl';
 
 /**
  * App. The main entrypoint of the react application.
@@ -23,6 +24,8 @@ import Loading from './steps/loading';
 function App({ token, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
+    const [messages, setMessages] = useState();
+    const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
 
     /**
@@ -43,6 +46,7 @@ function App({ token, socket }) {
 
         // Configuration received from backend.
         socket.on('Configuration', (data) => {
+            loadTranslations(data.defaultLanguageCode);
             setBoxConfig(data);
         });
 
@@ -57,7 +61,7 @@ function App({ token, socket }) {
 
     /**
      * Handle a user action.
-
+     *
      * @param action
      *   Name of the action
      * @param data
@@ -103,8 +107,44 @@ function App({ token, socket }) {
         }
     }
 
+    /**
+     * Setting language and translations.
+     *
+     * The language should not be set before the translations is loaded, but just after they are load and messages
+     * are set. This prevents errors in the console with format message fallback to 'en'.
+     *
+     * @param data
+     *   The translations loaded.
+     * @param languageCode
+     *   The language code set.
+     */
+    function activateTranslations(data, languageCode) {
+        setMessages(data);
+        setLanguage(languageCode);
+    }
+
+    /**
+     * Load language based on language code.
+     *
+     * @param languageCode
+     *   The local language code to use. Defaults to "en".
+     *
+     * @returns {Object}
+     *   Object with translations.
+     */
+    function loadTranslations(languageCode) {
+        const supportedLanguageCodes = ['da', 'en'];
+
+        // Default to english.
+        const selectedLanguageCode = supportedLanguageCodes.includes(languageCode) ? languageCode : 'en';
+
+        import('../../public/lang/' + selectedLanguageCode + '-comp.json').then((data) => {
+            activateTranslations(data, languageCode);
+        });
+    }
+
     return (
-        <>
+        <IntlProvider locale={language} messages={messages}>
             {machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
@@ -121,8 +161,8 @@ function App({ token, socket }) {
                     />
                 </div>
             )}
-            {!machineState && !boxConfig && <Loading/>}
-        </>
+            {!machineState && !boxConfig && <Loading />}
+        </IntlProvider>
     );
 }
 

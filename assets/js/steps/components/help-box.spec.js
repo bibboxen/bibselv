@@ -7,6 +7,8 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect, it, describe } from '@jest/globals';
 import HelpBox from './help-box';
+import { IntlProvider } from 'react-intl';
+import { translations } from '../utils/translationsForTest';
 
 describe('Test of helpbox', () => {
     it('Renders without crashing', () => {
@@ -14,7 +16,7 @@ describe('Test of helpbox', () => {
     });
 
     it('Renders text', () => {
-        const wrapper = mount(<HelpBox text='text' />);
+        const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' /></IntlProvider>);
         expect(wrapper.find('p').text()).toEqual('text');
     });
 });

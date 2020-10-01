@@ -36,7 +36,10 @@ function BannerList({ items, title, visibleOnPrint }) {
 }
 BannerList.propTypes = {
     items: PropTypes.array.isRequired,
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     visibleOnPrint: PropTypes.bool
 };
 
