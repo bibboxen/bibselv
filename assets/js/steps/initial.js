@@ -25,7 +25,7 @@ import {
     InitialButtonStatus,
     InitialButtonCheckIn,
     InitialHeader
-} from './utils/FormattedMessages';
+} from './utils/formattedMessages';
 
 /**
  * Initial component.
