@@ -240,3 +240,4 @@ CheckInItems.propTypes = {
 };
 
 export default CheckInItems;
+-

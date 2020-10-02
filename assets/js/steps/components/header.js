@@ -27,7 +27,7 @@ function Header({ header, subheader, which, icon }) {
             <IconBubble which={which} icon={icon} />
             <div className='col-md-10'>
                 <div className='header'>{header}</div>
-                <div className='sub-header'>{subheader}</div>
+                <div className='subheader'>{subheader}</div>
             </div>
         </div>
     );

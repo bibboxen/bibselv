@@ -787,7 +787,7 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.sub-header').text()).toEqual(
+        expect(wrapper.find('.subheader').text()).toEqual(
             'Scan dit bibliotekskort'
         );
     });
@@ -813,7 +813,7 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.sub-header').text()).toEqual(
+        expect(wrapper.find('.subheader').text()).toEqual(
             'Login med Unilogin'
         );
     });
@@ -839,7 +839,7 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.sub-header').text()).toEqual(
+        expect(wrapper.find('.subheader').text()).toEqual(
             'Scan dit bibliotekskort'
         );
     });
