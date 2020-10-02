@@ -628,9 +628,9 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.banner .header').at(0).text()).toEqual('Denne bog har en bøde');
-        expect(wrapper.find('.banner .header').at(1).text()).toEqual('Denne bog skal afleveres');
-        expect(wrapper.find('.banner .header').at(2).text()).toEqual('Denne bog skal afleveres');
+        expect(wrapper.find('.banner .header').at(0).text()).toEqual('This book has a fine');
+        expect(wrapper.find('.banner .header').at(1).text()).toEqual('This book must be handed in');
+        expect(wrapper.find('.banner .header').at(2).text()).toEqual('This book must be handed in');
         expect(wrapper.find('.banner .header').at(3).text()).toEqual('Mellem rejer og hundestejler');
         expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces');
         expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver');
