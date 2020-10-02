@@ -60,7 +60,7 @@ export const NavbarButtonCheckOut = <FormattedMessage id='button-navbar-check-ou
 export const NavbarButtonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='button-navbar-status' />;
 export const NavbarButtonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='button-navbar-check-in' />;
 export const NavbarButtonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='button-navbar-finish' />;
-
+export const NavbarButtonPrint = <FormattedMessage id='button-navbar-print' defaultMessage='button-navbar-print' />;
 // Initial strings
 export const InitialButtonCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='initial-button-check-out' />;
 export const InitialButtonStatus = <FormattedMessage id='initial-button-status' defaultMessage='initial-button-status' />;
@@ -69,3 +69,4 @@ export const InitialHeader = <FormattedMessage id='initial-choose-a-function' de
 
 // Banner adapter strings
 export const BannerAdapterFetchingInfo = <FormattedMessage id='banner-adapter-fetching-info' defaultMessage='banner-adapter-fetching-info' />;
+

@@ -124,5 +124,8 @@
   },
   "banner-adapter-fetching-info": {
     "defaultMessage": "Henter informationer"
+  },
+  "button-navbar-print": {
+    "defaultMessage": "Print"
   }
 }

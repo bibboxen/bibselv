@@ -124,6 +124,9 @@
   },
   "banner-adapter-fetching-info": {
     "defaultMessage": "Fetching information"
+  },
+  "button-navbar-print": {
+    "defaultMessage": "Print"
   }
 }
 

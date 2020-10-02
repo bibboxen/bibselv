@@ -262,5 +262,11 @@
       "type": 0,
       "value": "Henter informationer"
     }
+  ],
+  "button-navbar-print": [
+    {
+      "type": 0,
+      "value": "Print"
+    }
   ]
 }

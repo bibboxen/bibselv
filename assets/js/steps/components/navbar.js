@@ -21,7 +21,8 @@ import {
     NavbarButtonCheckOut,
     NavbarButtonStatus,
     NavbarButtonCheckIn,
-    NavbarButtonFinish
+    NavbarButtonFinish,
+    NavbarButtonPrint
 } from '../utils/formattedMessages';
 /**
  * NavBar.
@@ -88,7 +89,7 @@ function NavBar({ actionHandler }) {
             <div className='button-container'>
                 {context.machineState.get.step === 'status' &&
                     <Button
-                        label='Print'
+                        label={NavbarButtonPrint}
                         icon={faPrint}
                         handleButtonPress={() => printPage()}
                         color='green'
