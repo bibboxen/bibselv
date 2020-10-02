@@ -155,10 +155,7 @@ describe('Check out items component (Udlån)', () => {
                 />
             </IntlProvider>
         );
-
-        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.banner .header').text()).toEqual('Fejl');
     });
 
     it('renders item (book) in progress in check out items component when logged in', () => {
@@ -193,9 +190,7 @@ describe('Check out items component (Udlån)', () => {
             </IntlProvider>
         );
 
-        expect(
-            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
     });
 
     it('renders item (book) that is checked in check out items component when logged in', () => {
@@ -230,9 +225,7 @@ describe('Check out items component (Udlån)', () => {
                 />
             </IntlProvider>
         );
-        expect(
-            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Insekter i farver');
     });
 });
 
@@ -293,9 +286,7 @@ describe('Check in items component (Hand in)', () => {
             </IntlProvider>
         );
 
-        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.banner .header').text()).toEqual('Fejl');
     });
 
     it('renders item (book) in progress in check in items component when logged out', () => {
@@ -326,9 +317,7 @@ describe('Check in items component (Hand in)', () => {
             </IntlProvider>
         );
 
-        expect(
-            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
     });
 
     it('renders item (book) that is checked in check in items component when logged out', () => {
@@ -363,9 +352,7 @@ describe('Check in items component (Hand in)', () => {
                 />
             </IntlProvider>
         );
-        expect(
-            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Insekter i farver');
     });
 
     it('renders check in items component when it is logged in', () => {
@@ -433,9 +420,7 @@ describe('Check in items component (Hand in)', () => {
 
         );
 
-        expect(wrapper.contains(<div className='banner-header'>Fejl</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.banner .header').text()).toEqual('Fejl');
     });
 
     it('renders item (book) in progress in check in items component when logged in', () => {
@@ -471,9 +456,7 @@ describe('Check in items component (Hand in)', () => {
 
         );
 
-        expect(
-            wrapper.contains(<div className='banner-header'>Henter informationer</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
     });
 
     it('renders item (book) that is checked in check in items component when logged in', () => {
@@ -509,9 +492,7 @@ describe('Check in items component (Hand in)', () => {
             </IntlProvider>
 
         );
-        expect(
-            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
-        ).toEqual(true);
+        expect(wrapper.find('.banner .header').text()).toEqual('Insekter i farver');
     });
 });
 
@@ -647,40 +628,12 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        expect(
-            wrapper.contains(
-                <div className='banner-header'>
-                    Det eksperimenterende billedværksted: [Bind] 1: indføring i
-                    den kunstneriske proces
-                </div>
-            )
-        ).toEqual(true);
-        expect(
-            wrapper.contains(
-                <div>Illustreret svampeflora af Lange, Morten</div>
-            )
-        ).toEqual(true);
-        expect(
-            wrapper.contains(
-                <div>Den lille bog om søgning på nettet af Knudsen, Werner</div>
-            )
-        ).toEqual(true);
-        expect(
-            wrapper.contains(
-                <div className='banner-header'>Mellem rejer og hundestejler</div>
-            )
-        ).toEqual(true);
-        expect(
-            wrapper.contains(<div className='banner-header'>Insekter i farver</div>)
-        ).toEqual(true);
-        expect(
-            wrapper.contains(<div>Open book af Simpson, Jessica</div>)
-        ).toEqual(true);
-        expect(
-            wrapper.contains(
-                <div className='banner-header'>Bogtitel som ikke eksisterer</div>
-            )
-        ).toEqual(false);
+        expect(wrapper.find('.banner .header').at(0).text()).toEqual('This book has a fine');
+        expect(wrapper.find('.banner .header').at(1).text()).toEqual('This book must be handed in');
+        expect(wrapper.find('.banner .header').at(2).text()).toEqual('This book must be handed in');
+        expect(wrapper.find('.banner .header').at(3).text()).toEqual('Mellem rejer og hundestejler');
+        expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces');
+        expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver');
     });
 });
 
