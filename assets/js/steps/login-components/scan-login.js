@@ -15,8 +15,11 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
-import { FormattedMessage } from 'react-intl';
-
+import { 
+    ScanLoginHelpboxText,
+    ScanLoginHeader,
+    ScanLoginSubheader
+} from '../utils/formattedMessages';
 /**
  * Scan login component.
  *
@@ -29,8 +32,6 @@ import { FormattedMessage } from 'react-intl';
  * @constructor
  */
 function ScanLogin({ actionHandler }) {
-    const helpBoxText = <FormattedMessage id='scan-login-help-box-text' defaultMessage='Use the barcode scanner to scan your library card.' />;
-
     /**
      * Setup component.
      *
@@ -60,8 +61,8 @@ function ScanLogin({ actionHandler }) {
         <>
             <div className='col-md-9'>
                 <Header
-                    header='Login'
-                    subheader='Scan dit bibliotekskort'
+                    header={ScanLoginHeader}
+                    subheader={ScanLoginSubheader}
                     which='login'
                     icon={faSignInAlt}
                 />
@@ -71,6 +72,7 @@ function ScanLogin({ actionHandler }) {
                         <div
                             className='content'
                             onClick={() =>
+                                // TODO REMOVE
                                 actionHandler('login', {
                                     username: 'C023648674',
                                     password: ''
@@ -83,7 +85,7 @@ function ScanLogin({ actionHandler }) {
                 </div>
             </div>
             <div className='col-md-3'>
-                <HelpBox text={helpBoxText}/>
+                <HelpBox text={ScanLoginHelpboxText}/>
             </div>
         </>
     );

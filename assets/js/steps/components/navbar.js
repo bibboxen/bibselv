@@ -17,8 +17,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormattedMessage } from 'react-intl';
-
+import {
+    NavbarButtonCheckOut,
+    NavbarButtonStatus,
+    NavbarButtonCheckIn,
+    NavbarButtonFinish
+} from '../utils/formattedMessages';
 /**
  * NavBar.
  *
@@ -31,27 +35,24 @@ import { FormattedMessage } from 'react-intl';
 function NavBar({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const classes = context.machineState.get.step === 'initial' ? 'navbar initial' : 'navbar';
-    const buttonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='Loan' />;
-    const buttonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='Status' />;
-    const buttonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='Hand in' />;
-    const buttonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='Exit' />;
+
     const components = [
         {
             color: 'yellow',
             data: { flow: 'checkOutItems' },
-            label: buttonCheckOut,
+            label: NavbarButtonCheckOut,
             icon: faBookReader
         },
         {
             color: 'blue',
             data: { flow: 'status' },
-            label: buttonStatus,
+            label: NavbarButtonStatus,
             icon: faInfoCircle
         },
         {
             color: 'purple',
             data: { flow: 'checkInItems' },
-            label: buttonCheckIn,
+            label: NavbarButtonCheckIn,
             icon: faBook
         }
     ];
@@ -105,7 +106,7 @@ function NavBar({ actionHandler }) {
                 ))}
                 {context.machineState.get.step !== 'initial' &&
                     <Button
-                        label={buttonFinish}
+                        label={NavbarButtonFinish}
                         icon={faSignOutAlt}
                         handleButtonPress={() => actionHandler('reset')}
                         color='red'

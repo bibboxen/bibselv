@@ -9,7 +9,7 @@ import MachineStateContext from '../context/machine-state-context';
 import ScanLogin from './login-components/scan-login';
 import UniLogin from './login-components/uni-login';
 import ScanPasswordLogin from './login-components/scan-password-login';
-import { FormattedMessage } from 'react-intl';
+import { LoginLoginNotConfigured } from './utils/FormattedMessages'
 
 /**
  * Renders a login component based on configuration
@@ -28,6 +28,7 @@ function Login({ actionHandler }) {
      * Renders a login component based on configuration
      */
     function renderStep(loginConfig) {
+        loginConfig = 'login_barcode';
         switch (loginConfig.toLowerCase()) {
             case 'login_barcode':
                 return (
@@ -44,7 +45,7 @@ function Login({ actionHandler }) {
             case 'unilogin':
                 return <UniLogin actionHandler={actionHandler} />;
             default:
-                return <span><FormattedMessage id='login-not-configured' defaultMessage='Login method is not configured' /></span>;
+                return <span>{LoginLoginNotConfigured}</span>;
         }
     }
 

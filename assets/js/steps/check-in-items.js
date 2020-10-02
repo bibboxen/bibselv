@@ -22,10 +22,17 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
-import { FormattedMessage } from 'react-intl';
 import Print from '../steps/utils/print';
 import Sound from './utils/sound';
 import BookStatus from './utils/book-status';
+import {
+    CheckInItemsOkButton,
+    CheckInItemsDeleteButton,
+    CheckInItemsHelpBoxText,
+    CheckInItemsInputLabel,
+    CheckInItemsHeader,
+    CheckInItemsSubheader
+} from './utils/formattedMessages'
 
 /**
  * CheckInItems component.
@@ -43,11 +50,8 @@ function CheckInItems({ actionHandler }) {
     const [newReservation, setNewReservation] = useState(null);
     const [checkedInBooksLength, setCheckedInBooksLength] = useState(0);
     const [errorsLength, setErrorLength] = useState(0);
-    const okButtonLabel = 'Ok';
-    const deleteButtonLabel = 'Slet';
-    const helpBoxText = <FormattedMessage id='check-in-items-help-box-text' defaultMessage='Use the hand scanner to scan the barcode on the book. Or enter the books ISBN number.' />;
-    const inputLabel = <FormattedMessage id='check-in-items-input-label' defaultMessage='Barcode' />;
     const sound = new Sound();
+
 
     /**
      * Handles numpad presses.
@@ -59,10 +63,10 @@ function CheckInItems({ actionHandler }) {
         const typedBarcode = `${scannedBarcode}`;
         setActiveBanner(false);
         switch (key) {
-            case deleteButtonLabel:
+            case CheckInItemsDeleteButton:
                 setScannedBarcode(typedBarcode.slice(0, -1));
                 break;
-            case okButtonLabel:
+            case CheckInItemsOkButton:
                 setActiveBanner(true);
                 handleItemCheckIn(scannedBarcode);
                 break;
@@ -198,8 +202,8 @@ function CheckInItems({ actionHandler }) {
             }
             <div className='col-md-9'>
                 <Header
-                    header='Hand in'
-                    subheader='Scan stregkoden på bogen du vil aflevere'
+                    header={CheckInItemsHeader}
+                    subheader={CheckInItemsSubheader}
                     which='checkInItems'
                     icon={faBook}
                 />
@@ -210,7 +214,7 @@ function CheckInItems({ actionHandler }) {
                     <div className='col-md mt-4'>
                         <Input
                             name='barcode'
-                            label={inputLabel}
+                            label={CheckInItemsInputLabel}
                             value={scannedBarcode}
                             activeBanner={activeBanner}
                             onChange={onKeyboardInput}
@@ -219,15 +223,15 @@ function CheckInItems({ actionHandler }) {
                         {items && <BannerList items={items} />}
                         {context.boxConfig.get.debugEnabled && (
                             <NumPad handleNumpadPress={onNumPadPress}
-                                deleteButtonLabel={deleteButtonLabel}
-                                okButtonLabel={okButtonLabel}/>
+                                    deleteButtonLabel={CheckInItemsDeleteButton}
+                                    okButtonLabel={CheckInItemsOkButton}/>
                         )}
                     </div>
                 </div>
             </div>
             <div className='col-md-3'>
                 <HelpBox
-                    text={helpBoxText}
+                    text={CheckInItemsHelpBoxText}
                 />
             </div>
             <div className="print"/>

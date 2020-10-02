@@ -5,6 +5,7 @@
  */
 
 import BookStatus from './book-status';
+import { BannerAdapterFetchingInfo } from './formattedMessages';
 
 /**
  * Adapts books from state machine to the banner component from checkinitems
@@ -23,7 +24,7 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
                 displayInfo.text = `${book.title} af ${book.author}`;
                 break;
             case BookStatus.IN_PROGRESS:
-                displayInfo.title = 'Henter informationer';
+                displayInfo.title = BannerAdapterFetchingInfo;
                 displayInfo.text = book.itemIdentifier;
                 break;
             case BookStatus.CHECKED_IN:

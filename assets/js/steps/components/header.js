@@ -34,8 +34,14 @@ function Header({ header, subheader, which, icon }) {
 }
 
 Header.propTypes = {
-    header: PropTypes.string.isRequired,
-    subheader: PropTypes.string.isRequired,
+    header: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
+    subheader: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     which: PropTypes.string.isRequired,
     icon: PropTypes.object.isRequired
 };
