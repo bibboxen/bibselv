@@ -147,6 +147,7 @@ function CheckInItems({ actionHandler }) {
         */
         context.machineState.get.items.forEach(book => {
             if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
+                book.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
                 setNewReservation(book);
 
                 const newHandledReservations = handledReservations;
@@ -184,7 +185,7 @@ function CheckInItems({ actionHandler }) {
 
     let items;
     if (context.machineState.get.items) {
-        items = adaptListOfBooksToBanner(context.machineState.get.items);
+        items = adaptListOfBooksToBanner(context.machineState.get.items, context.boxConfig.get.reservedMaterialInstruction);
     }
 
     return (
