@@ -28,7 +28,6 @@ function Login({ actionHandler }) {
      * Renders a login component based on configuration
      */
     function renderStep(loginConfig) {
-        loginConfig = 'login_barcode';
         switch (loginConfig.toLowerCase()) {
             case 'login_barcode':
                 return (
