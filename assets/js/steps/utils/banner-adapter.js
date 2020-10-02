@@ -13,7 +13,7 @@ import BookStatus from './book-status';
  * @param listOfBooks
  * @return {[]}
  */
-export function adaptListOfBooksToBanner(listOfBooks) {
+export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstruction) {
     const items = [];
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
@@ -36,7 +36,7 @@ export function adaptListOfBooksToBanner(listOfBooks) {
                 }
                 if (book.message === 'Reserveret') {
                     displayInfo.status = BookStatus.RESERVED;
-                    displayInfo.title = book.message;
+                    displayInfo.title = reservedMaterialInstruction || book.message;
                     displayInfo.text = book.title;
                 }
                 break;
