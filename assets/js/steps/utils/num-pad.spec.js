@@ -22,7 +22,7 @@ describe('Tests of numpad component', () => {
 
     it('renders from 1 to 9, inputted delete, zero and inputted ok', () => {
         const wrapper = mount(
-            <NumPad okButtonLabel='okidoki' deleteButtonLabel='delete' deleteButtonLabel="delete" okButtonLabel="okidoki" handleNumpadPress={() => console.log()} />
+            <NumPad okButtonLabel='okidoki' deleteButtonLabel='delete' handleNumpadPress={() => console.log()} />
         );
         expect(wrapper.text()).toEqual('123456789delete0okidoki');
     });
