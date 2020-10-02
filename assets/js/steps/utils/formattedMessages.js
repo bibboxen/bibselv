@@ -5,16 +5,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-
 // Scan password login strings.
 export const ScanPasswordLoginFirstSubheader = <FormattedMessage id='scan-login-password-first-subheader' defaultMessage='scan-login-password-first-subheader' />;
-export const ScanPasswordLoginSecondSubheader = <FormattedMessage id='scan-login-password-second-subheader' defaultMessage='scan-login-password-second-subheader' />
-export const ScanPasswordLoginFirstHelpboxText = <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='scan-login-password-usename-help-box-text' />
-export const ScanPasswordLoginSecondHelpboxText = <FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='scan-login-password-password-help-box-text' />
+export const ScanPasswordLoginSecondSubheader = <FormattedMessage id='scan-login-password-second-subheader' defaultMessage='scan-login-password-second-subheader' />;
+export const ScanPasswordLoginFirstHelpboxText = <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='scan-login-password-usename-help-box-text' />;
+export const ScanPasswordLoginSecondHelpboxText = <FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='scan-login-password-password-help-box-text' />;
 export const ScanPasswordLoginInputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='scan-login-password-input-label' />;
 export const ScanPasswordLoginLoginButton = <FormattedMessage id='scan-login-password-login-button' defaultMessage='scan-login-password-login-button' />;
 export const ScanPasswordLoginDeleteButton = <FormattedMessage id='scan-login-password-delete-button' defaultMessage='scan-login-password-delete-button' />;
-
 
 // Check in items strings.
 export const CheckInItemsOkButton = <FormattedMessage id='check-in-items-ok-button' defaultMessage='check-in-items-ok-button' />;
@@ -65,8 +63,7 @@ export const NavbarButtonPrint = <FormattedMessage id='button-navbar-print' defa
 export const InitialButtonCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='initial-button-check-out' />;
 export const InitialButtonStatus = <FormattedMessage id='initial-button-status' defaultMessage='initial-button-status' />;
 export const InitialButtonCheckIn = <FormattedMessage id='initial-button-check-in' defaultMessage='initial-button-check-in' />;
-export const InitialHeader = <FormattedMessage id='initial-choose-a-function' defaultMessage='initial-choose-a-function' />
+export const InitialHeader = <FormattedMessage id='initial-choose-a-function' defaultMessage='initial-choose-a-function' />;
 
 // Banner adapter strings
 export const BannerAdapterFetchingInfo = <FormattedMessage id='banner-adapter-fetching-info' defaultMessage='banner-adapter-fetching-info' />;
-

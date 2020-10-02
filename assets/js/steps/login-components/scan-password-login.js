@@ -20,14 +20,14 @@ import {
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
-import { 
-    ScanPasswordLoginFirstSubheader, 
-    ScanPasswordLoginSecondSubheader, 
-    ScanPasswordLoginFirstHelpboxText, 
+import {
+    ScanPasswordLoginFirstSubheader,
+    ScanPasswordLoginSecondSubheader,
+    ScanPasswordLoginFirstHelpboxText,
     ScanPasswordLoginInputLabel,
-    ScanPasswordLoginSecondHelpboxText, 
-    ScanPasswordLoginLoginButton, 
-    ScanPasswordLoginDeleteButton 
+    ScanPasswordLoginSecondHelpboxText,
+    ScanPasswordLoginLoginButton,
+    ScanPasswordLoginDeleteButton
 } from '../utils/formattedMessages';
 /**
  * ScanPasswordLogin.
@@ -146,8 +146,8 @@ function ScanPasswordLogin({ actionHandler }) {
                                     onChange={onKeyboardInput}
                                 />
                                 <NumPad okButtonLabel={ScanPasswordLoginLoginButton}
-                                        ScanPasswordLoginDeleteButton={ScanPasswordLoginDeleteButton}
-                                        handleNumpadPress={onNumPadPress} />
+                                    ScanPasswordLoginDeleteButton={ScanPasswordLoginDeleteButton}
+                                    handleNumpadPress={onNumPadPress} />
                             </>
                         )}
                     </div>

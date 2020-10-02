@@ -9,7 +9,7 @@ import MachineStateContext from '../context/machine-state-context';
 import ScanLogin from './login-components/scan-login';
 import UniLogin from './login-components/uni-login';
 import ScanPasswordLogin from './login-components/scan-password-login';
-import { LoginLoginNotConfigured } from './utils/FormattedMessages'
+import { LoginLoginNotConfigured } from './utils/FormattedMessages';
 
 /**
  * Renders a login component based on configuration

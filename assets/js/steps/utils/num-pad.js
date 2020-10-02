@@ -19,7 +19,7 @@ import { faBackspace } from '@fortawesome/free-solid-svg-icons';
  * @constructor
  */
 function NumPad({ handleNumpadPress, okButtonLabel, deleteButtonLabel }) {
-    const buttons = [{ label: '1' }, { label: '2' }, { label: '3' }, { label: '4' }, { label: '5' }, { label: '6' }, { label: '7' }, { label: '8' }, { label: '9' }, {  key: 'delete', label: deleteButtonLabel, icon: faBackspace, extraClass: 'red' }, { label: '0' }, { key: 'ok', label: okButtonLabel, icon: faArrowAltCircleRight, extraClass: 'green' }];
+    const buttons = [{ label: '1' }, { label: '2' }, { label: '3' }, { label: '4' }, { label: '5' }, { label: '6' }, { label: '7' }, { label: '8' }, { label: '9' }, { key: 'delete', label: deleteButtonLabel, icon: faBackspace, extraClass: 'red' }, { label: '0' }, { key: 'ok', label: okButtonLabel, icon: faArrowAltCircleRight, extraClass: 'green' }];
 
     return (
         <div className='num-pad'>
@@ -46,7 +46,7 @@ NumPad.propTypes = {
     deleteButtonLabel: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string
-    ]).isRequired,
+    ]).isRequired
 };
 
 export default NumPad;

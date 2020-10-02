@@ -32,7 +32,7 @@ import {
     CheckInItemsInputLabel,
     CheckInItemsHeader,
     CheckInItemsSubheader
-} from './utils/formattedMessages'
+} from './utils/formattedMessages';
 
 /**
  * CheckInItems component.
@@ -51,7 +51,6 @@ function CheckInItems({ actionHandler }) {
     const [checkedInBooksLength, setCheckedInBooksLength] = useState(0);
     const [errorsLength, setErrorLength] = useState(0);
     const sound = new Sound();
-
 
     /**
      * Handles numpad presses.
@@ -223,8 +222,8 @@ function CheckInItems({ actionHandler }) {
                         {items && <BannerList items={items} />}
                         {context.boxConfig.get.debugEnabled && (
                             <NumPad handleNumpadPress={onNumPadPress}
-                                    deleteButtonLabel={CheckInItemsDeleteButton}
-                                    okButtonLabel={CheckInItemsOkButton}/>
+                                deleteButtonLabel={CheckInItemsDeleteButton}
+                                okButtonLabel={CheckInItemsOkButton}/>
                         )}
                     </div>
                 </div>

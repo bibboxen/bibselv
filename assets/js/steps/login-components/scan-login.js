@@ -15,7 +15,7 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
-import { 
+import {
     ScanLoginHelpboxText,
     ScanLoginHeader,
     ScanLoginSubheader

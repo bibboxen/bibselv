@@ -34,7 +34,6 @@ import {
     StatusBannerHeaderOverdueBook
 } from './utils/formattedMessages';
 
-
 /**
  * Status.
  *
@@ -46,7 +45,7 @@ import {
  */
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    
+
     /**
      * Set up barcode listener.
      */

@@ -31,7 +31,7 @@ import {
     CheckOutItemsInputLabel,
     CheckOutItemsHeader,
     CheckOutItemsSubheader
-} from './utils/formattedMessages'
+} from './utils/formattedMessages';
 /**
  * CheckOutItems component.
  *
@@ -192,8 +192,8 @@ function CheckOutItems({ actionHandler }) {
                         {items && <BannerList items={items} />}
                         {context.boxConfig.get.debugEnabled && (
                             <NumPad handleNumpadPress={onNumPadPress}
-                                    deleteButtonLabel={CheckOutItemsDeleteButton}
-                                    okButtonLabel={CheckOutItemsOkButton}/>
+                                deleteButtonLabel={CheckOutItemsDeleteButton}
+                                okButtonLabel={CheckOutItemsOkButton}/>
                         )}
 
                     </div>
