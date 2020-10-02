@@ -84,7 +84,7 @@ describe('Tests of input component', () => {
         );
         expect(wrapper.exists('.info')).toEqual(true);
         expect(wrapper.exists('.input')).toEqual(true);
-        expect(wrapper.find('.info').text()).toContain('The book has been registered. Ready for the next one');
+        expect(wrapper.find('.info').text()).toContain('input-labelbook-is-registered');
     });
 
     it('renders no .info class if which is checkinitems and value is not set', () => {
