@@ -111,7 +111,7 @@ function Status({ actionHandler }) {
                     icon={faInfoCircle}
                 />
             </div>
-            <div className='row'>
+            <div className='row column-on-print'>
                 <div className='col-md-4 mt-4'>
                     <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
