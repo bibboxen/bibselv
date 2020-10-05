@@ -14,12 +14,20 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class BoxConfigurationCrudController.
  */
 class BoxConfigurationCrudController extends AbstractCrudController
 {
+    private $router;
+
+    public function __construct(UrlGeneratorInterface $router)
+    {
+        $this->router = $router;
+    }
+
     /**
      * Get entity fqcn.
      *
@@ -40,6 +48,12 @@ class BoxConfigurationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            FormField::addPanel('Configuration'),
+                TextField::new('uniqueId')->setFormTypeOption('disabled','disabled')
+                    ->formatValue(function ($value, $entity) {
+                        return $this->router->generate('box_configuration', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
+                    }),
+
             FormField::addPanel('Details'),
                 IdField::new('id')->hideOnForm()->hideOnIndex(),
                 TextField::new('name'),
