@@ -43,25 +43,36 @@ class FrontendController extends AbstractController
     /**
      * @Route("/", name="index")
      *
-     * @param Request $request
-     *   The http request
+     * @return Response
+     *   Http response
+     *
+     * @throws \Exception
+     */
+    public function index() {
+        return new Response('Bad request: Missing configuration id.', 400);
+    }
+
+    /**
+     * @Route("/{configId}", name="load", methods={"GET"})
+     *
+     * @param string $configId
+     *   The unique id of the configuration
      *
      * @return Response
      *   Http response
      *
      * @throws \Exception
      */
-    public function index(Request $request): Response
+    public function load(string $configId): Response
     {
-        $configId = $request->query->get('id');
         if (empty($configId)) {
-            return new Response('Bad request missing configuration id', 400);
+            return new Response('Bad request: Missing configuration id', 400);
         }
 
         // Check that configuration exists.
-        $boxConfig = $this->boxConfigurationRepository->findOneBy(['id' => $configId]);
+        $boxConfig = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $configId]);
         if (is_null($boxConfig)) {
-            return new Response('Bad request wrong configuration id', 400);
+            return new Response('Bad request: Wrong configuration id', 400);
         }
 
         // Generate new token on each page load. We have currently no way to identify if a page is a reload of a given

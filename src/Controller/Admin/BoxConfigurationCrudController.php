@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class BoxConfigurationCrudController extends AbstractCrudController
 {
-    private $router;
+    private UrlGeneratorInterface $router;
 
     public function __construct(UrlGeneratorInterface $router)
     {
@@ -48,33 +48,32 @@ class BoxConfigurationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            FormField::addPanel('Configuration'),
-                TextField::new('uniqueId')->setFormTypeOption('disabled','disabled')
-                    ->formatValue(function ($value, $entity) {
-                        return $this->router->generate('box_configuration', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
-                    }),
-
             FormField::addPanel('Details'),
-                IdField::new('id')->hideOnForm()->hideOnIndex(),
-                TextField::new('name'),
-                AssociationField::new('school'),
-                AssociationField::new('sip2User'),
-                TextField::new('reservedMaterialInstruction'),
-                TextField::new('defaultPassword')->hideOnIndex(),
+            IdField::new('id')->hideOnForm()->hideOnIndex(),
+            TextField::new('name'),
+            AssociationField::new('school'),
+            AssociationField::new('sip2User'),
+            TextField::new('reservedMaterialInstruction'),
+            TextField::new('defaultPassword')->hideOnIndex(),
+            TextField::new('uniqueId')->setFormTypeOption('disabled', 'disabled')
+                // This only applies to index and detail pages.
+                ->formatValue(function ($value) {
+                    return $this->router->generate('frontend_load', ['configId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
+                }),
 
             FormField::addPanel('Options'),
-                BooleanField::new('hasTouch')->hideOnIndex(),
-                BooleanField::new('hasKeyboard')->hideOnIndex(),
-                BooleanField::new('hasPrinter')->hideOnIndex(),
-                BooleanField::new('soundEnabled')->hideOnIndex(),
-                BooleanField::new('debugEnabled'),
-                IntegerField::new('inactivityTimeOut')->hideOnIndex(),
-                ChoiceField::new('loginMethod')
-                    ->setChoices(LoginMethods::getLoginMethodList())
-                    ->hideOnIndex(),
-                ChoiceField::new('defaultLanguageCode')
-                    ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))
-                    ->hideOnIndex(),
+            BooleanField::new('hasTouch')->hideOnIndex(),
+            BooleanField::new('hasKeyboard')->hideOnIndex(),
+            BooleanField::new('hasPrinter')->hideOnIndex(),
+            BooleanField::new('soundEnabled')->hideOnIndex(),
+            BooleanField::new('debugEnabled'),
+            IntegerField::new('inactivityTimeOut')->hideOnIndex(),
+            ChoiceField::new('loginMethod')
+                ->setChoices(LoginMethods::getLoginMethodList())
+                ->hideOnIndex(),
+            ChoiceField::new('defaultLanguageCode')
+                ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))
+                ->hideOnIndex(),
         ];
     }
 
