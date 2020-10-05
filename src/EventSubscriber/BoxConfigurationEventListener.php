@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains event listener for creating unique id for each box configuration.
+ */
 
 namespace App\EventSubscriber;
 
@@ -7,6 +11,9 @@ use App\Repository\BoxConfigurationRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class BoxConfigurationEventListener.
+ */
 class BoxConfigurationEventListener implements EventSubscriberInterface
 {
     private BoxConfigurationRepository $boxConfigurationRepository;

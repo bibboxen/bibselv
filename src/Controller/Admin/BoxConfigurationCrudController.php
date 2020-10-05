@@ -23,6 +23,12 @@ class BoxConfigurationCrudController extends AbstractCrudController
 {
     private UrlGeneratorInterface $router;
 
+    /**
+     * BoxConfigurationCrudController constructor.
+     *
+     * @param UrlGeneratorInterface $router
+     *   Url generator
+     */
     public function __construct(UrlGeneratorInterface $router)
     {
         $this->router = $router;
