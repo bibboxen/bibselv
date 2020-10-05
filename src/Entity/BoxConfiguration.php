@@ -476,7 +476,7 @@ class BoxConfiguration
      * Set unique id.
      *
      * @param string $uniqueId
-     *   The unique id.
+     *   The unique id
      *
      * @return $this
      */
