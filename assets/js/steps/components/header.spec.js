@@ -42,6 +42,6 @@ describe('Test of header component', () => {
                 icon={faCheck}
             />
         );
-        expect(wrapper.find('.sub-header').text()).toEqual('underoverskrift');
+        expect(wrapper.find('.subheader').text()).toEqual('underoverskrift');
     });
 });

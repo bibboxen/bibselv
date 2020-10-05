@@ -27,15 +27,21 @@ function Header({ header, subheader, which, icon }) {
             <IconBubble which={which} icon={icon} />
             <div className='col-md-10'>
                 <div className='header'>{header}</div>
-                <div className='sub-header'>{subheader}</div>
+                <div className='subheader'>{subheader}</div>
             </div>
         </div>
     );
 }
 
 Header.propTypes = {
-    header: PropTypes.string.isRequired,
-    subheader: PropTypes.string.isRequired,
+    header: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
+    subheader: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
     which: PropTypes.string.isRequired,
     icon: PropTypes.object.isRequired
 };

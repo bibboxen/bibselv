@@ -8,7 +8,7 @@ export const translations = {
     'status-header-reservations': 'Reservations',
     'status-header-ready-for-pickup': 'Ready for pickup',
     'banner-header-book-with-fine': 'This book has a fine',
-    'banner-heaeder-book-for-check-in': 'This book must be handed in',
+    'banner-header-book-for-check-in': 'This book must be handed in',
     'help-box-header': 'Help',
     'book-is-registered': 'The book has been registered. Ready for the next one',
     'button-navbar-check-out': 'Loan',

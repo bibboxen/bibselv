@@ -27,7 +27,7 @@ describe('Initial component (Vælg en funktion...)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('h1').text()).toEqual('Select a function to start');
+        expect(wrapper.find('h1').text()).toEqual('initial-choose-a-function');
     });
 });
 
@@ -54,7 +54,7 @@ describe('Check out items component (Udlån)', () => {
 
         );
 
-        expect(wrapper.find('.header').text()).toEqual('Login');
+        expect(wrapper.find('.header').text()).toEqual('scan-login-header');
     });
 
     it('renders login component when logged out, even if there is items', () => {
@@ -89,7 +89,7 @@ describe('Check out items component (Udlån)', () => {
             </IntlProvider>
 
         );
-        expect(wrapper.find('.header').text()).toEqual('Login');
+        expect(wrapper.find('.header').text()).toEqual('scan-login-header');
     });
 
     it('renders check out items component when it is logged in', () => {
@@ -116,9 +116,7 @@ describe('Check out items component (Udlån)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.contains(<div className='header'>Loan</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.header').text()).toEqual('check-out-items-header');
     });
 
     it('renders item (book) with error in check out items component when logged in', () => {
@@ -190,7 +188,7 @@ describe('Check out items component (Udlån)', () => {
             </IntlProvider>
         );
 
-        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
+        expect(wrapper.find('.banner .header').text()).toEqual('banner-adapter-fetching-info');
     });
 
     it('renders item (book) that is checked in check out items component when logged in', () => {
@@ -250,9 +248,7 @@ describe('Check in items component (Hand in)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.contains(<div className='header'>Hand in</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.header').text()).toEqual('check-in-items-header');
     });
 
     it('renders item (book) with error in check in items component when logged out', () => {
@@ -317,7 +313,7 @@ describe('Check in items component (Hand in)', () => {
             </IntlProvider>
         );
 
-        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
+        expect(wrapper.find('.banner .header').text()).toEqual('banner-adapter-fetching-info');
     });
 
     it('renders item (book) that is checked in check in items component when logged out', () => {
@@ -379,9 +375,7 @@ describe('Check in items component (Hand in)', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.contains(<div className='header'>Hand in</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.header').text()).toEqual('check-in-items-header');
     });
 
     it('renders item (book) with error in check in items component when logged in', () => {
@@ -456,7 +450,7 @@ describe('Check in items component (Hand in)', () => {
 
         );
 
-        expect(wrapper.find('.banner .header').text()).toEqual('Henter informationer');
+        expect(wrapper.find('.banner .header').text()).toEqual('banner-adapter-fetching-info');
     });
 
     it('renders item (book) that is checked in check in items component when logged in', () => {
@@ -548,9 +542,7 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.contains(<div className='header'>Status</div>)).toEqual(
-            true
-        );
+        expect(wrapper.find('.header').text()).toEqual('status-header');
     });
 
     it('renders the books from machine state when the state is status, it is logged in and there are books', () => {
@@ -628,9 +620,9 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.banner .header').at(0).text()).toEqual('This book has a fine');
-        expect(wrapper.find('.banner .header').at(1).text()).toEqual('This book must be handed in');
-        expect(wrapper.find('.banner .header').at(2).text()).toEqual('This book must be handed in');
+        expect(wrapper.find('.banner .header').at(0).text()).toEqual('banner-header-book-with-fine');
+        expect(wrapper.find('.banner .header').at(1).text()).toEqual('banner-header-book-for-check-in');
+        expect(wrapper.find('.banner .header').at(2).text()).toEqual('banner-header-book-for-check-in');
         expect(wrapper.find('.banner .header').at(3).text()).toEqual('Mellem rejer og hundestejler');
         expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces');
         expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver');
@@ -685,7 +677,7 @@ describe('Tests of navbar component', () => {
         expect(wrapper.find('.text.bold').text()).toEqual('ITK');
     });
 
-    it('renders the four buttons in the navbar', () => {
+    it('renders the four buttons in the navbar checkinitems', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
@@ -712,20 +704,20 @@ describe('Tests of navbar component', () => {
         );
         expect(wrapper.find('.button-container button').length).toEqual(4);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
-            'Loan'
+            'button-navbar-check-out'
         );
         expect(wrapper.find('.button-container button').at(1).text()).toEqual(
-            'Status'
+            'button-navbar-status'
         );
         expect(wrapper.find('.button-container button').at(2).text()).toEqual(
-            'Hand in'
+            'button-navbar-check-in'
         );
         expect(wrapper.find('.button-container button').at(3).text()).toEqual(
-            'Exit'
+            'button-navbar-finish'
         );
     });
 
-    it('renders the four buttons in the navbar', () => {
+    it('renders the four buttons in the navbar checkoutitems', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
@@ -737,8 +729,8 @@ describe('Tests of navbar component', () => {
                         }
                     }}
                     machineStateInput={{
-                        flow: 'checkInItems',
-                        step: 'checkInItems',
+                        flow: 'checkOutItems',
+                        step: 'checkOutItems',
                         user: {
                             birthdayToday: false,
                             name: 'ITK'
@@ -751,16 +743,64 @@ describe('Tests of navbar component', () => {
         );
         expect(wrapper.find('.button-container button').length).toEqual(4);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
-            'Loan'
+            'button-navbar-check-out'
         );
         expect(wrapper.find('.button-container button').at(1).text()).toEqual(
-            'Status'
+            'button-navbar-status'
         );
         expect(wrapper.find('.button-container button').at(2).text()).toEqual(
-            'Hand in'
+            'button-navbar-check-in'
         );
         expect(wrapper.find('.button-container button').at(3).text()).toEqual(
-            'Exit'
+            'button-navbar-finish'
+        );
+    });
+
+    it('renders the five buttons in the navbar status', () => {
+        const wrapper = mount(
+            <IntlProvider locale="en" translations={translations} >
+                <Bibbox
+                    boxConfigurationInput={{
+                        soundEnabled: false,
+                        inactivityTimeOut: 3000,
+                        school: {
+                            name: 'Mårslet Skole'
+                        }
+                    }}
+                    machineStateInput={{
+                        flow: 'status',
+                        step: 'status',
+                        user: {
+                            birthdayToday: false,
+                            name: 'ITK'
+                        },
+                        holdItems: [],
+                        overdueItems: [],
+                        chargedItems: [],
+                        fineItems: [],
+                        recallItems: [],
+                        unavailableHoldItems: []
+                    }}
+                    actionHandler={() => { }}
+                />
+            </IntlProvider>
+
+        );
+        expect(wrapper.find('.button-container button').length).toEqual(5);
+        expect(wrapper.find('.button-container button').at(0).text()).toEqual(
+            'button-navbar-print'
+        );
+        expect(wrapper.find('.button-container button').at(1).text()).toEqual(
+            'button-navbar-check-out'
+        );
+        expect(wrapper.find('.button-container button').at(2).text()).toEqual(
+            'button-navbar-status'
+        );
+        expect(wrapper.find('.button-container button').at(3).text()).toEqual(
+            'button-navbar-check-in'
+        );
+        expect(wrapper.find('.button-container button').at(4).text()).toEqual(
+            'button-navbar-finish'
         );
     });
 });
@@ -787,8 +827,8 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.sub-header').text()).toEqual(
-            'Scan dit bibliotekskort'
+        expect(wrapper.find('.subheader').text()).toEqual(
+            'scan-login-password-first-subheader'
         );
     });
 
@@ -813,7 +853,7 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.sub-header').text()).toEqual(
+        expect(wrapper.find('.subheader').text()).toEqual(
             'Login med Unilogin'
         );
     });
@@ -839,8 +879,8 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.sub-header').text()).toEqual(
-            'Scan dit bibliotekskort'
+        expect(wrapper.find('.subheader').text()).toEqual(
+            'scan-login-subheader'
         );
     });
 

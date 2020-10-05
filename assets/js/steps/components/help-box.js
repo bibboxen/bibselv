@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormattedMessage } from 'react-intl';
+import { HelpBoxHeader } from '../utils/formattedMessages';
 
 /**
  * HelpBox.
@@ -25,7 +25,7 @@ function HelpBox({ text }) {
                     <FontAwesomeIcon icon={faQuestionCircle} />
                 </span>
                 <span>
-                    <FormattedMessage id='help-box-header' defaultMessage='Help' />
+                    {HelpBoxHeader}
                 </span>
                 <p>{text}</p>
             </div>
