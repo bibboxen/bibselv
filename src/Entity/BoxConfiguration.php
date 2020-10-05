@@ -462,11 +462,24 @@ class BoxConfiguration
         return $this;
     }
 
+    /**
+     * Get unique id.
+     *
+     * @return string|null
+     */
     public function getUniqueId(): ?string
     {
         return $this->uniqueId;
     }
 
+    /**
+     * Set unique id.
+     *
+     * @param string $uniqueId
+     *   The unique id.
+     *
+     * @return $this
+     */
     public function setUniqueId(string $uniqueId): self
     {
         $this->uniqueId = $uniqueId;

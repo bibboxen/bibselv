@@ -60,7 +60,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 ->setFormTypeOption('disabled', 'disabled')
                 // This only applies to index and detail pages.
                 ->formatValue(function ($value) {
-                    return $this->router->generate('frontend_load', ['configId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
+                    return $this->router->generate('frontend_load', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
                 }),
 
             FormField::addPanel('Options'),

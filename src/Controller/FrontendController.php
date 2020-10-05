@@ -54,9 +54,9 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/{configId}", name="load", methods={"GET"})
+     * @Route("/{uniqueId}", name="load")
      *
-     * @param string $configId
+     * @param string $uniqueId
      *   The unique id of the configuration
      *
      * @return Response
@@ -64,14 +64,14 @@ class FrontendController extends AbstractController
      *
      * @throws \Exception
      */
-    public function load(string $configId): Response
+    public function load(string $uniqueId): Response
     {
-        if (empty($configId)) {
+        if (empty($uniqueId)) {
             return new Response('Bad request: Missing configuration id', 400);
         }
 
         // Check that configuration exists.
-        $boxConfig = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $configId]);
+        $boxConfig = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);
         if (is_null($boxConfig)) {
             return new Response('Bad request: Wrong configuration id', 400);
         }
