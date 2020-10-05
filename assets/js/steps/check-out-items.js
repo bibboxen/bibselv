@@ -178,7 +178,6 @@ function CheckOutItems({ actionHandler }) {
                 />
                 <div className='row'>
                     <div className='col-md-2' />
-
                     <div className='col-md mt-4'>
                         <Input
                             name='barcode'
@@ -186,14 +185,11 @@ function CheckOutItems({ actionHandler }) {
                             value={scannedBarcode}
                             activeBanner={activeBanner}
                             onChange={onKeyboardInput}
+                            handleNumpadPress={onNumPadPress}
+                            deleteButtonLabel={deleteButtonLabel}
+                            okButtonLabel={okButtonLabel}
                         />
                         {items && <BannerList items={items} />}
-                        {context.boxConfig.get.debugEnabled && (
-                            <NumPad handleNumpadPress={onNumPadPress}
-                                deleteButtonLabel={deleteButtonLabel}
-                                okButtonLabel={okButtonLabel}/>
-                        )}
-
                     </div>
                 </div>
             </div>

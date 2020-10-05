@@ -20,11 +20,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function IconBubble({ which, icon }) {
     const classes = `header-icon ${which.toLowerCase()}`;
     return (
-        <div className='col-md-2'>
-            <div className={classes}>
-                <div className='icon'>
-                    <FontAwesomeIcon icon={icon} />
-                </div>
+        <div className={classes}>
+            <div className='icon'>
+                <FontAwesomeIcon icon={icon} />
             </div>
         </div>
     );

@@ -146,10 +146,10 @@ function ScanPasswordLogin({ actionHandler }) {
                                     value={password}
                                     type="password"
                                     onChange={onKeyboardInput}
-                                />
-                                <NumPad okButtonLabel={loginButtonLabel}
+                                    handleNumpadPress={onNumPadPress}
                                     deleteButtonLabel={deleteButtonLabel}
-                                    handleNumpadPress={onNumPadPress} />
+                                    okButtonLabel={okButtonLabel}
+                                />
                             </>
                         )}
                     </div>

@@ -3,7 +3,7 @@
  * An input field component
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -27,10 +27,11 @@ import { FormattedMessage } from 'react-intl';
  */
 const Input = ({ name, label, value, activeBanner = false, ...rest }) => {
     const cssClass = activeBanner ? 'input info' : 'input';
+
     return (
         <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
-            <input name={name} id={name} type='text' {...rest} value={value} />
+            <input name={name} id={name} type='text' value={value} autoFocus {...rest} />
             {activeBanner && (
                 <div className='info-banner'>
                     <span className='info-banner-icon'>
