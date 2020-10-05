@@ -55,7 +55,9 @@ class BoxConfigurationCrudController extends AbstractCrudController
             AssociationField::new('sip2User'),
             TextField::new('reservedMaterialInstruction'),
             TextField::new('defaultPassword')->hideOnIndex(),
-            TextField::new('uniqueId')->setFormTypeOption('disabled', 'disabled')
+            TextField::new('uniqueId')
+                ->setLabel('Identifier')
+                ->setFormTypeOption('disabled', 'disabled')
                 // This only applies to index and detail pages.
                 ->formatValue(function ($value) {
                     return $this->router->generate('frontend_load', ['configId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
