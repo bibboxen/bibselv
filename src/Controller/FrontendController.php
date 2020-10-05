@@ -48,7 +48,8 @@ class FrontendController extends AbstractController
      *
      * @throws \Exception
      */
-    public function index() {
+    public function index()
+    {
         return new Response('Bad request: Missing configuration id.', 400);
     }
 

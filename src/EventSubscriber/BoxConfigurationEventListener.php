@@ -13,6 +13,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
 
     /**
      * BoxConfigurationEventListener constructor.
+     *
      * @param BoxConfigurationRepository $boxConfigurationRepository
      */
     public function __construct(BoxConfigurationRepository $boxConfigurationRepository)
@@ -54,12 +55,12 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
 
                 // Test for uniqueness.
                 $entitiesFound = $this->boxConfigurationRepository->findBy(['uniqueId' => $newUniqueId]);
-                if (\count($entitiesFound) === 0) {
+                if (0 === \count($entitiesFound)) {
                     $uniqueId = $newUniqueId;
                 }
-            } catch (\Exception $e) {}
-        }
-        while ($uniqueId === null);
+            } catch (\Exception $e) {
+            }
+        } while (null === $uniqueId);
 
         $entity->setUniqueId($uniqueId);
     }
