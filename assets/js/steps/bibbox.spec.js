@@ -491,27 +491,6 @@ describe('Check in items component (Hand in)', () => {
 });
 
 describe('Status component', () => {
-    it('renders the login page, when state is status and it is not logged in', () => {
-        const wrapper = mount(
-            <IntlProvider locale="en" translations={translations} >
-                <Bibbox
-                    boxConfigurationInput={{
-                        soundEnabled: false,
-                        loginMethod: 'unilogin',
-                        inactivityTimeOut: 3000,
-                        school: {
-                            name: 'Mårslet Skole'
-                        }
-                    }}
-                    machineStateInput={{ flow: 'status', step: 'loginScan' }}
-                    actionHandler={() => { }}
-                />
-            </IntlProvider>
-
-        );
-        expect(wrapper.find('.header').text()).toEqual('Login');
-    });
-
     it('renders the status component when the state is status and it is logged in', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
@@ -829,32 +808,6 @@ describe('Tests of configuration', () => {
         );
         expect(wrapper.find('.subheader').text()).toEqual(
             'scan-login-password-first-subheader'
-        );
-    });
-
-    it('render the logincomponent defined in the config (unilogin)', () => {
-        const wrapper = mount(
-            <IntlProvider locale="en" translations={translations} >
-                <Bibbox
-                    boxConfigurationInput={{
-                        soundEnabled: false,
-                        inactivityTimeOut: 3000,
-                        school: {
-                            name: 'Mårslet Skole'
-                        },
-                        loginMethod: 'unilogin'
-                    }}
-                    machineStateInput={{
-                        flow: 'checkOutItems',
-                        step: 'LoginScan',
-                        items: []
-                    }}
-                    actionHandler={() => { }}
-                />
-            </IntlProvider>
-        );
-        expect(wrapper.find('.subheader').text()).toEqual(
-            'Login med Unilogin'
         );
     });
 

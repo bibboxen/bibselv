@@ -18,8 +18,8 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
-import MachineStateContext from '../../context/machine-state-context';
 import QwertyKeyboard from '../utils/qwerty-keyboard';
+import MachineStateContext from '../utils/machine-state-context';
 import {
     ScanPasswordLoginFirstSubheader,
     ScanPasswordLoginSecondSubheader,

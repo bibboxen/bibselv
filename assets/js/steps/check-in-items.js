@@ -7,7 +7,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
-import MachineStateContext from '../context/machine-state-context';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
@@ -25,6 +24,7 @@ import NumPad from './utils/num-pad';
 import Print from '../steps/utils/print';
 import Sound from './utils/sound';
 import BookStatus from './utils/book-status';
+import MachineStateContext from './utils/machine-state-context';
 import {
     CheckInItemsOkButton,
     CheckInItemsDeleteButton,
@@ -88,7 +88,6 @@ function CheckInItems({ actionHandler }) {
      * Set up keydown listener.
      */
     useEffect(() => {
-        console.log(scannedBarcode);
         window.addEventListener('keydown', keyDownFunction);
         return () => window.removeEventListener('keydown', keyDownFunction);
     }, [scannedBarcode]);

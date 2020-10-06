@@ -6,7 +6,7 @@
 import React, { useContext, useEffect } from 'react';
 import BannerList from './components/banner-list';
 import Header from './components/header';
-import MachineStateContext from '../context/machine-state-context';
+import MachineStateContext from './utils/machine-state-context';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,

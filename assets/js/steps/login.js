@@ -5,10 +5,10 @@
 
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import MachineStateContext from '../context/machine-state-context';
 import ScanLogin from './login-components/scan-login';
 import ScanPasswordLogin from './login-components/scan-password-login';
 import { LoginLoginNotConfigured } from './utils/formattedMessages';
+import MachineStateContext from './utils/machine-state-context';
 
 /**
  * Renders a login component based on configuration
@@ -27,7 +27,6 @@ function Login({ actionHandler }) {
      * Renders a login component based on configuration
      */
     function renderStep(loginConfig) {
-        loginConfig = 'login_barcode';
         switch (loginConfig.toLowerCase()) {
             case 'login_barcode':
                 return (

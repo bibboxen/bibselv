@@ -14,7 +14,7 @@ import {
     BARCODE_COMMAND_STATUS,
     BARCODE_COMMAND_CHECKIN
 } from '../constants';
-import MachineStateContext from '../context/machine-state-context';
+import MachineStateContext from './utils/machine-state-context';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
 import Header from './components/header';
@@ -121,7 +121,6 @@ function CheckOutItems({ actionHandler }) {
      * Set up keydown listener.
      */
     useEffect(() => {
-        console.log(scannedBarcode);
         window.addEventListener('keydown', keyDownFunction);
         return () => window.removeEventListener('keydown', keyDownFunction);
     }, [scannedBarcode]);

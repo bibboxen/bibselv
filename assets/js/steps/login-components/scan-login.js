@@ -16,7 +16,7 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
-import MachineStateContext from '../../context/machine-state-context';
+import MachineStateContext from '../utils/machine-state-context';
 import {
     ScanLoginHelpboxText,
     ScanLoginHeader,
