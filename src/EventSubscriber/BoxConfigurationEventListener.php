@@ -57,13 +57,12 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
 
         do {
             try {
-                $bytes = random_bytes(5);
-                $newUniqueId = bin2hex($bytes);
+                $hash = substr(sha1(time()), 0, 10);
 
                 // Test for uniqueness.
-                $entitiesFound = $this->boxConfigurationRepository->findBy(['uniqueId' => $newUniqueId]);
+                $entitiesFound = $this->boxConfigurationRepository->findBy(['uniqueId' => $hash]);
                 if (0 === \count($entitiesFound)) {
-                    $uniqueId = $newUniqueId;
+                    $uniqueId = $hash;
                 }
             } catch (\Exception $e) {
             }
