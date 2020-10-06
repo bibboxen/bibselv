@@ -13,7 +13,7 @@ import 'react-simple-keyboard/build/css/index.css';
  *
  * @param handleKeyPress
  *   Handles keypress inputs.
- * 
+ *
  * @return {*}
  * @constructor
  */
