@@ -36,10 +36,10 @@ function Bubble({ which, label, icon, img, actionHandler }) {
                 <div className='text-and-icon'>
                     <div className='icon'>
                         {img &&
-                    <img src={img} height={60} />
+                            <img src={img} height={60} />
                         }
                         {icon &&
-                        <FontAwesomeIcon icon={icon} />
+                            <FontAwesomeIcon icon={icon} />
                         }
                     </div>
                     {label}
