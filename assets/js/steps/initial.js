@@ -26,6 +26,8 @@ import {
     InitialButtonCheckIn,
     InitialHeader
 } from './utils/formattedMessages';
+import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
+import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
 
 /**
  * Initial component.
@@ -40,7 +42,7 @@ function Initial({ actionHandler }) {
         {
             which: 'checkOutItems',
             label: InitialButtonCheckOut,
-            icon: faBookReader
+            img: CheckOutYellow
         },
         {
             which: 'status',
@@ -50,7 +52,7 @@ function Initial({ actionHandler }) {
         {
             which: 'checkInItems',
             label: InitialButtonCheckIn,
-            icon: faBook
+            img: CheckInIconPurple
         }
     ];
 
@@ -103,6 +105,7 @@ function Initial({ actionHandler }) {
                             which={component.which}
                             label={component.label}
                             icon={component.icon}
+                            img={component.img}
                             actionHandler={actionHandler}
                         />
                     </div>

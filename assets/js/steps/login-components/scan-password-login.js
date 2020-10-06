@@ -10,8 +10,7 @@ import HelpBox from '../components/help-box';
 import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
-import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
 import {
     BARCODE_COMMAND_FINISH,
@@ -28,6 +27,8 @@ import {
     ScanPasswordLoginSecondHelpboxText,
     ScanPasswordLoginHeader
 } from '../utils/formattedMessages';
+import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
+
 /**
  * ScanPasswordLogin.
  *
@@ -154,7 +155,7 @@ function ScanPasswordLogin({ actionHandler }) {
             <div className='col-md-6' >
                 {!usernameScanned && (
                     <div className='content'>
-                        <FontAwesomeIcon icon={faBarcode}/>
+                        <img src={BarcodeScannerIcon} height={300} width={300} />
                     </div>
                 )}
                 {usernameScanned && (

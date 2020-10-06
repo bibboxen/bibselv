@@ -19,7 +19,6 @@ import BannerList from './components/banner-list';
 import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import Print from '../steps/utils/print';
 import Sound from './utils/sound';
@@ -33,6 +32,7 @@ import {
     CheckInItemsHeader,
     CheckInItemsSubheader
 } from './utils/formattedMessages';
+import CheckInWhite from '../../scss/images/check-in-white.svg';
 
 /**
  * CheckInItems component.
@@ -220,7 +220,7 @@ function CheckInItems({ actionHandler }) {
                 header={CheckInItemsHeader}
                 subheader={CheckInItemsSubheader}
                 which='checkInItems'
-                icon={faBook}
+                img={CheckInWhite}
             />
             <div className='col-md-3'>
                 <HelpBox text={CheckInItemsHelpBoxText} />

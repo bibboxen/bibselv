@@ -13,16 +13,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @param which
  *   Which bubble to display, CheckInItems, CheckOutItems, Status or login.
  * @param icon
- *   Which icon the bubble has.
+ *   If the icon in the header has an icon, this is it.
+ * @param img
+ *   If the icon in the header has an img, this is it.
  * @return {*}
  * @constructor
  */
-function IconBubble({ which, icon }) {
+function IconBubble({ which, icon, img }) {
     const classes = `header-icon ${which.toLowerCase()}`;
     return (
         <div className={classes}>
             <div className='icon'>
-                <FontAwesomeIcon icon={icon} />
+            {img &&
+                    <img src={img} height={28} />
+                }
+                {icon &&
+                    <FontAwesomeIcon icon={icon} />
+                }
             </div>
         </div>
     );
@@ -30,7 +37,8 @@ function IconBubble({ which, icon }) {
 
 IconBubble.propTypes = {
     which: PropTypes.string.isRequired,
-    icon: PropTypes.object.isRequired
+    icon: PropTypes.object,
+    img: PropTypes.object
 };
 
 export default IconBubble;

@@ -9,8 +9,7 @@ import PropTypes from 'prop-types';
 import HelpBox from '../components/help-box';
 import Button from '../components/button';
 import Header from '../components/header';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faBarcode, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
@@ -22,6 +21,8 @@ import {
     ScanLoginHeader,
     ScanLoginSubheader
 } from '../utils/formattedMessages';
+import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
+
 /**
  * Scan login component.
  *
@@ -75,7 +76,7 @@ function ScanLogin({ actionHandler }) {
             <div className="col-md-1" />
             <div className='col-md-6'>
                 <div className='content'>
-                    <FontAwesomeIcon icon={faBarcode} />
+                    <img src={BarcodeScannerIcon} height={300} width={300} />
                 </div>
             </div>
             {context.boxConfig.get.debugEnabled && (

@@ -20,7 +20,6 @@ import BannerList from './components/banner-list';
 import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
-import { faBookReader } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import Sound from './utils/sound';
 import BookStatus from './utils/book-status';
@@ -32,6 +31,8 @@ import {
     CheckOutItemsHeader,
     CheckOutItemsSubheader
 } from './utils/formattedMessages';
+import CheckOutWhite from '../../scss/images/check-out-white.svg';
+
 /**
  * CheckOutItems component.
  *
@@ -192,7 +193,7 @@ function CheckOutItems({ actionHandler }) {
                 header={CheckOutItemsHeader}
                 subheader={CheckOutItemsSubheader}
                 which='checkOutItems'
-                icon={faBookReader}
+                img={CheckOutWhite}
             />
             <div className='col-md-3'>
                 <HelpBox text={CheckOutItemsHelpBoxText} />

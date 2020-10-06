@@ -7,9 +7,7 @@ import React, { useContext } from 'react';
 import Button from './button';
 import MachineStateContext from '../utils/machine-state-context';
 import {
-    faBookReader,
     faInfoCircle,
-    faBook,
     faSignOutAlt,
     faBug,
     faPrint,
@@ -24,6 +22,9 @@ import {
     NavbarButtonFinish,
     NavbarButtonPrint
 } from '../utils/formattedMessages';
+import CheckInIconWhite from '../../../scss/images/check-in-white.svg';
+import CheckOutIconBlack from '../../../scss/images/check-out-black.svg';
+
 /**
  * NavBar.
  *
@@ -42,7 +43,7 @@ function NavBar({ actionHandler }) {
             color: 'yellow',
             data: { flow: 'checkOutItems' },
             label: NavbarButtonCheckOut,
-            icon: faBookReader
+            img: CheckOutIconBlack
         },
         {
             color: 'blue',
@@ -54,7 +55,7 @@ function NavBar({ actionHandler }) {
             color: 'purple',
             data: { flow: 'checkInItems' },
             label: NavbarButtonCheckIn,
-            icon: faBook
+            img: CheckInIconWhite
         }
     ];
 
@@ -103,6 +104,7 @@ function NavBar({ actionHandler }) {
                         icon={button.icon}
                         handleButtonPress={() => actionHandler('changeFlow', button.data)}
                         color={button.color}
+                        img={button.img}
                     />
                 ))}
                 {context.machineState.get.step !== 'initial' &&
