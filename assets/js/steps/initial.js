@@ -15,11 +15,7 @@ import {
     BARCODE_COMMAND_STATUS,
     BARCODE_SCANNING_TIMEOUT
 } from '../constants';
-import {
-    faBookReader,
-    faInfoCircle,
-    faBook
-} from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import {
     InitialButtonCheckOut,
     InitialButtonStatus,

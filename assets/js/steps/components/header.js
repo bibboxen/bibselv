@@ -48,7 +48,7 @@ Header.propTypes = {
     ]),
     which: PropTypes.string.isRequired,
     icon: PropTypes.object,
-    img: PropTypes.string,
+    img: PropTypes.string
 };
 
 export default Header;

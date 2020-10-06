@@ -24,7 +24,7 @@ function IconBubble({ which, icon, img }) {
     return (
         <div className={classes}>
             <div className='icon'>
-            {img &&
+                {img &&
                     <img src={img} height={28} />
                 }
                 {icon &&
@@ -38,7 +38,7 @@ function IconBubble({ which, icon, img }) {
 IconBubble.propTypes = {
     which: PropTypes.string.isRequired,
     icon: PropTypes.object,
-    img: PropTypes.object
+    img: PropTypes.string
 };
 
 export default IconBubble;
