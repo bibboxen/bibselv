@@ -19,14 +19,14 @@ class BoxConfigurationController extends AbstractController
     /**
      * @Route("/box/configuration/{uniqueId}", name="box_configuration")
      *
-     * @param $uniqueId
+     * @param string $uniqueId
      *   Box configuration unique id
      * @param BoxConfigurationRepository $boxConfigurationRepository
      *   Box configuration repository
      *
      * @return JsonResponse
      */
-    public function index($uniqueId, BoxConfigurationRepository $boxConfigurationRepository)
+    public function index(string $uniqueId, BoxConfigurationRepository $boxConfigurationRepository)
     {
         $boxConfiguration = $boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);
 
