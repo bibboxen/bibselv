@@ -9,10 +9,10 @@ import PropTypes from 'prop-types';
 import { BarcodeScanner } from './utils/barcode-scanner';
 import {
     BARCODE_COMMAND_FINISH,
-    BARCODE_COMMAND_LENGTH,
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_STATUS,
-    BARCODE_COMMAND_CHECKIN
+    BARCODE_COMMAND_CHECKIN,
+    BARCODE_TYPE_COMMAND
 } from '../constants';
 import MachineStateContext from '../context/machine-state-context';
 import HelpBox from './components/help-box';
@@ -32,6 +32,7 @@ import {
     CheckOutItemsHeader,
     CheckOutItemsSubheader
 } from './utils/formattedMessages';
+
 /**
  * CheckOutItems component.
  *
@@ -56,9 +57,9 @@ function CheckOutItems({ actionHandler }) {
      */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                switch (code) {
+        const barcodeCallback = (result) => {
+            if (result.type === BARCODE_TYPE_COMMAND) {
+                switch (result.outputCode) {
                     case BARCODE_COMMAND_FINISH:
                         actionHandler('reset');
                         break;
@@ -74,8 +75,8 @@ function CheckOutItems({ actionHandler }) {
                         break;
                 }
             } else {
-                setScannedBarcode(code);
-                handleItemCheckOut();
+                setScannedBarcode(result.outputCode);
+                handleItemCheckOut(result.outputCode);
             }
         };
 
@@ -123,7 +124,7 @@ function CheckOutItems({ actionHandler }) {
      * Handles keyboard inputs.
      *
      */
-    function handleItemCheckOut() {
+    function handleItemCheckOut(scannedBarcode) {
         setActiveBanner(true);
         actionHandler('checkOutItem', {
             itemIdentifier: scannedBarcode

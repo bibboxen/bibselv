@@ -13,13 +13,14 @@ import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_LENGTH
+    BARCODE_TYPE_COMMAND
 } from '../../constants';
 import {
     ScanLoginHelpboxText,
     ScanLoginHeader,
     ScanLoginSubheader
 } from '../utils/formattedMessages';
+
 /**
  * Scan login component.
  *
@@ -39,16 +40,17 @@ function ScanLogin({ actionHandler }) {
      */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                if (code === BARCODE_COMMAND_FINISH) {
+        const barcodeCallback = (result) => {
+            if (result.type === BARCODE_TYPE_COMMAND) {
+                if (result.outputCode === BARCODE_COMMAND_FINISH) {
                     actionHandler('reset');
                 }
+            } else {
+                actionHandler('login', {
+                    username: result.outputCode,
+                    password: ''
+                });
             }
-            actionHandler('login', {
-                username: code,
-                password: ''
-            });
         };
 
         barcodeScanner.start(barcodeCallback);

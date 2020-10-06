@@ -9,10 +9,11 @@ import Header from './components/header';
 import MachineStateContext from '../context/machine-state-context';
 import {
     BARCODE_COMMAND_FINISH,
-    BARCODE_COMMAND_LENGTH,
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_CHECKOUT,
-    BARCODE_COMMAND_CHECKIN
+    BARCODE_COMMAND_CHECKIN,
+    BARCODE_TYPE_COMMAND,
+    BARCODE_COMMAND_PRINT
 } from '../constants';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
@@ -51,22 +52,25 @@ function Status({ actionHandler }) {
      */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler('reset');
-                }
-
-                if (code === BARCODE_COMMAND_CHECKOUT) {
-                    actionHandler('changeFlow', {
-                        flow: 'checkOutItems'
-                    });
-                }
-
-                if (code === BARCODE_COMMAND_CHECKIN) {
-                    actionHandler('changeFlow', {
-                        flow: 'checkInItems'
-                    });
+        const barcodeCallback = (result) => {
+            if (result.type === BARCODE_TYPE_COMMAND) {
+                switch (result.outputCode) {
+                    case BARCODE_COMMAND_FINISH:
+                        actionHandler('reset');
+                        break;
+                    case BARCODE_COMMAND_PRINT:
+                        window.print();
+                        break;
+                    case BARCODE_COMMAND_CHECKOUT:
+                        actionHandler('changeFlow', {
+                            flow: 'checkOutItems'
+                        });
+                        break;
+                    case BARCODE_COMMAND_CHECKIN:
+                        actionHandler('changeFlow', {
+                            flow: 'checkInItems'
+                        });
+                        break;
                 }
             }
         };

@@ -10,10 +10,10 @@ import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machine-state-context';
 import {
     BARCODE_COMMAND_FINISH,
-    BARCODE_COMMAND_LENGTH,
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_COMMAND_STATUS,
-    BARCODE_COMMAND_CHECKOUT
+    BARCODE_COMMAND_CHECKOUT,
+    BARCODE_TYPE_COMMAND
 } from '../constants';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
@@ -89,7 +89,7 @@ function CheckInItems({ actionHandler }) {
     /**
      * Handles keyboard inputs.
      */
-    function handleItemCheckIn() {
+    function handleItemCheckIn(scannedBarcode) {
         // Ignore empty check ins.
         if (scannedBarcode && scannedBarcode.length > 0) {
             setActiveBanner(true);
@@ -105,9 +105,9 @@ function CheckInItems({ actionHandler }) {
      */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                switch (code) {
+        const barcodeCallback = (result) => {
+            if (result.type === BARCODE_TYPE_COMMAND) {
+                switch (result.outputCode) {
                     case BARCODE_COMMAND_FINISH:
                         actionHandler('reset');
                         break;
@@ -123,8 +123,8 @@ function CheckInItems({ actionHandler }) {
                         break;
                 }
             } else {
-                setScannedBarcode(code);
-                handleItemCheckIn();
+                setScannedBarcode(result.outputCode);
+                handleItemCheckIn(result.outputCode);
             }
         };
 
@@ -142,7 +142,7 @@ function CheckInItems({ actionHandler }) {
     }, [newReservation]);
 
     /**
-     * Determines whether to play a soumd and which to play.
+     * Determines whether to play a sound and which to play.
      */
     useEffect(() => {
         if (context.machineState.get.items === undefined) return;

@@ -17,7 +17,7 @@ import BarcodeScanner from '../utils/barcode-scanner';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_LENGTH
+    BARCODE_TYPE_COMMAND
 } from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
 import {
@@ -29,6 +29,7 @@ import {
     ScanPasswordLoginLoginButton,
     ScanPasswordLoginDeleteButton
 } from '../utils/formattedMessages';
+
 /**
  * ScanPasswordLogin.
  *
@@ -54,13 +55,13 @@ function ScanPasswordLogin({ actionHandler }) {
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
 
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                if (code === BARCODE_COMMAND_FINISH) {
+        const barcodeCallback = (result) => {
+            if (result.type === BARCODE_TYPE_COMMAND) {
+                if (result.outputCode === BARCODE_COMMAND_FINISH) {
                     actionHandler('reset');
                 }
             } else {
-                handleUsernameInput(code);
+                handleUsernameInput(result.outputCode);
             }
         };
 
@@ -73,7 +74,7 @@ function ScanPasswordLogin({ actionHandler }) {
     /**
        * For setting the username
        *
-       * @param key
+       * @param username
        *   The username.
        */
     function handleUsernameInput(username) {
