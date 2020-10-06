@@ -89,7 +89,7 @@ function CheckOutItems({ actionHandler }) {
      * @param key
      *    The pressed button.
      */
-    function onNumPadPress(key) {
+    function onInput(key) {
         const typedBarcode = `${scannedBarcode}`;
         setActiveBanner(false);
         switch (key) {
@@ -105,6 +105,24 @@ function CheckOutItems({ actionHandler }) {
                 break;
         }
     }
+
+    /**
+     * Function to handle when keydown is enter.
+     */
+    function keyDownFunction(event) {
+        if (event.key === 'Enter') {
+            return handleItemCheckOut();
+        }
+    }
+
+    /**
+     * Set up keydown listener.
+     */
+    useEffect(() => {
+        console.log(scannedBarcode);
+        window.addEventListener('keydown', keyDownFunction);
+        return () => window.removeEventListener('keydown', keyDownFunction);
+    }, [scannedBarcode]);
 
     /**
      * Handles keyboard inputs.
@@ -169,32 +187,35 @@ function CheckOutItems({ actionHandler }) {
 
     return (
         <>
-            <div className='col-md-9'>
-                <Header
-                    header='Loan'
-                    subheader='Scan stregkoden på bogen du vil låne'
-                    which='checkOutItems'
-                    icon={faBookReader}
-                />
-                <div className='row'>
-                    <div className='col-md-2' />
-                    <div className='col-md mt-4'>
-                        <Input
-                            name='barcode'
-                            label={inputLabel}
-                            value={scannedBarcode}
-                            activeBanner={activeBanner}
-                            onChange={onKeyboardInput}
-                            handleNumpadPress={onNumPadPress}
-                            deleteButtonLabel={deleteButtonLabel}
-                            okButtonLabel={okButtonLabel}
-                        />
-                        {items && <BannerList items={items} />}
-                    </div>
-                </div>
-            </div>
+            <Header
+                header='Loan'
+                subheader='Scan stregkoden på bogen du vil låne'
+                which='checkOutItems'
+                icon={faBookReader}
+            />
             <div className='col-md-3'>
                 <HelpBox text={helpBoxText} />
+            </div>
+            <div className='col-md-1' />
+            <div className='col-md-6'>
+                <Input
+                    name='barcode'
+                    label={inputLabel}
+                    value={scannedBarcode}
+                    activeBanner={activeBanner}
+                    onChange={onKeyboardInput}
+                    handleNumpadPress={onInput}
+                    deleteButtonLabel={deleteButtonLabel}
+                    okButtonLabel={okButtonLabel}
+                />
+                {items && <BannerList items={items} />}
+            </div>
+            <div className='col-md-5'>
+                {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
+                    <NumPad handleNumpadPress={onInput}
+                        deleteButtonLabel={deleteButtonLabel}
+                        okButtonLabel={okButtonLabel} />
+                }
             </div>
         </>
     );

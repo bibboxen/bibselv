@@ -7,7 +7,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
 import Input from '../components/input';
 import HelpBox from '../components/help-box';
-import NumPad from '../utils/num-pad';
 import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
@@ -21,6 +20,8 @@ import {
 } from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
 import { FormattedMessage } from 'react-intl';
+import QwertyKeyboard from '../utils/qwerty-keyboard';
+
 
 /**
  * ScanPasswordLogin.
@@ -42,8 +43,6 @@ function ScanPasswordLogin({ actionHandler }) {
     const inputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='Password' />;
     const [usernameScanned, setUsernameScanned] = useState(false);
     const context = useContext(MachineStateContext);
-    const loginButtonLabel = 'Login';
-    const deleteButtonLabel = 'Slet';
     /**
      * Setup component.
      *
@@ -91,24 +90,32 @@ function ScanPasswordLogin({ actionHandler }) {
        * @param key
        *   The pressed button.
        */
-    function onNumPadPress(key) {
-        if (!usernameScanned) {
-            key === deleteButtonLabel
-                ? setUsername('')
-                : setUsername(`${username}${key}`);
+    function onInput(key) {
+        if (key === '{enter}') {
+            login();
         } else {
-            if (key === loginButtonLabel) {
-                actionHandler('login', {
-                    username: username,
-                    password: password
-                });
-            } else {
-                key === deleteButtonLabel
-                    ? setPassword(password.slice(0, -1))
-                    : setPassword(`${password}${key}`);
-            }
+            key === '{bksp}'
+                ? setPassword(password.slice(0, -1))
+                : setPassword(`${password}${key}`);
         }
     }
+
+    /**
+     * Function to handle when keydown is enter.
+     */
+    function enterFunction(event) {
+        if (event.key === 'Enter' && usernameScanned) {
+            return login();
+        }
+    }
+
+    /**
+     * Set up keydown listener.
+     */
+    useEffect(() => {
+        window.addEventListener('keydown', enterFunction);
+        return () => window.removeEventListener('keydown', enterFunction);
+    }, [password]);
 
     /**
      * Handles keyboard inputs.
@@ -120,44 +127,61 @@ function ScanPasswordLogin({ actionHandler }) {
         setPassword(target.value);
     }
 
+
+    /**
+     * Handles login
+     *
+     * @param target
+     *    The pressed target.
+     */
+    function login() {
+        actionHandler('login', {
+            username: username,
+            password: password
+        });
+    }
+
     return (
         <>
-            <div className='col-md m-3'>
-                <Header
-                    header='Login'
-                    subheader={subheader}
-                    which='login'
-                    icon={faSignInAlt}
-                />
-                <div className='row'>
-                    <div className='col-md-2' />
-                    <div className='col-md mt-4'>
-                        {!usernameScanned && (
-                            // Todo Remember to remove thisss
-                            <div className='content' onClick={() => handleUsernameInput('C023648674')}>
-                                <FontAwesomeIcon icon={faBarcode}/>
-                            </div>
-                        )}
-                        {usernameScanned && (
-                            <>
-                                <Input
-                                    name='password'
-                                    label={inputLabel}
-                                    value={password}
-                                    type="password"
-                                    onChange={onKeyboardInput}
-                                    handleNumpadPress={onNumPadPress}
-                                    deleteButtonLabel={deleteButtonLabel}
-                                    okButtonLabel={okButtonLabel}
-                                />
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
-            <div className='col-md-3 m-3 d-flex flex-column justify-content-between'>
+            <Header
+                header='Login'
+                subheader={subheader}
+                which='login'
+                icon={faSignInAlt}
+            />
+            <div className='col-md-3'>
                 {!usernameScanned && <HelpBox text={helpboxText} />}
-                {context.boxConfig.get.debugEnabled && (
+            </div>
+            <div className='col-md-1' />
+            <div className='col-md-6' >
+                {!usernameScanned && (
+                    <div className='content'>
+                        <FontAwesomeIcon icon={faBarcode}/>
+                    </div>
+                )}
+                {usernameScanned && (
+                    <Input
+                        name='password'
+                        label={inputLabel}
+                        value={password}
+                        onChange={onKeyboardInput}
+                        type={password}
+                    />
+                )}
+            </div>
+            <div className='col-md-5'>
+                {usernameScanned && (context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
+                    <QwertyKeyboard
+                        handleKeyPress={onInput}
+                    />
+                }
+            </div>
+            {context.boxConfig.get.debugEnabled && (
+                <div className='col-md'>
+                    <Button
+                        label={'indtast brugernavn'}
+                        icon={faArrowAltCircleRight}
+                        handleButtonPress={() => handleUsernameInput('C023648674')} />
                     <Button
                         label={'Snydelogin'}
                         icon={faArrowAltCircleRight}
@@ -167,8 +191,8 @@ function ScanPasswordLogin({ actionHandler }) {
                                 password: ''
                             })}
                     />
-                )}
-            </div>
+                </div>
+            )}
         </>
     );
 }
