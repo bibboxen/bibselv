@@ -101,35 +101,33 @@ function Status({ actionHandler }) {
     );
 
     return (
-        <div className='col-md'>
-            <div className='col-md-9' style={{ paddingLeft: '0' }}>
+        <>
                 <Header
                     header={StatusHeader}
                     subheader={StatusSubheader}
                     which='status'
                     icon={faInfoCircle}
                 />
-            </div>
-            <div className='row column-on-print'>
-                <div className='col-md-4 mt-4'>
+                <div className='status-container'>
+                <div className='col-md-4 mt-4 visibe-on-print-status'>
                     <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
-                <div className='col-md-4 mt-4'>
+                <div className='col-md-4 mt-4 visibe-on-print-status'>
                     <BannerList
                         title={StatusHeaderReservations}
                         items={unavailableHoldItems}
                         visibleOnPrint={true}
                     />
                 </div>
-                <div className='col-md-4 mt-4'>
+                <div className='col-md-4 mt-4 visibe-on-print-status'>
                     <BannerList
                         title={StatusHeaderReadyForPickup}
                         items={holdItems}
                         visibleOnPrint={true}
                     />
-                </div>
             </div>
-        </div>
+            </div>
+        </>
     );
 }
 

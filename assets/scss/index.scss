@@ -52,12 +52,28 @@ h1 {
 }
 
 .visible-on-print {
+    // Display & position
     display: none;
+}
+
+.status-container {
+    // Display & position
+    display: flex;
+    width: 100%;
 }
 
 @media print {
     .visible-on-print {
+        // Display & position
         display: flex;
+
+        // Text
         font-size: 1.5rem;
+    }
+
+    .status-container {
+        // Display & position
+        display: flex;
+        flex-direction: column;
     }
 }

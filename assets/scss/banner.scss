@@ -82,6 +82,7 @@
 }
 
 
+
 @media print {
     .banner {
         display: none;
@@ -93,9 +94,6 @@
         .header {
             display: flex;
         }
-    }
-    .column-on-print {
-        flex-direction: column;
     }
 }
 
