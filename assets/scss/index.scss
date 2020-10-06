@@ -27,6 +27,7 @@ body {
 p {
     // Text
     font-size: 1rem;
+    user-select: none;
 }
 
 h1 {
@@ -36,6 +37,7 @@ h1 {
     color: $font-color;
 
     // Text
+    user-select: none;
     font-family: $font-family-sans-serif;
     font-size: 1.5rem;
     text-align: center;
@@ -68,6 +70,7 @@ h1 {
         display: flex;
 
         // Text
+        user-select: none;
         font-size: 1.5rem;
     }
 
