@@ -10,6 +10,6 @@ import { it } from '@jest/globals';
 
 it('renders without crashing', () => {
     shallow(
-            <Initial actionHandler={() => {}} />
+        <Initial actionHandler={() => {}} />
     );
 });
