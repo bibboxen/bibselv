@@ -109,17 +109,17 @@ function Status({ actionHandler }) {
                 icon={faInfoCircle}
             />
             <div className='status-container'>
-                <div className='col-md-4 mt-4 visibe-on-print-status'>
+                <div className='col-md-4 mt-4'>
                     <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
-                <div className='col-md-4 mt-4 visibe-on-print-status'>
+                <div className='col-md-4 mt-4'>
                     <BannerList
                         title={StatusHeaderReservations}
                         items={unavailableHoldItems}
                         visibleOnPrint={true}
                     />
                 </div>
-                <div className='col-md-4 mt-4 visibe-on-print-status'>
+                <div className='col-md-4 mt-4'>
                     <BannerList
                         title={StatusHeaderReadyForPickup}
                         items={holdItems}

@@ -21,11 +21,11 @@ const QwertyKeyboard = ({ handleKeyPress }) => {
     const [keyboardLayout, setKeyboardLayout] = useState('default');
 
     /**
-       * Handles keyboard inputs. If the key is shift, it changes the layout, or else it bubbles it to creator of keyboard.
-       *
-       * @param key
-       *   The pressed key.
-       */
+     * Handles keyboard inputs. If the key is shift, it changes the layout, or else it bubbles it to creator of keyboard.
+     *
+     * @param key
+     *   The pressed key.
+     */
     function onQwertyKeyboard(key) {
         if (key === '{shift}' || key === '{lock}') {
             const layoutName = keyboardLayout === 'default' ? 'shift' : 'default';

@@ -105,7 +105,7 @@ function ScanPasswordLogin({ actionHandler }) {
      */
     function enterFunction(event) {
         if (event.key === 'Enter' && usernameScanned) {
-            return login();
+            login();
         }
     }
 
@@ -170,9 +170,7 @@ function ScanPasswordLogin({ actionHandler }) {
             </div>
             <div className='col-md-5'>
                 {usernameScanned && (context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
-                    <QwertyKeyboard
-                        handleKeyPress={onInput}
-                    />
+                    <QwertyKeyboard handleKeyPress={onInput} />
                 }
             </div>
             {context.boxConfig.get.debugEnabled && (

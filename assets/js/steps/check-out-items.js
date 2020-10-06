@@ -114,7 +114,7 @@ function CheckOutItems({ actionHandler }) {
      */
     function keyDownFunction(event) {
         if (event.key === 'Enter') {
-            return handleItemCheckOut();
+            handleItemCheckOut();
         }
     }
 

@@ -80,7 +80,7 @@ function CheckInItems({ actionHandler }) {
      */
     function keyDownFunction(event) {
         if (event.key === 'Enter') {
-            return handleItemCheckIn();
+            handleItemCheckIn();
         }
     }
 
