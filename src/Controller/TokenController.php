@@ -51,29 +51,29 @@ class TokenController extends AbstractController
 
         $boxConfiguration = $this->tokenService->getBoxConfiguration($token);
 
-        return new JsonResponse(['valid' => true, 'id' => $boxConfiguration->getId()]);
+        return new JsonResponse(['valid' => true, 'id' => $boxConfiguration->getUniqueId()]);
     }
 
     /**
-     * @Route("/token/get/{id}", name="get_token")
+     * @Route("/token/get/{uniqueId}", name="get_token")
      *
-     * @param string $id
+     * @param string $uniqueId
      *   Box configuration ID to create token for
      *
      * @return JsonResponse
      *
      * @throws \Exception
      */
-    public function getToken($id): JsonResponse
+    public function getToken(string $uniqueId): JsonResponse
     {
-        if (empty($id)) {
-            return new JsonResponse(['message' => 'Bad request missing configuration id'], 400);
+        if (empty($uniqueId)) {
+            return new JsonResponse(['message' => 'Bad request: Missing configuration id'], 400);
         }
 
         // Check that configuration exists.
-        $boxConfig = $this->boxConfigurationRepository->findOneBy(['id' => $id]);
+        $boxConfig = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);
         if (is_null($boxConfig)) {
-            return new JsonResponse(['message' => 'Bad request wrong configuration id'], 400);
+            return new JsonResponse(['message' => 'Bad request: Wrong configuration id'], 400);
         }
 
         $token = $this->tokenService->create($boxConfig);

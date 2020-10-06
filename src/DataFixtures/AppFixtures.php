@@ -98,6 +98,7 @@ class AppFixtures extends Fixture
 
         for ($i = 0; $i < 200; ++$i) {
             $boxConfiguration = new BoxConfiguration();
+            $boxConfiguration->setUniqueId('unique'.$i);
             $boxConfiguration->setName($faker->text(50));
             $boxConfiguration->setHasKeyboard($faker->boolean);
             $boxConfiguration->setHasPrinter($faker->boolean);

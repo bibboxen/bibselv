@@ -117,6 +117,11 @@ class BoxConfiguration
     private $defaultLanguageCode = 'EN';
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $uniqueId;
+
+    /**
      * BoxConfiguration toString.
      *
      * @return mixed
@@ -453,6 +458,31 @@ class BoxConfiguration
     public function setDefaultLanguageCode(string $defaultLanguageCode): self
     {
         $this->defaultLanguageCode = $defaultLanguageCode;
+
+        return $this;
+    }
+
+    /**
+     * Get unique id.
+     *
+     * @return string|null
+     */
+    public function getUniqueId(): ?string
+    {
+        return $this->uniqueId;
+    }
+
+    /**
+     * Set unique id.
+     *
+     * @param string $uniqueId
+     *   The unique id
+     *
+     * @return $this
+     */
+    public function setUniqueId(string $uniqueId): self
+    {
+        $this->uniqueId = $uniqueId;
 
         return $this;
     }
