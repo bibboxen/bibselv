@@ -170,7 +170,7 @@ function CheckInItems({ actionHandler }) {
         */
         context.machineState.get.items.forEach(book => {
             if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
-                let newBook = { ...book };
+                const newBook = { ...book };
                 newBook.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
                 setNewReservation(newBook);
 

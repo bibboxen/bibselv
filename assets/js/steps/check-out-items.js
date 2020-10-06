@@ -212,8 +212,8 @@ function CheckOutItems({ actionHandler }) {
             <div className='col-md-5'>
                 {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
                     <NumPad handleNumpadPress={onInput}
-                            deleteButtonLabel={CheckOutItemsDeleteButton}
-                            okButtonLabel={CheckOutItemsOkButton} />
+                        deleteButtonLabel={CheckOutItemsDeleteButton}
+                        okButtonLabel={CheckOutItemsOkButton} />
                 }
             </div>
         </>

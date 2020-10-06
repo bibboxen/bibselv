@@ -63,20 +63,20 @@ function ScanLogin({ actionHandler }) {
 
     return (
         <>
-                <Header
-                    header={ScanLoginHeader}
-                    subheader={ScanLoginSubheader}
-                    which='login'
-                    icon={faSignInAlt}
-                />
+            <Header
+                header={ScanLoginHeader}
+                subheader={ScanLoginSubheader}
+                which='login'
+                icon={faSignInAlt}
+            />
             <div className='col-md-3'>
                 <HelpBox text={ScanLoginHelpboxText} />
             </div>
             <div className="col-md-1" />
-                <div className='col-md-6'>
-                        <div className='content'>
-                            <FontAwesomeIcon icon={faBarcode} />
-                        </div>
+            <div className='col-md-6'>
+                <div className='content'>
+                    <FontAwesomeIcon icon={faBarcode} />
+                </div>
             </div>
             {context.boxConfig.get.debugEnabled && (
                 <div className='col-md'>

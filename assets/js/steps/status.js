@@ -102,13 +102,13 @@ function Status({ actionHandler }) {
 
     return (
         <>
-                <Header
-                    header={StatusHeader}
-                    subheader={StatusSubheader}
-                    which='status'
-                    icon={faInfoCircle}
-                />
-                <div className='status-container'>
+            <Header
+                header={StatusHeader}
+                subheader={StatusSubheader}
+                which='status'
+                icon={faInfoCircle}
+            />
+            <div className='status-container'>
                 <div className='col-md-4 mt-4 visibe-on-print-status'>
                     <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
@@ -125,7 +125,7 @@ function Status({ actionHandler }) {
                         items={holdItems}
                         visibleOnPrint={true}
                     />
-            </div>
+                </div>
             </div>
         </>
     );
