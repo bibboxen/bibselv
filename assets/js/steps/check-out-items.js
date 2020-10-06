@@ -22,10 +22,16 @@ import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import { faBookReader } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
-import { FormattedMessage } from 'react-intl';
 import Sound from './utils/sound';
 import BookStatus from './utils/book-status';
-
+import {
+    CheckOutItemsOkButton,
+    CheckOutItemsDeleteButton,
+    CheckOutItemsHelpBoxText,
+    CheckOutItemsInputLabel,
+    CheckOutItemsHeader,
+    CheckOutItemsSubheader
+} from './utils/formattedMessages';
 /**
  * CheckOutItems component.
  *
@@ -41,10 +47,6 @@ function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
     const [activeBanner, setActiveBanner] = useState(false);
-    const okButtonLabel = 'Ok';
-    const deleteButtonLabel = 'Slet';
-    const helpBoxText = <FormattedMessage id='check-out-items-help-box-text' defaultMessage='Use the hand scanner to scan the barcode on the book.' />;
-    const inputLabel = <FormattedMessage id='check-out-items-input-label' defaultMessage='Barcode' />;
     const [checkedOutBooksLength, setCheckedOutBooksLength] = useState(0);
     const [errorsLength, setErrorLength] = useState(0);
     const sound = new Sound();
@@ -93,10 +95,10 @@ function CheckOutItems({ actionHandler }) {
         const typedBarcode = `${scannedBarcode}`;
         setActiveBanner(false);
         switch (key) {
-            case deleteButtonLabel:
+            case CheckOutItemsDeleteButton:
                 setScannedBarcode(typedBarcode.slice(0, -1));
                 break;
-            case okButtonLabel:
+            case CheckOutItemsOkButton:
                 setActiveBanner(true);
                 handleItemCheckOut(scannedBarcode);
                 break;
@@ -188,33 +190,30 @@ function CheckOutItems({ actionHandler }) {
     return (
         <>
             <Header
-                header='Loan'
-                subheader='Scan stregkoden på bogen du vil låne'
+                header={CheckOutItemsHeader}
+                subheader={CheckOutItemsSubheader}
                 which='checkOutItems'
                 icon={faBookReader}
             />
             <div className='col-md-3'>
-                <HelpBox text={helpBoxText} />
+                <HelpBox text={CheckOutItemsHelpBoxText} />
             </div>
             <div className='col-md-1' />
             <div className='col-md-6'>
                 <Input
                     name='barcode'
-                    label={inputLabel}
+                    label={CheckOutItemsInputLabel}
                     value={scannedBarcode}
                     activeBanner={activeBanner}
                     onChange={onKeyboardInput}
-                    handleNumpadPress={onInput}
-                    deleteButtonLabel={deleteButtonLabel}
-                    okButtonLabel={okButtonLabel}
                 />
                 {items && <BannerList items={items} />}
             </div>
             <div className='col-md-5'>
                 {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
                     <NumPad handleNumpadPress={onInput}
-                        deleteButtonLabel={deleteButtonLabel}
-                        okButtonLabel={okButtonLabel} />
+                            deleteButtonLabel={deleteButtonLabel}
+                            okButtonLabel={okButtonLabel} />
                 }
             </div>
         </>

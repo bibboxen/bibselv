@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { FormattedMessage } from 'react-intl';
+import { InputBookIsRegistered } from '../utils/formattedMessages';
 
 /**
  * Input.
@@ -37,7 +37,7 @@ const Input = ({ name, label, value, activeBanner = false, ...rest }) => {
                     <span className='info-banner-icon'>
                         <FontAwesomeIcon icon={faCheck} />
                     </span>
-                    <FormattedMessage id='book-is-registered' defaultMessage='The book has been registered. Ready for the next one' />
+                    {InputBookIsRegistered}
                 </div>
             )}
         </div>
@@ -51,7 +51,7 @@ Input.propTypes = {
         PropTypes.string
     ]),
     value: PropTypes.string.isRequired,
-    activeBanner: PropTypes.bool.isRequired,
+    activeBanner: PropTypes.bool,
     rest: PropTypes.object
 };
 

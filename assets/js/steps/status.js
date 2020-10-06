@@ -24,7 +24,15 @@ import {
 import {
     faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
-import { FormattedMessage } from 'react-intl';
+import {
+    StatusHeader,
+    StatusSubheader,
+    StatusHeaderCurrentLoans,
+    StatusHeaderReservations,
+    StatusHeaderReadyForPickup,
+    StatusBannerHeaderFinedBook,
+    StatusBannerHeaderOverdueBook
+} from './utils/formattedMessages';
 
 /**
  * Status.
@@ -37,11 +45,7 @@ import { FormattedMessage } from 'react-intl';
  */
 function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const statusHeaderCurrentLoans = <FormattedMessage id='status-header-current-loans' defaultMessage='Current loans' />;
-    const statusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='Reservations' />;
-    const statusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='Ready for pickup' />;
-    const bannerHeaderBookWithFine = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='This book has a fine' />;
-    const bannerHeaderBookForCheckIn = <FormattedMessage id='banner-heaeder-book-for-check-in' defaultMessage='This book must be handed in' />;
+
     /**
      * Set up barcode listener.
      */
@@ -75,15 +79,15 @@ function Status({ actionHandler }) {
     const loanedItems = [
         ...adaptListOfBooksWithMessage(
             context.machineState.get.fineItems,
-            bannerHeaderBookWithFine
+            StatusBannerHeaderFinedBook
         ),
         ...adaptListOfBooksWithMessage(
             context.machineState.get.overdueItems,
-            bannerHeaderBookForCheckIn
+            StatusBannerHeaderOverdueBook
         ),
         ...adaptListOfBooksWithMessage(
             context.machineState.get.recallItems,
-            bannerHeaderBookForCheckIn
+            StatusBannerHeaderOverdueBook
         ),
         ...adaptListOfBooks(context.machineState.get.chargedItems)
     ];
@@ -100,26 +104,26 @@ function Status({ actionHandler }) {
         <div className='col-md'>
             <div className='col-md-9' style={{ paddingLeft: '0' }}>
                 <Header
-                    header='Status'
-                    subheader='Dine aktuelle lån og reservationer'
+                    header={StatusHeader}
+                    subheader={StatusSubheader}
                     which='status'
                     icon={faInfoCircle}
                 />
             </div>
-            <div className='row'>
+            <div className='row column-on-print'>
                 <div className='col-md-4 mt-4'>
-                    <BannerList title={statusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
+                    <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
-                        title={statusHeaderReservations}
+                        title={StatusHeaderReservations}
                         items={unavailableHoldItems}
                         visibleOnPrint={true}
                     />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
-                        title={statusHeaderReadyForPickup}
+                        title={StatusHeaderReadyForPickup}
                         items={holdItems}
                         visibleOnPrint={true}
                     />

@@ -5,7 +5,7 @@
     font-weight: 300;
 }
 
-.sub-header {
+.subheader {
     // Display & position
     margin-bottom: 5%;
     
@@ -16,8 +16,8 @@
 }
 
 @media print {
-    .header, .sub-header {
-        display:none;
+    .header, .subheader {
+        display: none;
     }
 }
 

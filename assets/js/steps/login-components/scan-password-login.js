@@ -19,10 +19,15 @@ import {
     BARCODE_COMMAND_LENGTH
 } from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
-import { FormattedMessage } from 'react-intl';
 import QwertyKeyboard from '../utils/qwerty-keyboard';
-
-
+import {
+    ScanPasswordLoginFirstSubheader,
+    ScanPasswordLoginSecondSubheader,
+    ScanPasswordLoginFirstHelpboxText,
+    ScanPasswordLoginInputLabel,
+    ScanPasswordLoginSecondHelpboxText,
+    ScanPasswordLoginHeader
+} from '../utils/formattedMessages';
 /**
  * ScanPasswordLogin.
  *
@@ -34,15 +39,13 @@ import QwertyKeyboard from '../utils/qwerty-keyboard';
  * @constructor
  */
 function ScanPasswordLogin({ actionHandler }) {
+    const context = useContext(MachineStateContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [subheader, setSubheader] = useState('Scan dit bibliotekskort');
-    const [helpboxText, setHelpboxText] = useState(
-        <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='Use the hand scanner to scan the barcode of your library card.' />
-    );
-    const inputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='Password' />;
+    const [subheader, setSubheader] = useState(ScanPasswordLoginFirstSubheader);
+    const [helpboxText, setHelpboxText] = useState(ScanPasswordLoginFirstHelpboxText);
     const [usernameScanned, setUsernameScanned] = useState(false);
-    const context = useContext(MachineStateContext);
+
     /**
      * Setup component.
      *
@@ -58,10 +61,6 @@ function ScanPasswordLogin({ actionHandler }) {
                 }
             } else {
                 handleUsernameInput(code);
-                setUsername(code);
-                setUsernameScanned(true);
-                setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='If you have forgotten your PIN code, you can contact a librarian to get a new one' />);
-                setSubheader('Tast dit password');
             }
         };
 
@@ -80,8 +79,8 @@ function ScanPasswordLogin({ actionHandler }) {
     function handleUsernameInput(username) {
         setUsername(username);
         setUsernameScanned(true);
-        setHelpboxText(<FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='If you have forgotten your PIN code, you can contact a librarian to get a new one' />);
-        setSubheader(<FormattedMessage id='scan-login-password-password-subheader' defaultMessage='Enter your PIN code' />);
+        setHelpboxText(ScanPasswordLoginSecondHelpboxText);
+        setSubheader(ScanPasswordLoginSecondSubheader);
     }
 
     /**
@@ -127,7 +126,6 @@ function ScanPasswordLogin({ actionHandler }) {
         setPassword(target.value);
     }
 
-
     /**
      * Handles login
      *
@@ -144,7 +142,7 @@ function ScanPasswordLogin({ actionHandler }) {
     return (
         <>
             <Header
-                header='Login'
+                header={ScanPasswordLoginHeader}
                 subheader={subheader}
                 which='login'
                 icon={faSignInAlt}
@@ -162,10 +160,10 @@ function ScanPasswordLogin({ actionHandler }) {
                 {usernameScanned && (
                     <Input
                         name='password'
-                        label={inputLabel}
+                        label={ScanPasswordLoginInputLabel}
                         value={password}
                         onChange={onKeyboardInput}
-                        type={password}
+                        type='password'
                     />
                 )}
             </div>

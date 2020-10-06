@@ -87,8 +87,15 @@
         display: none;
     }
     .visibe-on-print { 
-        display: flex;
-        border:0;
+        display: -webkit-box;
+        border: 0;
+
+        .header {
+            display: flex;
+        }
+    }
+    .column-on-print {
+        flex-direction: column;
     }
 }
 
