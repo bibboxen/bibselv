@@ -170,8 +170,9 @@ function CheckInItems({ actionHandler }) {
         */
         context.machineState.get.items.forEach(book => {
             if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
-                book.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
-                setNewReservation(book);
+                let newBook = { ...book };
+                newBook.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
+                setNewReservation(newBook);
 
                 const newHandledReservations = handledReservations;
                 newHandledReservations.push(book.itemIdentifier);
@@ -239,8 +240,8 @@ function CheckInItems({ actionHandler }) {
             <div className='col-md-5'>
                 {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
                     <NumPad handleNumpadPress={onInput}
-                        deleteButtonLabel={deleteButtonLabel}
-                        okButtonLabel={okButtonLabel} />
+                        deleteButtonLabel={CheckInItemsDeleteButton}
+                        okButtonLabel={CheckInItemsOkButton} />
                 }
             </div>
 
