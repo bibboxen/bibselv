@@ -10,8 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 /**
  * IconBubble.
  *
- * @param which
- *   Which bubble to display, CheckInItems, CheckOutItems, Status or login.
+ * @param type
+ *   type: CheckInItems, CheckOutItems, Status or login.
  * @param icon
  *   Bubble icon.
  * @param img
@@ -19,8 +19,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @return {*}
  * @constructor
  */
-function IconBubble({ which, icon, img }) {
-    const classes = `header-icon ${which.toLowerCase()}`;
+function IconBubble({ type, icon, img }) {
+    const classes = `header-icon ${type.toLowerCase()}`;
     return (
         <div className={classes}>
             <div className='icon'>
@@ -36,7 +36,7 @@ function IconBubble({ which, icon, img }) {
 }
 
 IconBubble.propTypes = {
-    which: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     icon: PropTypes.object,
     img: PropTypes.string
 };

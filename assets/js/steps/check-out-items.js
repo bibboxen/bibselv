@@ -192,7 +192,7 @@ function CheckOutItems({ actionHandler }) {
             <Header
                 header={CheckOutItemsHeader}
                 subheader={CheckOutItemsSubheader}
-                which='checkOutItems'
+                type='checkOutItems'
                 img={CheckOutWhite}
             />
             <div className='col-md-3'>

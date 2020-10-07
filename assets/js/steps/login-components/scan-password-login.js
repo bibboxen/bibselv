@@ -145,7 +145,7 @@ function ScanPasswordLogin({ actionHandler }) {
             <Header
                 header={ScanPasswordLoginHeader}
                 subheader={subheader}
-                which='login'
+                type='login'
                 icon={faSignInAlt}
             />
             <div className='col-md-3'>

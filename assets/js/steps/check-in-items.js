@@ -219,7 +219,7 @@ function CheckInItems({ actionHandler }) {
             <Header
                 header={CheckInItemsHeader}
                 subheader={CheckInItemsSubheader}
-                which='checkInItems'
+                type='checkInItems'
                 img={CheckInWhite}
             />
             <div className='col-md-3'>

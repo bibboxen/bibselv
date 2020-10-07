@@ -105,7 +105,7 @@ function Status({ actionHandler }) {
             <Header
                 header={StatusHeader}
                 subheader={StatusSubheader}
-                which='status'
+                type='status'
                 icon={faInfoCircle}
             />
             <div className='status-container'>

@@ -13,7 +13,7 @@ describe('Tests of bubble component', () => {
     it('renders which css-class', () => {
         const wrapper = mount(
             <Bubble
-                which='bubble-test'
+                type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
                 actionHandler={() => console.log()}
@@ -25,7 +25,7 @@ describe('Tests of bubble component', () => {
     it('renders label', () => {
         const wrapper = mount(
             <Bubble
-                which='bubble-test'
+                type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
                 actionHandler={() => console.log()}
@@ -37,7 +37,7 @@ describe('Tests of bubble component', () => {
     it('renders icon', () => {
         const wrapper = mount(
             <Bubble
-                which='bubble-test'
+                type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
                 actionHandler={() => console.log()}
@@ -50,7 +50,7 @@ describe('Tests of bubble component', () => {
         const mockCallBack = jest.fn();
         const wrapper = shallow(
             <Bubble
-                which='bubble-test'
+                type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
                 actionHandler={mockCallBack}

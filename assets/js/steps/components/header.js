@@ -14,20 +14,20 @@ import IconBubble from './icon-bubble';
  *   Header text.
  * @param subheader
  *   Subheader subheader.
- * @param which
- *   Which header.
+ * @param type
+ *   type header.
  * @param icon
- *   If the header has an icon, this is it.
+ *   Header icon.
  * @param img
- *   If the heaßder has an img, this is it.
+ *   Header image.
  * @return {*}
  * @constructor
  */
-function Header({ header, subheader, which, icon, img }) {
+function Header({ header, subheader, type, icon, img }) {
     return (
         <>
             <div className='col-md-1'>
-                <IconBubble which={which} icon={icon} img={img} />
+                <IconBubble type={type} icon={icon} img={img} />
             </div>
             <div className='col-md-8'>
                 <div className='header'>{header}</div>
@@ -46,7 +46,7 @@ Header.propTypes = {
         PropTypes.object,
         PropTypes.string
     ]),
-    which: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     icon: PropTypes.object,
     img: PropTypes.string
 };

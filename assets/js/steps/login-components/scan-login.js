@@ -67,7 +67,7 @@ function ScanLogin({ actionHandler }) {
             <Header
                 header={ScanLoginHeader}
                 subheader={ScanLoginSubheader}
-                which='login'
+                type='login'
                 icon={faSignInAlt}
             />
             <div className='col-md-3'>
