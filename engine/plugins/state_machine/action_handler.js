@@ -102,23 +102,24 @@ class ActionHandler {
          * Listen for check out success event.
          */
         this.bus.once(busEvent, resp => {
-            debug('Check out success');
+            debug(resp);
 
             const result = resp.result;
 
             const item = {
                 itemIdentifier: result.itemIdentifier,
-                title: result.itemProperties.title,
-                author: result.itemProperties.author,
-                // FBS value of Y equals that the item is renewed.
-                renewalOk: result.renewalOk === 'Y',
+                title: result.itemProperties?.title ?? null,
+                author: result.itemProperties?.author ?? null,
                 message: result.screenMessage
             };
 
             // FBS value of 1 equals success.
             if (result.ok === '1') {
+                debug('Check out success');
+
                 // FBS value of Y equals that the item is renewed.
                 if (result.renewalOk === 'Y') {
+                    item.renewalOk = true;
                     item.status = 'renewed';
                 } else {
                     item.status = 'checkedOut';
@@ -131,6 +132,8 @@ class ActionHandler {
                     data: item
                 });
             } else {
+                debug('Check out error');
+
                 item.status = 'error';
 
                 this.handleEvent({
@@ -339,6 +342,9 @@ class ActionHandler {
         if (!client.state.items) {
             client.state.items = [];
         }
+
+        debug('itemUpdate');
+        debug(client);
 
         const itemIndex = client.state.items.findIndex((item) => item.itemIdentifier === client.actionData.itemIdentifier);
 

@@ -19,7 +19,9 @@ import {
  * Banner.
  *
  * @param item
- *   item to be displayed by the banner components.
+ *   Item to be displayed by the banner components
+ * @param visibleOnPrint
+ *   Display on print output?
  * @return {*}
  * @constructor
  */

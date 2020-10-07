@@ -122,7 +122,6 @@ function CheckOutItems({ actionHandler }) {
 
     /**
      * Handles keyboard inputs.
-     *
      */
     function handleItemCheckOut(scannedBarcode) {
         setActiveBanner(true);
@@ -169,6 +168,9 @@ function CheckOutItems({ actionHandler }) {
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
+
+    console.log('Render check out');
+    console.log(items);
 
     return (
         <>

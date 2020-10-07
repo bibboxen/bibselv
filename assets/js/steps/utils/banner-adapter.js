@@ -12,29 +12,37 @@ import { BannerAdapterFetchingInfo } from './formattedMessages';
  * or checkoutitems, where they are sent with a status.
  *
  * @param listOfBooks
+ * @param reservedMaterialInstruction
  * @return {[]}
  */
 export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstruction) {
     const items = [];
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
+
+        if (book.title) {
+            displayInfo.text = `${book.title}`;
+        }
+        else if (book.author && book.title) {
+            // @TODO: Translatable text.
+            displayInfo.text = `${displayInfo.title} af ${book.author}`;
+        }
+        else {
+            displayInfo.text = book.itemIdentifier;
+        }
+
         switch (book.status) {
             case BookStatus.ERROR:
                 displayInfo.title = book.message;
-                displayInfo.text = `${book.title} af ${book.author}`;
                 break;
             case BookStatus.IN_PROGRESS:
                 displayInfo.title = BannerAdapterFetchingInfo;
-                displayInfo.text = book.itemIdentifier;
                 break;
             case BookStatus.CHECKED_IN:
             case BookStatus.CHECKED_OUT:
             case BookStatus.RENEWED:
                 displayInfo.title = book.title;
-                displayInfo.text = '';
-                if (book.author) {
-                    displayInfo.text = `af ${book.author}`;
-                }
+
                 if (book.message === 'Reserveret') {
                     displayInfo.status = BookStatus.RESERVED;
                     displayInfo.title = reservedMaterialInstruction || book.message;
