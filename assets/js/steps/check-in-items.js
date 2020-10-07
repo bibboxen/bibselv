@@ -141,6 +141,7 @@ function CheckInItems({ actionHandler }) {
                 }
             } else {
                 setScannedBarcode(code);
+                handleItemCheckIn();
             }
         };
 
