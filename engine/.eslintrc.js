@@ -10,7 +10,8 @@ module.exports = {
     },
     globals: {
         setupArchitect: false,
-        assert: false
+        assert: false,
+        localStorage: true
     },
     env: {
         jasmine: true

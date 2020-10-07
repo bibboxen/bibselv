@@ -35,12 +35,11 @@ function App({ uniqueId, socket }) {
         let token = getToken();
 
         // Get token. @TODO: Login to ensure
-        if (false === token) {
+        if (token === false) {
             socket.emit('GetToken', {
                 uniqueId: uniqueId
             });
-        }
-        else {
+        } else {
             // Token that was not expired was found locally and the client is ready for action.
             socket.emit('ClientReady', {
                 token: token
@@ -98,13 +97,13 @@ function App({ uniqueId, socket }) {
         if (action === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: token
+                token: getToken()
             });
         } else {
             socket.emit('ClientEvent', {
                 name: 'Action',
                 action: action,
-                token: token,
+                token: getToken(),
                 data: data
             });
         }
@@ -118,7 +117,7 @@ function App({ uniqueId, socket }) {
         if (machineState.step !== 'initial') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: token
+                token: getToken()
             });
         } else {
             // Reset the idle timer if already on initial step.
@@ -152,7 +151,7 @@ function App({ uniqueId, socket }) {
             return false;
         }
 
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem('token');
         return token !== null ? token : false;
     }
 
