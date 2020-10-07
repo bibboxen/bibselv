@@ -15,9 +15,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @param label
  *   Which label the bubble has.
  * @param icon
- *   If the bubble has an icon, this is it.
+ *   Bubble icon.
  * @param img
- *   If the bubble has an img, this is it.
+ *   Bubble image.
  * @param actionHandler
  *  As the state can only be changed by the statemachine, the actionHandler
  *  calls the statemachine if a user requests a state change.

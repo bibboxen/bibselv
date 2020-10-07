@@ -13,9 +13,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @param label
  *   Label for the button.
  * @param icon
- *   If the button has an icon, this is it.
+ *   Button icon.
  * @param img
- *   If the button has an img, this is it.
+ *   Button image.
  * @param handleButtonPress
  *   Function for when button is pressed.
  * @param color

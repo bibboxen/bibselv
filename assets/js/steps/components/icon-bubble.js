@@ -13,9 +13,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @param which
  *   Which bubble to display, CheckInItems, CheckOutItems, Status or login.
  * @param icon
- *   If the icon in the header has an icon, this is it.
+ *   Bubble icon.
  * @param img
- *   If the icon in the header has an img, this is it.
+ *   Bubble image.
  * @return {*}
  * @constructor
  */
