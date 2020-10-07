@@ -23,12 +23,10 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
 
         if (book.title) {
             displayInfo.text = `${book.title}`;
-        }
-        else if (book.author && book.title) {
+        } else if (book.author && book.title) {
             // @TODO: Translatable text.
             displayInfo.text = `${displayInfo.title} af ${book.author}`;
-        }
-        else {
+        } else {
             displayInfo.text = book.itemIdentifier;
         }
 
