@@ -21,7 +21,7 @@ import { IntlProvider } from 'react-intl';
  * @return {*}
  * @constructor
  */
-function App({ token, socket }) {
+function App({ uniqueId, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [messages, setMessages] = useState();
@@ -32,9 +32,20 @@ function App({ token, socket }) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
-        // Signal that the client is ready.
-        socket.emit('ClientReady', {
-            token: token
+        let token;
+
+        // Get token. @TODO: Login to ensure
+        socket.emit('GetToken', {
+            uniqueId: uniqueId
+        });
+
+        socket.on('Token', (data) => {
+            console.log(data.expire);
+            token = data.token;
+            // Signal that the client is ready.
+            socket.emit('ClientReady', {
+                token: token
+            });
         });
 
         // Handle socket reconnections, by sending 'ClientReady' event.
@@ -167,7 +178,7 @@ function App({ token, socket }) {
 }
 
 App.propTypes = {
-    token: PropTypes.string.isRequired,
+    uniqueId: PropTypes.string.isRequired,
     socket: PropTypes.object.isRequired
 };
 

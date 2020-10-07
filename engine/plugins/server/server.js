@@ -94,12 +94,23 @@ module.exports = function(options, imports, register) {
         });
 
         /**
+         * Get token.
+         *
+         * @TODO: This should be changed to use some form of authentication.
+         */
+        socket.on('GetToken', (data) => {
+            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => res.json()).then(data => {
+                socket.emit('Token', data);
+            });
+        });
+
+        /**
          * The first message the client should send is "ClientReady" which will validate the token and send
          * configuration to the client based on that token.
          */
         socket.on('ClientReady', (data) => {
             token = data.token;
-            fetch(options.tokenEndPoint + token).then(res => res.json()).then(data => {
+            fetch(options.tokenValidationEndPoint + token).then(res => res.json()).then(data => {
                 // Validate the token and send error if not valid.
                 if (Object.prototype.hasOwnProperty.call(data, 'valid') && !data.valid) {
                     socket.emit('error', { message: 'Not authorized', code: 401 });
