@@ -163,9 +163,6 @@ function CheckOutItems({ actionHandler }) {
         items = adaptListOfBooksToBanner(context.machineState.get.items);
     }
 
-    console.log('Render check out');
-    console.log(items);
-
     return (
         <>
             <Header
