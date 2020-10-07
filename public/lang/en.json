@@ -92,12 +92,6 @@
   "scan-login-password-second-subheader": {
     "defaultMessage": "Enter your password"
   },
-  "scan-login-password-delete-button": {
-    "defaultMessage": "Delete"
-  },
-  "scan-login-password-login-button": {
-    "defaultMessage": "Login"
-  },
   "check-out-items-ok-button": {
     "defaultMessage": "Ok"
   },
@@ -127,6 +121,9 @@
   },
   "button-navbar-print": {
     "defaultMessage": "Print"
+  },
+  "scan-login-password-header": {
+    "defaultMessage": "Login"
   }
 }
 

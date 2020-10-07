@@ -140,6 +140,7 @@
         "@fortawesome/react-fontawesome": "^0.1.11",
         "@jest/globals": "^26.4.2",
         "develop": "^1.0.0",
-        "react-intl": "^5.8.2"
+        "react-intl": "^5.8.2",
+        "react-simple-keyboard": "^2.4.45"
     }
 }

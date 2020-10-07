@@ -15,17 +15,15 @@ import {
     BARCODE_COMMAND_STATUS,
     BARCODE_SCANNING_TIMEOUT
 } from '../constants';
-import {
-    faBookReader,
-    faInfoCircle,
-    faBook
-} from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import {
     InitialButtonCheckOut,
     InitialButtonStatus,
     InitialButtonCheckIn,
     InitialHeader
 } from './utils/formattedMessages';
+import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
+import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
 
 /**
  * Initial component.
@@ -38,19 +36,19 @@ import {
 function Initial({ actionHandler }) {
     const components = [
         {
-            which: 'checkOutItems',
+            type: 'checkOutItems',
             label: InitialButtonCheckOut,
-            icon: faBookReader
+            img: CheckOutYellow
         },
         {
-            which: 'status',
+            type: 'status',
             label: InitialButtonStatus,
             icon: faInfoCircle
         },
         {
-            which: 'checkInItems',
+            type: 'checkInItems',
             label: InitialButtonCheckIn,
-            icon: faBook
+            img: CheckInIconPurple
         }
     ];
 
@@ -98,11 +96,12 @@ function Initial({ actionHandler }) {
             </h1>
             <div className='row justify-content-center'>
                 {components.map((component) => (
-                    <div key={component.which} className='col-md-3'>
+                    <div key={component.type} className='col-md-3'>
                         <Bubble
-                            which={component.which}
+                            type={component.type}
                             label={component.label}
                             icon={component.icon}
+                            img={component.img}
                             actionHandler={actionHandler}
                         />
                     </div>
@@ -110,10 +109,10 @@ function Initial({ actionHandler }) {
             </div>
             <div className='row justify-content-center mt-5'>
                 {components.map((component) => (
-                    <div className='col-md-3' key={component.which}>
+                    <div key={component.type} className='col-md-3'>
                         <Barcode
                             key={component.color}
-                            which={component.which}
+                            type={component.type}
                         />
                     </div>
                 ))}

@@ -92,12 +92,6 @@
   "scan-login-password-second-subheader": {
     "defaultMessage": "Indtast din adgangskode"
   },
-  "scan-login-password-delete-button": {
-    "defaultMessage": "Slet"
-  },
-  "scan-login-password-login-button": {
-    "defaultMessage": "Login"
-  },
   "check-out-items-ok-button": {
     "defaultMessage": "Ok"
   },
@@ -127,5 +121,9 @@
   },
   "button-navbar-print": {
     "defaultMessage": "Print"
+  },
+  "scan-login-password-header": {
+    "defaultMessage": "Login"
   }
 }
+

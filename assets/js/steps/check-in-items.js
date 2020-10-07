@@ -7,7 +7,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
-import MachineStateContext from '../context/machine-state-context';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_LENGTH,
@@ -20,11 +19,11 @@ import BannerList from './components/banner-list';
 import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import Print from '../steps/utils/print';
 import Sound from './utils/sound';
 import BookStatus from './utils/book-status';
+import MachineStateContext from './utils/machine-state-context';
 import {
     CheckInItemsOkButton,
     CheckInItemsDeleteButton,
@@ -33,6 +32,7 @@ import {
     CheckInItemsHeader,
     CheckInItemsSubheader
 } from './utils/formattedMessages';
+import CheckInWhite from '../../scss/images/check-in-white.svg';
 
 /**
  * CheckInItems component.
@@ -58,7 +58,7 @@ function CheckInItems({ actionHandler }) {
      * @param key
      *    The pressed button.
      */
-    function onNumPadPress(key) {
+    function onInput(key) {
         const typedBarcode = `${scannedBarcode}`;
         setActiveBanner(false);
         switch (key) {
@@ -74,6 +74,23 @@ function CheckInItems({ actionHandler }) {
                 break;
         }
     }
+
+    /**
+     * Function to handle when keydown is enter.
+     */
+    function keyDownFunction(event) {
+        if (event.key === 'Enter') {
+            handleItemCheckIn();
+        }
+    }
+
+    /**
+     * Set up keydown listener.
+     */
+    useEffect(() => {
+        window.addEventListener('keydown', keyDownFunction);
+        return () => window.removeEventListener('keydown', keyDownFunction);
+    }, [scannedBarcode]);
 
     /**
      * Handles keyboard inputs.
@@ -153,8 +170,9 @@ function CheckInItems({ actionHandler }) {
         */
         context.machineState.get.items.forEach(book => {
             if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
-                book.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
-                setNewReservation(book);
+                const newBook = { ...book };
+                newBook.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
+                setNewReservation(newBook);
 
                 const newHandledReservations = handledReservations;
                 newHandledReservations.push(book.itemIdentifier);
@@ -199,41 +217,34 @@ function CheckInItems({ actionHandler }) {
             {newReservation !== null &&
                 <Print key={newReservation.title} book={newReservation}/>
             }
-            <div className='col-md-9'>
-                <Header
-                    header={CheckInItemsHeader}
-                    subheader={CheckInItemsSubheader}
-                    which='checkInItems'
-                    icon={faBook}
-                />
-
-                <div className='row'>
-                    <div className='col-md-2' />
-
-                    <div className='col-md mt-4'>
-                        <Input
-                            name='barcode'
-                            label={CheckInItemsInputLabel}
-                            value={scannedBarcode}
-                            activeBanner={activeBanner}
-                            onChange={onKeyboardInput}
-
-                        />
-                        {items && <BannerList items={items} />}
-                        {context.boxConfig.get.debugEnabled && (
-                            <NumPad handleNumpadPress={onNumPadPress}
-                                deleteButtonLabel={CheckInItemsDeleteButton}
-                                okButtonLabel={CheckInItemsOkButton}/>
-                        )}
-                    </div>
-                </div>
-            </div>
+            <Header
+                header={CheckInItemsHeader}
+                subheader={CheckInItemsSubheader}
+                type='checkInItems'
+                img={CheckInWhite}
+            />
             <div className='col-md-3'>
-                <HelpBox
-                    text={CheckInItemsHelpBoxText}
-                />
+                <HelpBox text={CheckInItemsHelpBoxText} />
             </div>
-            <div className="print"/>
+            <div className="col-md-1" />
+            <div className='col-md-6'>
+                <Input
+                    name='barcode'
+                    label={CheckInItemsInputLabel}
+                    activeBanner={activeBanner}
+                    value={scannedBarcode}
+                    onChange={onKeyboardInput}
+                />
+                {items && <BannerList items={items} />}
+            </div>
+            <div className='col-md-5'>
+                {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
+                    <NumPad handleNumpadPress={onInput}
+                        deleteButtonLabel={CheckInItemsDeleteButton}
+                        okButtonLabel={CheckInItemsOkButton} />
+                }
+            </div>
+
         </>
     );
 }

@@ -10,11 +10,11 @@ import Barcode from './barcode';
 
 describe('Test of bannerlist component', () => {
     it('Renders without crashing', () => {
-        shallow(<Barcode which='checkInItems' />);
+        shallow(<Barcode type='checkInItems' />);
     });
 
     it('Renders title and counter', () => {
-        const wrapper = mount(<Barcode which='barcode-test' />);
+        const wrapper = mount(<Barcode type='barcode-test' />);
         expect(wrapper.exists('.barcode-test')).toEqual(true);
     });
 });
