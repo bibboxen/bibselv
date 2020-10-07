@@ -17,6 +17,7 @@ import { BannerAdapterFetchingInfo } from './formattedMessages';
  */
 export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstruction) {
     const items = [];
+
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
 
@@ -43,7 +44,7 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
             case BookStatus.RENEWED:
                 displayInfo.title = book.title;
 
-                if (book.message === 'Reserveret') {
+                if (book.reservedByOtherUser) {
                     displayInfo.status = BookStatus.RESERVED;
                     displayInfo.title = reservedMaterialInstruction || book.message;
                     displayInfo.text = book.title;
@@ -53,6 +54,7 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
 
         items.push(displayInfo);
     });
+
     return items;
 }
 

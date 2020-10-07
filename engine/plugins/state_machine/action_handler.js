@@ -220,6 +220,10 @@ class ActionHandler {
             } else {
                 item.status = 'error';
 
+                if (item.message === 'Materialet er reserveret til en anden låner') {
+                    item.reservedByOtherUser = true;
+                }
+
                 this.handleEvent({
                     name: 'Action',
                     token: client.token,
