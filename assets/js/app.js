@@ -32,16 +32,26 @@ function App({ uniqueId, socket }) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
-        let token;
+        let token = getToken();
 
         // Get token. @TODO: Login to ensure
-        socket.emit('GetToken', {
-            uniqueId: uniqueId
-        });
+        if (false === token) {
+            socket.emit('GetToken', {
+                uniqueId: uniqueId
+            });
+        }
+        else {
+            // Token that was not expired was found locally and the client is ready for action.
+            socket.emit('ClientReady', {
+                token: token
+            });
+        }
 
+        // Listen for token events.
         socket.on('Token', (data) => {
-            console.log(data.expire);
             token = data.token;
+            storeToken(token, data.expire);
+
             // Signal that the client is ready.
             socket.emit('ClientReady', {
                 token: token
@@ -116,6 +126,34 @@ function App({ uniqueId, socket }) {
                 idleTimerRef.current.reset();
             }
         }
+    }
+
+    /**
+     * Store token local.
+     *
+     * @param token
+     * @param expire
+     */
+    function storeToken(token, expire) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('expire', expire);
+    }
+
+    /**
+     * Get token.
+     *
+     * @returns {boolean|string}
+     *   If token exists local and is not expired it's returned else false.
+     */
+    function getToken() {
+        const now = Math.floor(Date.now() / 1000);
+        const expire = parseInt(localStorage.getItem('expire'));
+        if (parseInt(expire) <= now) {
+            return false;
+        }
+
+        const token = localStorage.getItem('token')
+        return token !== null ? token : false;
     }
 
     /**
