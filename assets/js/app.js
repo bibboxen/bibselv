@@ -59,6 +59,12 @@ function App({ uniqueId, socket }) {
 
         // Handle socket reconnections, by sending 'ClientReady' event.
         socket.on('reconnect', (data) => {
+            const token = getToken();
+            if (token === false) {
+                // @TODO: Add error handling to frontend.
+                alert('Token not valid. Access denied');
+                return;
+            }
             socket.emit('ClientReady', {
                 token: token
             });
@@ -88,6 +94,13 @@ function App({ uniqueId, socket }) {
      *   Data for the action
      */
     function handleAction(action, data) {
+        const token = getToken();
+        if (token === false) {
+            // @TODO: Add error handling to frontend.
+            alert('Token not valid. Access denied');
+            return;
+        }
+
         // Reset idle timer.
         if (idleTimerRef.current !== null) {
             idleTimerRef.current.reset();
@@ -97,13 +110,13 @@ function App({ uniqueId, socket }) {
         if (action === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: getToken()
+                token: token
             });
         } else {
             socket.emit('ClientEvent', {
                 name: 'Action',
                 action: action,
-                token: getToken(),
+                token: token,
                 data: data
             });
         }
@@ -113,11 +126,18 @@ function App({ uniqueId, socket }) {
      * Handle user being idle.
      */
     function handleIdle() {
+        const token = getToken();
+        if (token === false) {
+            // @TODO: Add error handling to frontend.
+            alert('Token not valid. Access denied');
+            return;
+        }
+
         // Return to initial step if not already there.
         if (machineState.step !== 'initial') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: getToken()
+                token: token
             });
         } else {
             // Reset the idle timer if already on initial step.
@@ -131,7 +151,9 @@ function App({ uniqueId, socket }) {
      * Store token local.
      *
      * @param token
+     *   The token to store.
      * @param expire
+     *   The expire timestamp for the token.
      */
     function storeToken(token, expire) {
         localStorage.setItem('token', token);
@@ -141,17 +163,18 @@ function App({ uniqueId, socket }) {
     /**
      * Get token.
      *
-     * @returns {boolean|string}
-     *   If token exists local and is not expired it's returned else false.
+     * @returns {{expire: number, token: (string|boolean)}|boolean}
+     *   If token is found and not expired object else false
      */
     function getToken() {
         const now = Math.floor(Date.now() / 1000);
         const expire = parseInt(localStorage.getItem('expire'));
-        if (parseInt(expire) <= now) {
+        if (expire === null || parseInt(expire) <= now) {
             return false;
         }
 
         const token = localStorage.getItem('token');
+
         return token !== null ? token : false;
     }
 
