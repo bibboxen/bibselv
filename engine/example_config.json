@@ -1,6 +1,7 @@
 {
     "eventTimeout": 1000,
-    "tokenEndPoint" : "http://nginx/token/validate/",
+    "tokenValidationEndPoint" : "http://nginx/token/validate/",
+    "tokenGetEndPoint" : "http://nginx/token/get/",
     "fbsEndPoint": "https://Cicero-fbs.com/rest/sip2/",
     "boxConfig": {
         "uri": "http://nginx/box/configuration/"

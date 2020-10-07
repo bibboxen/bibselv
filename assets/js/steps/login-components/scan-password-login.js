@@ -7,28 +7,27 @@ import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
 import Input from '../components/input';
 import HelpBox from '../components/help-box';
-import NumPad from '../utils/num-pad';
 import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
-import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_TYPE_COMMAND
 } from '../../constants';
-import MachineStateContext from '../../context/machine-state-context';
+import QwertyKeyboard from '../utils/qwerty-keyboard';
+import MachineStateContext from '../utils/machine-state-context';
 import {
     ScanPasswordLoginFirstSubheader,
     ScanPasswordLoginSecondSubheader,
     ScanPasswordLoginFirstHelpboxText,
     ScanPasswordLoginInputLabel,
     ScanPasswordLoginSecondHelpboxText,
-    ScanPasswordLoginLoginButton,
-    ScanPasswordLoginDeleteButton
+    ScanPasswordLoginHeader
 } from '../utils/formattedMessages';
+import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
 
 /**
  * ScanPasswordLogin.
@@ -47,6 +46,7 @@ function ScanPasswordLogin({ actionHandler }) {
     const [subheader, setSubheader] = useState(ScanPasswordLoginFirstSubheader);
     const [helpboxText, setHelpboxText] = useState(ScanPasswordLoginFirstHelpboxText);
     const [usernameScanned, setUsernameScanned] = useState(false);
+
     /**
      * Setup component.
      *
@@ -90,24 +90,32 @@ function ScanPasswordLogin({ actionHandler }) {
        * @param key
        *   The pressed button.
        */
-    function onNumPadPress(key) {
-        if (!usernameScanned) {
-            key === ScanPasswordLoginDeleteButton
-                ? setUsername('')
-                : setUsername(`${username}${key}`);
+    function onInput(key) {
+        if (key === '{enter}') {
+            login();
         } else {
-            if (key === ScanPasswordLoginLoginButton) {
-                actionHandler('login', {
-                    username: username,
-                    password: password
-                });
-            } else {
-                key === ScanPasswordLoginDeleteButton
-                    ? setPassword(password.slice(0, -1))
-                    : setPassword(`${password}${key}`);
-            }
+            key === '{bksp}'
+                ? setPassword(password.slice(0, -1))
+                : setPassword(`${password}${key}`);
         }
     }
+
+    /**
+     * Function to handle when keydown is enter.
+     */
+    function enterFunction(event) {
+        if (event.key === 'Enter' && usernameScanned) {
+            login();
+        }
+    }
+
+    /**
+     * Set up keydown listener.
+     */
+    useEffect(() => {
+        window.addEventListener('keydown', enterFunction);
+        return () => window.removeEventListener('keydown', enterFunction);
+    }, [password]);
 
     /**
      * Handles keyboard inputs.
@@ -119,44 +127,58 @@ function ScanPasswordLogin({ actionHandler }) {
         setPassword(target.value);
     }
 
+    /**
+     * Handles login
+     *
+     * @param target
+     *    The pressed target.
+     */
+    function login() {
+        actionHandler('login', {
+            username: username,
+            password: password
+        });
+    }
+
     return (
         <>
-            <div className='col-md m-3'>
-                <Header
-                    header='Login'
-                    subheader={subheader}
-                    which='login'
-                    icon={faSignInAlt}
-                />
-                <div className='row'>
-                    <div className='col-md-2' />
-                    <div className='col-md mt-4'>
-                        {!usernameScanned && (
-                            // Todo Remember to remove thisss
-                            <div className='content' onClick={() => handleUsernameInput('C023648674')}>
-                                <FontAwesomeIcon icon={faBarcode}/>
-                            </div>
-                        )}
-                        {usernameScanned && (
-                            <>
-                                <Input
-                                    name='password'
-                                    label={ScanPasswordLoginInputLabel}
-                                    value={password}
-                                    type="password"
-                                    onChange={onKeyboardInput}
-                                />
-                                <NumPad okButtonLabel={ScanPasswordLoginLoginButton}
-                                    ScanPasswordLoginDeleteButton={ScanPasswordLoginDeleteButton}
-                                    handleNumpadPress={onNumPadPress} />
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
-            <div className='col-md-3 m-3 d-flex flex-column justify-content-between'>
+            <Header
+                header={ScanPasswordLoginHeader}
+                subheader={subheader}
+                type='login'
+                icon={faSignInAlt}
+            />
+            <div className='col-md-3'>
                 {!usernameScanned && <HelpBox text={helpboxText} />}
-                {context.boxConfig.get.debugEnabled && (
+            </div>
+            <div className='col-md-1' />
+            <div className='col-md-6' >
+                {!usernameScanned && (
+                    <div className='content'>
+                        <img src={BarcodeScannerIcon} height={300} width={300} />
+                    </div>
+                )}
+                {usernameScanned && (
+                    <Input
+                        name='password'
+                        label={ScanPasswordLoginInputLabel}
+                        value={password}
+                        onChange={onKeyboardInput}
+                        type='password'
+                    />
+                )}
+            </div>
+            <div className='col-md-5'>
+                {usernameScanned && (context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
+                    <QwertyKeyboard handleKeyPress={onInput} />
+                }
+            </div>
+            {context.boxConfig.get.debugEnabled && (
+                <div className='col-md'>
+                    <Button
+                        label={'indtast brugernavn'}
+                        icon={faArrowAltCircleRight}
+                        handleButtonPress={() => handleUsernameInput('C023648674')} />
                     <Button
                         label={'Snydelogin'}
                         icon={faArrowAltCircleRight}
@@ -166,8 +188,8 @@ function ScanPasswordLogin({ actionHandler }) {
                                 password: ''
                             })}
                     />
-                )}
-            </div>
+                </div>
+            )}
         </>
     );
 }

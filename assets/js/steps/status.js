@@ -6,7 +6,7 @@
 import React, { useContext, useEffect } from 'react';
 import BannerList from './components/banner-list';
 import Header from './components/header';
-import MachineStateContext from '../context/machine-state-context';
+import MachineStateContext from './utils/machine-state-context';
 import {
     BARCODE_COMMAND_FINISH,
     BARCODE_SCANNING_TIMEOUT,
@@ -105,16 +105,14 @@ function Status({ actionHandler }) {
     );
 
     return (
-        <div className='col-md'>
-            <div className='col-md-9' style={{ paddingLeft: '0' }}>
-                <Header
-                    header={StatusHeader}
-                    subheader={StatusSubheader}
-                    which='status'
-                    icon={faInfoCircle}
-                />
-            </div>
-            <div className='row column-on-print'>
+        <>
+            <Header
+                header={StatusHeader}
+                subheader={StatusSubheader}
+                type='status'
+                icon={faInfoCircle}
+            />
+            <div className='status-container'>
                 <div className='col-md-4 mt-4'>
                     <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
@@ -133,7 +131,7 @@ function Status({ actionHandler }) {
                     />
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

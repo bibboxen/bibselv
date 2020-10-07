@@ -10,30 +10,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 /**
  * Bubble.
  *
- * @param which
+ * @param type
  *   Which bubble to display, CheckInItems, CheckOutItems or Status.
  * @param label
  *   Which label the bubble has.
  * @param icon
- *   Which icon the bubble has.
+ *   Bubble icon.
+ * @param img
+ *   Bubble image.
  * @param actionHandler
  *  As the state can only be changed by the statemachine, the actionHandler
  *  calls the statemachine if a user requests a state change.
  * @return {*}
  * @constructor
  */
-function Bubble({ which, label, icon, actionHandler }) {
-    const classes = `bubble ${which.toLowerCase()}`;
+function Bubble({ type, label, icon, img, actionHandler }) {
+    const classes = `bubble ${type.toLowerCase()}`;
 
     return (
         <div
             className={classes}
-            onClick={() => actionHandler('enterFlow', { flow: which })}
+            onClick={() => actionHandler('enterFlow', { flow: type })}
         >
             <div className='inner-bubble'>
                 <div className='text-and-icon'>
                     <div className='icon'>
-                        <FontAwesomeIcon icon={icon} />
+                        {img &&
+                            <img src={img} height={60} />
+                        }
+                        {icon &&
+                            <FontAwesomeIcon icon={icon} />
+                        }
                     </div>
                     {label}
                 </div>
@@ -42,12 +49,13 @@ function Bubble({ which, label, icon, actionHandler }) {
     );
 }
 Bubble.propTypes = {
-    which: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     label: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string
     ]),
-    icon: PropTypes.object.isRequired,
+    icon: PropTypes.object,
+    img: PropTypes.string,
     actionHandler: PropTypes.func.isRequired
 };
 

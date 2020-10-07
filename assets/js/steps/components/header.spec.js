@@ -15,7 +15,7 @@ describe('Test of header component', () => {
             <Header
                 header='overskrift'
                 subheader='underoverskrift'
-                which=''
+                type=''
                 icon={faCheck}
             />
         );
@@ -26,7 +26,7 @@ describe('Test of header component', () => {
             <Header
                 header='overskrift'
                 subheader='underoverskrift'
-                which=''
+                type=''
                 icon={faCheck}
             />
         );
@@ -38,7 +38,7 @@ describe('Test of header component', () => {
             <Header
                 header='overskrift'
                 subheader='underoverskrift'
-                which=''
+                type=''
                 icon={faCheck}
             />
         );

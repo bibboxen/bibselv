@@ -173,18 +173,6 @@
       "value": "Delete"
     }
   ],
-  "scan-login-password-delete-button": [
-    {
-      "type": 0,
-      "value": "Delete"
-    }
-  ],
-  "scan-login-password-login-button": [
-    {
-      "type": 0,
-      "value": "Login"
-    }
-  ],
   "scan-login-password-first-subheader": [
     {
       "type": 0,
@@ -268,6 +256,11 @@
       "type": 0,
       "value": "Print"
     }
+  ],
+  "scan-login-password-header": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
   ]
 }
-

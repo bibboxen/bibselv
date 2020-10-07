@@ -11,7 +11,7 @@ import CheckInItems from './check-in-items';
 import NavBar from './components/navbar';
 import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
-import MachineStateContext from '../context/machine-state-context';
+import MachineStateContext from './utils/machine-state-context';
 import { Sound } from './utils/sound';
 
 /**

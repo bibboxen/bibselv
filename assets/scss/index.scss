@@ -27,6 +27,7 @@ body {
 p {
     // Text
     font-size: 1rem;
+    user-select: none;
 }
 
 h1 {
@@ -36,6 +37,7 @@ h1 {
     color: $font-color;
 
     // Text
+    user-select: none;
     font-family: $font-family-sans-serif;
     font-size: 1.5rem;
     text-align: center;
@@ -52,12 +54,29 @@ h1 {
 }
 
 .visible-on-print {
+    // Display & position
     display: none;
+}
+
+.status-container {
+    // Display & position
+    display: flex;
+    width: 100%;
 }
 
 @media print {
     .visible-on-print {
+        // Display & position
         display: flex;
+
+        // Text
+        user-select: none;
         font-size: 1.5rem;
+    }
+
+    .status-container {
+        // Display & position
+        display: flex;
+        flex-direction: column;
     }
 }

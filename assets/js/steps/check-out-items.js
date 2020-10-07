@@ -14,13 +14,12 @@ import {
     BARCODE_COMMAND_CHECKIN,
     BARCODE_TYPE_COMMAND
 } from '../constants';
-import MachineStateContext from '../context/machine-state-context';
+import MachineStateContext from './utils/machine-state-context';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
 import Header from './components/header';
 import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
-import { faBookReader } from '@fortawesome/free-solid-svg-icons';
 import NumPad from './utils/num-pad';
 import Sound from './utils/sound';
 import BookStatus from './utils/book-status';
@@ -32,6 +31,7 @@ import {
     CheckOutItemsHeader,
     CheckOutItemsSubheader
 } from './utils/formattedMessages';
+import CheckOutWhite from '../../scss/images/check-out-white.svg';
 
 /**
  * CheckOutItems component.
@@ -92,7 +92,7 @@ function CheckOutItems({ actionHandler }) {
      * @param key
      *    The pressed button.
      */
-    function onNumPadPress(key) {
+    function onInput(key) {
         const typedBarcode = `${scannedBarcode}`;
         setActiveBanner(false);
         switch (key) {
@@ -108,6 +108,23 @@ function CheckOutItems({ actionHandler }) {
                 break;
         }
     }
+
+    /**
+     * Function to handle when keydown is enter.
+     */
+    function keyDownFunction(event) {
+        if (event.key === 'Enter') {
+            handleItemCheckOut();
+        }
+    }
+
+    /**
+     * Set up keydown listener.
+     */
+    useEffect(() => {
+        window.addEventListener('keydown', keyDownFunction);
+        return () => window.removeEventListener('keydown', keyDownFunction);
+    }, [scannedBarcode]);
 
     /**
      * Handles keyboard inputs.
@@ -174,36 +191,32 @@ function CheckOutItems({ actionHandler }) {
 
     return (
         <>
-            <div className='col-md-9'>
-                <Header
-                    header={CheckOutItemsHeader}
-                    subheader={CheckOutItemsSubheader}
-                    which='checkOutItems'
-                    icon={faBookReader}
-                />
-                <div className='row'>
-                    <div className='col-md-2' />
-
-                    <div className='col-md mt-4'>
-                        <Input
-                            name='barcode'
-                            label={CheckOutItemsInputLabel}
-                            value={scannedBarcode}
-                            activeBanner={activeBanner}
-                            onChange={onKeyboardInput}
-                        />
-                        {items && <BannerList items={items} />}
-                        {context.boxConfig.get.debugEnabled && (
-                            <NumPad handleNumpadPress={onNumPadPress}
-                                deleteButtonLabel={CheckOutItemsDeleteButton}
-                                okButtonLabel={CheckOutItemsOkButton}/>
-                        )}
-
-                    </div>
-                </div>
-            </div>
+            <Header
+                header={CheckOutItemsHeader}
+                subheader={CheckOutItemsSubheader}
+                type='checkOutItems'
+                img={CheckOutWhite}
+            />
             <div className='col-md-3'>
                 <HelpBox text={CheckOutItemsHelpBoxText} />
+            </div>
+            <div className='col-md-1' />
+            <div className='col-md-6'>
+                <Input
+                    name='barcode'
+                    label={CheckOutItemsInputLabel}
+                    value={scannedBarcode}
+                    activeBanner={activeBanner}
+                    onChange={onKeyboardInput}
+                />
+                {items && <BannerList items={items} />}
+            </div>
+            <div className='col-md-5'>
+                {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
+                    <NumPad handleNumpadPress={onInput}
+                        deleteButtonLabel={CheckOutItemsDeleteButton}
+                        okButtonLabel={CheckOutItemsOkButton} />
+                }
             </div>
         </>
     );

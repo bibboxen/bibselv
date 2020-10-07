@@ -14,22 +14,26 @@ import IconBubble from './icon-bubble';
  *   Header text.
  * @param subheader
  *   Subheader subheader.
- * @param which
- *   Which header.
+ * @param type
+ *   type header.
  * @param icon
- *   Icon.
+ *   Header icon.
+ * @param img
+ *   Header image.
  * @return {*}
  * @constructor
  */
-function Header({ header, subheader, which, icon }) {
+function Header({ header, subheader, type, icon, img }) {
     return (
-        <div className='row'>
-            <IconBubble which={which} icon={icon} />
-            <div className='col-md-10'>
+        <>
+            <div className='col-md-1'>
+                <IconBubble type={type} icon={icon} img={img} />
+            </div>
+            <div className='col-md-8'>
                 <div className='header'>{header}</div>
                 <div className='subheader'>{subheader}</div>
             </div>
-        </div>
+        </>
     );
 }
 
@@ -42,8 +46,9 @@ Header.propTypes = {
         PropTypes.object,
         PropTypes.string
     ]),
-    which: PropTypes.string.isRequired,
-    icon: PropTypes.object.isRequired
+    type: PropTypes.string.isRequired,
+    icon: PropTypes.object,
+    img: PropTypes.string
 };
 
 export default Header;
