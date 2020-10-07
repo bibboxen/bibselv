@@ -116,7 +116,6 @@ function CheckOutItems({ actionHandler }) {
 
     /**
      * Handles keyboard inputs.
-     *
      */
     function handleItemCheckOut(scannedBarcode) {
         setActiveBanner(true);

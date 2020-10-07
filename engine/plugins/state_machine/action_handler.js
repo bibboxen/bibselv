@@ -102,16 +102,12 @@ class ActionHandler {
          * Listen for check out success event.
          */
         this.bus.once(busEvent, resp => {
-            debug('Check out success');
-
             const result = resp.result;
 
             const item = {
                 itemIdentifier: result.itemIdentifier,
-                title: result.itemProperties.title,
-                author: result.itemProperties.author,
-                // FBS value of Y equals that the item is renewed.
-                renewalOk: result.renewalOk === 'Y',
+                title: result.itemProperties?.title ?? null,
+                author: result.itemProperties?.author ?? null,
                 message: result.screenMessage
             };
 
@@ -119,6 +115,7 @@ class ActionHandler {
             if (result.ok === '1') {
                 // FBS value of Y equals that the item is renewed.
                 if (result.renewalOk === 'Y') {
+                    item.renewalOk = true;
                     item.status = 'renewed';
                 } else {
                     item.status = 'checkedOut';
@@ -146,7 +143,9 @@ class ActionHandler {
          * Listen for check out error event.
          */
         this.bus.once(errEvent, (resp) => {
-            debug('Checkout error', resp);
+            // @TODO: Handle check out error.
+            debug('Check out error');
+            debug(resp);
         });
 
         /**
@@ -193,8 +192,6 @@ class ActionHandler {
          * Listen for check in success event.
          */
         this.bus.once(busEvent, resp => {
-            debug('Check in success');
-
             const result = resp.result;
 
             const item = {
@@ -207,6 +204,10 @@ class ActionHandler {
             // FBS value of 1 equals success.
             if (result.ok === '1') {
                 item.status = 'checkedIn';
+
+                if (item.message === 'Reserveret') {
+                    item.reservedByOtherUser = true;
+                }
 
                 this.handleEvent({
                     name: 'Action',
@@ -230,7 +231,9 @@ class ActionHandler {
          * Listen for check in error event.
          */
         this.bus.once(errEvent, (resp) => {
-            debug('Checkin error', resp);
+            // @TODO: Handle check in error.
+            debug('Check in error');
+            debug(resp);
         });
 
         /**
@@ -260,8 +263,6 @@ class ActionHandler {
          * Listen for login success event.
          */
         this.bus.once(busEvent, resp => {
-            debug('Login success');
-
             const user = resp.patron;
             const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
             let birthdayToday = false;
@@ -303,8 +304,6 @@ class ActionHandler {
          * Listen for login error event.
          */
         this.bus.once(errEvent, (resp) => {
-            debug('Login error', resp);
-
             const result = resp.result;
 
             this.handleEvent({
@@ -388,8 +387,6 @@ class ActionHandler {
              * Listen for patron success event.
              */
             this.bus.once(busEvent, resp => {
-                debug('Patron retrieved successfully');
-
                 const actionData = {
                     // Status is done refreshing.
                     statusRefreshing: false,
@@ -419,8 +416,6 @@ class ActionHandler {
              * Listen for patron error event.
              */
             this.bus.once(errEvent, (resp) => {
-                debug('Login error', resp);
-
                 this.handleEvent({
                     name: 'Reset'
                 });
