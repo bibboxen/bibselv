@@ -15,7 +15,7 @@ const socket = socketIOClient(rootElement.getAttribute('data-socket-uri'));
 ReactDOM.render(
     <React.StrictMode>
         <App
-            token={rootElement.getAttribute('data-token')}
+            uniqueId={rootElement.getAttribute('data-unique-id')}
             socket={socket}
         />
     </React.StrictMode>,

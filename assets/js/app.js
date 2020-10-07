@@ -21,7 +21,7 @@ import { IntlProvider } from 'react-intl';
  * @return {*}
  * @constructor
  */
-function App({ token, socket }) {
+function App({ uniqueId, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [messages, setMessages] = useState();
@@ -32,13 +32,39 @@ function App({ token, socket }) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
-        // Signal that the client is ready.
-        socket.emit('ClientReady', {
-            token: token
+        let token = getToken();
+
+        // Get token. @TODO: Login to ensure
+        if (token === false) {
+            socket.emit('GetToken', {
+                uniqueId: uniqueId
+            });
+        } else {
+            // Token that was not expired was found locally and the client is ready for action.
+            socket.emit('ClientReady', {
+                token: token
+            });
+        }
+
+        // Listen for token events.
+        socket.on('Token', (data) => {
+            token = data.token;
+            storeToken(token, data.expire);
+
+            // Signal that the client is ready.
+            socket.emit('ClientReady', {
+                token: token
+            });
         });
 
         // Handle socket reconnections, by sending 'ClientReady' event.
         socket.on('reconnect', (data) => {
+            const token = getToken();
+            if (token === false) {
+                // @TODO: Add error handling to frontend.
+                alert('Token not valid. Access denied');
+                return;
+            }
             socket.emit('ClientReady', {
                 token: token
             });
@@ -68,6 +94,13 @@ function App({ token, socket }) {
      *   Data for the action
      */
     function handleAction(action, data) {
+        const token = getToken();
+        if (token === false) {
+            // @TODO: Add error handling to frontend.
+            alert('Token not valid. Access denied');
+            return;
+        }
+
         // Reset idle timer.
         if (idleTimerRef.current !== null) {
             idleTimerRef.current.reset();
@@ -93,6 +126,13 @@ function App({ token, socket }) {
      * Handle user being idle.
      */
     function handleIdle() {
+        const token = getToken();
+        if (token === false) {
+            // @TODO: Add error handling to frontend.
+            alert('Token not valid. Access denied');
+            return;
+        }
+
         // Return to initial step if not already there.
         if (machineState.step !== 'initial') {
             socket.emit('ClientEvent', {
@@ -105,6 +145,37 @@ function App({ token, socket }) {
                 idleTimerRef.current.reset();
             }
         }
+    }
+
+    /**
+     * Store token local.
+     *
+     * @param token
+     *   The token to store.
+     * @param expire
+     *   The expire timestamp for the token.
+     */
+    function storeToken(token, expire) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('expire', expire);
+    }
+
+    /**
+     * Get token.
+     *
+     * @returns {{expire: number, token: (string|boolean)}|boolean}
+     *   If token is found and not expired object else false
+     */
+    function getToken() {
+        const now = Math.floor(Date.now() / 1000);
+        const expire = parseInt(localStorage.getItem('expire'));
+        if (expire === null || parseInt(expire) <= now) {
+            return false;
+        }
+
+        const token = localStorage.getItem('token');
+
+        return token !== null ? token : false;
     }
 
     /**
@@ -167,7 +238,7 @@ function App({ token, socket }) {
 }
 
 App.propTypes = {
-    token: PropTypes.string.isRequired,
+    uniqueId: PropTypes.string.isRequired,
     socket: PropTypes.object.isRequired
 };
 

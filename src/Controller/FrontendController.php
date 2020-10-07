@@ -10,7 +10,6 @@ namespace App\Controller;
 use App\Repository\BoxConfigurationRepository;
 use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -76,15 +75,10 @@ class FrontendController extends AbstractController
             return new Response('Bad request: Wrong configuration id', 400);
         }
 
-        // Generate new token on each page load. We have currently no way to identify if a page is a reload of a given
-        // client, so we assume that every new frontpage is a new connection..
-        // @TODO: Change the front-end to request a token if it does not have one or if it needs a new one.
-        $token = $this->tokenService->create($boxConfig);
-
         return $this->render(
             'frontend.html.twig',
             [
-                'token' => $token->getToken(),
+                'uniqueId' => $uniqueId,
                 'socketUri' => $this->engineSocketURI,
             ]
         );

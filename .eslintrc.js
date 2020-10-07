@@ -16,6 +16,10 @@ module.exports = {
             "version": "detect"
         }
     },
+    globals: {
+        localStorage: true,
+        alert: true
+    },
     env: {
         jest: true
     }
