@@ -8,13 +8,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import MachineStateContext from '../context/machine-state-context';
-import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_STATUS,
-    BARCODE_COMMAND_CHECKOUT,
-    BARCODE_TYPE_COMMAND
-} from '../constants';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
 import Header from './components/header';
@@ -33,6 +26,8 @@ import {
     CheckInItemsHeader,
     CheckInItemsSubheader
 } from './utils/formattedMessages';
+import BarcodeHandler from './utils/barcode-handler';
+import { ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET } from '../constants';
 
 /**
  * CheckInItems component.
@@ -104,34 +99,16 @@ function CheckInItems({ actionHandler }) {
      * Set up barcode scanner listener.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (result) => {
-            if (result.type === BARCODE_TYPE_COMMAND) {
-                switch (result.outputCode) {
-                    case BARCODE_COMMAND_FINISH:
-                        actionHandler('reset');
-                        break;
-                    case BARCODE_COMMAND_STATUS:
-                        actionHandler('changeFlow', {
-                            flow: 'status'
-                        });
-                        break;
-                    case BARCODE_COMMAND_CHECKOUT:
-                        actionHandler('changeFlow', {
-                            flow: 'checkOutItems'
-                        });
-                        break;
-                }
-            } else {
-                setScannedBarcode(result.outputCode);
-                handleItemCheckIn(result.outputCode);
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET
+        ], actionHandler, function(result) {
+            setScannedBarcode(result.outputCode);
+            handleItemCheckIn(result.outputCode);
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-        return () => {
-            barcodeScanner.stop();
-        };
+        return () => { barcodeScanner.stop(); };
     }, [actionHandler]);
 
     /**

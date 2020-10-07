@@ -14,11 +14,6 @@ import PropTypes from 'prop-types';
 import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BarcodeScanner from '../utils/barcode-scanner';
-import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_TYPE_COMMAND
-} from '../../constants';
 import MachineStateContext from '../../context/machine-state-context';
 import {
     ScanPasswordLoginFirstSubheader,
@@ -29,6 +24,8 @@ import {
     ScanPasswordLoginLoginButton,
     ScanPasswordLoginDeleteButton
 } from '../utils/formattedMessages';
+import BarcodeHandler from '../utils/barcode-handler';
+import { ACTION_RESET } from '../../constants';
 
 /**
  * ScanPasswordLogin.
@@ -47,36 +44,30 @@ function ScanPasswordLogin({ actionHandler }) {
     const [subheader, setSubheader] = useState(ScanPasswordLoginFirstSubheader);
     const [helpboxText, setHelpboxText] = useState(ScanPasswordLoginFirstHelpboxText);
     const [usernameScanned, setUsernameScanned] = useState(false);
+
     /**
-     * Setup component.
-     *
-     * Starts barcode scanner listener.
+     * Setup barcode scanner.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-
-        const barcodeCallback = (result) => {
-            if (result.type === BARCODE_TYPE_COMMAND) {
-                if (result.outputCode === BARCODE_COMMAND_FINISH) {
-                    actionHandler('reset');
-                }
-            } else {
-                handleUsernameInput(result.outputCode);
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_RESET
+        ], actionHandler, function(result) {
+            handleUsernameInput(result.outputCode);
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-
-        // Stop scanning when component is unmounted.
-        return () => barcodeScanner.stop();
+        return () => {
+            barcodeScanner.stop();
+        };
     }, [actionHandler]);
 
     /**
-       * For setting the username
-       *
-       * @param username
-       *   The username.
-       */
+     * For setting the username
+     *
+     * @param username
+     *   The username.
+     */
     function handleUsernameInput(username) {
         setUsername(username);
         setUsernameScanned(true);
@@ -85,11 +76,11 @@ function ScanPasswordLogin({ actionHandler }) {
     }
 
     /**
-       * Handles numpad  presses.
-       *
-       * @param key
-       *   The pressed button.
-       */
+     * Handles numpad  presses.
+     *
+     * @param key
+     *   The pressed button.
+     */
     function onNumPadPress(key) {
         if (!usernameScanned) {
             key === ScanPasswordLoginDeleteButton
@@ -129,7 +120,7 @@ function ScanPasswordLogin({ actionHandler }) {
                     icon={faSignInAlt}
                 />
                 <div className='row'>
-                    <div className='col-md-2' />
+                    <div className='col-md-2'/>
                     <div className='col-md mt-4'>
                         {!usernameScanned && (
                             // Todo Remember to remove thisss
@@ -148,14 +139,14 @@ function ScanPasswordLogin({ actionHandler }) {
                                 />
                                 <NumPad okButtonLabel={ScanPasswordLoginLoginButton}
                                     ScanPasswordLoginDeleteButton={ScanPasswordLoginDeleteButton}
-                                    handleNumpadPress={onNumPadPress} />
+                                    handleNumpadPress={onNumPadPress}/>
                             </>
                         )}
                     </div>
                 </div>
             </div>
             <div className='col-md-3 m-3 d-flex flex-column justify-content-between'>
-                {!usernameScanned && <HelpBox text={helpboxText} />}
+                {!usernameScanned && <HelpBox text={helpboxText}/>}
                 {context.boxConfig.get.debugEnabled && (
                     <Button
                         label={'Snydelogin'}

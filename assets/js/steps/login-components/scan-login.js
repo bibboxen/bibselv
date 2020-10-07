@@ -11,15 +11,12 @@ import Header from '../components/header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
 import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_TYPE_COMMAND
-} from '../../constants';
-import {
     ScanLoginHelpboxText,
     ScanLoginHeader,
     ScanLoginSubheader
 } from '../utils/formattedMessages';
+import BarcodeHandler from '../utils/barcode-handler';
+import { ACTION_RESET } from '../../constants';
 
 /**
  * Scan login component.
@@ -34,29 +31,20 @@ import {
  */
 function ScanLogin({ actionHandler }) {
     /**
-     * Setup component.
-     *
-     * Starts barcode scanner listener.
+     * Setup barcode scanner.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (result) => {
-            if (result.type === BARCODE_TYPE_COMMAND) {
-                if (result.outputCode === BARCODE_COMMAND_FINISH) {
-                    actionHandler('reset');
-                }
-            } else {
-                actionHandler('login', {
-                    username: result.outputCode,
-                    password: ''
-                });
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_RESET
+        ], actionHandler, function(result) {
+            actionHandler('login', {
+                username: result.outputCode
+            });
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-
-        // Stop scanning when component is unmounted.
-        return () => barcodeScanner.stop();
+        return () => { barcodeScanner.stop(); };
     }, [actionHandler]);
 
     return (
