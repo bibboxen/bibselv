@@ -9,11 +9,7 @@ import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
 import Barcode from './components/barcode';
 import { ACTION_ENTER_FLOW_CHECKIN, ACTION_ENTER_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS } from '../constants';
-import {
-    faBookReader,
-    faInfoCircle,
-    faBook
-} from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import {
     InitialButtonCheckOut,
     InitialButtonStatus,
@@ -21,6 +17,8 @@ import {
     InitialHeader
 } from './utils/formattedMessages';
 import BarcodeHandler from './utils/barcode-handler';
+import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
+import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
 
 /**
  * Initial component.
@@ -33,19 +31,19 @@ import BarcodeHandler from './utils/barcode-handler';
 function Initial({ actionHandler }) {
     const components = [
         {
-            which: 'checkOutItems',
+            type: 'checkOutItems',
             label: InitialButtonCheckOut,
-            icon: faBookReader
+            img: CheckOutYellow
         },
         {
-            which: 'status',
+            type: 'status',
             label: InitialButtonStatus,
             icon: faInfoCircle
         },
         {
-            which: 'checkInItems',
+            type: 'checkInItems',
             label: InitialButtonCheckIn,
-            icon: faBook
+            img: CheckInIconPurple
         }
     ];
 
@@ -67,11 +65,12 @@ function Initial({ actionHandler }) {
             </h1>
             <div className='row justify-content-center'>
                 {components.map((component) => (
-                    <div key={component.which} className='col-md-3'>
+                    <div key={component.type} className='col-md-3'>
                         <Bubble
-                            which={component.which}
+                            type={component.type}
                             label={component.label}
                             icon={component.icon}
+                            img={component.img}
                             actionHandler={actionHandler}
                         />
                     </div>
@@ -79,10 +78,10 @@ function Initial({ actionHandler }) {
             </div>
             <div className='row justify-content-center mt-5'>
                 {components.map((component) => (
-                    <div className='col-md-3' key={component.which}>
+                    <div key={component.type} className='col-md-3'>
                         <Barcode
                             key={component.color}
-                            which={component.which}
+                            type={component.type}
                         />
                     </div>
                 ))}

@@ -3,13 +3,14 @@
  * For users that log in with scanner.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import BarcodeScanner from '../utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import HelpBox from '../components/help-box';
+import Button from '../components/button';
 import Header from '../components/header';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faBarcode } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import MachineStateContext from '../utils/machine-state-context';
 import {
     ScanLoginHelpboxText,
     ScanLoginHeader,
@@ -17,6 +18,7 @@ import {
 } from '../utils/formattedMessages';
 import BarcodeHandler from '../utils/barcode-handler';
 import { ACTION_RESET } from '../../constants';
+import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
 
 /**
  * Scan login component.
@@ -30,6 +32,8 @@ import { ACTION_RESET } from '../../constants';
  * @constructor
  */
 function ScanLogin({ actionHandler }) {
+    const context = useContext(MachineStateContext);
+
     /**
      * Setup barcode scanner.
      */
@@ -49,34 +53,34 @@ function ScanLogin({ actionHandler }) {
 
     return (
         <>
-            <div className='col-md-9'>
-                <Header
-                    header={ScanLoginHeader}
-                    subheader={ScanLoginSubheader}
-                    which='login'
-                    icon={faSignInAlt}
-                />
-                <div className='row'>
-                    <div className='col-md-2' />
-                    <div className='col-md mt-4'>
-                        <div
-                            className='content'
-                            onClick={() =>
-                                // TODO REMOVE
-                                actionHandler('login', {
-                                    username: 'C023648674',
-                                    password: ''
-                                })
-                            }
-                        >
-                            <FontAwesomeIcon icon={faBarcode} />
-                        </div>
-                    </div>
+            <Header
+                header={ScanLoginHeader}
+                subheader={ScanLoginSubheader}
+                type='login'
+                icon={faSignInAlt}
+            />
+            <div className='col-md-3'>
+                <HelpBox text={ScanLoginHelpboxText} />
+            </div>
+            <div className="col-md-1" />
+            <div className='col-md-6'>
+                <div className='content'>
+                    <img src={BarcodeScannerIcon} height={300} width={300} />
                 </div>
             </div>
-            <div className='col-md-3'>
-                <HelpBox text={ScanLoginHelpboxText}/>
-            </div>
+            {context.boxConfig.get.debugEnabled && (
+                <div className='col-md'>
+                    <Button
+                        label={'Snydelogin'}
+                        icon={faArrowAltCircleRight}
+                        handleButtonPress={() =>
+                            actionHandler('login', {
+                                username: 'C023648674',
+                                password: ''
+                            })}
+                    />
+                </div>
+            )}
         </>
     );
 }

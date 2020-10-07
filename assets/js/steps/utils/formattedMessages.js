@@ -11,8 +11,7 @@ export const ScanPasswordLoginSecondSubheader = <FormattedMessage id='scan-login
 export const ScanPasswordLoginFirstHelpboxText = <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='scan-login-password-usename-help-box-text' />;
 export const ScanPasswordLoginSecondHelpboxText = <FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='scan-login-password-password-help-box-text' />;
 export const ScanPasswordLoginInputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='scan-login-password-input-label' />;
-export const ScanPasswordLoginLoginButton = <FormattedMessage id='scan-login-password-login-button' defaultMessage='scan-login-password-login-button' />;
-export const ScanPasswordLoginDeleteButton = <FormattedMessage id='scan-login-password-delete-button' defaultMessage='scan-login-password-delete-button' />;
+export const ScanPasswordLoginHeader = <FormattedMessage id='scan-login-password-header' defaultMessage='scan-login-password-header' />;
 
 // Check in items strings.
 export const CheckInItemsOkButton = <FormattedMessage id='check-in-items-ok-button' defaultMessage='check-in-items-ok-button' />;

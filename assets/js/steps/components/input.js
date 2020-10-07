@@ -27,10 +27,11 @@ import { InputBookIsRegistered } from '../utils/formattedMessages';
  */
 const Input = ({ name, label, value, activeBanner = false, ...rest }) => {
     const cssClass = activeBanner ? 'input info' : 'input';
+
     return (
         <div className={cssClass}>
             <label htmlFor={name}>{label}</label>
-            <input name={name} id={name} type='text' {...rest} value={value} />
+            <input name={name} id={name} type='text' value={value} autoFocus {...rest} />
             {activeBanner && (
                 <div className='info-banner'>
                     <span className='info-banner-icon'>

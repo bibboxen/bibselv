@@ -13,7 +13,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @param label
  *   Label for the button.
  * @param icon
- *   Icon for the button.
+ *   Button icon.
+ * @param img
+ *   Button image.
  * @param handleButtonPress
  *   Function for when button is pressed.
  * @param color
@@ -21,7 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @return {*}
  * @constructor
  */
-const Button = ({ label, icon, handleButtonPress, color }) => {
+const Button = ({ label, icon, img, handleButtonPress, color }) => {
     const classes = color ? `button ${color.toLowerCase()}` : 'button';
 
     return (
@@ -32,7 +34,12 @@ const Button = ({ label, icon, handleButtonPress, color }) => {
         >
             {label}
             <span className='icon'>
-                <FontAwesomeIcon icon={icon} />
+                {img &&
+                    <img src={img} height={18} />
+                }
+                {icon &&
+                    <FontAwesomeIcon icon={icon} />
+                }
             </span>
         </button>
     );
@@ -43,7 +50,8 @@ Button.propTypes = {
         PropTypes.object,
         PropTypes.string
     ]),
-    icon: PropTypes.object.isRequired,
+    icon: PropTypes.object,
+    img: PropTypes.string,
     color: PropTypes.string,
     handleButtonPress: PropTypes.func.isRequired
 };
