@@ -47,6 +47,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
     useEffect(() => {
         if (user === undefined || !boxConfigurationInput.soundEnabled) return;
 
+        // @TODO: Add configuration option to disable birthday sound.
         const lastPlayed = window.localStorage.getItem(user.id);
         const lastPlayedDate = lastPlayed ? new Date(parseInt(lastPlayed)) : undefined;
         const today = new Date();

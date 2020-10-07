@@ -8,13 +8,7 @@ import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
 import Barcode from './components/barcode';
-import {
-    BARCODE_COMMAND_CHECKIN,
-    BARCODE_COMMAND_CHECKOUT,
-    BARCODE_COMMAND_LENGTH,
-    BARCODE_COMMAND_STATUS,
-    BARCODE_SCANNING_TIMEOUT
-} from '../constants';
+import { ACTION_ENTER_FLOW_CHECKIN, ACTION_ENTER_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS } from '../constants';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import {
     InitialButtonCheckOut,
@@ -22,6 +16,7 @@ import {
     InitialButtonCheckIn,
     InitialHeader
 } from './utils/formattedMessages';
+import BarcodeHandler from './utils/barcode-handler';
 import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
 import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
 
@@ -52,41 +47,15 @@ function Initial({ actionHandler }) {
         }
     ];
 
-    // Setup component.
+    // Setup barcode scanner.
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            // Commands are 5 characters long.
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                if (code === BARCODE_COMMAND_CHECKOUT) {
-                    actionHandler('enterFlow', {
-                        flow: 'checkOutItems'
-                    });
-                }
-
-                if (code === BARCODE_COMMAND_CHECKIN) {
-                    actionHandler('enterFlow', {
-                        flow: 'checkInItems'
-                    });
-                }
-
-                if (code === BARCODE_COMMAND_STATUS) {
-                    actionHandler('enterFlow', {
-                        flow: 'status'
-                    });
-                }
-            } else {
-                actionHandler('login', {
-                    username: code,
-                    password: ''
-                });
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_ENTER_FLOW_CHECKIN, ACTION_ENTER_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS
+        ], actionHandler)).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-
-        // Stop scanning when component is unmounted.
-        return () => barcodeScanner.stop();
+        return () => { barcodeScanner.stop(); };
     }, [actionHandler]);
 
     return (

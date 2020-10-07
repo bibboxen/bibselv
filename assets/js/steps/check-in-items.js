@@ -7,13 +7,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
-import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_COMMAND_LENGTH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_STATUS,
-    BARCODE_COMMAND_CHECKOUT
-} from '../constants';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
 import Header from './components/header';
@@ -32,6 +25,8 @@ import {
     CheckInItemsHeader,
     CheckInItemsSubheader
 } from './utils/formattedMessages';
+import BarcodeHandler from './utils/barcode-handler';
+import { ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET } from '../constants';
 import CheckInWhite from '../../scss/images/check-in-white.svg';
 
 /**
@@ -80,7 +75,7 @@ function CheckInItems({ actionHandler }) {
      */
     function keyDownFunction(event) {
         if (event.key === 'Enter') {
-            handleItemCheckIn();
+            handleItemCheckIn(scannedBarcode);
         }
     }
 
@@ -106,7 +101,7 @@ function CheckInItems({ actionHandler }) {
     /**
      * Handles keyboard inputs.
      */
-    function handleItemCheckIn() {
+    function handleItemCheckIn(scannedBarcode) {
         // Ignore empty check ins.
         if (scannedBarcode && scannedBarcode.length > 0) {
             setActiveBanner(true);
@@ -121,34 +116,16 @@ function CheckInItems({ actionHandler }) {
      * Set up barcode scanner listener.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                switch (code) {
-                    case BARCODE_COMMAND_FINISH:
-                        actionHandler('reset');
-                        break;
-                    case BARCODE_COMMAND_STATUS:
-                        actionHandler('changeFlow', {
-                            flow: 'status'
-                        });
-                        break;
-                    case BARCODE_COMMAND_CHECKOUT:
-                        actionHandler('changeFlow', {
-                            flow: 'checkOutItems'
-                        });
-                        break;
-                }
-            } else {
-                setScannedBarcode(code);
-                handleItemCheckIn();
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET
+        ], actionHandler, function(result) {
+            setScannedBarcode(result.outputCode);
+            handleItemCheckIn(result.outputCode);
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-        return () => {
-            barcodeScanner.stop();
-        };
+        return () => { barcodeScanner.stop(); };
     }, [actionHandler]);
 
     /**
@@ -159,7 +136,7 @@ function CheckInItems({ actionHandler }) {
     }, [newReservation]);
 
     /**
-     * Determines whether to play a soumd and which to play.
+     * Determines whether to play a sound and which to play.
      */
     useEffect(() => {
         if (context.machineState.get.items === undefined) return;

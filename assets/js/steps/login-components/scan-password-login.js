@@ -12,11 +12,6 @@ import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
-import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_LENGTH
-} from '../../constants';
 import QwertyKeyboard from '../utils/qwerty-keyboard';
 import MachineStateContext from '../utils/machine-state-context';
 import {
@@ -27,6 +22,8 @@ import {
     ScanPasswordLoginSecondHelpboxText,
     ScanPasswordLoginHeader
 } from '../utils/formattedMessages';
+import BarcodeHandler from '../utils/barcode-handler';
+import { ACTION_RESET } from '../../constants';
 import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
 
 /**
@@ -48,35 +45,28 @@ function ScanPasswordLogin({ actionHandler }) {
     const [usernameScanned, setUsernameScanned] = useState(false);
 
     /**
-     * Setup component.
-     *
-     * Starts barcode scanner listener.
+     * Setup barcode scanner.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                if (code === BARCODE_COMMAND_FINISH) {
-                    actionHandler('reset');
-                }
-            } else {
-                handleUsernameInput(code);
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_RESET
+        ], actionHandler, function(result) {
+            handleUsernameInput(result.outputCode);
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-
-        // Stop scanning when component is unmounted.
-        return () => barcodeScanner.stop();
+        return () => {
+            barcodeScanner.stop();
+        };
     }, [actionHandler]);
 
     /**
-       * For setting the username
-       *
-       * @param key
-       *   The username.
-       */
+     * For setting the username
+     *
+     * @param username
+     *   The username.
+     */
     function handleUsernameInput(username) {
         setUsername(username);
         setUsernameScanned(true);
@@ -85,11 +75,11 @@ function ScanPasswordLogin({ actionHandler }) {
     }
 
     /**
-       * Handles numpad  presses.
-       *
-       * @param key
-       *   The pressed button.
-       */
+     * Handles numpad  presses.
+     *
+     * @param key
+     *   The pressed button.
+     */
     function onInput(key) {
         if (key === '{enter}') {
             login();
@@ -149,13 +139,13 @@ function ScanPasswordLogin({ actionHandler }) {
                 icon={faSignInAlt}
             />
             <div className='col-md-3'>
-                {!usernameScanned && <HelpBox text={helpboxText} />}
+                {!usernameScanned && <HelpBox text={helpboxText}/>}
             </div>
-            <div className='col-md-1' />
-            <div className='col-md-6' >
+            <div className='col-md-1'/>
+            <div className='col-md-6'>
                 {!usernameScanned && (
                     <div className='content'>
-                        <img src={BarcodeScannerIcon} height={300} width={300} />
+                        <img src={BarcodeScannerIcon} height={300} width={300}/>
                     </div>
                 )}
                 {usernameScanned && (
@@ -170,7 +160,7 @@ function ScanPasswordLogin({ actionHandler }) {
             </div>
             <div className='col-md-5'>
                 {usernameScanned && (context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
-                    <QwertyKeyboard handleKeyPress={onInput} />
+                <QwertyKeyboard handleKeyPress={onInput}/>
                 }
             </div>
             {context.boxConfig.get.debugEnabled && (
@@ -178,7 +168,7 @@ function ScanPasswordLogin({ actionHandler }) {
                     <Button
                         label={'indtast brugernavn'}
                         icon={faArrowAltCircleRight}
-                        handleButtonPress={() => handleUsernameInput('C023648674')} />
+                        handleButtonPress={() => handleUsernameInput('C023648674')}/>
                     <Button
                         label={'Snydelogin'}
                         icon={faArrowAltCircleRight}

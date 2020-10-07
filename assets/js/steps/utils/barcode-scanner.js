@@ -3,9 +3,23 @@
  * Contains the barcode scanning listener.
  * Based on the method from https://stackoverflow.com/a/55251571
  */
+import {
+    BARCODE_CODE_2OF5,
+    BARCODE_CODE_COMMAND,
+    BARCODE_SCANNING_TIMEOUT,
+    BARCODE_TYPE_2OF5,
+    BARCODE_TYPE_COMMAND,
+    BARCODE_TYPE_DEFAULT
+} from '../../constants';
 
 // Barcode pattern.
-const pattern = /^(!BA11|!BA10|!BA)(?<code>.+)!C$/;
+const pattern = /^(!B[A-Z]\d{2})(?<code>.+)!C$/;
+
+/* Examples
+  Default:    !BA10\d{10}!C
+  2OF5:       !BD10\d{10}!C
+  Command:    !BA03\d{3}!C
+*/
 
 /**
  * BarcodeScanner.
@@ -19,7 +33,7 @@ export class BarcodeScanner {
      * @param timeoutLimit {int|null}
      * @constructor
      */
-    constructor(timeoutLimit = null) {
+    constructor(timeoutLimit = BARCODE_SCANNING_TIMEOUT) {
         if (timeoutLimit !== null && !Number.isInteger(timeoutLimit)) {
             throw new Error('timeoutLimit must be an integer');
         }
@@ -46,12 +60,39 @@ export class BarcodeScanner {
         }
 
         if (this.code.length > 0) {
+            let codedBarcodeScanner = false;
+            let barcodeType = BARCODE_TYPE_DEFAULT;
+            let outputCode = this.code;
             const matches = pattern.exec(this.code);
 
             if (matches !== null && matches.groups.code) {
-                this.resultCallback(matches.groups.code);
-                this.code = '';
+                codedBarcodeScanner = true;
+                outputCode = matches.groups.code;
+
+                switch (this.code.substr(1, 4)) {
+                    case BARCODE_CODE_COMMAND:
+                        barcodeType = BARCODE_TYPE_COMMAND;
+                        break;
+                    case BARCODE_CODE_2OF5:
+                        barcodeType = BARCODE_TYPE_2OF5;
+                        break;
+                }
+            } else {
+                // For scanners that are not coded.
+                if (this.code.length === 3) {
+                    barcodeType = BARCODE_TYPE_COMMAND;
+                }
             }
+
+            const callbackObject = {
+                type: barcodeType,
+                codedBarcodeScanner: codedBarcodeScanner,
+                code: this.code,
+                outputCode: outputCode
+            };
+
+            this.resultCallback(callbackObject);
+            this.code = '';
         } else {
             this.code = '';
         }

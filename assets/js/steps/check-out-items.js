@@ -7,13 +7,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BarcodeScanner } from './utils/barcode-scanner';
-import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_COMMAND_LENGTH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_STATUS,
-    BARCODE_COMMAND_CHECKIN
-} from '../constants';
+import { ACTION_CHANGE_FLOW_STATUS, ACTION_CHANGE_FLOW_CHECKIN, ACTION_RESET } from '../constants';
 import MachineStateContext from './utils/machine-state-context';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
@@ -31,6 +25,7 @@ import {
     CheckOutItemsHeader,
     CheckOutItemsSubheader
 } from './utils/formattedMessages';
+import BarcodeHandler from './utils/barcode-handler';
 import CheckOutWhite from '../../scss/images/check-out-white.svg';
 
 /**
@@ -56,34 +51,16 @@ function CheckOutItems({ actionHandler }) {
      * Set up barcode scanner listener.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (code) => {
-            if (code.length === BARCODE_COMMAND_LENGTH) {
-                switch (code) {
-                    case BARCODE_COMMAND_FINISH:
-                        actionHandler('reset');
-                        break;
-                    case BARCODE_COMMAND_STATUS:
-                        actionHandler('changeFlow', {
-                            flow: 'status'
-                        });
-                        break;
-                    case BARCODE_COMMAND_CHECKIN:
-                        actionHandler('changeFlow', {
-                            flow: 'checkInItems'
-                        });
-                        break;
-                }
-            } else {
-                setScannedBarcode(code);
-                handleItemCheckOut();
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_CHANGE_FLOW_STATUS, ACTION_CHANGE_FLOW_CHECKIN, ACTION_RESET
+        ], actionHandler, function(result) {
+            setScannedBarcode(result.outputCode);
+            handleItemCheckOut(result.outputCode);
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-        return () => {
-            barcodeScanner.stop();
-        };
+        return () => { barcodeScanner.stop(); };
     }, [actionHandler]);
 
     /**
@@ -114,7 +91,7 @@ function CheckOutItems({ actionHandler }) {
      */
     function keyDownFunction(event) {
         if (event.key === 'Enter') {
-            handleItemCheckOut();
+            handleItemCheckOut(scannedBarcode);
         }
     }
 
@@ -141,7 +118,7 @@ function CheckOutItems({ actionHandler }) {
      * Handles keyboard inputs.
      *
      */
-    function handleItemCheckOut() {
+    function handleItemCheckOut(scannedBarcode) {
         setActiveBanner(true);
         actionHandler('checkOutItem', {
             itemIdentifier: scannedBarcode
