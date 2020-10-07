@@ -3,14 +3,14 @@
  * For users that scans username and types password to login.
  */
 
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
 import Input from '../components/input';
 import HelpBox from '../components/help-box';
 import Button from '../components/button';
-import {faArrowAltCircleRight} from '@fortawesome/free-regular-svg-icons';
+import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
-import {faSignInAlt} from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
 import QwertyKeyboard from '../utils/qwerty-keyboard';
 import MachineStateContext from '../utils/machine-state-context';
@@ -23,7 +23,7 @@ import {
     ScanPasswordLoginHeader
 } from '../utils/formattedMessages';
 import BarcodeHandler from '../utils/barcode-handler';
-import {ACTION_RESET} from '../../constants';
+import { ACTION_RESET } from '../../constants';
 import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
 
 /**
@@ -36,7 +36,7 @@ import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
  * @return {*}
  * @constructor
  */
-function ScanPasswordLogin({actionHandler}) {
+function ScanPasswordLogin({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -51,7 +51,7 @@ function ScanPasswordLogin({actionHandler}) {
         const barcodeScanner = new BarcodeScanner();
         const barcodeCallback = (new BarcodeHandler([
             ACTION_RESET
-        ], actionHandler, function (result) {
+        ], actionHandler, function(result) {
             handleUsernameInput(result.outputCode);
         })).createCallback();
 
@@ -113,7 +113,7 @@ function ScanPasswordLogin({actionHandler}) {
      * @param target
      *    The pressed target.
      */
-    function onKeyboardInput({target}) {
+    function onKeyboardInput({ target }) {
         setPassword(target.value);
     }
 
