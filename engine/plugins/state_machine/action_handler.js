@@ -128,8 +128,6 @@ class ActionHandler {
                     data: item
                 });
             } else {
-                debug('Check out error');
-
                 item.status = 'error';
 
                 this.handleEvent({
@@ -145,7 +143,9 @@ class ActionHandler {
          * Listen for check out error event.
          */
         this.bus.once(errEvent, (resp) => {
-            debug('Checkout error', resp);
+            // @TODO: Handle check out error.
+            debug('Check out error');
+            debug(resp);
         });
 
         /**
@@ -231,7 +231,9 @@ class ActionHandler {
          * Listen for check in error event.
          */
         this.bus.once(errEvent, (resp) => {
-            debug('Checkin error', resp);
+            // @TODO: Handle check in error.
+            debug('Check in error');
+            debug(resp);
         });
 
         /**
@@ -261,8 +263,6 @@ class ActionHandler {
          * Listen for login success event.
          */
         this.bus.once(busEvent, resp => {
-            debug('Login success');
-
             const user = resp.patron;
             const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
             let birthdayToday = false;
@@ -304,8 +304,6 @@ class ActionHandler {
          * Listen for login error event.
          */
         this.bus.once(errEvent, (resp) => {
-            debug('Login error', resp);
-
             const result = resp.result;
 
             this.handleEvent({
@@ -389,8 +387,6 @@ class ActionHandler {
              * Listen for patron success event.
              */
             this.bus.once(busEvent, resp => {
-                debug('Patron retrieved successfully');
-
                 const actionData = {
                     // Status is done refreshing.
                     statusRefreshing: false,
@@ -420,8 +416,6 @@ class ActionHandler {
              * Listen for patron error event.
              */
             this.bus.once(errEvent, (resp) => {
-                debug('Login error', resp);
-
                 this.handleEvent({
                     name: 'Reset'
                 });
