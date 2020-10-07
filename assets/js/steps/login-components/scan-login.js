@@ -10,17 +10,14 @@ import HelpBox from '../components/help-box';
 import Button from '../components/button';
 import Header from '../components/header';
 import { faSignInAlt, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
-import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_TYPE_COMMAND
-} from '../../constants';
 import MachineStateContext from '../utils/machine-state-context';
 import {
     ScanLoginHelpboxText,
     ScanLoginHeader,
     ScanLoginSubheader
 } from '../utils/formattedMessages';
+import BarcodeHandler from '../utils/barcode-handler';
+import { ACTION_RESET } from '../../constants';
 import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
 
 /**
@@ -38,29 +35,20 @@ function ScanLogin({ actionHandler }) {
     const context = useContext(MachineStateContext);
 
     /**
-     * Setup component.
-     *
-     * Starts barcode scanner listener.
+     * Setup barcode scanner.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (result) => {
-            if (result.type === BARCODE_TYPE_COMMAND) {
-                if (result.outputCode === BARCODE_COMMAND_FINISH) {
-                    actionHandler('reset');
-                }
-            } else {
-                actionHandler('login', {
-                    username: result.outputCode,
-                    password: ''
-                });
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_RESET
+        ], actionHandler, function(result) {
+            actionHandler('login', {
+                username: result.outputCode
+            });
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-
-        // Stop scanning when component is unmounted.
-        return () => barcodeScanner.stop();
+        return () => { barcodeScanner.stop(); };
     }, [actionHandler]);
 
     return (

@@ -7,14 +7,6 @@ import React, { useContext, useEffect } from 'react';
 import BannerList from './components/banner-list';
 import Header from './components/header';
 import MachineStateContext from './utils/machine-state-context';
-import {
-    BARCODE_COMMAND_FINISH,
-    BARCODE_SCANNING_TIMEOUT,
-    BARCODE_COMMAND_CHECKOUT,
-    BARCODE_COMMAND_CHECKIN,
-    BARCODE_TYPE_COMMAND,
-    BARCODE_COMMAND_PRINT
-} from '../constants';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import {
@@ -34,13 +26,15 @@ import {
     StatusBannerHeaderFinedBook,
     StatusBannerHeaderOverdueBook
 } from './utils/formattedMessages';
+import BarcodeHandler from './utils/barcode-handler';
+import { ACTION_CHANGE_FLOW_CHECKIN, ACTION_CHANGE_FLOW_CHECKOUT, ACTION_PRINT, ACTION_RESET } from '../constants';
 
 /**
  * Status.
  *
  * @param actionHandler
- *  As the state can only be changed by the statemachine, the actionHandler
- *  calls the statemachine if a user requests a state change.
+ *   As the state can only be changed by the state machine, the actionHandler
+ *   calls the state machine if a user requests a state change.
  * @return {*}
  * @constructor
  */
@@ -48,38 +42,18 @@ function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
 
     /**
-     * Set up barcode listener.
+     * Set up barcode scanner listener.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner(BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (result) => {
-            if (result.type === BARCODE_TYPE_COMMAND) {
-                switch (result.outputCode) {
-                    case BARCODE_COMMAND_FINISH:
-                        actionHandler('reset');
-                        break;
-                    case BARCODE_COMMAND_PRINT:
-                        window.print();
-                        break;
-                    case BARCODE_COMMAND_CHECKOUT:
-                        actionHandler('changeFlow', {
-                            flow: 'checkOutItems'
-                        });
-                        break;
-                    case BARCODE_COMMAND_CHECKIN:
-                        actionHandler('changeFlow', {
-                            flow: 'checkInItems'
-                        });
-                        break;
-                }
-            }
-        };
+        const barcodeScanner = new BarcodeScanner();
+        const barcodeCallback = (new BarcodeHandler([
+            ACTION_CHANGE_FLOW_CHECKIN, ACTION_CHANGE_FLOW_CHECKOUT, ACTION_RESET, ACTION_PRINT
+        ], actionHandler)).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-        return () => {
-            barcodeScanner.stop();
-        };
+        return () => { barcodeScanner.stop(); };
     }, [actionHandler]);
+
     const loanedItems = [
         ...adaptListOfBooksWithMessage(
             context.machineState.get.fineItems,

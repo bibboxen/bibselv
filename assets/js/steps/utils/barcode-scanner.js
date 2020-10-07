@@ -4,9 +4,10 @@
  * Based on the method from https://stackoverflow.com/a/55251571
  */
 import {
-    BARCODE_CODE_2BY5,
+    BARCODE_CODE_2OF5,
     BARCODE_CODE_COMMAND,
-    BARCODE_TYPE_2BY5,
+    BARCODE_SCANNING_TIMEOUT,
+    BARCODE_TYPE_2OF5,
     BARCODE_TYPE_COMMAND,
     BARCODE_TYPE_DEFAULT
 } from '../../constants';
@@ -16,7 +17,7 @@ const pattern = /^(!B[A-Z]\d{2})(?<code>.+)!C$/;
 
 /* Examples
   Default:    !BA10\d{10}!C
-  2BY5:       !BD10\d{10}!C
+  2OF5:       !BD10\d{10}!C
   Command:    !BA03\d{3}!C
 */
 
@@ -32,7 +33,7 @@ export class BarcodeScanner {
      * @param timeoutLimit {int|null}
      * @constructor
      */
-    constructor(timeoutLimit = null) {
+    constructor(timeoutLimit = BARCODE_SCANNING_TIMEOUT) {
         if (timeoutLimit !== null && !Number.isInteger(timeoutLimit)) {
             throw new Error('timeoutLimit must be an integer');
         }
@@ -72,8 +73,8 @@ export class BarcodeScanner {
                     case BARCODE_CODE_COMMAND:
                         barcodeType = BARCODE_TYPE_COMMAND;
                         break;
-                    case BARCODE_CODE_2BY5:
-                        barcodeType = BARCODE_TYPE_2BY5;
+                    case BARCODE_CODE_2OF5:
+                        barcodeType = BARCODE_TYPE_2OF5;
                         break;
                 }
             } else {
