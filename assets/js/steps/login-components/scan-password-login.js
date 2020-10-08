@@ -119,9 +119,6 @@ function ScanPasswordLogin({ actionHandler }) {
 
     /**
      * Handles login
-     *
-     * @param target
-     *    The pressed target.
      */
     function login() {
         actionHandler('login', {
