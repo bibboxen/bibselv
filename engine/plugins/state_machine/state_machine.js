@@ -120,7 +120,11 @@ module.exports = function(options, imports, register) {
                  */
                 login: function(client) {
                     debug('Triggered login on client: ' + client.token);
-                    client.actionData.password = client.config.defaultPassword;
+
+                    // Use default password if requested.
+                    if (client.actionData.useDefaultPassword) {
+                        client.actionData.password = client.config.defaultPassword;
+                    }
                     actionHandler.login(client);
                 },
                 /**

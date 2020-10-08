@@ -83,8 +83,6 @@ module.exports = function(options, imports, register) {
 
             // Register event listener.
             bus.on(clientEvent, (newState) => {
-                debug(clientEvent, newState);
-
                 // Emit new state to client.
                 socket.emit('UpdateState', newState);
             });
