@@ -94,6 +94,24 @@ module.exports = function(options, imports, register) {
         });
 
         /**
+         * FBS have been detected to be offline.
+         */
+        bus.on('fbs.offline', () => {
+            //
+            // @TODO: Make the frontend react to this event.
+            //
+        });
+
+        /**
+         * FBS have been detected as online.
+         */
+        bus.on('fbs.online', () => {
+            //
+            // @TODO: Make the frontend react to this event.
+            //
+        });
+
+        /**
          * Get token.
          *
          * @TODO: This should be changed to use some form of authentication.
@@ -156,8 +174,6 @@ module.exports = function(options, imports, register) {
 
         /**
          * Handling of events from the client.
-         *
-         * @TODO: Fix issue on re-connect where server side token and token state is lost.
          *
          * Not that every request requires the attribute "token" in the json request.
          */

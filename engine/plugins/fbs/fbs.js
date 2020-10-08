@@ -277,6 +277,12 @@ FBS.prototype.block = function block(username, reason) {
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
 
+    // Extend configuration with the end-point (it's done this way to keep config.json more simple).
+    options.config.endpoint = options.config.endpoint ?? options.fbsEndPoint;
+
+    // To make this testable and not hang.
+    const enableOnlineChecks = options.enableOnlineChecks ?? true;
+
     // Defines the configuration for the online checker below.
     const onlineState = {
         online: true,
@@ -295,9 +301,7 @@ module.exports = function(options, imports, register) {
      *
      * State machine that handles the FBS online/offline state.
      */
-    // @TODO: Remove eslint exception when the variable is used again.
-    /* eslint-disable no-unused-vars */
-    const checkOnlineState = (config) => {
+    const checkOnlineState = () => {
         // Clear extra timeout, to make sure only one is running.
         if (ensureCheckOnlineStateTimeout != null) {
             clearTimeout(ensureCheckOnlineStateTimeout);
@@ -312,75 +316,59 @@ module.exports = function(options, imports, register) {
             checkOnlineStateTimeout = null;
         }
 
-        // Create FBS object.
-        const fbs = new FBS(bus, config);
+        // Create FBS object (using the online check configuration from the config.json file).
+        const fbs = new FBS(bus, options.config);
 
-        // Update configuration.
+        // Update configuration (optional configuration in config.json).
         onlineState.threshold = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.threshold : onlineState.threshold;
         onlineState.onlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.onlineTimeout : onlineState.onlineTimeout;
         onlineState.offlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.offlineTimeout : onlineState.offlineTimeout;
 
-        // Check that config exists.
-        if (fbs.config && Object.prototype.hasOwnProperty.call(fbs, 'endpoint')) {
-            fbs.libraryStatus().then(
-                res => {
-                    // Listen to online check event send below.
-                    if (Object.prototype.hasOwnProperty.call(res, 'onlineState') && res.onlineStatus) {
-                        if (onlineState.successfulOnlineChecks >= onlineState.threshold) {
-                            // FBS is online and threshold has been reached, so state online.
-                            checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.onlineTimeout);
-                            onlineState.online = true;
-                        } else {
-                            // FBS online but threshold _not_ reached, so state offline.
-                            onlineState.successfulOnlineChecks++;
-                            onlineState.online = false;
-                            checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-                        }
+        fbs.libraryStatus().then(
+            res => {
+                // Listen to online check event send below.
+                if (Object.prototype.hasOwnProperty.call(res, 'onlineState') && res.onlineStatus) {
+                    if (onlineState.successfulOnlineChecks >= onlineState.threshold) {
+                        // FBS is online and threshold has been reached, so state online.
+                        checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.onlineTimeout);
+                        onlineState.online = true;
                     } else {
-                        // FBS is offline, so it the state.
-                        onlineState.successfulOnlineChecks = 0;
+                        // FBS online but threshold _not_ reached, so state offline.
+                        onlineState.successfulOnlineChecks++;
                         onlineState.online = false;
                         checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
                     }
-
-                    // Send state event into the bus.
-                    const eventName = onlineState.online ? 'fbs.online' : 'fbs.offline';
-                    bus.emit(eventName, {
-                        timestamp: new Date().getTime(),
-                        online: onlineState
-                    });
-                },
-                () => {
-                    // Error connecting to FBS.
-                    onlineState.online = false;
+                } else {
+                    // FBS is offline, so it the state.
                     onlineState.successfulOnlineChecks = 0;
+                    onlineState.online = false;
                     checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-                    bus.emit('fbs.offline', {
-                        timestamp: new Date().getTime(),
-                        online: onlineState
-                    });
                 }
-            );
-        } else {
-            // FBS not configured, so state offline.
-            onlineState.online = false;
-            onlineState.successfulOnlineChecks = 0;
-            checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-            bus.emit('fbs.offline', {
-                timestamp: new Date().getTime(),
-                online: onlineState
-            });
-        }
+
+                // Send state event into the bus.
+                const eventName = onlineState.online ? 'fbs.online' : 'fbs.offline';
+                bus.emit(eventName, {
+                    timestamp: new Date().getTime(),
+                    online: onlineState
+                });
+            },
+            () => {
+                // Error connecting to FBS.
+                onlineState.online = false;
+                onlineState.successfulOnlineChecks = 0;
+                checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
+                bus.emit('fbs.offline', {
+                    timestamp: new Date().getTime(),
+                    online: onlineState
+                });
+            }
+        );
     };
 
     // Start the online checker.
-    //
-    // @TODO: GET CONFIG FOR TESTING ONLINE STATE. SHOULD BE AN BUS EVENT AND KILL ON DISCONNECTION.
-    // @TODO: GLOBAL ONLINE CHECKER.
-    //
-    // checkOnlineState();
-    // @TODO: Remove eslint exception when the variable is used again.
-    /* eslint-enable no-unused-vars */
+    if (enableOnlineChecks) {
+        checkOnlineState();
+    }
 
     /**
      * Listen to login requests.
