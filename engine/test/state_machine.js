@@ -1,6 +1,6 @@
 /**
  * @file
- * Unit test for network plugin.
+ * Unit test for state machine plugin.
  */
 
 'use strict';
@@ -26,15 +26,15 @@ const setup = () => {
                 redisConfig: {}
             },
             {
-                packagePath: './../plugins/network'
-            },
-            {
                 packagePath: './../plugins/config',
                 config: config.boxConfig,
                 isEventExpired: 1000
             },
             {
-                packagePath: './../plugins/fbs'
+                packagePath: './../plugins/fbs',
+                fbsEndPoint: config.fbsEndPoint,
+                config: config.fbsOnlineCheckConfig,
+                enableOnlineChecks: false
             },
             {
                 packagePath: './../plugins/state_machine'

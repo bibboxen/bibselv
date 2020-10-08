@@ -278,7 +278,10 @@ module.exports = function(options, imports, register) {
     const bus = imports.bus;
 
     // Extend configuration with the end-point (it's done this way to keep config.json more simple).
-    options.config.endpoint = options.fbsEndPoint;
+    options.config.endpoint = options.config.endpoint ?? options.fbsEndPoint;
+
+    // To make this testable and not hang.
+    const enableOnlineChecks = options.enableOnlineChecks ?? true;
 
     // Defines the configuration for the online checker below.
     const onlineState = {
@@ -363,7 +366,9 @@ module.exports = function(options, imports, register) {
     };
 
     // Start the online checker.
-    checkOnlineState();
+    if (enableOnlineChecks) {
+        checkOnlineState();
+    }
 
     /**
      * Listen to login requests.
