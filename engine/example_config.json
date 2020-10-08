@@ -3,6 +3,11 @@
     "tokenValidationEndPoint" : "http://nginx/token/validate/",
     "tokenGetEndPoint" : "http://nginx/token/get/",
     "fbsEndPoint": "https://Cicero-fbs.com/rest/sip2/",
+    "fbsOnlineCheckConfig": {
+        "username": "xxxx",
+        "password": "yyyy",
+        "agency": "DK-zzzzzz"
+    },
     "boxConfig": {
         "uri": "http://nginx/box/configuration/"
     },

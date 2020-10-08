@@ -53,16 +53,14 @@ const plugins = [
         isEventExpired: isEventExpired
     },
     {
-        packagePath: './plugins/network',
-        isEventExpired: isEventExpired
-    },
-    {
         packagePath: './plugins/config',
         config: config.boxConfig,
         isEventExpired: isEventExpired
     },
     {
         packagePath: './plugins/fbs',
+        fbsEndPoint: config.fbsEndPoint,
+        config: config.fbsOnlineCheckConfig,
         isEventExpired: isEventExpired
     },
     {
