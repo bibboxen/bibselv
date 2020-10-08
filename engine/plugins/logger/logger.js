@@ -47,22 +47,26 @@ Logger.prototype.send = function send(level, message) {
         }
 
         let msg = message;
-        if (Object.prototype.hasOwnProperty.call(message, 'message')) {
+        if (typeof msg === 'object' && Object.prototype.hasOwnProperty.call(message, 'message')) {
             msg = message.message;
         }
 
         // Strip passwords from msg.
-        msg = msg
-            .replace(/\|AD[^|]+\|/g, '|AD****|')
-            .replace(/password="[^"]+"/g, 'password="****"');
+        if (typeof msg === 'string') {
+            msg = msg
+                .replace(/\|AD[^|]+\|/g, '|AD****|')
+                .replace(/password="[^"]+"/g, 'password="****"');
+        }
 
         // Create best possible logging message for searching in FBS messages.
         if (type === 'fbs' && level === 'info') {
             // Strip passwords from xml.
             let xml = Object.prototype.hasOwnProperty.call(message, 'xml') ? message.xml : 'No XML data';
-            xml = xml
-                .replace(/\|AD[^|]+\|/g, '|AD****|')
-                .replace(/password="[^"]+"/g, 'password="****"');
+            if (typeof xml === "string") {
+                xml = xml
+                    .replace(/\|AD[^|]+\|/g, '|AD****|')
+                    .replace(/password="[^"]+"/g, 'password="****"');
+            }
 
             const parts = {
                 id: msg.slice(0, 2),
