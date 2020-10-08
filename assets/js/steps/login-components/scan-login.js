@@ -43,7 +43,8 @@ function ScanLogin({ actionHandler }) {
             ACTION_RESET
         ], actionHandler, function(result) {
             actionHandler('login', {
-                username: result.outputCode
+                username: result.outputCode,
+                useDefaultPassword: true
             });
         })).createCallback();
 
