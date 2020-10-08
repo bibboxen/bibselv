@@ -62,7 +62,7 @@ Logger.prototype.send = function send(level, message) {
         if (type === 'fbs' && level === 'info') {
             // Strip passwords from xml.
             let xml = Object.prototype.hasOwnProperty.call(message, 'xml') ? message.xml : 'No XML data';
-            if (typeof xml === "string") {
+            if (typeof xml === 'string') {
                 xml = xml
                     .replace(/\|AD[^|]+\|/g, '|AD****|')
                     .replace(/password="[^"]+"/g, 'password="****"');
