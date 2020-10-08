@@ -71,7 +71,7 @@ module.exports = function(options, imports, register) {
                  * @param client
                  */
                 enterFlow: function(client) {
-                    debug('Triggered enterFlow on client: ' + client.token, client.actionData);
+                    debug('Triggered enterFlow on client: ' + client.token);
                     actionHandler.enterFlow(client, client.actionData.flow);
                 }
             },
@@ -134,7 +134,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 loginError: function(client) {
-                    debug('Triggered loginError on client: ' + client.token, client.actionData);
+                    debug('Triggered loginError on client: ' + client.token);
                     client.state.loginError = client.actionData.error;
                 },
                 /**
@@ -144,7 +144,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 loginSuccess: function(client) {
-                    debug('Triggered loginSuccess on client: ' + client.token, client.actionData);
+                    debug('Triggered loginSuccess on client: ' + client.token);
                     client.state.user = client.actionData.user;
                     client.internal = client.actionData.internal;
                     this.transition(client, client.state.flow);
@@ -171,7 +171,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 checkOutItem: function(client) {
-                    debug('Triggered checkOutItem on client: ' + client.token, client);
+                    debug('Triggered checkOutItem on client: ' + client.token);
                     actionHandler.checkOutItem(client);
                 },
                 /**
@@ -181,7 +181,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 itemUpdate: function(client) {
-                    debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
+                    debug('Triggered itemUpdate on client: ' + client.token);
                     actionHandler.itemUpdate(client);
                 },
                 /**
@@ -191,7 +191,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 changeFlow: function(client) {
-                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    debug('Triggered changeFlow on client: ' + client.token);
                     actionHandler.changeFlow(client, client.actionData.flow);
                 }
             },
@@ -213,7 +213,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 checkInItem: function(client) {
-                    debug('Triggered checkInItem on client: ' + client.token, client);
+                    debug('Triggered checkInItem on client: ' + client.token);
                     actionHandler.checkInItem(client);
                 },
                 /**
@@ -223,7 +223,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 itemUpdate: function(client) {
-                    debug('Triggered itemUpdate on client: ' + client.token, client.actionData);
+                    debug('Triggered itemUpdate on client: ' + client.token);
                     actionHandler.itemUpdate(client);
                 },
                 /**
@@ -233,7 +233,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 changeFlow: function(client) {
-                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    debug('Triggered changeFlow on client: ' + client.token);
                     actionHandler.changeFlow(client, client.actionData.flow);
                 }
             },
@@ -258,7 +258,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 changeFlow: function(client) {
-                    debug('Triggered changeFlow on client: ' + client.token, client.actionData);
+                    debug('Triggered changeFlow on client: ' + client.token);
                     actionHandler.changeFlow(client, client.actionData.flow);
                 },
                 /**
@@ -268,7 +268,7 @@ module.exports = function(options, imports, register) {
                  *   The client.
                  */
                 statusUpdated: function(client) {
-                    debug('Triggered statusUpdated on client: ' + client.token, client.actionData);
+                    debug('Triggered statusUpdated on client: ' + client.token);
                     client.state = Object.assign({}, client.state, client.actionData);
                 }
             }
@@ -324,9 +324,6 @@ module.exports = function(options, imports, register) {
      *   The client.
      */
     const handleEvent = function(event) {
-        debug('handleEvent');
-        debug(event);
-
         clientModule.load(event.token).then(function load(client) {
             switch (event.name) {
                 case 'Reset':
@@ -355,7 +352,7 @@ module.exports = function(options, imports, register) {
      * Listener for events in the state machine.
      */
     bus.on('state_machine.event', (event) => {
-        debug('Received event "state_machine.event"', event);
+        debug('Received event "state_machine.event"');
         handleEvent(event);
     });
 
