@@ -35,7 +35,7 @@ const Logger = function Logger(host, port) {
  *
  * @param {string} level
  *   Log level for the message.
- * @param {string} message
+ * @param {string|object} message
  *   The message to send to the logger.
  */
 Logger.prototype.send = function send(level, message) {
@@ -47,16 +47,31 @@ Logger.prototype.send = function send(level, message) {
         }
 
         let msg = message;
-        if (Object.prototype.hasOwnProperty.call(message, 'message')) {
+        if (typeof msg === 'object' && Object.prototype.hasOwnProperty.call(message, 'message')) {
             msg = message.message;
+        }
+
+        // Strip passwords from msg.
+        if (typeof msg === 'string') {
+            msg = msg
+                .replace(/\|AD[^|]+\|/g, '|AD****|')
+                .replace(/password="[^"]+"/g, 'password="****"');
         }
 
         // Create best possible logging message for searching in FBS messages.
         if (type === 'fbs' && level === 'info') {
+            // Strip passwords from xml.
+            let xml = Object.prototype.hasOwnProperty.call(message, 'xml') ? message.xml : 'No XML data';
+            if (typeof xml === 'string') {
+                xml = xml
+                    .replace(/\|AD[^|]+\|/g, '|AD****|')
+                    .replace(/password="[^"]+"/g, 'password="****"');
+            }
+
             const parts = {
                 id: msg.slice(0, 2),
                 raw: msg,
-                xml: Object.prototype.hasOwnProperty.call(message, 'xml') ? message.xml : 'No XML data'
+                xml: xml
             };
 
             // Find the first field in the messages and split the message into SIP2 parts.
