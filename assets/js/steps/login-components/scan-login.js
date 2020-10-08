@@ -77,7 +77,7 @@ function ScanLogin({ actionHandler }) {
                         handleButtonPress={() =>
                             actionHandler('login', {
                                 username: 'C023648674',
-                                password: ''
+                                useDefaultPassword: true
                             })}
                     />
                 </div>
