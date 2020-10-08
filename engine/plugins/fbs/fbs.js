@@ -59,7 +59,6 @@ FBS.prototype.login = function login(username, password) {
 
     const req = new Request(this.bus, this.config);
     req.patronStatus(username, password, (err, res) => {
-        debug(err, res);
         if (err) {
             deferred.reject(err);
         } else {
@@ -502,7 +501,6 @@ module.exports = function(options, imports, register) {
                 data.file = file;
                 bus.emit('offline.add.checkout', data);
             } else {
-                debug(err);
                 bus.emit(data.errorEvent, err);
             }
         });
@@ -579,7 +577,6 @@ module.exports = function(options, imports, register) {
                 data.file = file;
                 bus.emit('offline.add.checkin', data);
             } else {
-                debug(err);
                 bus.emit(data.errorEvent, err);
             }
         });
