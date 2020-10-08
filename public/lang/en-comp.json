@@ -1,14 +1,40 @@
 {
-  "banner-header-book-with-fine": [
+  "app-token-not-valid": [
     {
       "type": 0,
-      "value": "This book has a fine"
+      "value": "Token not valid. Access denied"
+    }
+  ],
+  "banner-adapter-fetching-info": [
+    {
+      "type": 0,
+      "value": "Fetching information"
     }
   ],
   "banner-header-book-for-check-in": [
     {
       "type": 0,
       "value": "This book must be handed in"
+    }
+  ],
+  "banner-header-book-with-fine": [
+    {
+      "type": 0,
+      "value": "This book has a fine"
+    }
+  ],
+  "banner-title-author": [
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " by "
+    },
+    {
+      "type": 1,
+      "value": "author"
     }
   ],
   "book-is-registered": [
@@ -35,10 +61,28 @@
       "value": "Exit"
     }
   ],
+  "button-navbar-print": [
+    {
+      "type": 0,
+      "value": "Print"
+    }
+  ],
   "button-navbar-status": [
     {
       "type": 0,
       "value": "Status"
+    }
+  ],
+  "check-in-items-delete-button": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "check-in-items-header": [
+    {
+      "type": 0,
+      "value": "Hand in"
     }
   ],
   "check-in-items-help-box-text": [
@@ -53,6 +97,30 @@
       "value": "Barcode"
     }
   ],
+  "check-in-items-ok-button": [
+    {
+      "type": 0,
+      "value": "Ok"
+    }
+  ],
+  "check-in-items-subheader": [
+    {
+      "type": 0,
+      "value": "Scan the barcode of the book you are checking in"
+    }
+  ],
+  "check-out-items-delete-button": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "check-out-items-header": [
+    {
+      "type": 0,
+      "value": "Loan"
+    }
+  ],
   "check-out-items-help-box-text": [
     {
       "type": 0,
@@ -63,6 +131,18 @@
     {
       "type": 0,
       "value": "Barcode"
+    }
+  ],
+  "check-out-items-ok-button": [
+    {
+      "type": 0,
+      "value": "Ok"
+    }
+  ],
+  "check-out-items-subheader": [
+    {
+      "type": 0,
+      "value": "Scan the barcode of the book you wish to loan"
     }
   ],
   "help-box-header": [
@@ -101,10 +181,28 @@
       "value": "Login method is not configured"
     }
   ],
+  "scan-login-header": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
   "scan-login-help-box-text": [
     {
       "type": 0,
       "value": "Use the barcode scanner to scan your library card"
+    }
+  ],
+  "scan-login-password-first-subheader": [
+    {
+      "type": 0,
+      "value": "Use the hand scanner to scan the barcode of your library card"
+    }
+  ],
+  "scan-login-password-header": [
+    {
+      "type": 0,
+      "value": "Login"
     }
   ],
   "scan-login-password-input-label": [
@@ -125,10 +223,28 @@
       "value": "Enter your PIN code"
     }
   ],
+  "scan-login-password-second-subheader": [
+    {
+      "type": 0,
+      "value": "Enter your password"
+    }
+  ],
   "scan-login-password-usename-help-box-text": [
     {
       "type": 0,
       "value": "Use the hand scanner to scan the barcode of your library card"
+    }
+  ],
+  "scan-login-subheader": [
+    {
+      "type": 0,
+      "value": "Scan your library card"
+    }
+  ],
+  "status-header": [
+    {
+      "type": 0,
+      "value": "Status"
     }
   ],
   "status-header-current-loans": [
@@ -149,118 +265,10 @@
       "value": "Reservations"
     }
   ],
-  "check-in-items-header": [
-    {
-      "type": 0,
-      "value": "Hand in"
-    }
-  ],
-  "check-in-items-subheader": [
-    {
-      "type": 0,
-      "value": "Scan the barcode of the book you are checking in"
-    }
-  ],
-  "check-in-items-ok-button": [
-    {
-      "type": 0,
-      "value": "Ok"
-    }
-  ],
-  "check-in-items-delete-button": [
-    {
-      "type": 0,
-      "value": "Delete"
-    }
-  ],
-  "scan-login-password-first-subheader": [
-    {
-      "type": 0,
-      "value": "Use the hand scanner to scan the barcode of your library card"
-    }
-  ],
-  "scan-login-password-second-subheader": [
-    {
-      "type": 0,
-      "value": "Enter your password"
-    }
-  ],
-  "check-out-items-ok-button": [
-    {
-      "type": 0,
-      "value": "Ok"
-    }
-  ],
-  "check-out-items-delete-button": [
-    {
-      "type": 0,
-      "value": "Delete"
-    }
-  ],
-  "check-out-items-header": [
-    {
-      "type": 0,
-      "value": "Loan"
-    }
-  ],
-  "check-out-items-subheader": [
-    {
-      "type": 0,
-      "value": "Scan the barcode of the book you wish to loan"
-    }
-  ],
-  "status-items-header": [
-    {
-      "type": 0,
-      "value": "Status"
-    }
-  ],
-  "status-items-subheader": [
-    {
-      "type": 0,
-      "value": "Your loans and reservations"
-    }
-  ],
-  "scan-login-header": [
-    {
-      "type": 0,
-      "value": "Login"
-    }
-  ],
-  "scan-login-subheader": [
-    {
-      "type": 0,
-      "value": "Scan your library card"
-    }
-  ],
-  "status-header": [
-    {
-      "type": 0,
-      "value": "Status"
-    }
-  ],
   "status-subheader": [
     {
       "type": 0,
       "value": "Your loans and reservations"
-    }
-  ],
-  "banner-adapter-fetching-info": [
-    {
-      "type": 0,
-      "value": "Fetching information"
-    }
-  ],
-  "button-navbar-print": [
-    {
-      "type": 0,
-      "value": "Print"
-    }
-  ],
-  "scan-login-password-header": [
-    {
-      "type": 0,
-      "value": "Login"
     }
   ]
 }

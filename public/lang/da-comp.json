@@ -1,14 +1,40 @@
 {
-  "banner-header-book-with-fine": [
+  "app-token-not-valid": [
     {
       "type": 0,
-      "value": "Denne bog har en bøde"
+      "value": "Token ikke valid. Adgang nægtet"
+    }
+  ],
+  "banner-adapter-fetching-info": [
+    {
+      "type": 0,
+      "value": "Henter informationer"
     }
   ],
   "banner-header-book-for-check-in": [
     {
       "type": 0,
       "value": "Denne bog skal afleveres"
+    }
+  ],
+  "banner-header-book-with-fine": [
+    {
+      "type": 0,
+      "value": "Denne bog har en bøde"
+    }
+  ],
+  "banner-title-author": [
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " af "
+    },
+    {
+      "type": 1,
+      "value": "author"
     }
   ],
   "book-is-registered": [
@@ -35,10 +61,28 @@
       "value": "Afslut"
     }
   ],
+  "button-navbar-print": [
+    {
+      "type": 0,
+      "value": "Print"
+    }
+  ],
   "button-navbar-status": [
     {
       "type": 0,
       "value": "Status"
+    }
+  ],
+  "check-in-items-delete-button": [
+    {
+      "type": 0,
+      "value": "Slet"
+    }
+  ],
+  "check-in-items-header": [
+    {
+      "type": 0,
+      "value": "Aflever"
     }
   ],
   "check-in-items-help-box-text": [
@@ -53,6 +97,30 @@
       "value": "Stregkode"
     }
   ],
+  "check-in-items-ok-button": [
+    {
+      "type": 0,
+      "value": "Ok"
+    }
+  ],
+  "check-in-items-subheader": [
+    {
+      "type": 0,
+      "value": "Scan stregkoden på bogen du vil aflevere"
+    }
+  ],
+  "check-out-items-delete-button": [
+    {
+      "type": 0,
+      "value": "Slet"
+    }
+  ],
+  "check-out-items-header": [
+    {
+      "type": 0,
+      "value": "Lån"
+    }
+  ],
   "check-out-items-help-box-text": [
     {
       "type": 0,
@@ -63,6 +131,18 @@
     {
       "type": 0,
       "value": "Stregkode"
+    }
+  ],
+  "check-out-items-ok-button": [
+    {
+      "type": 0,
+      "value": "Ok"
+    }
+  ],
+  "check-out-items-subheader": [
+    {
+      "type": 0,
+      "value": "Scan stregkoden på bogen du vil låne"
     }
   ],
   "help-box-header": [
@@ -101,10 +181,28 @@
       "value": "Loginmetode er ikke konfigureret"
     }
   ],
+  "scan-login-header": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
   "scan-login-help-box-text": [
     {
       "type": 0,
       "value": "Brug håndscanneren til at scanne stregkoden din lånerkort"
+    }
+  ],
+  "scan-login-password-first-subheader": [
+    {
+      "type": 0,
+      "value": "Brug scanneren til at scanne stregkoden på dit bibliotekskort"
+    }
+  ],
+  "scan-login-password-header": [
+    {
+      "type": 0,
+      "value": "Login"
     }
   ],
   "scan-login-password-input-label": [
@@ -125,10 +223,28 @@
       "value": "Tast din pinkode"
     }
   ],
+  "scan-login-password-second-subheader": [
+    {
+      "type": 0,
+      "value": "Indtast din adgangskode"
+    }
+  ],
   "scan-login-password-usename-help-box-text": [
     {
       "type": 0,
       "value": "Brug håndscanneren til at scanne stregkoden din lånerkort"
+    }
+  ],
+  "scan-login-subheader": [
+    {
+      "type": 0,
+      "value": "Scan dit bibliotekskort"
+    }
+  ],
+  "status-header": [
+    {
+      "type": 0,
+      "value": "Status"
     }
   ],
   "status-header-current-loans": [
@@ -149,118 +265,10 @@
       "value": "Reservationer"
     }
   ],
-  "check-in-items-header": [
-    {
-      "type": 0,
-      "value": "Aflever"
-    }
-  ],
-  "check-in-items-subheader": [
-    {
-      "type": 0,
-      "value": "Scan stregkoden på bogen du gerne vil aflevere"
-    }
-  ],
-  "check-in-items-ok-button": [
-    {
-      "type": 0,
-      "value": "Ok"
-    }
-  ],
-  "check-in-items-delete-button": [
-    {
-      "type": 0,
-      "value": "Slet"
-    }
-  ],
-  "scan-login-password-first-subheader": [
-    {
-      "type": 0,
-      "value": "Brug scanneren til at scanne stregkoden på dit bibliotekskort"
-    }
-  ],
-  "scan-login-password-second-subheader": [
-    {
-      "type": 0,
-      "value": "Indtast din adgangskode"
-    }
-  ],
-  "check-out-items-ok-button": [
-    {
-      "type": 0,
-      "value": "Ok"
-    }
-  ],
-  "check-out-items-delete-button": [
-    {
-      "type": 0,
-      "value": "Slet"
-    }
-  ],
-  "check-out-items-header": [
-    {
-      "type": 0,
-      "value": "Lån"
-    }
-  ],
-  "check-out-items-subheader": [
-    {
-      "type": 0,
-      "value": "Scan stregkoden på bogen du vil låne"
-    }
-  ],
-  "status-items-header": [
-    {
-      "type": 0,
-      "value": "Status"
-    }
-  ],
-  "status-items-subheader": [
-    {
-      "type": 0,
-      "value": "Dine lån og reservationer"
-    }
-  ],
-  "scan-login-header": [
-    {
-      "type": 0,
-      "value": "Login"
-    }
-  ],
-  "scan-login-subheader": [
-    {
-      "type": 0,
-      "value": "Scan dit bibliotekskort"
-    }
-  ],
-  "status-header": [
-    {
-      "type": 0,
-      "value": "Status"
-    }
-  ],
   "status-subheader": [
     {
       "type": 0,
       "value": "Dine lån og reservationer"
-    }
-  ],
-  "banner-adapter-fetching-info": [
-    {
-      "type": 0,
-      "value": "Henter informationer"
-    }
-  ],
-  "button-navbar-print": [
-    {
-      "type": 0,
-      "value": "Print"
-    }
-  ],
-  "scan-login-password-header": [
-    {
-      "type": 0,
-      "value": "Login"
     }
   ]
 }

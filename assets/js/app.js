@@ -9,7 +9,8 @@ import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
-
+import Alert from './steps/utils/alert';
+import { AppTokenNotValid } from './steps/utils/formattedMessages';
 /**
  * App. The main entrypoint of the react application.
  *
@@ -25,6 +26,7 @@ function App({ uniqueId, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [messages, setMessages] = useState();
+    const [errorMessage, setErrorMessage] = useState();
     const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
 
@@ -61,8 +63,7 @@ function App({ uniqueId, socket }) {
         socket.on('reconnect', (data) => {
             const token = getToken();
             if (token === false) {
-                // @TODO: Add error handling to frontend.
-                alert('Token not valid. Access denied');
+                setErrorMessage(AppTokenNotValid);
                 return;
             }
             socket.emit('ClientReady', {
@@ -96,8 +97,7 @@ function App({ uniqueId, socket }) {
     function handleAction(action, data) {
         const token = getToken();
         if (token === false) {
-            // @TODO: Add error handling to frontend.
-            alert('Token not valid. Access denied');
+            setErrorMessage(AppTokenNotValid);
             return;
         }
 
@@ -128,8 +128,7 @@ function App({ uniqueId, socket }) {
     function handleIdle() {
         const token = getToken();
         if (token === false) {
-            // @TODO: Add error handling to frontend.
-            alert('Token not valid. Access denied');
+            setErrorMessage(AppTokenNotValid);
             return;
         }
 
@@ -216,7 +215,7 @@ function App({ uniqueId, socket }) {
 
     return (
         <IntlProvider locale={language} messages={messages}>
-            {machineState && boxConfig && (
+            {machineState && boxConfig && !errorMessage && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
                         element={document}
@@ -232,6 +231,7 @@ function App({ uniqueId, socket }) {
                     />
                 </div>
             )}
+            {errorMessage && <Alert message={errorMessage}></Alert>}
             {!machineState && !boxConfig && <Loading />}
         </IntlProvider>
     );

@@ -124,6 +124,12 @@
   },
   "scan-login-password-header": {
     "defaultMessage": "Login"
+  },
+  "app-token-not-valid": {
+    "defaultMessage": "Token not valid. Access denied"
+  },
+  "banner-title-author": {
+    "defaultMessage": "{title} by {author}"
   }
 }
 
