@@ -5,6 +5,8 @@
 
 const debug = require('debug')('bibbox:STATE_MACHINE:actions');
 const uniqid = require('uniqid');
+const BARCODE_CODE_2OF5 = 'BD10';
+const PREFIX_2OF5 = 'LL-';
 
 /**
  * ActionHandler.
@@ -74,11 +76,11 @@ class ActionHandler {
     /**
      * Check out item for the client.
      *
-     * @param client
+     * @param {object} client
      *   The client.
      */
     checkOutItem(client) {
-        const newItem = client.actionData;
+        const newItem = this.filterIdentifier(client.actionData);
 
         // Ignore item if it is already checkedOut or inProgress.
         // @TODO: Handle retry case.
@@ -164,11 +166,11 @@ class ActionHandler {
     /**
      * Check in item for the client.
      *
-     * @param client
+     * @param {object} client
      *   The client.
      */
     checkInItem(client) {
-        const newItem = client.actionData;
+        const newItem = this.filterIdentifier(client.actionData);
 
         // Ignore item if it is already checkedIn or inProgress.
         // @TODO: Handle retry case.
@@ -245,6 +247,35 @@ class ActionHandler {
             errorEvent: errEvent,
             itemIdentifier: newItem.itemIdentifier
         });
+    }
+
+    /**
+     * Filters the itemIdentifier from client.actionData.
+     *
+     * Applies 2of5 transformation of itemIdentifier.
+     *
+     * @param {object} item
+     *   The item to filter
+     *
+     * @returns {object}
+     */
+    filterIdentifier(item) {
+        // Handle itemIdentifiers that are coded (because of Barcode scanner).
+        const pattern = /^(!B[A-Z]\d{2})(?<code>.+)!C$/;
+        const matches = pattern.exec(item.itemIdentifier);
+
+        if (matches !== null && matches.groups.code) {
+            let outputItemIdentifier = matches.groups.code;
+
+            // Prefix 2of5 barcodes with "LL-".
+            if (item.itemIdentifier.substr(1, 4) === BARCODE_CODE_2OF5) {
+                outputItemIdentifier = PREFIX_2OF5 + outputItemIdentifier;
+            }
+
+            item.itemIdentifier = outputItemIdentifier;
+        }
+
+        return item;
     }
 
     /**

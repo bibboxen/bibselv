@@ -56,7 +56,7 @@ function CheckOutItems({ actionHandler }) {
             ACTION_CHANGE_FLOW_STATUS, ACTION_CHANGE_FLOW_CHECKIN, ACTION_RESET
         ], actionHandler, function(result) {
             setScannedBarcode(result.outputCode);
-            handleItemCheckOut(result.outputCode);
+            handleItemCheckOut(result.code);
         })).createCallback();
 
         barcodeScanner.start(barcodeCallback);

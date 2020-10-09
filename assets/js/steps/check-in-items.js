@@ -121,7 +121,7 @@ function CheckInItems({ actionHandler }) {
             ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET
         ], actionHandler, function(result) {
             setScannedBarcode(result.outputCode);
-            handleItemCheckIn(result.outputCode);
+            handleItemCheckIn(result.code);
         })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
