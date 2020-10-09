@@ -196,8 +196,8 @@ class ActionHandler {
 
             const item = {
                 itemIdentifier: result.itemIdentifier,
-                title: result.itemProperties.title,
-                author: result.itemProperties.author,
+                title: result.itemProperties?.title ?? null,
+                author: result.itemProperties?.author ?? null,
                 message: result.screenMessage
             };
 

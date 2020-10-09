@@ -14,8 +14,8 @@ import { AppTokenNotValid } from './steps/utils/formattedMessages';
 /**
  * App. The main entrypoint of the react application.
  *
- * @param token
- *   Token, the identifier that connects to the backend
+ * @param uniqueId
+ *   The unique id of the configuration to load.
  * @param socket
  *   The socket.
  *
@@ -34,6 +34,11 @@ function App({ uniqueId, socket }) {
      * Set up application with configuration and socket connections.
      */
     useEffect(() => {
+        // If loading another config than the last used, remove previous token.
+        if (localStorage.getItem('uniqueId') !== uniqueId) {
+            removeToken();
+        }
+
         let token = getToken();
 
         // Get token. @TODO: Login to ensure
@@ -79,6 +84,7 @@ function App({ uniqueId, socket }) {
 
         // Listen for changes to machine state.
         socket.on('UpdateState', (data) => {
+            // Reset idle timer.
             if (idleTimerRef.current !== null) {
                 idleTimerRef.current.reset();
             }
@@ -147,7 +153,7 @@ function App({ uniqueId, socket }) {
     }
 
     /**
-     * Store token local.
+     * Store token in local storage.
      *
      * @param token
      *   The token to store.
@@ -157,6 +163,16 @@ function App({ uniqueId, socket }) {
     function storeToken(token, expire) {
         localStorage.setItem('token', token);
         localStorage.setItem('expire', expire);
+        localStorage.setItem('uniqueId', uniqueId);
+    }
+
+    /**
+     * Remove token from local storage.
+     */
+    function removeToken() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('expire');
+        localStorage.removeItem('uniqueId');
     }
 
     /**

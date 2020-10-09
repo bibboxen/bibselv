@@ -43,7 +43,8 @@ function ScanLogin({ actionHandler }) {
             ACTION_RESET
         ], actionHandler, function(result) {
             actionHandler('login', {
-                username: result.outputCode
+                username: result.outputCode,
+                useDefaultPassword: true
             });
         })).createCallback();
 
@@ -76,7 +77,7 @@ function ScanLogin({ actionHandler }) {
                         handleButtonPress={() =>
                             actionHandler('login', {
                                 username: 'C023648674',
-                                password: ''
+                                useDefaultPassword: true
                             })}
                     />
                 </div>

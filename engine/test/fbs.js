@@ -30,10 +30,10 @@ const setup = function setup() {
                 isEventExpired: 1000
             },
             {
-                packagePath: './../plugins/network'
-            },
-            {
-                packagePath: './../plugins/fbs'
+                packagePath: './../plugins/fbs',
+                fbsEndPoint: config.fbsEndPoint,
+                config: config.fbsOnlineCheckConfig,
+                enableOnlineChecks: false
             }
         ];
         app = setupArchitect(plugins, config);

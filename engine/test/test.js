@@ -104,6 +104,5 @@ function importTest(name, file, recordName) {
 
 // Load test cases.
 importTest('Bus', './bus.js');
-importTest('Network', './network.js');
 importTest('FBS', './fbs.js', 'fbs');
 importTest('StateMachine', './state_machine.js', 'state_machine');
