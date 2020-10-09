@@ -6,7 +6,7 @@
 const debug = require('debug')('bibbox:STATE_MACHINE:actions');
 const uniqid = require('uniqid');
 const BARCODE_CODE_2OF5 = 'BD10';
-const PREFIX_2OF5 = 'FF-';
+const PREFIX_2OF5 = 'LL-';
 
 /**
  * ActionHandler.
@@ -268,7 +268,7 @@ class ActionHandler {
         if (matches !== null && matches.groups.code) {
             let outputItemIdentifier = matches.groups.code;
 
-            // Prefix 2of5 barcodes with "FF-".
+            // Prefix 2of5 barcodes with "LL-".
             if (newItem.itemIdentifier.substr(1, 4) === BARCODE_CODE_2OF5) {
                 outputItemIdentifier = PREFIX_2OF5 + outputItemIdentifier;
             }
