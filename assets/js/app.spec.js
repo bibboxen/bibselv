@@ -9,5 +9,5 @@ import { shallow } from 'enzyme';
 import { it } from '@jest/globals';
 
 it('renders without crashing', () => {
-    shallow(<App token='123' socket={{ fake: 'socket' }} />);
+    shallow(<App uniqueId='123' socket={{ fake: 'socket' }} />);
 });

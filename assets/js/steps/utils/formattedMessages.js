@@ -1,6 +1,6 @@
 /**
  * @file
- * Messages for the interface.
+ * Translations for the interface.
  */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -66,3 +66,12 @@ export const InitialHeader = <FormattedMessage id='initial-choose-a-function' de
 
 // Banner adapter strings
 export const BannerAdapterFetchingInfo = <FormattedMessage id='banner-adapter-fetching-info' defaultMessage='banner-adapter-fetching-info' />;
+/**
+ * Returns a string with title and author.
+ * @param {string} title The title.
+ * @param {string} author The author.
+ */
+export function BannerTitleAuthor(title, author) { return <FormattedMessage id="banner-title-author" defaultMessage="banner-title-author" values={{ title: title, author: author }} />; }
+
+// App strings
+export const AppTokenNotValid = <FormattedMessage id='app-token-not-valid' defaultMessage='app-token-not-valid' />;

@@ -5,7 +5,7 @@
  */
 
 import BookStatus from './book-status';
-import { BannerAdapterFetchingInfo } from './formattedMessages';
+import { BannerAdapterFetchingInfo, BannerTitleAuthor } from './formattedMessages';
 
 /**
  * Adapts books from state machine to the banner component from checkinitems
@@ -19,40 +19,30 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
     const items = [];
 
     listOfBooks.forEach((book) => {
-        const displayInfo = { ...book };
-
-        if (book.title) {
-            displayInfo.text = `${book.title}`;
-        } else if (book.author && book.title) {
-            // @TODO: Translatable text.
-            displayInfo.text = `${displayInfo.title} af ${book.author}`;
-        } else {
-            displayInfo.text = book.itemIdentifier;
-        }
-
+        const displayInfo = { ...book, text: book.title && book.author ? BannerTitleAuthor(book.title, book.author) : '' };
         switch (book.status) {
             case BookStatus.ERROR:
                 displayInfo.title = book.message;
                 break;
             case BookStatus.IN_PROGRESS:
                 displayInfo.title = BannerAdapterFetchingInfo;
+                displayInfo.text = book.itemIdentifier;
                 break;
             case BookStatus.CHECKED_IN:
             case BookStatus.CHECKED_OUT:
             case BookStatus.RENEWED:
-                displayInfo.title = book.title;
-
+                if (book.author) {
+                    displayInfo.text = BannerTitleAuthor('', book.author);
+                }
                 if (book.reservedByOtherUser) {
                     displayInfo.status = BookStatus.RESERVED;
                     displayInfo.title = reservedMaterialInstruction || book.message;
-                    displayInfo.text = book.title;
                 }
                 break;
         }
 
         items.push(displayInfo);
     });
-
     return items;
 }
 
@@ -67,7 +57,7 @@ export function adaptListOfBooksWithMessage(listOfBooks, message) {
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
         displayInfo.title = message || book.message;
-        displayInfo.text = `${book.title} af ${book.author}`;
+        displayInfo.text = book.author ? BannerTitleAuthor(book.title, book.author) : `${book.title}`;
         items.push(displayInfo);
     });
     return items;
@@ -87,7 +77,7 @@ export function adaptListOfBooks(listOfBooks, status) {
         if (status) {
             displayInfo.status = status;
         }
-        displayInfo.text = `af ${book.author}`;
+        displayInfo.text = book.author ? BannerTitleAuthor('', book.author) : '';
         items.push(displayInfo);
     });
     return items;

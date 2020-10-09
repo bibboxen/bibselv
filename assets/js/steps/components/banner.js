@@ -56,7 +56,7 @@ function Banner({ item, visibleOnPrint = false }) {
                 </div>
             )}
             <span className='header'>{title}</span>
-            <span>{text}</span>
+            {text && <span className='text'>{text}</span>}
         </div>
     );
 }

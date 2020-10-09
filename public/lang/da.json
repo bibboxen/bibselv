@@ -124,6 +124,11 @@
   },
   "scan-login-password-header": {
     "defaultMessage": "Login"
+  },
+  "app-token-not-valid": {
+    "defaultMessage": "Token ikke valid. Adgang nægtet"
+  },
+  "banner-title-author": {
+    "defaultMessage": "{title} af {author}"
   }
 }
-
