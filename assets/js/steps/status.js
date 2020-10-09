@@ -24,7 +24,8 @@ import {
     StatusHeaderReservations,
     StatusHeaderReadyForPickup,
     StatusBannerHeaderFinedBook,
-    StatusBannerHeaderOverdueBook
+    StatusBannerHeaderOverdueBook,
+    StatusHeaderPrint
 } from './utils/formattedMessages';
 import BarcodeHandler from './utils/barcode-handler';
 import { ACTION_CHANGE_FLOW_CHECKIN, ACTION_CHANGE_FLOW_CHECKOUT, ACTION_PRINT, ACTION_RESET } from '../constants';
@@ -87,6 +88,7 @@ function Status({ actionHandler }) {
                 icon={faInfoCircle}
             />
             <div className='status-container'>
+                <h1>{StatusHeaderPrint}</h1>
                 <div className='col-md-4 mt-4'>
                     <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
                 </div>
