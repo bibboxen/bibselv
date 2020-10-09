@@ -19,7 +19,7 @@ function Print({ book }) {
      * Print on load
      */
     useEffect(() => {
-        window.print();
+        setTimeout(window.print, 100);
     }, []);
 
     return (
