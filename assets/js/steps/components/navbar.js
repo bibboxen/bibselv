@@ -88,7 +88,7 @@ function NavBar({ actionHandler }) {
                 )}
             </div>
             <div className='button-container'>
-                {context.machineState.get.step === 'status' && context.boxConfig.get.hasPrinter && 
+                {context.machineState.get.step === 'status' && context.boxConfig.get.hasPrinter &&
                     <Button
                         label={NavbarButtonPrint}
                         icon={faPrint}
