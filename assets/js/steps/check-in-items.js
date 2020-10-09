@@ -146,7 +146,8 @@ function CheckInItems({ actionHandler }) {
         * Evaluate if a new checked-in book is reserved by another user.
         */
         context.machineState.get.items.forEach(book => {
-            if (book.message === 'Reserveret' && !handledReservations.includes(book.itemIdentifier)) {
+            if (book.reservedByOtherUser && !handledReservations.includes(book.itemIdentifier)) {
+                debugger
                 const newBook = { ...book };
                 newBook.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
                 setNewReservation(newBook);

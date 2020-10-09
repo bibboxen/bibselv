@@ -34,7 +34,7 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
                 if (book.author) {
                     displayInfo.text = BannerTitleAuthor('', book.author);
                 }
-                if (book.message === 'Reserveret') {
+                if (book.reservedByOtherUser) {
                     displayInfo.status = BookStatus.RESERVED;
                     displayInfo.title = reservedMaterialInstruction || book.message;
                 }
