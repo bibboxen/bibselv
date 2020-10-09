@@ -191,7 +191,7 @@ function CheckInItems({ actionHandler }) {
 
     return (
         <>
-            {newReservation !== null &&
+            {newReservation !== null && context.boxConfig.get.hasPrinter &&
                 <Print key={newReservation.title} book={newReservation}/>
             }
             <Header

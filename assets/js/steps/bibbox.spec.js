@@ -742,6 +742,7 @@ describe('Tests of navbar component', () => {
                     boxConfigurationInput={{
                         soundEnabled: false,
                         inactivityTimeOut: 3000,
+                        hasPrinter: true,
                         school: {
                             name: 'Mårslet Skole'
                         }
