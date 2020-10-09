@@ -147,7 +147,6 @@ function CheckInItems({ actionHandler }) {
         */
         context.machineState.get.items.forEach(book => {
             if (book.reservedByOtherUser && !handledReservations.includes(book.itemIdentifier)) {
-                debugger
                 const newBook = { ...book };
                 newBook.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
                 setNewReservation(newBook);
