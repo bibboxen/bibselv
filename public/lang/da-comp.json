@@ -181,6 +181,12 @@
       "value": "Loginmetode er ikke konfigureret"
     }
   ],
+  "print-reservation-note": [
+    {
+      "type": 0,
+      "value": "Reservationsnote"
+    }
+  ],
   "scan-login-header": [
     {
       "type": 0,
@@ -251,6 +257,12 @@
     {
       "type": 0,
       "value": "Aktuelle lån"
+    }
+  ],
+  "status-header-print": [
+    {
+      "type": 0,
+      "value": "Status"
     }
   ],
   "status-header-ready-for-pickup": [

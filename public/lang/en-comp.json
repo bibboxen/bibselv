@@ -181,6 +181,12 @@
       "value": "Login method is not configured"
     }
   ],
+  "print-reservation-note": [
+    {
+      "type": 0,
+      "value": "Reservation note"
+    }
+  ],
   "scan-login-header": [
     {
       "type": 0,
@@ -251,6 +257,12 @@
     {
       "type": 0,
       "value": "Current loans"
+    }
+  ],
+  "status-header-print": [
+    {
+      "type": 0,
+      "value": "Status"
     }
   ],
   "status-header-ready-for-pickup": [

@@ -106,6 +106,9 @@
   },
   "status-header": {
     "defaultMessage": "Status"
+  },  
+  "status-header-print": {
+    "defaultMessage": "Status"
   },
   "status-subheader": {
     "defaultMessage": "Your loans and reservations"
@@ -130,6 +133,9 @@
   },
   "banner-title-author": {
     "defaultMessage": "{title} by {author}"
+  },
+  "print-reservation-note": {
+    "defaultMessage": "Reservation note"
   }
 }
 

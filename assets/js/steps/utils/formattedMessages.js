@@ -31,6 +31,7 @@ export const CheckOutItemsSubheader = <FormattedMessage id='check-out-items-subh
 
 // Status strings.
 export const StatusHeader = <FormattedMessage id='status-header' defaultMessage='status-header' />;
+export const StatusHeaderPrint = <FormattedMessage id='status-header-print' defaultMessage='status-header-print' />;
 export const StatusSubheader = <FormattedMessage id='status-subheader' defaultMessage='status-subheader' />;
 export const StatusHeaderCurrentLoans = <FormattedMessage id='status-header-current-loans' defaultMessage='status-header-current-loans' />;
 export const StatusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='status-header-reservations' />;
@@ -75,3 +76,6 @@ export function BannerTitleAuthor(title, author) { return <FormattedMessage id="
 
 // App strings
 export const AppTokenNotValid = <FormattedMessage id='app-token-not-valid' defaultMessage='app-token-not-valid' />;
+
+// Print strings
+export const PrintReservationNote = <FormattedMessage id='print-reservation-note' defaultMessage='print-reservation-note' />;

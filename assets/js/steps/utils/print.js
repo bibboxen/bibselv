@@ -5,6 +5,7 @@
  */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { PrintReservationNote } from './formattedMessages';
 
 /**
  * Print.
@@ -24,6 +25,7 @@ function Print({ book }) {
 
     return (
         <div key={book.title} className='flex-column visible-on-print'>
+            <h1>{PrintReservationNote}</h1>
             <div>{book.message}</div>
             <div>{book.title}</div>
         </div>

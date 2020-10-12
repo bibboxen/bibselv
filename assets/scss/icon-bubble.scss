@@ -51,3 +51,9 @@
         background-color: $green;
     }
 }
+
+@media print {
+    .header-icon {
+        display: none;
+    }
+}

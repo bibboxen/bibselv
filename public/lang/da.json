@@ -107,6 +107,9 @@
   "status-header": {
     "defaultMessage": "Status"
   },
+  "status-header-print": {
+    "defaultMessage": "Status"
+  },
   "status-subheader": {
     "defaultMessage": "Dine lån og reservationer"
   },
@@ -130,5 +133,8 @@
   },
   "banner-title-author": {
     "defaultMessage": "{title} af {author}"
+  },
+  "print-reservation-note": {
+    "defaultMessage": "Reservationsnote"
   }
 }

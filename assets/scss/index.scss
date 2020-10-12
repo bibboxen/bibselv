@@ -62,6 +62,10 @@ h1 {
     // Display & position
     display: flex;
     width: 100%;
+
+    h1 {
+        display: none; 
+    }
 }
 
 @media print {
@@ -78,5 +82,9 @@ h1 {
         // Display & position
         display: flex;
         flex-direction: column;
+    
+        h1 {
+            display: flex; 
+        }
     }
 }
