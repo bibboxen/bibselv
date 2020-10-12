@@ -25,7 +25,7 @@ function Print({ book }) {
 
     return (
         <div key={book.title} className='flex-column visible-on-print'>
-            <div>{PrintReservationNote}</div>
+            <h1>{PrintReservationNote}</h1>
             <div>{book.message}</div>
             <div>{book.title}</div>
         </div>
