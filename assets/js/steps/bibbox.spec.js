@@ -606,6 +606,85 @@ describe('Status component', () => {
         expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces');
         expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver');
     });
+
+    it('renders the books with the correct styling classes, success/danger', () => {
+        const wrapper = mount(
+            <IntlProvider locale="en" translations={translations} >
+                <Bibbox
+                    boxConfigurationInput={{
+                        inactivityTimeOut: 3000,
+                        soundEnabled: false,
+                        school: {
+                            name: 'Mårslet Skole'
+                        }
+                    }}
+                    machineStateInput={{
+                        step: 'status',
+                        flow: 'status',
+                        user: {
+                            name: 'ITK',
+                            birthdayToday: false
+                        },
+                        statusRefreshing: false,
+                        holdItems: [
+                            {
+                                id: '5313004327',
+                                returnDate: 1599436800000,
+                                title: 'Insekter i farver',
+                                author: 'Ravn, Hans Peter'
+                            }
+                        ],
+                        overdueItems: [
+                            {
+                                id: '5313004555',
+                                dueDate: 1598832000032,
+                                title: 'Open book',
+                                author: 'Simpson, Jessica'
+                            }
+                        ],
+                        chargedItems: [
+                            {
+                                id: '5313004319',
+                                returnDate: 1599436800000,
+                                title: 'Mellem rejer og hundestejler',
+                                author: 'Møller Christensen, Jørgen'
+                            }
+                        ],
+                        fineItems: [
+                            {
+                                id: '5313004343',
+                                returnDate: 1600992000000,
+                                title: 'Den lille bog om søgning på nettet',
+                                author: 'Knudsen, Werner'
+                            }
+                        ],
+                        recallItems: [
+                            {
+                                id: '5313004378',
+                                recallDate: 1598832000000,
+                                title: 'Illustreret svampeflora',
+                                author: 'Lange, Morten',
+                                DK5: '57.4'
+                            }
+                        ],
+                        unavailableHoldItems: [
+                            {
+                                id: '5313004351',
+                                recallDate: 1598832000000,
+                                title:
+                                    'Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces',
+                                author: 'Holm, Anna Marie',
+                                DK5: '70.7'
+                            }
+                        ]
+                    }}
+                    actionHandler={() => { }}
+                />
+            </IntlProvider>
+        );
+        expect(wrapper.find('.banner.danger').length).toEqual(3);
+        expect(wrapper.find('.banner.success').length).toEqual(1);
+    });
 });
 
 describe('Tests of navbar component', () => {
