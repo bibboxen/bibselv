@@ -57,8 +57,8 @@ export function adaptListOfBooks(listOfBooks, status, title) {
     const items = [];
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
-        displayInfo.status = status ? status : null;
-        displayInfo.title = title ? title : book.title;
+        displayInfo.status = status || null;
+        displayInfo.title = title || book.title;
         displayInfo.text = book.author ? BannerTitleAuthor('', book.author) : '';
         items.push(displayInfo);
     });
@@ -83,14 +83,4 @@ export function adaptListOfBooksWithSuccess(listOfBooks) {
  */
 export function adaptListOfBooksWitErrorAndTitle(listOfBooks, title) {
     return adaptListOfBooks(listOfBooks, BookStatus.ERROR, title);
-}
-
-/**
- * Adapts books from state machine with title to the banner component.
- *
- * @param listOfBooks
- * @return {[]}
- */
-export function adaptListOfBooksWithTitle(listOfBooks, title) {
-    return adaptListOfBooks(listOfBooks, undefined, title);
 }
