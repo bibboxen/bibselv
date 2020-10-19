@@ -47,36 +47,18 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
 }
 
 /**
- * Adapts books from state machine with message to the banner component.
- *
- * @param listOfBooks
- * @return {[]}
- */
-export function adaptListOfBooksWithMessage(listOfBooks, message) {
-    const items = [];
-    listOfBooks.forEach((book) => {
-        const displayInfo = { ...book };
-        displayInfo.title = message || book.message;
-        displayInfo.text = book.author ? BannerTitleAuthor(book.title, book.author) : `${book.title}`;
-        items.push(displayInfo);
-    });
-    return items;
-}
-
-/**
  * Adapts books from state machine to the banner component in status
  * where they are not sent with a status.
  *
  * @param listOfBooks
  * @return {[]}
  */
-export function adaptListOfBooks(listOfBooks, status) {
+export function adaptListOfBooks(listOfBooks, status, title) {
     const items = [];
     listOfBooks.forEach((book) => {
         const displayInfo = { ...book };
-        if (status) {
-            displayInfo.status = status;
-        }
+        displayInfo.status = status || null;
+        displayInfo.title = title || book.title;
         displayInfo.text = book.author ? BannerTitleAuthor('', book.author) : '';
         items.push(displayInfo);
     });
@@ -91,4 +73,14 @@ export function adaptListOfBooks(listOfBooks, status) {
  */
 export function adaptListOfBooksWithSuccess(listOfBooks) {
     return adaptListOfBooks(listOfBooks, BookStatus.SUCCESS);
+}
+
+/**
+ * Adapts books from state machine with error (red banner) to the banner component and title.
+ *
+ * @param listOfBooks
+ * @return {[]}
+ */
+export function adaptListOfBooksWitErrorAndTitle(listOfBooks, title) {
+    return adaptListOfBooks(listOfBooks, BookStatus.ERROR, title);
 }

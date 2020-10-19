@@ -10,9 +10,9 @@ import MachineStateContext from './utils/machine-state-context';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import {
-    adaptListOfBooksWithMessage,
     adaptListOfBooksWithSuccess,
-    adaptListOfBooks
+    adaptListOfBooks,
+    adaptListOfBooksWitErrorAndTitle
 } from './utils/banner-adapter';
 import {
     faInfoCircle
@@ -56,15 +56,15 @@ function Status({ actionHandler }) {
     }, [actionHandler]);
 
     const loanedItems = [
-        ...adaptListOfBooksWithMessage(
+        ...adaptListOfBooksWitErrorAndTitle(
             context.machineState.get.fineItems,
             StatusBannerHeaderFinedBook
         ),
-        ...adaptListOfBooksWithMessage(
+        ...adaptListOfBooksWitErrorAndTitle(
             context.machineState.get.overdueItems,
             StatusBannerHeaderOverdueBook
         ),
-        ...adaptListOfBooksWithMessage(
+        ...adaptListOfBooksWitErrorAndTitle(
             context.machineState.get.recallItems,
             StatusBannerHeaderOverdueBook
         ),
