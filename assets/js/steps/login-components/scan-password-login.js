@@ -21,7 +21,7 @@ import {
     ScanPasswordLoginInputLabel,
     ScanPasswordLoginSecondHelpboxText,
     ScanPasswordLoginHeader
-} from '../utils/formattedMessages';
+} from '../utils/formatted-messages';
 import BarcodeHandler from '../utils/barcode-handler';
 import { ACTION_RESET } from '../../constants';
 import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';

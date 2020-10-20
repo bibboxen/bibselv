@@ -5,7 +5,7 @@
  */
 
 import BookStatus from './book-status';
-import { BannerAdapterFetchingInfo, BannerTitleAuthor } from './formattedMessages';
+import { BannerAdapterFetchingInfo, BannerTitleAuthor } from './formatted-messages';
 
 /**
  * Adapts books from state machine to the banner component from checkinitems
@@ -19,7 +19,11 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
     const items = [];
 
     listOfBooks.forEach((book) => {
-        const displayInfo = { ...book, text: book.title && book.author ? BannerTitleAuthor(book.title, book.author) : '' };
+        const displayInfo = { ...book,
+            text: book.title && book.author
+                ? BannerTitleAuthor(book.title, book.author)
+                : ''
+        };
         switch (book.status) {
             case BookStatus.ERROR:
                 displayInfo.title = book.message;
@@ -32,7 +36,7 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
             case BookStatus.CHECKED_OUT:
             case BookStatus.RENEWED:
                 if (book.author) {
-                    displayInfo.text = BannerTitleAuthor('', book.author);
+                    displayInfo.text = BannerTitleAuthor(book.title, book.author);
                 }
                 if (book.reservedByOtherUser) {
                     displayInfo.status = BookStatus.RESERVED;
@@ -51,6 +55,8 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
  * where they are not sent with a status.
  *
  * @param listOfBooks
+ * @param status
+ * @param title
  * @return {[]}
  */
 export function adaptListOfBooks(listOfBooks, status, title) {

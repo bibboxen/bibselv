@@ -15,7 +15,7 @@ import {
     InitialButtonStatus,
     InitialButtonCheckIn,
     InitialHeader
-} from './utils/formattedMessages';
+} from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
 import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
 import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
