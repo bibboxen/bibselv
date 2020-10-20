@@ -8,6 +8,7 @@ import ScanPasswordLogin from './scan-password-login';
 import { shallow } from 'enzyme';
 import { it } from '@jest/globals';
 import MachineStateContext from '../utils/machine-state-context';
+
 it('renders without crashing', () => {
     const machineState = {
         user: {

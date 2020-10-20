@@ -25,6 +25,7 @@ const fetch = require('node-fetch');
  */
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
+    const client = imports.client;
     const port = options.port || 3000;
     const host = options.host || '0.0.0.0';
     const cors = options.cors || '*:*';
@@ -92,21 +93,26 @@ module.exports = function(options, imports, register) {
         });
 
         /**
-         * FBS have been detected to be offline.
+         * FBS is offline.
          */
         bus.on('fbs.offline', () => {
-            //
-            // @TODO: Make the frontend react to this event.
-            //
+            socket.emit('Offline');
         });
 
         /**
-         * FBS have been detected as online.
+         * FBS is online.
          */
         bus.on('fbs.online', () => {
-            //
-            // @TODO: Make the frontend react to this event.
-            //
+            socket.emit('Online');
+        });
+
+        /**
+         * Request a fresh token.
+         */
+        socket.on('RefreshToken', (data) => {
+            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => res.json()).then(data => {
+                socket.emit('RefreshedToken', data);
+            });
         });
 
         /**
@@ -117,6 +123,33 @@ module.exports = function(options, imports, register) {
         socket.on('GetToken', (data) => {
             fetch(options.tokenGetEndPoint + data.uniqueId).then(res => res.json()).then(data => {
                 socket.emit('Token', data);
+            });
+        });
+
+        /**
+         * Token has been refreshed.
+         *
+         * Change token for client.
+         */
+        socket.on('TokenRefreshed', (data) => {
+            const previousToken = token;
+
+            token = data.token;
+            fetch(options.tokenValidationEndPoint + token).then(res => res.json()).then(data => {
+                // Validate the token and send error if not valid.
+                if (Object.prototype.hasOwnProperty.call(data, 'valid') && !data.valid) {
+                    socket.emit('error', { message: 'Not authorized', code: 401 });
+                    socket.disconnect(true);
+                    return;
+                }
+
+                // Set that current token is valid.
+                isTokenValid = true;
+
+                // Update the token for client.
+                const previousClient = client.load(previousToken);
+                client.remove(previousToken);
+                client.save(token, previousClient);
             });
         });
 
@@ -173,7 +206,7 @@ module.exports = function(options, imports, register) {
         /**
          * Handling of events from the client.
          *
-         * Not that every request requires the attribute "token" in the json request.
+         * Note that every request requires the attribute "token" in the json request.
          */
         socket.on('ClientEvent', (data) => {
             if (Object.prototype.hasOwnProperty.call(data, 'token')) {

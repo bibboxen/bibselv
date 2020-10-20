@@ -11,6 +11,7 @@ import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
 import { AppTokenNotValid } from './steps/utils/formattedMessages';
+
 /**
  * App. The main entrypoint of the react application.
  *
@@ -26,9 +27,10 @@ function App({ uniqueId, socket }) {
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [messages, setMessages] = useState();
-    const [errorMessage, setErrorMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState(null);
     const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
+    const [tokenTimeout, setTokenTimeout]= useState(null);
 
     /**
      * Set up application with configuration and socket connections.
@@ -64,13 +66,21 @@ function App({ uniqueId, socket }) {
             });
         });
 
+        // Listen for token events.
+        socket.on('RefreshedToken', (data) => {
+            token = data.token;
+            storeToken(token, data.expire);
+        });
+
         // Handle socket reconnections, by sending 'ClientReady' event.
         socket.on('reconnect', (data) => {
             const token = getToken();
+
             if (token === false) {
                 setErrorMessage(AppTokenNotValid);
                 return;
             }
+
             socket.emit('ClientReady', {
                 token: token
             });
@@ -164,6 +174,19 @@ function App({ uniqueId, socket }) {
         localStorage.setItem('token', token);
         localStorage.setItem('expire', expire);
         localStorage.setItem('uniqueId', uniqueId);
+
+        if (tokenTimeout !== null) {
+            clearTimeout(tokenTimeout);
+        }
+
+        // Refresh the token an hour before expire.
+        const nextRefresh = Math.max(expire * 1000 - Date.now() - 60 * 60 * 1000, 30 * 1000);
+
+        setTokenTimeout(setTimeout(() => {
+            socket.emit('RefreshToken', {
+                uniqueId: uniqueId
+            });
+        }, nextRefresh * 1000));
     }
 
     /**
@@ -184,7 +207,8 @@ function App({ uniqueId, socket }) {
     function getToken() {
         const now = Math.floor(Date.now() / 1000);
         const expire = parseInt(localStorage.getItem('expire'));
-        if (expire === null || parseInt(expire) <= now) {
+
+        if (expire === null || expire <= now) {
             return false;
         }
 
@@ -247,7 +271,7 @@ function App({ uniqueId, socket }) {
                     />
                 </div>
             )}
-            {errorMessage && <Alert message={errorMessage}></Alert>}
+            {errorMessage && <Alert message={errorMessage}/>}
             {!machineState && !boxConfig && <Loading />}
         </IntlProvider>
     );

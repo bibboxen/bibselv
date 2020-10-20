@@ -2,6 +2,7 @@
  * @file
  * Translations for the interface.
  */
+
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
