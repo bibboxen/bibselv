@@ -197,6 +197,9 @@ function App({ uniqueId, socket }) {
      * Register timeout for refreshing token.
      */
     function setupTokenRefresh() {
+        const token = localStorage.getItem('token');
+        const expire = localStorage.getItem('expire') ?? 30;
+
         if (tokenTimeout !== null) {
             clearTimeout(tokenTimeout);
         }
@@ -205,8 +208,6 @@ function App({ uniqueId, socket }) {
         const nextRefresh = Math.max(expire * 1000 - Date.now() - 60 * 60 * 1000, 30 * 1000);
 
         const newTimeout = setTimeout(() => {
-            const token = getToken();
-
             socket.emit('RefreshToken', {
                 token: token
             });

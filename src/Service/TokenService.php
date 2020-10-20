@@ -120,8 +120,8 @@ class TokenService
     /**
      * Refresh token.
      *
-     * @param Token $token
-     *   The token to refresh.
+     * @param token $token
+     *   The token to refresh
      *
      * @return token
      *   Token entity

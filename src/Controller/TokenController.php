@@ -85,8 +85,8 @@ class TokenController extends AbstractController
     /**
      * @Route("/token/refresh", name="refresh_token", methods={"POST"})
      *
-     * @param Request $request
-     *   The request.
+     * @param request $request
+     *   The request
      *
      * @return JsonResponse
      *

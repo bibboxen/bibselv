@@ -23,7 +23,7 @@ const fetch = require('node-fetch');
  * @param {function} register
  *   Callback function used to register this plugin.
  */
-module.exports = function (options, imports, register) {
+module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const client = imports.client;
     const port = options.port || 3000;
@@ -121,7 +121,7 @@ module.exports = function (options, imports, register) {
                 body: JSON.stringify({
                     token: data.token
                 }),
-                headers: {'Content-Type': 'application/json'}
+                headers: { 'Content-Type': 'application/json' }
             }).then(res => res.json()).then(data => {
                 socket.emit('RefreshedToken', data);
             });
@@ -150,7 +150,7 @@ module.exports = function (options, imports, register) {
             fetch(options.tokenValidationEndPoint + token).then(res => res.json()).then(data => {
                 // Validate the token and send error if not valid.
                 if (Object.prototype.hasOwnProperty.call(data, 'valid') && !data.valid) {
-                    socket.emit('error', {message: 'Not authorized', code: 401});
+                    socket.emit('error', { message: 'Not authorized', code: 401 });
                     socket.disconnect(true);
                     return;
                 }
@@ -161,7 +161,7 @@ module.exports = function (options, imports, register) {
                 // Update the token for client if it has changed.
                 if (previousToken !== token) {
                     client.load(previousToken).then(
-                        function (previousClient) {
+                        function(previousClient) {
                             client.save(token, previousClient);
                             client.remove(previousToken);
                         }
@@ -179,7 +179,7 @@ module.exports = function (options, imports, register) {
             fetch(options.tokenValidationEndPoint + token).then(res => res.json()).then(data => {
                 // Validate the token and send error if not valid.
                 if (Object.prototype.hasOwnProperty.call(data, 'valid') && !data.valid) {
-                    socket.emit('error', {message: 'Not authorized', code: 401});
+                    socket.emit('error', { message: 'Not authorized', code: 401 });
                     socket.disconnect(true);
                     return;
                 }
@@ -231,10 +231,10 @@ module.exports = function (options, imports, register) {
                     // Token found and matched by initial connection token.
                     bus.emit('state_machine.event', data);
                 } else {
-                    socket.emit('error', {message: 'Missing token in client request', code: 405});
+                    socket.emit('error', { message: 'Missing token in client request', code: 405 });
                 }
             } else {
-                socket.emit('error', {message: 'Missing token in client request', code: 405});
+                socket.emit('error', { message: 'Missing token in client request', code: 405 });
             }
         });
 
@@ -249,14 +249,14 @@ module.exports = function (options, imports, register) {
     });
 
     // Start the server.
-    server.listen(port, host, function () {
-        bus.emit('logger.info', {type: 'Server', message: 'Listening on port ' + port});
+    server.listen(port, host, function() {
+        bus.emit('logger.info', { type: 'Server', message: 'Listening on port ' + port });
     });
 
     // Register exposed function with architect.
     register(null, {
-        onDestroy: function (callback) {
-            bus.emit('logger.info', {type: 'Server', message: 'Stopped'});
+        onDestroy: function(callback) {
+            bus.emit('logger.info', { type: 'Server', message: 'Stopped' });
             server.close(callback);
         },
         app: app,
