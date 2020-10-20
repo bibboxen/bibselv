@@ -198,7 +198,7 @@ function App({ uniqueId, socket }) {
      */
     function setupTokenRefresh() {
         const token = localStorage.getItem('token');
-        const expire = localStorage.getItem('expire') ?? 30;
+        const expire = localStorage.getItem('expire');
 
         if (tokenTimeout !== null) {
             clearTimeout(tokenTimeout);
