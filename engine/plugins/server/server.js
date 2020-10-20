@@ -127,7 +127,7 @@ module.exports = function(options, imports, register) {
         });
 
         /**
-         * Token has been refreshed.
+         * Token has been refreshed in the frontend.
          *
          * Change token for client.
          */

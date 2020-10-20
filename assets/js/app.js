@@ -30,7 +30,7 @@ function App({ uniqueId, socket }) {
     const [errorMessage, setErrorMessage] = useState(null);
     const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
-    const [tokenTimeout, setTokenTimeout]= useState(null);
+    const [tokenTimeout, setTokenTimeout] = useState(null);
 
     /**
      * Set up application with configuration and socket connections.
@@ -66,10 +66,15 @@ function App({ uniqueId, socket }) {
             });
         });
 
-        // Listen for token events.
+        // Listen for refreshed token events.
         socket.on('RefreshedToken', (data) => {
             token = data.token;
             storeToken(token, data.expire);
+
+            // Signal that the frontend has refreshed the token.
+            socket.emit('TokenRefreshed', {
+                token: token
+            });
         });
 
         // Handle socket reconnections, by sending 'ClientReady' event.
