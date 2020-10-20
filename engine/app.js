@@ -81,6 +81,7 @@ const plugins = [
         namespace: config.server.namespace,
         tokenValidationEndPoint: config.tokenValidationEndPoint,
         tokenGetEndPoint: config.tokenGetEndPoint,
+        tokenRefreshEndPoint: config.tokenRefreshEndPoint,
         fbsEndPoint: config.fbsEndPoint,
         isEventExpired: isEventExpired
     }

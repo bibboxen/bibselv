@@ -11,6 +11,7 @@ use App\Repository\BoxConfigurationRepository;
 use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -77,6 +78,37 @@ class TokenController extends AbstractController
         }
 
         $token = $this->tokenService->create($boxConfig);
+
+        return new JsonResponse(['token' => $token->getToken(), 'expire' => $token->getTokenExpires()]);
+    }
+
+    /**
+     * @Route("/token/refresh", name="refresh_token", methods={"POST"})
+     *
+     * @param Request $request
+     *   The request.
+     *
+     * @return JsonResponse
+     *
+     * @throws \Exception
+     */
+    public function refreshToken(Request $request): JsonResponse
+    {
+        $body = json_decode($request->getContent());
+
+        $token = $body->token;
+
+        if (empty($token)) {
+            return new JsonResponse(['message' => 'Bad request: Missing token'], 400);
+        }
+
+        // Check that token exists.
+        $token = $this->tokenService->getToken($token);
+        if (is_null($token)) {
+            return new JsonResponse(['message' => 'Bad request: Wrong token'], 400);
+        }
+
+        $token = $this->tokenService->refresh($token);
 
         return new JsonResponse(['token' => $token->getToken(), 'expire' => $token->getTokenExpires()]);
     }

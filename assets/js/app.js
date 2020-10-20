@@ -53,12 +53,14 @@ function App({ uniqueId, socket }) {
             socket.emit('ClientReady', {
                 token: token
             });
+            setupTokenRefresh();
         }
 
         // Listen for token events.
         socket.on('Token', (data) => {
             token = data.token;
             storeToken(token, data.expire);
+            setupTokenRefresh();
 
             // Signal that the client is ready.
             socket.emit('ClientReady', {
@@ -70,6 +72,7 @@ function App({ uniqueId, socket }) {
         socket.on('RefreshedToken', (data) => {
             token = data.token;
             storeToken(token, data.expire);
+            setupTokenRefresh();
 
             // Signal that the frontend has refreshed the token.
             socket.emit('TokenRefreshed', {
@@ -179,19 +182,6 @@ function App({ uniqueId, socket }) {
         localStorage.setItem('token', token);
         localStorage.setItem('expire', expire);
         localStorage.setItem('uniqueId', uniqueId);
-
-        if (tokenTimeout !== null) {
-            clearTimeout(tokenTimeout);
-        }
-
-        // Refresh the token an hour before expire.
-        const nextRefresh = Math.max(expire * 1000 - Date.now() - 60 * 60 * 1000, 30 * 1000);
-
-        setTokenTimeout(setTimeout(() => {
-            socket.emit('RefreshToken', {
-                uniqueId: uniqueId
-            });
-        }, nextRefresh * 1000));
     }
 
     /**
@@ -201,6 +191,28 @@ function App({ uniqueId, socket }) {
         localStorage.removeItem('token');
         localStorage.removeItem('expire');
         localStorage.removeItem('uniqueId');
+    }
+
+    /**
+     * Register timeout for refreshing token.
+     */
+    function setupTokenRefresh() {
+        if (tokenTimeout !== null) {
+            clearTimeout(tokenTimeout);
+        }
+
+        // Refresh the token an hour before expire.
+        const nextRefresh = Math.max(expire * 1000 - Date.now() - 60 * 60 * 1000, 30 * 1000);
+
+        const newTimeout = setTimeout(() => {
+            const token = getToken();
+
+            socket.emit('RefreshToken', {
+                token: token
+            });
+        }, nextRefresh);
+
+        setTokenTimeout(newTimeout);
     }
 
     /**
