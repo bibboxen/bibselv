@@ -19,7 +19,8 @@ export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstructio
     const items = [];
 
     listOfBooks.forEach((book) => {
-        const displayInfo = { ...book,
+        const displayInfo = {
+            ...book,
             text: book.title && book.author
                 ? BannerTitleAuthor(book.title, book.author)
                 : ''
