@@ -7,7 +7,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import ScanLogin from './login-components/scan-login';
 import ScanPasswordLogin from './login-components/scan-password-login';
-import { LoginLoginNotConfigured } from './utils/formattedMessages';
+import { LoginLoginNotConfigured } from './utils/formatted-messages';
 import MachineStateContext from './utils/machine-state-context';
 
 /**

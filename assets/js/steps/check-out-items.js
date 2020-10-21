@@ -24,7 +24,7 @@ import {
     CheckOutItemsInputLabel,
     CheckOutItemsHeader,
     CheckOutItemsSubheader
-} from './utils/formattedMessages';
+} from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
 import CheckOutWhite from '../../scss/images/check-out-white.svg';
 

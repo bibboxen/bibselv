@@ -72,7 +72,9 @@ export const BannerAdapterFetchingInfo = <FormattedMessage id='banner-adapter-fe
  * @param {string} title The title.
  * @param {string} author The author.
  */
-export function BannerTitleAuthor(title, author) { return <FormattedMessage id="banner-title-author" defaultMessage="banner-title-author" values={{ title: title, author: author }} />; }
+export function BannerTitleAuthor(title, author) {
+    return <FormattedMessage id="banner-title-author" defaultMessage="banner-title-author" values={{ title: title, author: author }} />;
+}
 
 // App strings
 export const AppTokenNotValid = <FormattedMessage id='app-token-not-valid' defaultMessage='app-token-not-valid' />;

@@ -24,7 +24,7 @@ import {
     CheckInItemsInputLabel,
     CheckInItemsHeader,
     CheckInItemsSubheader
-} from './utils/formattedMessages';
+} from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
 import { ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET } from '../constants';
 import CheckInWhite from '../../scss/images/check-in-white.svg';
@@ -80,14 +80,6 @@ function CheckInItems({ actionHandler }) {
     }
 
     /**
-     * Set up keydown listener.
-     */
-    useEffect(() => {
-        window.addEventListener('keydown', keyDownFunction);
-        return () => window.removeEventListener('keydown', keyDownFunction);
-    }, [scannedBarcode]);
-
-    /**
      * Handles keyboard inputs.
      *
      * @param target
@@ -111,6 +103,14 @@ function CheckInItems({ actionHandler }) {
             setScannedBarcode('');
         }
     }
+
+    /**
+     * Set up keydown listener.
+     */
+    useEffect(() => {
+        window.addEventListener('keydown', keyDownFunction);
+        return () => window.removeEventListener('keydown', keyDownFunction);
+    }, []);
 
     /**
      * Set up barcode scanner listener.
@@ -141,6 +141,7 @@ function CheckInItems({ actionHandler }) {
     useEffect(() => {
         if (context.machineState.get.items === undefined) return;
         let soundToPlay = null;
+        let newReservedBook = null;
 
         /**
         * Evaluate if a new checked-in book is reserved by another user.
@@ -149,7 +150,7 @@ function CheckInItems({ actionHandler }) {
             if (book.reservedByOtherUser && !handledReservations.includes(book.itemIdentifier)) {
                 const newBook = { ...book };
                 newBook.message = context.boxConfig.get.reservedMaterialInstruction || book.message;
-                setNewReservation(newBook);
+                newReservedBook = newBook;
 
                 const newHandledReservations = handledReservations;
                 newHandledReservations.push(book.itemIdentifier);
@@ -180,7 +181,15 @@ function CheckInItems({ actionHandler }) {
          * Play sound.
          */
         if (context.boxConfig.get.soundEnabled && soundToPlay) {
-            sound.playSound(soundToPlay);
+            sound.playSound(soundToPlay).then(() => {
+                if (newReservedBook !== null) {
+                    setNewReservation(newReservedBook);
+                }
+            });
+        } else {
+            if (newReservedBook !== null) {
+                setNewReservation(newReservedBook);
+            }
         }
     }, [context.machineState.get.items]);
 

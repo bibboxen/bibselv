@@ -8,7 +8,7 @@ import { shallow, mount } from 'enzyme';
 import { expect, it, describe } from '@jest/globals';
 import Input from './input';
 import { IntlProvider } from 'react-intl';
-import { translations } from '../utils/translationsForTest';
+import { translations } from '../utils/translations-for-test';
 
 describe('Tests of input component', () => {
     it('renders without crashing', () => {

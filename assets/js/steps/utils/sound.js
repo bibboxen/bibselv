@@ -37,9 +37,7 @@ export class Sound {
         }
 
         const audio = new Audio(filename);
-        audio.play().catch(function(error) {
-            console.error(error);
-        });
+        return audio.play();
     }
 }
 
