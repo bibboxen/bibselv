@@ -58,6 +58,12 @@ function App({ uniqueId, socket }) {
 
         // Listen for token events.
         socket.on('Token', (data) => {
+            if (data.err) {
+                setErrorMessage(AppTokenNotValid);
+                setTimeout(window.location.reload.bind(window.location), 5000);
+                return;
+            }
+
             token = data.token;
             storeToken(token, data.expire);
             setupTokenRefresh();
@@ -70,6 +76,12 @@ function App({ uniqueId, socket }) {
 
         // Listen for refreshed token events.
         socket.on('RefreshedToken', (data) => {
+            if (data.err) {
+                setErrorMessage(AppTokenNotValid);
+                setTimeout(window.location.reload.bind(window.location), 5000);
+                return;
+            }
+
             token = data.token;
             storeToken(token, data.expire);
             setupTokenRefresh();
@@ -86,6 +98,7 @@ function App({ uniqueId, socket }) {
 
             if (token === false) {
                 setErrorMessage(AppTokenNotValid);
+                setTimeout(window.location.reload.bind(window.location), 5000);
                 return;
             }
 
@@ -219,20 +232,25 @@ function App({ uniqueId, socket }) {
     /**
      * Get token.
      *
-     * @returns {{expire: number, token: (string|boolean)}|boolean}
-     *   If token is found and not expired object else false
+     * @returns {string|boolean}
+     *   If token is found and not expired returns string else false
      */
     function getToken() {
-        const now = Math.floor(Date.now() / 1000);
-        const expire = parseInt(localStorage.getItem('expire'));
+        const token = localStorage.getItem('token');
+        const expire = localStorage.getItem('expire');
 
-        if (expire === null || expire <= now) {
+        if (expire === null || token === null) {
             return false;
         }
 
-        const token = localStorage.getItem('token');
+        const now = Math.floor(Date.now() / 1000);
+        const expireParsed = parseInt(localStorage.getItem('expire'));
 
-        return token !== null ? token : false;
+        if (expireParsed <= now) {
+            return false;
+        }
+
+        return token;
     }
 
     /**

@@ -120,8 +120,15 @@ module.exports = function(options, imports, register) {
                     token: data.token
                 }),
                 headers: { 'Content-Type': 'application/json' }
-            }).then(res => res.json()).then(data => {
-                socket.emit('RefreshedToken', data);
+            }).then(res => {
+                if (res.status !== 200) {
+                    socket.emit('RefreshedToken', {
+                        err: true,
+                        message: res.message
+                    });
+                } else {
+                    res.json().then(data => socket.emit('RefreshedToken', data));
+                }
             });
         });
 
@@ -131,8 +138,15 @@ module.exports = function(options, imports, register) {
          * @TODO: This should be changed to use some form of authentication.
          */
         socket.on('GetToken', (data) => {
-            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => res.json()).then(data => {
-                socket.emit('Token', data);
+            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => {
+                if (res.status !== 200) {
+                    socket.emit('Token', {
+                        err: true,
+                        message: res.message
+                    });
+                } else {
+                    res.json().then(data => socket.emit('Token', data));
+                }
             });
         });
 
