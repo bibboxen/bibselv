@@ -16,6 +16,9 @@ import PropTypes from 'prop-types';
  *   List of items to be displayed.
  * @param title
  *   Title for the list.
+ * @param visibleOnPrint
+ *   Visible on print.
+ *
  * @return {*}
  * @constructor
  */
