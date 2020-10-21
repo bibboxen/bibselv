@@ -98,6 +98,7 @@ This document contains "schemas" for each message that can be sent through the w
     },
     "items": [
        {
+            "timestamp": "[Timestamp of result]",
             "itemIdentifier": "[item identifier]",
             "title": "[item title]",
             "author": "[item author]",
@@ -115,6 +116,7 @@ This document contains "schemas" for each message that can be sent through the w
     "step": "checkInItems",
     "items": [
        {
+            "timestamp": "[Timestamp of result]",
             "itemIdentifier": "[item identifier]",
             "title": "[item title]",
             "author": "[item author]",

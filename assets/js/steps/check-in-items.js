@@ -196,6 +196,9 @@ function CheckInItems({ actionHandler }) {
     let items;
     if (context.machineState.get.items) {
         items = adaptListOfBooksToBanner(context.machineState.get.items, context.boxConfig.get.reservedMaterialInstruction);
+
+        // Sort items according to timestamp.
+        items.sort((a, b) => a.timestamp < b.timestamp ? 1 : -1);
     }
 
     return (
