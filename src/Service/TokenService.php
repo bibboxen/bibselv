@@ -125,8 +125,6 @@ class TokenService
      *
      * @return token
      *   Token entity
-     *
-     * @throws \Exception
      */
     public function refresh(Token $token): Token
     {

@@ -204,14 +204,14 @@ function App({ uniqueId, socket }) {
             clearTimeout(tokenTimeout);
         }
 
-        // Refresh the token an hour before expire.
-        const nextRefresh = Math.max(expire * 1000 - Date.now() - 60 * 60 * 1000, 30 * 1000);
+        // Refresh the token an hour before expire. Minimum is 30 seconds.
+        const nextRefresh = Math.max(expire - Math.floor(Date.now() / 1000) - 60 * 60, 30);
 
         const newTimeout = setTimeout(() => {
             socket.emit('RefreshToken', {
                 token: token
             });
-        }, nextRefresh);
+        }, nextRefresh * 1000);
 
         setTokenTimeout(newTimeout);
     }

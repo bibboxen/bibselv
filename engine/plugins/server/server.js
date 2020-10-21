@@ -99,7 +99,6 @@ module.exports = function(options, imports, register) {
             //
             // @TODO: Make the frontend react to this event.
             //
-            // socket.emit('Offline');
         });
 
         /**
@@ -109,7 +108,6 @@ module.exports = function(options, imports, register) {
             //
             // @TODO: Make the frontend react to this event.
             //
-            // socket.emit('Online');
         });
 
         /**
