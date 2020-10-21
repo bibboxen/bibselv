@@ -23,9 +23,6 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 function BannerList({ items, title, visibleOnPrint }) {
-    const sortedItems = [].concat(items)
-        .sort((a, b) => a.timestamp < b.timestamp ? 1 : -1);
-
     return (
         <>
             {title && (
@@ -34,7 +31,7 @@ function BannerList({ items, title, visibleOnPrint }) {
                     {items && <div className='counter'>{items.length}</div>}
                 </div>
             )}
-            {sortedItems && sortedItems.map((item) => (
+            {items && items.map((item) => (
                 <Banner item={item} key={item.id || item.itemIdentifier} visibleOnPrint={visibleOnPrint} />
             ))}
         </>
