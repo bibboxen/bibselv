@@ -187,6 +187,11 @@ function CheckInItems({ actionHandler }) {
                 }
             });
         }
+        else {
+            if (newReservedBook !== null) {
+                setNewReservation(newReservedBook);
+            }
+        }
     }, [context.machineState.get.items]);
 
     let items;
