@@ -24,7 +24,7 @@ import { AppTokenNotValid } from './steps/utils/formatted-messages';
  * @constructor
  */
 function App({ uniqueId, socket }) {
-    const reloadTimeout = 5000;
+    const reloadTimeout = 30000;
     const refreshTime = 60 * 60;
 
     const [machineState, setMachineState] = useState();
