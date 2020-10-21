@@ -118,6 +118,26 @@ class TokenService
     }
 
     /**
+     * Refresh token.
+     *
+     * @param token $token
+     *   The token to refresh
+     *
+     * @return token
+     *   Token entity
+     */
+    public function refresh(Token $token): Token
+    {
+        // Set new expire.
+        $token->setTokenExpires(time() + $this->tokenExpireSeconds);
+
+        // Make it sticky in the database.
+        $this->entityManager->flush();
+
+        return $token;
+    }
+
+    /**
      * Remove all expired tokens.
      *
      * @return int

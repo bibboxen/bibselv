@@ -24,8 +24,7 @@ const Alert = ({ message }) => {
 };
 
 Alert.propTypes = {
-    message: PropTypes.string.isRequired
-
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 };
 
 export default Alert;

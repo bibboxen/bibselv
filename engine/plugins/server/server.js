@@ -25,6 +25,7 @@ const fetch = require('node-fetch');
  */
 module.exports = function(options, imports, register) {
     const bus = imports.bus;
+    const client = imports.client;
     const port = options.port || 3000;
     const host = options.host || '0.0.0.0';
     const cors = options.cors || '*:*';
@@ -92,7 +93,7 @@ module.exports = function(options, imports, register) {
         });
 
         /**
-         * FBS have been detected to be offline.
+         * Handle FBS is offline events.
          */
         bus.on('fbs.offline', () => {
             //
@@ -101,7 +102,7 @@ module.exports = function(options, imports, register) {
         });
 
         /**
-         * FBS have been detected as online.
+         * Handle FBS is online events.
          */
         bus.on('fbs.online', () => {
             //
@@ -110,13 +111,74 @@ module.exports = function(options, imports, register) {
         });
 
         /**
+         * Request a fresh token.
+         */
+        socket.on('RefreshToken', (data) => {
+            fetch(options.tokenRefreshEndPoint, {
+                method: 'post',
+                body: JSON.stringify({
+                    token: data.token
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(res => {
+                if (res.status !== 200) {
+                    socket.emit('RefreshedToken', {
+                        err: true,
+                        message: res.message
+                    });
+                } else {
+                    res.json().then(data => socket.emit('RefreshedToken', data));
+                }
+            });
+        });
+
+        /**
          * Get token.
          *
          * @TODO: This should be changed to use some form of authentication.
          */
         socket.on('GetToken', (data) => {
-            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => res.json()).then(data => {
-                socket.emit('Token', data);
+            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => {
+                if (res.status !== 200) {
+                    socket.emit('Token', {
+                        err: true,
+                        message: res.message
+                    });
+                } else {
+                    res.json().then(data => socket.emit('Token', data));
+                }
+            });
+        });
+
+        /**
+         * Token has been refreshed in the frontend.
+         *
+         * Change token for client.
+         */
+        socket.on('TokenRefreshed', (data) => {
+            const previousToken = token;
+
+            token = data.token;
+            fetch(options.tokenValidationEndPoint + token).then(res => res.json()).then(data => {
+                // Validate the token and send error if not valid.
+                if (Object.prototype.hasOwnProperty.call(data, 'valid') && !data.valid) {
+                    socket.emit('error', { message: 'Not authorized', code: 401 });
+                    socket.disconnect(true);
+                    return;
+                }
+
+                // Set that current token is valid.
+                isTokenValid = true;
+
+                // Update the token for client if it has changed.
+                if (previousToken !== token) {
+                    client.load(previousToken).then(
+                        function(previousClient) {
+                            client.save(token, previousClient);
+                            client.remove(previousToken);
+                        }
+                    );
+                }
             });
         });
 
@@ -173,7 +235,7 @@ module.exports = function(options, imports, register) {
         /**
          * Handling of events from the client.
          *
-         * Not that every request requires the attribute "token" in the json request.
+         * Note that every request requires the attribute "token" in the json request.
          */
         socket.on('ClientEvent', (data) => {
             if (Object.prototype.hasOwnProperty.call(data, 'token')) {

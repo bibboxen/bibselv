@@ -3,6 +3,7 @@
  *
  * Print of book.
  */
+
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { PrintReservationNote } from './formatted-messages';

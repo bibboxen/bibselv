@@ -11,6 +11,7 @@ import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
 import { AppTokenNotValid } from './steps/utils/formatted-messages';
+
 /**
  * App. The main entrypoint of the react application.
  *
@@ -23,12 +24,16 @@ import { AppTokenNotValid } from './steps/utils/formatted-messages';
  * @constructor
  */
 function App({ uniqueId, socket }) {
+    const reloadTimeout = 30000;
+    const refreshTime = 60 * 60;
+
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [messages, setMessages] = useState();
-    const [errorMessage, setErrorMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState(null);
     const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
+    const [tokenTimeout, setTokenTimeout] = useState(null);
 
     /**
      * Set up application with configuration and socket connections.
@@ -51,12 +56,20 @@ function App({ uniqueId, socket }) {
             socket.emit('ClientReady', {
                 token: token
             });
+            setupTokenRefresh();
         }
 
         // Listen for token events.
         socket.on('Token', (data) => {
+            if (data.err) {
+                setErrorMessage(AppTokenNotValid);
+                setTimeout(window.location.reload.bind(window.location), reloadTimeout);
+                return;
+            }
+
             token = data.token;
             storeToken(token, data.expire);
+            setupTokenRefresh();
 
             // Signal that the client is ready.
             socket.emit('ClientReady', {
@@ -64,13 +77,34 @@ function App({ uniqueId, socket }) {
             });
         });
 
+        // Listen for refreshed token events.
+        socket.on('RefreshedToken', (data) => {
+            if (data.err) {
+                setErrorMessage(AppTokenNotValid);
+                setTimeout(window.location.reload.bind(window.location), reloadTimeout);
+                return;
+            }
+
+            token = data.token;
+            storeToken(token, data.expire);
+            setupTokenRefresh();
+
+            // Signal that the frontend has refreshed the token.
+            socket.emit('TokenRefreshed', {
+                token: token
+            });
+        });
+
         // Handle socket reconnections, by sending 'ClientReady' event.
         socket.on('reconnect', (data) => {
             const token = getToken();
+
             if (token === false) {
                 setErrorMessage(AppTokenNotValid);
+                setTimeout(window.location.reload.bind(window.location), reloadTimeout);
                 return;
             }
+
             socket.emit('ClientReady', {
                 token: token
             });
@@ -176,21 +210,50 @@ function App({ uniqueId, socket }) {
     }
 
     /**
+     * Register timeout for refreshing token.
+     */
+    function setupTokenRefresh() {
+        const token = localStorage.getItem('token');
+        const expire = localStorage.getItem('expire');
+
+        if (tokenTimeout !== null) {
+            clearTimeout(tokenTimeout);
+        }
+
+        // Refresh the token an hour before expire. Minimum is 30 seconds.
+        const nextRefresh = Math.max(expire - Math.floor(Date.now() / 1000) - refreshTime, 30);
+
+        const newTimeout = setTimeout(() => {
+            socket.emit('RefreshToken', {
+                token: token
+            });
+        }, nextRefresh * 1000);
+
+        setTokenTimeout(newTimeout);
+    }
+
+    /**
      * Get token.
      *
-     * @returns {{expire: number, token: (string|boolean)}|boolean}
-     *   If token is found and not expired object else false
+     * @returns {string|boolean}
+     *   If token is found and not expired returns string else false
      */
     function getToken() {
-        const now = Math.floor(Date.now() / 1000);
-        const expire = parseInt(localStorage.getItem('expire'));
-        if (expire === null || parseInt(expire) <= now) {
+        const token = localStorage.getItem('token');
+        const expire = localStorage.getItem('expire');
+
+        if (expire === null || token === null) {
             return false;
         }
 
-        const token = localStorage.getItem('token');
+        const now = Math.floor(Date.now() / 1000);
+        const expireParsed = parseInt(localStorage.getItem('expire'));
 
-        return token !== null ? token : false;
+        if (expireParsed <= now) {
+            return false;
+        }
+
+        return token;
     }
 
     /**
@@ -247,7 +310,7 @@ function App({ uniqueId, socket }) {
                     />
                 </div>
             )}
-            {errorMessage && <Alert message={errorMessage}></Alert>}
+            {errorMessage && <Alert message={errorMessage}/>}
             {!machineState && !boxConfig && <Loading />}
         </IntlProvider>
     );

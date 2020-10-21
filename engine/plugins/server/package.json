@@ -1,22 +1,23 @@
 {
-  "name": "server",
-  "description": "Server for establishing socket.io connections to clients",
-  "version": "1.0.0",
-  "main": "server.js",
-  "private": true,
-  "plugin": {
-    "consumes": [
-      "bus"
-    ],
-    "provides": [
-      "app",
-      "server"
-    ]
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "node-fetch": "^2.6.1",
-    "socket.io": "^2.3.0",
-    "uniqid": "^5.2.0"
-  }
+    "name": "server",
+    "description": "Server for establishing socket.io connections to clients",
+    "version": "1.0.0",
+    "main": "server.js",
+    "private": true,
+    "plugin": {
+        "consumes": [
+            "bus",
+            "client"
+        ],
+        "provides": [
+            "app",
+            "server"
+        ]
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "node-fetch": "^2.6.1",
+        "socket.io": "^2.3.0",
+        "uniqid": "^5.2.0"
+    }
 }

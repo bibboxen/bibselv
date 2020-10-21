@@ -11,6 +11,7 @@ use App\Repository\BoxConfigurationRepository;
 use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -61,6 +62,11 @@ class TokenController extends AbstractController
      *   Box configuration ID to create token for
      *
      * @return JsonResponse
+     *   The token on the form:
+     *   {
+     *     "token": "Token",
+     *     "expire": "Timestamp in seconds for token expire"
+     *   }
      *
      * @throws \Exception
      */
@@ -79,5 +85,43 @@ class TokenController extends AbstractController
         $token = $this->tokenService->create($boxConfig);
 
         return new JsonResponse(['token' => $token->getToken(), 'expire' => $token->getTokenExpires()]);
+    }
+
+    /**
+     * @Route("/token/refresh", name="refresh_token", methods={"POST"})
+     *
+     * @param request $request
+     *   The request
+     *
+     * @return JsonResponse
+     *   The token on the form:
+     *   {
+     *     "token": "Token",
+     *     "expire": "Timestamp in seconds for token expire"
+     *   }
+     */
+    public function refreshToken(Request $request): JsonResponse
+    {
+        try {
+            $body = json_decode($request->getContent(), false, 512, JSON_THROW_ON_ERROR);
+
+            $token = $body->token ?? null;
+
+            if (empty($token)) {
+                return new JsonResponse(['message' => 'Bad request: Missing token'], 400);
+            }
+
+            // Check that token exists.
+            $token = $this->tokenService->getToken($token);
+            if (is_null($token)) {
+                return new JsonResponse(['message' => 'Bad request: Wrong token'], 400);
+            }
+
+            $token = $this->tokenService->refresh($token);
+
+            return new JsonResponse(['token' => $token->getToken(), 'expire' => $token->getTokenExpires()]);
+        } catch (\JsonException $exception) {
+            return new JsonResponse(['message' => 'Bad request: Error parsing json'], 400);
+        }
     }
 }
