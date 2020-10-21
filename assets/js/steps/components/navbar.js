@@ -21,7 +21,7 @@ import {
     NavbarButtonCheckIn,
     NavbarButtonFinish,
     NavbarButtonPrint
-} from '../utils/formattedMessages';
+} from '../utils/formatted-messages';
 import CheckInIconWhite from '../../../scss/images/check-in-white.svg';
 import CheckOutIconBlack from '../../../scss/images/check-out-black.svg';
 

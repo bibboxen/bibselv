@@ -10,7 +10,7 @@ import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
-import { AppTokenNotValid } from './steps/utils/formattedMessages';
+import { AppTokenNotValid } from './steps/utils/formatted-messages';
 
 /**
  * App. The main entrypoint of the react application.

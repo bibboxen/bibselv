@@ -26,7 +26,7 @@ import {
     StatusBannerHeaderFinedBook,
     StatusBannerHeaderOverdueBook,
     StatusHeaderPrint
-} from './utils/formattedMessages';
+} from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
 import { ACTION_CHANGE_FLOW_CHECKIN, ACTION_CHANGE_FLOW_CHECKOUT, ACTION_PRINT, ACTION_RESET } from '../constants';
 

@@ -6,13 +6,14 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { PrintReservationNote } from './formattedMessages';
+import { PrintReservationNote } from './formatted-messages';
 
 /**
  * Print.
  *
  * @param book
  *   The book to print.
+ *
  * @return {*}
  * @constructor
  */
@@ -21,7 +22,7 @@ function Print({ book }) {
      * Print on load
      */
     useEffect(() => {
-        setTimeout(window.print, 100);
+        window.print();
     }, []);
 
     return (
@@ -29,6 +30,7 @@ function Print({ book }) {
             <h1>{PrintReservationNote}</h1>
             <div>{book.message}</div>
             <div>{book.title}</div>
+            <div>{book.author}</div>
         </div>
     );
 }
