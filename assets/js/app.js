@@ -24,6 +24,9 @@ import { AppTokenNotValid } from './steps/utils/formatted-messages';
  * @constructor
  */
 function App({ uniqueId, socket }) {
+    const reloadTimeout = 5000;
+    const refreshTime = 60 * 60;
+
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [messages, setMessages] = useState();
@@ -60,7 +63,7 @@ function App({ uniqueId, socket }) {
         socket.on('Token', (data) => {
             if (data.err) {
                 setErrorMessage(AppTokenNotValid);
-                setTimeout(window.location.reload.bind(window.location), 5000);
+                setTimeout(window.location.reload.bind(window.location), reloadTimeout);
                 return;
             }
 
@@ -78,7 +81,7 @@ function App({ uniqueId, socket }) {
         socket.on('RefreshedToken', (data) => {
             if (data.err) {
                 setErrorMessage(AppTokenNotValid);
-                setTimeout(window.location.reload.bind(window.location), 5000);
+                setTimeout(window.location.reload.bind(window.location), reloadTimeout);
                 return;
             }
 
@@ -98,7 +101,7 @@ function App({ uniqueId, socket }) {
 
             if (token === false) {
                 setErrorMessage(AppTokenNotValid);
-                setTimeout(window.location.reload.bind(window.location), 5000);
+                setTimeout(window.location.reload.bind(window.location), reloadTimeout);
                 return;
             }
 
@@ -218,7 +221,7 @@ function App({ uniqueId, socket }) {
         }
 
         // Refresh the token an hour before expire. Minimum is 30 seconds.
-        const nextRefresh = Math.max(expire - Math.floor(Date.now() / 1000) - 60 * 60, 30);
+        const nextRefresh = Math.max(expire - Math.floor(Date.now() / 1000) - refreshTime, 30);
 
         const newTimeout = setTimeout(() => {
             socket.emit('RefreshToken', {
