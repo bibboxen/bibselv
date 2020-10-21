@@ -83,7 +83,6 @@ class ActionHandler {
         const newItem = this.filterIdentifier(client.actionData);
 
         // Ignore item if it is already checkedOut or inProgress.
-        // @TODO: Handle retry case.
         if (client.state.items) {
             const oldItems = client.state.items.filter(item => {
                 return item.itemIdentifier === newItem.itemIdentifier && !['checkedOut', 'inProgress'].includes(item.status);
@@ -95,6 +94,8 @@ class ActionHandler {
         }
 
         newItem.status = 'inProgress';
+        newItem.timestamp = Date.now();
+
         this.stateMachine.action(client, 'itemUpdate', newItem);
 
         const busEvent = uniqid('fbs.checkout.');
@@ -107,6 +108,7 @@ class ActionHandler {
             const result = resp.result;
 
             const item = {
+                timestamp: Date.now(),
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties?.title ?? null,
                 author: result.itemProperties?.author ?? null,
@@ -185,6 +187,8 @@ class ActionHandler {
         }
 
         newItem.status = 'inProgress';
+        newItem.timestamp = Date.now();
+
         this.stateMachine.action(client, 'itemUpdate', newItem);
 
         const busEvent = uniqid('fbs.checkin.');
@@ -197,6 +201,7 @@ class ActionHandler {
             const result = resp.result;
 
             const item = {
+                timestamp: Date.now(),
                 itemIdentifier: result.itemIdentifier,
                 title: result.itemProperties?.title ?? null,
                 author: result.itemProperties?.author ?? null,

@@ -16,10 +16,16 @@ import PropTypes from 'prop-types';
  *   List of items to be displayed.
  * @param title
  *   Title for the list.
+ * @param visibleOnPrint
+ *   Visible on print.
+ *
  * @return {*}
  * @constructor
  */
 function BannerList({ items, title, visibleOnPrint }) {
+    const sortedItems = [].concat(items)
+        .sort((a, b) => a.timestamp < b.timestamp ? 1 : -1);
+
     return (
         <>
             {title && (
@@ -28,7 +34,7 @@ function BannerList({ items, title, visibleOnPrint }) {
                     {items && <div className='counter'>{items.length}</div>}
                 </div>
             )}
-            {items && items.map((item) => (
+            {sortedItems && sortedItems.map((item) => (
                 <Banner item={item} key={item.id || item.itemIdentifier} visibleOnPrint={visibleOnPrint} />
             ))}
         </>
