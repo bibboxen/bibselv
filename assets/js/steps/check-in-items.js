@@ -126,7 +126,7 @@ function CheckInItems({ actionHandler }) {
         ], actionHandler, function(result) {
             setScannedBarcode(result.outputCode);
             handleItemCheckIn(result.code);
-        }, function () {
+        }, function() {
             setScannedBarcode('');
         })).createCallback();
 

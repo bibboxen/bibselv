@@ -57,7 +57,7 @@ function CheckOutItems({ actionHandler }) {
         ], actionHandler, function(result) {
             setScannedBarcode(result.outputCode);
             handleItemCheckOut(result.code);
-        }, function () {
+        }, function() {
             setScannedBarcode('');
         })).createCallback();
 
