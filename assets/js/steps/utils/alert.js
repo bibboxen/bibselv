@@ -11,13 +11,16 @@ import PropTypes from 'prop-types';
  *
  * @param message.
  *   The message to be displayed in the alert.
+ * @param variant
  *
  * @return {*}
  * @constructor
  */
-const Alert = ({ message }) => {
+const Alert = ({ message, variant }) => {
+    const classes = `alert alert-${variant ? variant : 'danger'} m-5`;
+
     return (
-        <div className="alert alert-danger m-5" role="alert">
+        <div className={classes} role="alert">
             {message}
         </div>
     );

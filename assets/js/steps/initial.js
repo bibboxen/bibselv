@@ -3,22 +3,29 @@
  * The initial page the user meets, from here they can go to other pages.
  */
 
-import React, { useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
 import Barcode from './components/barcode';
-import { ACTION_ENTER_FLOW_CHECKIN, ACTION_ENTER_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS } from '../constants';
+import {
+    ACTION_ENTER_FLOW_CHECKIN,
+    ACTION_ENTER_FLOW_CHECKOUT,
+    ACTION_ENTER_FLOW_STATUS,
+    CONNECTION_OFFLINE
+} from '../constants';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import {
     InitialButtonCheckOut,
     InitialButtonStatus,
     InitialButtonCheckIn,
-    InitialHeader
+    InitialHeader, StatusUnavailable
 } from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
 import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
 import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
+import MachineStateContext from "./utils/machine-state-context";
+import Alert from "./utils/alert";
 
 /**
  * Initial component.
@@ -29,6 +36,8 @@ import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
  * @constructor
  */
 function Initial({ actionHandler }) {
+    const context = useContext(MachineStateContext);
+
     const components = [
         {
             type: 'checkOutItems',
@@ -38,6 +47,7 @@ function Initial({ actionHandler }) {
         {
             type: 'status',
             label: InitialButtonStatus,
+            disabled: context.connectionState.get === CONNECTION_OFFLINE,
             icon: faInfoCircle
         },
         {
@@ -71,6 +81,7 @@ function Initial({ actionHandler }) {
                             label={component.label}
                             icon={component.icon}
                             img={component.img}
+                            disabled={component.disabled}
                             actionHandler={actionHandler}
                         />
                     </div>
@@ -80,12 +91,18 @@ function Initial({ actionHandler }) {
                 {components.map((component) => (
                     <div key={component.type} className='col-md-3'>
                         <Barcode
-                            key={component.color}
+                            key={'barcode' + component.type}
                             type={component.type}
+                            disabled={component.disabled}
                         />
                     </div>
                 ))}
             </div>
+            {context.connectionState.get === CONNECTION_OFFLINE &&
+                <div>
+                    <Alert variant='warning' message={StatusUnavailable} />
+                </div>
+            }
         </div>
     );
 }

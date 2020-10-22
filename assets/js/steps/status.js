@@ -98,12 +98,12 @@ function Status({actionHandler}) {
                 type='status'
                 icon={faInfoCircle}
             />
-            {context.connectionState === CONNECTION_OFFLINE &&
+            {context.connectionState.get === CONNECTION_OFFLINE &&
             <div className='status-container'>
-                <Alert>{StatusUnavailable}</Alert>
+                <Alert message={StatusUnavailable} />
             </div>
             }
-            {context.connectionState === CONNECTION_ONLINE &&
+            {context.connectionState.get === CONNECTION_ONLINE &&
             <div className='status-container'>
                 <h1>{StatusHeaderPrint}</h1>
                 <div className='col-md-4 mt-4'>

@@ -24,6 +24,7 @@ import {
 } from '../utils/formatted-messages';
 import CheckInIconWhite from '../../../scss/images/check-in-white.svg';
 import CheckOutIconBlack from '../../../scss/images/check-out-black.svg';
+import {CONNECTION_OFFLINE, CONNECTION_ONLINE} from "../../constants";
 
 /**
  * NavBar.
@@ -46,8 +47,9 @@ function NavBar({ actionHandler }) {
             img: CheckOutIconBlack
         },
         {
-            color: 'blue',
+            color:  context.connectionState.get === CONNECTION_ONLINE ? 'blue' : 'grey',
             data: { flow: 'status' },
+            disabled: context.connectionState.get === CONNECTION_OFFLINE,
             label: NavbarButtonStatus,
             icon: faInfoCircle
         },
@@ -98,12 +100,13 @@ function NavBar({ actionHandler }) {
                 }
                 {context.machineState.get.step !== 'initial' &&
                     <>
-                        {
+                        {['status', 'checkInItems', 'checkOutItems'].includes(context.machineState.get.step) &&
                             components.map((button) => (
                                 <Button
                                     key={button.color}
                                     label={button.label}
                                     icon={button.icon}
+                                    disabled={button.disabled}
                                     handleButtonPress={() => actionHandler('changeFlow', button.data)}
                                     color={button.color}
                                     img={button.img}

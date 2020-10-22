@@ -13,11 +13,14 @@ import PropTypes from 'prop-types';
  *
  * @param type
  *   Which barcode to display, CheckInItems, CheckOutItems or Status.
+ * @param disabled
+ *   Disable the barcode
+ *
  * @return {*}
  * @constructor
  */
-function Barcode({ type }) {
-    const classes = `barcode ${type.toLowerCase()}`;
+function Barcode({ type, disabled }) {
+    const classes = `barcode ${type.toLowerCase()} ${ disabled ? 'disabled' : ''}`;
 
     return (
         <div className={classes}>
@@ -27,7 +30,8 @@ function Barcode({ type }) {
 }
 
 Barcode.propTypes = {
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    disabled: PropTypes.bool
 };
 
 export default Barcode;

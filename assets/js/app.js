@@ -30,7 +30,7 @@ function App({ uniqueId, socket }) {
 
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
-    const [connectionState, setConnectionState] = useState(CONNECTION_ONLINE);
+    const [connectionState, setConnectionState] = useState(CONNECTION_OFFLINE);
     const [messages, setMessages] = useState();
     const [errorMessage, setErrorMessage] = useState(null);
     const [language, setLanguage] = useState('en');
@@ -112,10 +112,12 @@ function App({ uniqueId, socket }) {
             });
         });
 
+        // Handle when FBS is online.
         socket.on('Online', () => {
             setConnectionState(CONNECTION_ONLINE);
         });
 
+        // Handle when FBS is offline.
         socket.on('Offline', () => {
             setConnectionState(CONNECTION_OFFLINE)
         });

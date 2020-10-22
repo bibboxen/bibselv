@@ -106,7 +106,7 @@
   },
   "status-header": {
     "defaultMessage": "Status"
-  },  
+  },
   "status-header-print": {
     "defaultMessage": "Status"
   },
@@ -136,6 +136,9 @@
   },
   "print-reservation-note": {
     "defaultMessage": "Reservation note"
+  },
+  "status-unavailable": {
+    "defaultMessage": "Status is temporarily unavailable"
   }
 }
 
