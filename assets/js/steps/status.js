@@ -3,7 +3,7 @@
  * The status component displays the status from the machinestate for the user.
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import BannerList from './components/banner-list';
 import Header from './components/header';
 import MachineStateContext from './utils/machine-state-context';
@@ -25,10 +25,19 @@ import {
     StatusHeaderReadyForPickup,
     StatusBannerHeaderFinedBook,
     StatusBannerHeaderOverdueBook,
-    StatusHeaderPrint
+    StatusHeaderPrint,
+    StatusUnavailable
 } from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
-import { ACTION_CHANGE_FLOW_CHECKIN, ACTION_CHANGE_FLOW_CHECKOUT, ACTION_PRINT, ACTION_RESET } from '../constants';
+import {
+    ACTION_CHANGE_FLOW_CHECKIN,
+    ACTION_CHANGE_FLOW_CHECKOUT,
+    ACTION_PRINT,
+    ACTION_RESET,
+    CONNECTION_OFFLINE,
+    CONNECTION_ONLINE
+} from '../constants';
+import Alert from "./utils/alert";
 
 /**
  * Status.
@@ -39,7 +48,7 @@ import { ACTION_CHANGE_FLOW_CHECKIN, ACTION_CHANGE_FLOW_CHECKOUT, ACTION_PRINT, 
  * @return {*}
  * @constructor
  */
-function Status({ actionHandler }) {
+function Status({actionHandler}) {
     const context = useContext(MachineStateContext);
 
     /**
@@ -52,7 +61,9 @@ function Status({ actionHandler }) {
         ], actionHandler)).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-        return () => { barcodeScanner.stop(); };
+        return () => {
+            barcodeScanner.stop();
+        };
     }, [actionHandler]);
 
     const loanedItems = [
@@ -87,10 +98,16 @@ function Status({ actionHandler }) {
                 type='status'
                 icon={faInfoCircle}
             />
+            {context.connectionState === CONNECTION_OFFLINE &&
+            <div className='status-container'>
+                <Alert>{StatusUnavailable}</Alert>
+            </div>
+            }
+            {context.connectionState === CONNECTION_ONLINE &&
             <div className='status-container'>
                 <h1>{StatusHeaderPrint}</h1>
                 <div className='col-md-4 mt-4'>
-                    <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true} />
+                    <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true}/>
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
@@ -107,6 +124,7 @@ function Status({ actionHandler }) {
                     />
                 </div>
             </div>
+            }
         </>
     );
 }

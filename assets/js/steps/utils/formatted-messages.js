@@ -39,6 +39,7 @@ export const StatusHeaderReservations = <FormattedMessage id='status-header-rese
 export const StatusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='status-header-ready-for-pickup' />;
 export const StatusBannerHeaderFinedBook = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='banner-header-book-with-fine' />;
 export const StatusBannerHeaderOverdueBook = <FormattedMessage id='banner-header-book-for-check-in' defaultMessage='banner-header-book-for-check-in' />;
+export const StatusUnavailable = <FormattedMessage id='status-unavailable' defaultMessage='status-unavailable' />;
 
 // Help box strings.
 export const HelpBoxHeader = <FormattedMessage id='help-box-header' defaultMessage='help-box-header' />;
@@ -60,6 +61,7 @@ export const NavbarButtonStatus = <FormattedMessage id='button-navbar-status' de
 export const NavbarButtonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='button-navbar-check-in' />;
 export const NavbarButtonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='button-navbar-finish' />;
 export const NavbarButtonPrint = <FormattedMessage id='button-navbar-print' defaultMessage='button-navbar-print' />;
+
 // Initial strings
 export const InitialButtonCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='initial-button-check-out' />;
 export const InitialButtonStatus = <FormattedMessage id='initial-button-status' defaultMessage='initial-button-status' />;

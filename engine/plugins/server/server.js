@@ -96,18 +96,14 @@ module.exports = function(options, imports, register) {
          * Handle FBS is offline events.
          */
         bus.on('fbs.offline', () => {
-            //
-            // @TODO: Make the frontend react to this event.
-            //
+            socket.emit('Offline');
         });
 
         /**
          * Handle FBS is online events.
          */
         bus.on('fbs.online', () => {
-            //
-            // @TODO: Make the frontend react to this event.
-            //
+            socket.emit('Online');
         });
 
         /**

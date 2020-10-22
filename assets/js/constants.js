@@ -25,3 +25,7 @@ export const ACTION_ENTER_FLOW_STATUS = 'enterFlowStatus';
 export const ACTION_CHANGE_FLOW_CHECKIN = 'changeFlowCheckIn';
 export const ACTION_CHANGE_FLOW_CHECKOUT = 'changeFlowCheckOut';
 export const ACTION_CHANGE_FLOW_STATUS = 'changeFlowStatus';
+
+// Connection constants
+export const CONNECTION_ONLINE = 'online';
+export const CONNECTION_OFFLINE = 'offline';

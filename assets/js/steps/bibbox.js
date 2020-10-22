@@ -1,6 +1,6 @@
 /**
  * @file
- * The main entrypoint of the react application.
+ * @TODO: Add correct description of file.
  */
 
 import React, { useEffect } from 'react';
@@ -13,9 +13,10 @@ import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from './utils/machine-state-context';
 import { Sound } from './utils/sound';
+import {CONNECTION_ONLINE} from "../constants";
 
 /**
- * App. The main entrypoint of the react application.
+ * @TODO: Add correct description of class.
  *
  * @param boxConfigurationInput
  *   The configuration of the bibbox.
@@ -23,11 +24,13 @@ import { Sound } from './utils/sound';
  *   The state of the app.
  * @param actionHandler
  *   Callback on requested state change.
+ * @param connectionState
+ *   Connection state.
  *
  * @return {*}
  * @constructor
  */
-function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
+function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, connectionState }) {
     const sound = new Sound();
     const { user } = machineStateInput;
 
@@ -38,7 +41,8 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      */
     const storage = {
         machineState: { get: machineStateInput },
-        boxConfig: { get: boxConfigurationInput }
+        boxConfig: { get: boxConfigurationInput },
+        connectionState: { get: connectionState }
     };
 
     /**
