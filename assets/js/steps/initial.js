@@ -3,7 +3,7 @@
  * The initial page the user meets, from here they can go to other pages.
  */
 
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
@@ -24,8 +24,8 @@ import {
 import BarcodeHandler from './utils/barcode-handler';
 import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
 import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
-import MachineStateContext from "./utils/machine-state-context";
-import Alert from "./utils/alert";
+import MachineStateContext from './utils/machine-state-context';
+import Alert from './utils/alert';
 
 /**
  * Initial component.

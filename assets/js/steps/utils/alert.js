@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 const Alert = ({ message, variant }) => {
-    const classes = `alert alert-${variant ? variant : 'danger'} m-5`;
+    const classes = `alert alert-${variant || 'danger'} m-5`;
 
     return (
         <div className={classes} role="alert">
@@ -28,7 +28,8 @@ const Alert = ({ message, variant }) => {
 };
 
 Alert.propTypes = {
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    variant: PropTypes.string
 };
 
 export default Alert;

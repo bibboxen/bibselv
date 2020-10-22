@@ -13,7 +13,6 @@ import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from './utils/machine-state-context';
 import { Sound } from './utils/sound';
-import {CONNECTION_ONLINE} from "../constants";
 
 /**
  * @TODO: Add correct description of class.
@@ -101,6 +100,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
 Bibbox.propTypes = {
     boxConfigurationInput: PropTypes.object.isRequired,
     machineStateInput: PropTypes.object.isRequired,
+    connectionState: PropTypes.object.isRequired,
     actionHandler: PropTypes.func.isRequired
 };
 

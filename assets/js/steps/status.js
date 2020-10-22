@@ -3,7 +3,7 @@
  * The status component displays the status from the machinestate for the user.
  */
 
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import BannerList from './components/banner-list';
 import Header from './components/header';
 import MachineStateContext from './utils/machine-state-context';
@@ -37,7 +37,7 @@ import {
     CONNECTION_OFFLINE,
     CONNECTION_ONLINE
 } from '../constants';
-import Alert from "./utils/alert";
+import Alert from './utils/alert';
 
 /**
  * Status.
@@ -48,7 +48,7 @@ import Alert from "./utils/alert";
  * @return {*}
  * @constructor
  */
-function Status({actionHandler}) {
+function Status({ actionHandler }) {
     const context = useContext(MachineStateContext);
 
     /**

@@ -24,7 +24,7 @@ import {
 } from '../utils/formatted-messages';
 import CheckInIconWhite from '../../../scss/images/check-in-white.svg';
 import CheckOutIconBlack from '../../../scss/images/check-out-black.svg';
-import {CONNECTION_OFFLINE, CONNECTION_ONLINE} from "../../constants";
+import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from '../../constants';
 
 /**
  * NavBar.
@@ -47,7 +47,7 @@ function NavBar({ actionHandler }) {
             img: CheckOutIconBlack
         },
         {
-            color:  context.connectionState.get === CONNECTION_ONLINE ? 'blue' : 'grey',
+            color: context.connectionState.get === CONNECTION_ONLINE ? 'blue' : 'grey',
             data: { flow: 'status' },
             disabled: context.connectionState.get === CONNECTION_OFFLINE,
             label: NavbarButtonStatus,

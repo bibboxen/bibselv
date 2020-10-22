@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 function Barcode({ type, disabled }) {
-    const classes = `barcode ${type.toLowerCase()} ${ disabled ? 'disabled' : ''}`;
+    const classes = `barcode ${type.toLowerCase()} ${disabled ? 'disabled' : ''}`;
 
     return (
         <div className={classes}>

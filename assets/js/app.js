@@ -11,7 +11,7 @@ import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
 import { AppTokenNotValid } from './steps/utils/formatted-messages';
-import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from "./constants";
+import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
 
 /**
  * App. The main entrypoint of the react application.
@@ -119,7 +119,7 @@ function App({ uniqueId, socket }) {
 
         // Handle when FBS is offline.
         socket.on('Offline', () => {
-            setConnectionState(CONNECTION_OFFLINE)
+            setConnectionState(CONNECTION_OFFLINE);
         });
 
         // Configuration received from backend.
