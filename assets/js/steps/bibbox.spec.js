@@ -9,7 +9,7 @@ import { mount } from 'enzyme';
 import { expect, it, describe } from '@jest/globals';
 import { IntlProvider } from 'react-intl';
 import { translations } from './utils/translations-for-test';
-import {CONNECTION_ONLINE} from "../constants";
+import { CONNECTION_ONLINE } from '../constants';
 
 describe('Initial component (Vælg en funktion...)', () => {
     it('renders the initial component when state is initial and it is logged out', () => {

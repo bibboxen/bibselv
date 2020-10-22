@@ -375,7 +375,7 @@ module.exports = function(options, imports, register) {
             timestamp: new Date().getTime(),
             online: onlineState
         });
-    })
+    });
 
     /**
      * Listen to login requests.
