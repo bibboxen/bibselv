@@ -106,6 +106,9 @@ module.exports = function(options, imports, register) {
             socket.emit('Online');
         });
 
+        // Get latest FBS connection state.
+        bus.emit('fbs.connection_state');
+
         /**
          * Request a fresh token.
          */

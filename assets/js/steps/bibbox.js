@@ -100,7 +100,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
 Bibbox.propTypes = {
     boxConfigurationInput: PropTypes.object.isRequired,
     machineStateInput: PropTypes.object.isRequired,
-    connectionState: PropTypes.object.isRequired,
+    connectionState: PropTypes.string.isRequired,
     actionHandler: PropTypes.func.isRequired
 };
 
