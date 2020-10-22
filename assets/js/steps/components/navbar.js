@@ -77,13 +77,13 @@ function NavBar({ actionHandler }) {
                 )}
                 {context.machineState.get.user && context.machineState.get.user.birthdayToday && (
                     <span className='birthday-icon'>
-                        <FontAwesomeIcon icon={faBirthdayCake}></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faBirthdayCake}/>
                     </span>
                 )}
                 {context.boxConfig.get.debugEnabled && (
                     <span className='text bold'>
                         Debug mode!
-                        <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }}></FontAwesomeIcon>
+                        <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }}/>
                     </span>
                 )}
             </div>
@@ -96,24 +96,27 @@ function NavBar({ actionHandler }) {
                         color='green'
                     />
                 }
-                {context.machineState.get.user &&
-                components.map((button) => (
-                    <Button
-                        key={button.color}
-                        label={button.label}
-                        icon={button.icon}
-                        handleButtonPress={() => actionHandler('changeFlow', button.data)}
-                        color={button.color}
-                        img={button.img}
-                    />
-                ))}
                 {context.machineState.get.step !== 'initial' &&
-                    <Button
-                        label={NavbarButtonFinish}
-                        icon={faSignOutAlt}
-                        handleButtonPress={() => actionHandler('reset')}
-                        color='red'
-                    />
+                    <>
+                        {
+                            components.map((button) => (
+                                <Button
+                                    key={button.color}
+                                    label={button.label}
+                                    icon={button.icon}
+                                    handleButtonPress={() => actionHandler('changeFlow', button.data)}
+                                    color={button.color}
+                                    img={button.img}
+                                />
+                            ))
+                        }
+                        <Button
+                            label={NavbarButtonFinish}
+                            icon={faSignOutAlt}
+                            handleButtonPress={() => actionHandler('reset')}
+                            color='red'
+                        />
+                    </>
                 }
             </div>
         </div>
