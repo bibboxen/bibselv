@@ -1,6 +1,6 @@
 /**
  * @file
- * @TODO: Add correct description of file.
+ * Contains main logic for loading steps.
  */
 
 import React, { useEffect } from 'react';
@@ -15,7 +15,7 @@ import MachineStateContext from './utils/machine-state-context';
 import { Sound } from './utils/sound';
 
 /**
- * @TODO: Add correct description of class.
+ * Bibbox app.
  *
  * @param boxConfigurationInput
  *   The configuration of the bibbox.
