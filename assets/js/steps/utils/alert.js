@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
  * @param message.
  *   The message to be displayed in the alert.
  * @param variant
+ *   The variant of the alert (bootstrap). Eg. danger (default), warning
  *
  * @return {*}
  * @constructor
