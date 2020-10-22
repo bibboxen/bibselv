@@ -20,10 +20,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  *   Function for when button is pressed.
  * @param color
  *   Which color the button has.
+ * @param disabled
+ *   Disable button
+ *
  * @return {*}
  * @constructor
  */
-const Button = ({ label, icon, img, handleButtonPress, color }) => {
+const Button = ({ label, icon, img, handleButtonPress, color, disabled }) => {
     const classes = color ? `button ${color.toLowerCase()}` : 'button';
 
     return (
@@ -31,6 +34,7 @@ const Button = ({ label, icon, img, handleButtonPress, color }) => {
             onClick={handleButtonPress}
             className={classes}
             type='button'
+            disabled={disabled}
         >
             {label}
             <span className='icon'>
@@ -53,6 +57,7 @@ Button.propTypes = {
     icon: PropTypes.object,
     img: PropTypes.string,
     color: PropTypes.string,
+    disabled: PropTypes.bool,
     handleButtonPress: PropTypes.func.isRequired
 };
 

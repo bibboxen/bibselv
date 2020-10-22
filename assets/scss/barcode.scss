@@ -10,7 +10,7 @@
 
     // Shadow
     @include box-shadow();
-    
+
     &.status {
         // Color
         background-color: $blue;
@@ -27,7 +27,17 @@
             }
         }
     }
-    
+
+    &.status.disabled {
+        // Color
+        background-color: $grey;
+
+        .icon {
+            // Color
+            color: $grey;
+        }
+    }
+
     &.checkinitems {
         // Color
         background-color: $purple;
@@ -36,7 +46,7 @@
             // Color
             color: $purple;
         }
-        
+
         .barcode-inner {
             &:after {
                 // Image
@@ -44,7 +54,7 @@
             }
         }
     }
-    
+
     &.checkoutitems {
         // Color
         background-color: $yellow;
@@ -81,7 +91,7 @@
             left: 5px;
             bottom: 3px;
             right: 5px;
- 
+
             // Image
             content: '';
             background-size: cover;

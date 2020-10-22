@@ -11,20 +11,25 @@ import PropTypes from 'prop-types';
  *
  * @param message.
  *   The message to be displayed in the alert.
+ * @param variant
+ *   The variant of the alert (bootstrap). Eg. danger (default), warning
  *
  * @return {*}
  * @constructor
  */
-const Alert = ({ message }) => {
+const Alert = ({ message, variant }) => {
+    const classes = `alert alert-${variant || 'danger'} m-5`;
+
     return (
-        <div className="alert alert-danger m-5" role="alert">
+        <div className={classes} role="alert">
             {message}
         </div>
     );
 };
 
 Alert.propTypes = {
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    variant: PropTypes.string
 };
 
 export default Alert;

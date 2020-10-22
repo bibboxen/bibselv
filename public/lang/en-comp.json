@@ -282,5 +282,11 @@
       "type": 0,
       "value": "Your loans and reservations"
     }
+  ],
+  "status-unavailable": [
+      {
+          "type": 0,
+          "value": "Status is temporarily unavailable"
+      }
   ]
 }

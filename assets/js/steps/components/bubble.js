@@ -21,16 +21,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @param actionHandler
  *  As the state can only be changed by the statemachine, the actionHandler
  *  calls the statemachine if a user requests a state change.
+ * @param disabled
+ *   Disable the Bubble.
+ *
  * @return {*}
  * @constructor
  */
-function Bubble({ type, label, icon, img, actionHandler }) {
-    const classes = `bubble ${type.toLowerCase()}`;
+function Bubble({ type, label, icon, img, actionHandler, disabled }) {
+    const classes = `bubble ${type.toLowerCase()} ${disabled ? 'disabled' : ''}`;
 
     return (
         <div
             className={classes}
-            onClick={() => actionHandler('enterFlow', { flow: type })}
+            onClick={() => {
+                if (!disabled) {
+                    actionHandler('enterFlow', { flow: type });
+                }
+            }}
         >
             <div className='inner-bubble'>
                 <div className='text-and-icon'>
@@ -39,7 +46,7 @@ function Bubble({ type, label, icon, img, actionHandler }) {
                             <img src={img} height={60} />
                         }
                         {icon &&
-                            <FontAwesomeIcon icon={icon} />
+                            <FontAwesomeIcon icon={icon} color={disabled ? 'grey' : null} />
                         }
                     </div>
                     {label}
@@ -56,6 +63,7 @@ Bubble.propTypes = {
     ]),
     icon: PropTypes.object,
     img: PropTypes.string,
+    disabled: PropTypes.bool,
     actionHandler: PropTypes.func.isRequired
 };
 

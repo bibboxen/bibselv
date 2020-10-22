@@ -282,5 +282,12 @@
       "type": 0,
       "value": "Dine lån og reservationer"
     }
+  ],
+  "status-unavailable": [
+    {
+      "type": 0,
+      "value": "Status er midlertidigt utilgængeligt"
+    }
   ]
+
 }

@@ -11,6 +11,7 @@ import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
 import { AppTokenNotValid } from './steps/utils/formatted-messages';
+import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
 
 /**
  * App. The main entrypoint of the react application.
@@ -29,6 +30,7 @@ function App({ uniqueId, socket }) {
 
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
+    const [connectionState, setConnectionState] = useState(CONNECTION_OFFLINE);
     const [messages, setMessages] = useState();
     const [errorMessage, setErrorMessage] = useState(null);
     const [language, setLanguage] = useState('en');
@@ -108,6 +110,16 @@ function App({ uniqueId, socket }) {
             socket.emit('ClientReady', {
                 token: token
             });
+        });
+
+        // Handle when FBS is online.
+        socket.on('Online', () => {
+            setConnectionState(CONNECTION_ONLINE);
+        });
+
+        // Handle when FBS is offline.
+        socket.on('Offline', () => {
+            setConnectionState(CONNECTION_OFFLINE);
         });
 
         // Configuration received from backend.
@@ -306,6 +318,7 @@ function App({ uniqueId, socket }) {
                     <Bibbox
                         boxConfigurationInput={boxConfig}
                         machineStateInput={machineState}
+                        connectionState={connectionState}
                         actionHandler={handleAction}
                     />
                 </div>

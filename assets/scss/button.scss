@@ -11,13 +11,13 @@
     color: $white;
     border-color: $purple;
     background-color: $purple;
-    
+
 
     // Text
     font-family: $font-family-sans-serif;
     font-size: 1rem;
     user-select: none;
-    
+
     &.green {
         // Display & position
         width: 15%;
@@ -48,7 +48,7 @@
         // Display & position
         width: 15%;
         margin-left: 3%;
-        
+
         // Color
         border-color: $red;
         background-color: $red;
@@ -61,6 +61,15 @@
         // Color
         border-color: $blue;
         background-color: $blue;
+    }
+
+    &.grey {
+        // Display & position
+        width: 15%;
+
+        // Color
+        border-color: $grey;
+        background-color: $grey;
     }
 
     >.icon {

@@ -1,6 +1,6 @@
 /**
  * @file
- * The main entrypoint of the react application.
+ * Contains main logic for loading steps.
  */
 
 import React, { useEffect } from 'react';
@@ -15,7 +15,7 @@ import MachineStateContext from './utils/machine-state-context';
 import { Sound } from './utils/sound';
 
 /**
- * App. The main entrypoint of the react application.
+ * Bibbox app.
  *
  * @param boxConfigurationInput
  *   The configuration of the bibbox.
@@ -23,11 +23,13 @@ import { Sound } from './utils/sound';
  *   The state of the app.
  * @param actionHandler
  *   Callback on requested state change.
+ * @param connectionState
+ *   Connection state.
  *
  * @return {*}
  * @constructor
  */
-function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
+function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, connectionState }) {
     const sound = new Sound();
     const { user } = machineStateInput;
 
@@ -38,7 +40,8 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
      */
     const storage = {
         machineState: { get: machineStateInput },
-        boxConfig: { get: boxConfigurationInput }
+        boxConfig: { get: boxConfigurationInput },
+        connectionState: { get: connectionState }
     };
 
     /**
@@ -97,6 +100,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler }) {
 Bibbox.propTypes = {
     boxConfigurationInput: PropTypes.object.isRequired,
     machineStateInput: PropTypes.object.isRequired,
+    connectionState: PropTypes.string.isRequired,
     actionHandler: PropTypes.func.isRequired
 };
 

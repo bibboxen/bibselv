@@ -369,6 +369,14 @@ module.exports = function(options, imports, register) {
         checkOnlineState();
     }
 
+    bus.on('fbs.connection_state', () => {
+        const eventName = onlineState.online ? 'fbs.online' : 'fbs.offline';
+        bus.emit(eventName, {
+            timestamp: new Date().getTime(),
+            online: onlineState
+        });
+    });
+
     /**
      * Listen to login requests.
      */
