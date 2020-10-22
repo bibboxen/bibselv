@@ -9,6 +9,7 @@ import { mount } from 'enzyme';
 import { expect, it, describe } from '@jest/globals';
 import { IntlProvider } from 'react-intl';
 import { translations } from './utils/translations-for-test';
+import {CONNECTION_ONLINE} from "../constants";
 
 describe('Initial component (Vælg en funktion...)', () => {
     it('renders the initial component when state is initial and it is logged out', () => {
@@ -22,6 +23,7 @@ describe('Initial component (Vælg en funktion...)', () => {
                             name: 'Mårslet Skole'
                         }
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     machineStateInput={{ step: 'initial' }}
                     actionHandler={() => { }}
                 />
@@ -48,6 +50,7 @@ describe('Check out items component (Udlån)', () => {
                         flow: 'checkOutItems',
                         step: 'loginScan'
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -84,6 +87,7 @@ describe('Check out items component (Udlån)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -112,6 +116,7 @@ describe('Check out items component (Udlån)', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -149,6 +154,7 @@ describe('Check out items component (Udlån)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -183,6 +189,7 @@ describe('Check out items component (Udlån)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -219,6 +226,7 @@ describe('Check out items component (Udlån)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -244,6 +252,7 @@ describe('Check in items component (Hand in)', () => {
                         step: 'checkInItems',
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -277,6 +286,7 @@ describe('Check in items component (Hand in)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -308,6 +318,7 @@ describe('Check in items component (Hand in)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -344,6 +355,7 @@ describe('Check in items component (Hand in)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -371,6 +383,7 @@ describe('Check in items component (Hand in)', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -408,6 +421,7 @@ describe('Check in items component (Hand in)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -444,6 +458,7 @@ describe('Check in items component (Hand in)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -481,6 +496,7 @@ describe('Check in items component (Hand in)', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -517,6 +533,7 @@ describe('Status component', () => {
                         recallItems: [],
                         unavailableHoldItems: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -595,6 +612,7 @@ describe('Status component', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -678,6 +696,7 @@ describe('Status component', () => {
                             }
                         ]
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -702,6 +721,7 @@ describe('Tests of navbar component', () => {
                     machineStateInput={{
                         step: 'initial'
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -728,6 +748,7 @@ describe('Tests of navbar component', () => {
                             name: 'ITK'
                         }
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -755,6 +776,7 @@ describe('Tests of navbar component', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -795,6 +817,7 @@ describe('Tests of navbar component', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -840,6 +863,7 @@ describe('Tests of navbar component', () => {
                         recallItems: [],
                         unavailableHoldItems: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -882,6 +906,7 @@ describe('Tests of configuration', () => {
                         step: 'LoginScan',
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -908,6 +933,7 @@ describe('Tests of configuration', () => {
                         step: 'LoginScan',
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -934,6 +960,7 @@ describe('Tests of configuration', () => {
                         step: 'loginScan',
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
                 />
             </IntlProvider>
@@ -961,6 +988,7 @@ describe('Tests of callback data', () => {
                     machineStateInput={{
                         step: 'initial'
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={mockCallBack}
                 />
             </IntlProvider>
@@ -988,6 +1016,7 @@ describe('Tests of callback data', () => {
                     machineStateInput={{
                         step: 'initial'
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={mockCallBack}
                 />
             </IntlProvider>
@@ -1015,6 +1044,7 @@ describe('Tests of callback data', () => {
                     machineStateInput={{
                         step: 'initial'
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={mockCallBack}
                 />
             </IntlProvider>
@@ -1047,6 +1077,7 @@ describe('Tests of callback data', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={mockCallBack}
                 />
             </IntlProvider>
@@ -1079,6 +1110,7 @@ describe('Tests of callback data', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={mockCallBack}
                 />
             </IntlProvider>
@@ -1111,6 +1143,7 @@ describe('Tests of callback data', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={mockCallBack}
                 />
             </IntlProvider>
@@ -1143,6 +1176,7 @@ describe('Tests of callback data', () => {
                         },
                         items: []
                     }}
+                    connectionState={CONNECTION_ONLINE}
                     actionHandler={mockCallBack}
                 />
             </IntlProvider>

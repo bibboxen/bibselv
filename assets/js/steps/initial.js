@@ -47,7 +47,7 @@ function Initial({ actionHandler }) {
         {
             type: 'status',
             label: InitialButtonStatus,
-            disabled: context.connectionState.get === CONNECTION_OFFLINE,
+            disabled: context.connectionState?.get === CONNECTION_OFFLINE,
             icon: faInfoCircle
         },
         {
@@ -98,7 +98,7 @@ function Initial({ actionHandler }) {
                     </div>
                 ))}
             </div>
-            {context.connectionState.get === CONNECTION_OFFLINE &&
+            {context.connectionState?.get === CONNECTION_OFFLINE &&
                 <div>
                     <Alert variant='warning' message={StatusUnavailable} />
                 </div>
