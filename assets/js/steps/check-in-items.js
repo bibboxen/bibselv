@@ -26,7 +26,11 @@ import {
     CheckInItemsSubheader
 } from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
-import { ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET } from '../constants';
+import {
+    ACTION_CHANGE_FLOW_CHECKOUT,
+    ACTION_CHANGE_FLOW_STATUS,
+    ACTION_RESET
+} from '../constants';
 import CheckInWhite from '../../scss/images/check-in-white.svg';
 
 /**
@@ -118,10 +122,12 @@ function CheckInItems({ actionHandler }) {
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner();
         const barcodeCallback = (new BarcodeHandler([
-            ACTION_CHANGE_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET
+            ACTION_CHANGE_FLOW_CHECKOUT, ACTION_CHANGE_FLOW_STATUS, ACTION_RESET
         ], actionHandler, function(result) {
             setScannedBarcode(result.outputCode);
             handleItemCheckIn(result.code);
+        }, function () {
+            setScannedBarcode('');
         })).createCallback();
 
         barcodeScanner.start(barcodeCallback);

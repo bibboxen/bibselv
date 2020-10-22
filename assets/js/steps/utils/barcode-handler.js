@@ -31,11 +31,14 @@ export class BarcodeHandler {
      *   The actionHandler.
      * @param notCommandCallback
      *   The callback to call if the barcode is not a command.
+     * @param commandCallback
+     *   Callback that is called after executing a command.
      */
-    constructor(allowedActions = [], actionHandler, notCommandCallback = () => {}) {
+    constructor(allowedActions = [], actionHandler, notCommandCallback = () => {}, commandCallback = () => {}) {
         this.allowedActions = allowedActions;
         this.actionHandler = actionHandler;
         this.notCommandCallback = notCommandCallback;
+        this.commandCallback = commandCallback;
     }
 
     /**
@@ -45,6 +48,7 @@ export class BarcodeHandler {
         const actionHandler = this.actionHandler;
         const allowedActions = this.allowedActions;
         const notCommandCallback = this.notCommandCallback;
+        const commandCallback = this.commandCallback;
 
         return function(result) {
             if (result.type === BARCODE_TYPE_COMMAND) {
@@ -84,6 +88,8 @@ export class BarcodeHandler {
                         }
                         break;
                 }
+
+                commandCallback();
             } else {
                 notCommandCallback(result);
             }
