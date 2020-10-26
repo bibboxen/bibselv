@@ -191,7 +191,14 @@ function CheckInItems({ actionHandler }) {
                 if (newReservedBook !== null) {
                     setNewReservation(newReservedBook);
                 }
-            });
+            }).catch(
+                (err) => {
+                    console.error(err);
+                    if (newReservedBook !== null) {
+                        setNewReservation(newReservedBook);
+                    }
+                }
+            );
         } else {
             if (newReservedBook !== null) {
                 setNewReservation(newReservedBook);
