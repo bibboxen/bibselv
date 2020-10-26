@@ -9,10 +9,8 @@ import {
     BARCODE_COMMAND_FINISH,
     BARCODE_COMMAND_PRINT,
     BARCODE_COMMAND_STATUS,
-    BARCODE_TYPE_COMMAND, CONNECTION_OFFLINE
+    BARCODE_TYPE_COMMAND
 } from '../../constants';
-import { useContext } from 'react';
-import MachineStateContext from './machine-state-context';
 
 /**
  * BarcodeHandler.
@@ -53,8 +51,6 @@ export class BarcodeHandler {
         const commandCallback = this.commandCallback;
 
         return function(result) {
-            const context = useContext(MachineStateContext);
-
             if (result.type === BARCODE_TYPE_COMMAND) {
                 switch (result.outputCode) {
                     case BARCODE_COMMAND_FINISH:
@@ -79,11 +75,6 @@ export class BarcodeHandler {
                         }
                         break;
                     case BARCODE_COMMAND_STATUS:
-                        // Ignore status requests if offline.
-                        if (context.connectionState.get === CONNECTION_OFFLINE) {
-                            break;
-                        }
-
                         if (allowedActions.includes('enterFlowStatus') || allowedActions.includes('changeFlowStatus')) {
                             const action = allowedActions.includes('enterFlowStatus') ? 'enterFlow' : 'changeFlow';
                             actionHandler(action, {
