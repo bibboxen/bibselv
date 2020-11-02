@@ -9,12 +9,13 @@ const bullQueue = require('bull');
 
 class Queue {
 
-    constructor(bus) {
-        this.bus = bus;
-        this.checkinQueue = new bullQueue('checkinQueue', 'redis://127.0.0.1:6379');
-        this.checkoutQueue = new bullQueue('checkoutQueue', 'redis://127.0.0.1:6379');
-    }
+    constructor(bus, host, port, db) {
+        const url = 'redis://' +  host + ':' + port + '/' + db;
 
+        this.bus = bus;
+        this.checkinQueue = new bullQueue('checkinQueue', url);
+        this.checkoutQueue = new bullQueue('checkoutQueue', url);
+    }
 
     /**
      * Pause a queue.
@@ -24,6 +25,7 @@ class Queue {
      */
     pause(type) {
         const queue = this._findQueue(type);
+        const self = this;
 
         queue.pause().then(function () {
             self.bus.emit('logger.info', { 'type': 'offline', 'message': 'Queue "' + queue.name + '" is paused.' });
@@ -38,6 +40,7 @@ class Queue {
      */
     resume(type) {
         const queue = this._findQueue(type);
+        const self = this;
 
         queue.resume().then(function () {
             self.bus.emit('logger.info', { 'type': 'offline', 'message': 'Queue "' + queue.name + '" has resumed.' });
@@ -167,7 +170,8 @@ class Queue {
  *   Callback function used to register this plugin.
  */
 module.exports = function (options, imports, register) {
-    const queue = new Queue(imports.bus, options.host, options.port);
+    const bus = imports.bus;
+    const queue = new Queue(bus, options.host, options.port, options.db);
 
     bus.on('offline.add.checkout', function (obj) {
 

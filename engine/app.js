@@ -64,6 +64,13 @@ const plugins = [
         isEventExpired: isEventExpired
     },
     {
+        packagePath: './plugins/queue',
+        host: config.redis.host,
+        port: config.redis.port,
+        db: config.redis.db,
+        isEventExpired: isEventExpired
+    },
+    {
         packagePath: './plugins/client',
         config: config.redis,
         persistent: true,
