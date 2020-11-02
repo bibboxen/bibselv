@@ -303,16 +303,14 @@ class ActionHandler {
             const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
             let birthdayToday = false;
 
-            /**
-             * @TODO: when would the response have 'PB' that?
-             */
+            // Set birthdayToday boolean.
             if (Object.prototype.hasOwnProperty.call(user, 'PB')) {
                 const nowDate = new Date();
                 const birthday = user.PB;
 
                 birthdayToday =
-                    nowDate.getDate().toString() === birthday.substr(6, 7) &&
-                    nowDate.getMonth().toString() === birthday.substr(4, 5);
+                    nowDate.getDate() === parseInt(birthday.substr(6, 2)) &&
+                    nowDate.getMonth() + 1 === parseInt(birthday.substr(4, 2));
             }
 
             const actionData = {
