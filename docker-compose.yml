@@ -12,6 +12,7 @@ services:
     image: itkdev/mariadb:latest
     networks:
       - app
+      - frontend
     ports:
       - '3306'
     environment:
