@@ -94,6 +94,16 @@ module.exports = function(options, imports, register) {
 
         /**
          * Handle FBS is offline events.
+         *
+         * @TODO: Check that queue error is handled. It means that the
+         *        queue/offline system is not working.
+         */
+        bus.on('queue.error', () => {
+            socket.emit('Offline');
+        });
+
+        /**
+         * Handle FBS is offline events.
          */
         bus.on('fbs.offline', () => {
             socket.emit('Offline');
