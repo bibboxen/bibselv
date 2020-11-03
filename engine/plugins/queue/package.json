@@ -6,6 +6,7 @@
     "private": true,
     "dependencies": {
         "bull": "^3.18.0",
+        "q": "^1.5.1",
         "uniqid": "^5.2.0"
     },
     "plugin": {
