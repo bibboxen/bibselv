@@ -5,29 +5,40 @@
 
 'use strict';
 
-const bullQueue = require('bull');
-const uniqid = require('uniqid');
+const BullQueue = require('bull');
+const Q = require('q');
 
 /**
  * Class Queue.
  */
 class Queue {
-
+    /**
+     * Default constructor.
+     *
+     * @param bus
+     *   The system message bus.
+     * @param host
+     *   Redis host.
+     * @param port
+     *   Redis port.
+     * @param db
+     *  Redis database to use.
+     */
     constructor(bus, host, port, db) {
-        const url = 'redis://' +  host + ':' + port + '/' + db;
+        const url = 'redis://' + host + ':' + port + '/' + db;
         const self = this;
 
         this.bus = bus;
-        this.checkinQueue = new bullQueue('checkinQueue', url);
-        this.checkoutQueue = new bullQueue('checkoutQueue', url);
+        this.checkinQueue = new BullQueue('checkinQueue', url);
+        this.checkoutQueue = new BullQueue('checkoutQueue', url);
 
         // Set the front-end out-of-order on queue errors (redis errors included).
-        this.checkinQueue.on('error', function (err) {
-            bus.emit('logger.err', { 'type': 'offline', 'message': err });
+        this.checkinQueue.on('error', function(err) {
+            bus.emit('logger.err', { type: 'offline', message: err });
             bus.emit('queue.error');
         });
-        this.checkoutQueue.on('error', function (err) {
-            bus.emit('logger.err', { 'type': 'offline', 'message': err });
+        this.checkoutQueue.on('error', function(err) {
+            bus.emit('logger.err', { type: 'offline', message: err });
             bus.emit('queue.error');
         });
 
@@ -38,15 +49,15 @@ class Queue {
         // Listen to fail jobs in the check-in queue. As jobs in processing is not
         // paused when the queue is... we need to handle errors in processing jobs
         // due to FBS offline.
-        this.checkinQueue.on('failed', function (job, err) {
+        this.checkinQueue.on('failed', function(job, err) {
             if (err.message === 'FBS is offline') {
-                job.remove().then(function () {
+                job.remove().then(function() {
                     // Job remove to re-add it as a new job.
                     self.add('checkin', job.data);
                 },
-                function (err) {
+                function(err) {
                     // If we can't remove the job... not much we can do.
-                    self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
+                    self.bus.emit('logger.err', { type: 'offline', message: err.message });
                 });
             }
         });
@@ -54,15 +65,15 @@ class Queue {
         // Listen to fail jobs in the check-out queue. As jobs in processing is not
         // paused when the queue is... we need to handle errors in processing jobs
         // due to FBS offline.
-        this.checkoutQueue.on('failed', function (job, err) {
+        this.checkoutQueue.on('failed', function(job, err) {
             if (err.message === 'FBS is offline') {
-                job.remove().then(function () {
+                job.remove().then(function() {
                     // Job remove to re-add it as a new job.
                     self.add('checkout', job.data);
                 },
-                function (err) {
+                function(err) {
                     // If we can't remove the job... not much we can do.
-                    self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
+                    self.bus.emit('logger.err', { type: 'offline', message: err.message });
                 });
             }
         });
@@ -122,12 +133,12 @@ class Queue {
             }
         };
 
-        queue.add(data, opts).then(function (job) {
-                deferred.resolve(job.jobId);
-            },
-            function (err) {
-                deferred.reject(err);
-            });
+        queue.add(data, opts).then(function(job) {
+            deferred.resolve(job.jobId);
+        },
+        function(err) {
+            deferred.reject(err);
+        });
 
         return deferred.promise;
     };
@@ -142,8 +153,11 @@ class Queue {
         const queue = this._findQueue(type);
         const self = this;
 
-        queue.pause().then(function () {
-            self.bus.emit('logger.info', { 'type': 'offline', 'message': 'Queue "' + queue.name + '" is paused.' });
+        queue.pause().then(function() {
+            self.bus.emit('logger.info', {
+                type: 'offline',
+                message: 'Queue "' + queue.name + '" is paused.'
+            });
         });
     };
 
@@ -157,8 +171,11 @@ class Queue {
         const queue = this._findQueue(type);
         const self = this;
 
-        queue.resume().then(function () {
-            self.bus.emit('logger.info', { 'type': 'offline', 'message': 'Queue "' + queue.name + '" has resumed.' });
+        queue.resume().then(function() {
+            self.bus.emit('logger.info', {
+                type: 'offline',
+                message: 'Queue "' + queue.name + '" has resumed.'
+            });
         });
     };
 
@@ -178,19 +195,25 @@ class Queue {
         data.busEvent = 'queue.fbs.checkout.success' + data.itemIdentifier;
         data.errorEvent = 'queue.fbs.checkout.error' + data.itemIdentifier;
 
-        this.bus.once(data.busEvent, function (res) {
+        this.bus.once(data.busEvent, function(res) {
             if (res.ok === '0') {
-                self.bus.emit('logger.err', { 'type': 'offline', 'message': require('util').inspect(res, true, 10) });
+                self.bus.emit('logger.err', {
+                    type: 'offline',
+                    message: require('util').inspect(res, true, 10)
+                });
                 done(new Error(res.screenMessage));
             }
 
-             // Success the item have been checked-in.
+            // Success the item have been checked-in.
             done(null, res);
         });
 
-        this.bus.once(data.errorEvent, function (err) {
+        this.bus.once(data.errorEvent, function(err) {
             // Log the failure.
-            self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
+            self.bus.emit('logger.err', {
+                type: 'offline',
+                message: err.message
+            });
             done(err);
         });
 
@@ -221,9 +244,12 @@ class Queue {
         data.busEvent = 'queue.fbs.checkout.success' + data.itemIdentifier;
         data.errorEvent = 'queue.fbs.checkout.error' + data.itemIdentifier;
 
-        this.bus.once(data.busEvent, function (res) {
+        this.bus.once(data.busEvent, function(res) {
             if (res.ok === '0') {
-                self.bus.emit('logger.err', { 'type': 'offline', 'message': require('util').inspect(res, true, 10) });
+                self.bus.emit('logger.err', {
+                    type: 'offline',
+                    message: require('util').inspect(res, true, 10)
+                });
                 done(new Error(res.screenMessage));
             }
 
@@ -231,9 +257,9 @@ class Queue {
             done(null, res);
         });
 
-        this.bus.once(data.errorEvent, function (err) {
+        this.bus.once(data.errorEvent, function(err) {
             // Log the failure.
-            self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
+            self.bus.emit('logger.err', { type: 'offline', message: err.message });
             done(err);
         });
 
@@ -259,11 +285,11 @@ class Queue {
  * @param {function} register
  *   Callback function used to register this plugin.
  */
-module.exports = function (options, imports, register) {
+module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const queue = new Queue(bus, options.host, options.port, options.db);
 
-    bus.on('queue.add.checkout', function (obj) {
+    bus.on('queue.add.checkout', function(obj) {
         // Ensure that it's an copy of the object.
         const data = JSON.parse(JSON.stringify(obj));
         data.queued = true;
@@ -271,7 +297,7 @@ module.exports = function (options, imports, register) {
         queue.add('checkout', data);
     });
 
-    bus.on('queue.add.checkin', function (obj) {
+    bus.on('queue.add.checkin', function(obj) {
         // Ensure that it's an copy of the object.
         const data = JSON.parse(JSON.stringify(obj));
         data.queued = true;
@@ -298,4 +324,4 @@ module.exports = function (options, imports, register) {
     register(null, {
         queue: queue
     });
-}
+};
