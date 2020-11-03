@@ -6,16 +6,16 @@
 'use strict';
 
 const bullQueue = require('bull');
+const uniqid = require('uniqid');
 
 /**
  * Class Queue.
- *
- * @TODO: Added FBS config support in offline jobs.
  */
 class Queue {
 
     constructor(bus, host, port, db) {
         const url = 'redis://' +  host + ':' + port + '/' + db;
+        const self = this;
 
         this.bus = bus;
         this.checkinQueue = new bullQueue('checkinQueue', url);
@@ -41,13 +41,13 @@ class Queue {
         this.checkinQueue.on('failed', function (job, err) {
             if (err.message === 'FBS is offline') {
                 job.remove().then(function () {
-                        // Job remove to re-add it as a new job.
-                        self.add('checkin', job.data);
-                    },
-                    function (err) {
-                        // If we can't remove the job... not much we can do.
-                        self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
-                    });
+                    // Job remove to re-add it as a new job.
+                    self.add('checkin', job.data);
+                },
+                function (err) {
+                    // If we can't remove the job... not much we can do.
+                    self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
+                });
             }
         });
 
@@ -57,13 +57,13 @@ class Queue {
         this.checkoutQueue.on('failed', function (job, err) {
             if (err.message === 'FBS is offline') {
                 job.remove().then(function () {
-                        // Job remove to re-add it as a new job.
-                        self.add('checkout', job.data);
-                    },
-                    function (err) {
-                        // If we can't remove the job... not much we can do.
-                        self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
-                    });
+                    // Job remove to re-add it as a new job.
+                    self.add('checkout', job.data);
+                },
+                function (err) {
+                    // If we can't remove the job... not much we can do.
+                    self.bus.emit('logger.err', { 'type': 'offline', 'message': err.message });
+                });
             }
         });
 
@@ -174,6 +174,10 @@ class Queue {
         const data = job.data;
         const self = this;
 
+        // Set event callbacks that FBS should use.
+        data.busEvent = 'queue.fbs.checkout.success' + data.itemIdentifier;
+        data.errorEvent = 'queue.fbs.checkout.error' + data.itemIdentifier;
+
         this.bus.once(data.busEvent, function (res) {
             if (res.ok === '0') {
                 self.bus.emit('logger.err', { 'type': 'offline', 'message': require('util').inspect(res, true, 10) });
@@ -212,6 +216,10 @@ class Queue {
     checkout(job, done) {
         const data = job.data;
         const self = this;
+
+        // Set event callbacks that FBS should use.
+        data.busEvent = 'queue.fbs.checkout.success' + data.itemIdentifier;
+        data.errorEvent = 'queue.fbs.checkout.error' + data.itemIdentifier;
 
         this.bus.once(data.busEvent, function (res) {
             if (res.ok === '0') {
@@ -255,23 +263,17 @@ module.exports = function (options, imports, register) {
     const bus = imports.bus;
     const queue = new Queue(bus, options.host, options.port, options.db);
 
-    bus.on('offline.add.checkout', function (obj) {
+    bus.on('queue.add.checkout', function (obj) {
+        // Ensure that it's an copy of the object.
         const data = JSON.parse(JSON.stringify(obj));
-
-        // Added event info to job.
-        data.busEvent = 'offline.fbs.checkout.success' + data.itemIdentifier;
-        data.errorEvent = 'offline.fbs.checkout.error' + data.itemIdentifier;
         data.queued = true;
 
         queue.add('checkout', data);
     });
 
-    bus.on('offline.add.checkin', function (obj) {
+    bus.on('queue.add.checkin', function (obj) {
+        // Ensure that it's an copy of the object.
         const data = JSON.parse(JSON.stringify(obj));
-
-        // Added event info to job.
-        data.busEvent = 'offline.fbs.checkin.success' + data.itemIdentifier;
-        data.errorEvent = 'offline.fbs.checkin.error' + data.itemIdentifier;
         data.queued = true;
 
         queue.add('checkin', data);

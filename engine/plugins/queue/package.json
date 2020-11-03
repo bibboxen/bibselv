@@ -5,7 +5,8 @@
     "main": "queue.js",
     "private": true,
     "dependencies": {
-        "bull": "^3.18.0"
+        "bull": "^3.18.0",
+        "uniqid": "^5.2.0"
     },
     "plugin": {
         "consumes": [
