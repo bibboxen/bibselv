@@ -195,6 +195,7 @@ class Queue {
         data.busEvent = 'queue.fbs.checkout.success' + data.itemIdentifier;
         data.errorEvent = 'queue.fbs.checkout.error' + data.itemIdentifier;
 
+        // Listen to FBS checkin event.
         this.bus.once(data.busEvent, function(res) {
             if (res.ok === '0') {
                 self.bus.emit('logger.err', {
@@ -208,6 +209,7 @@ class Queue {
             done(null, res);
         });
 
+        // Listen to errors with checkin.
         this.bus.once(data.errorEvent, function(err) {
             // Log the failure.
             self.bus.emit('logger.err', {
@@ -244,6 +246,7 @@ class Queue {
         data.busEvent = 'queue.fbs.checkout.success' + data.itemIdentifier;
         data.errorEvent = 'queue.fbs.checkout.error' + data.itemIdentifier;
 
+        // Listen to fbs checkout event.
         this.bus.once(data.busEvent, function(res) {
             if (res.ok === '0') {
                 self.bus.emit('logger.err', {
@@ -257,6 +260,7 @@ class Queue {
             done(null, res);
         });
 
+        // Listen to checkout error event.
         this.bus.once(data.errorEvent, function(err) {
             // Log the failure.
             self.bus.emit('logger.err', { type: 'offline', message: err.message });
