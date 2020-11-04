@@ -289,16 +289,22 @@ module.exports = function(options, imports, register) {
     const bus = imports.bus;
     const queue = new Queue(bus, options.host, options.port, options.db);
 
+    /**
+     * Listen for add to check-out queue message.
+     */
     bus.on('queue.add.checkout', function(obj) {
-        // Ensure that it's an copy of the object.
+        // Ensure that it is a copy of the object.
         const data = JSON.parse(JSON.stringify(obj));
         data.queued = true;
 
         queue.add('checkout', data);
     });
 
+    /**
+     * Listen for add to check-in queue message.
+     */
     bus.on('queue.add.checkin', function(obj) {
-        // Ensure that it's an copy of the object.
+        // Ensure that it is a copy of the object.
         const data = JSON.parse(JSON.stringify(obj));
         data.queued = true;
 

@@ -99,7 +99,7 @@ module.exports = function(options, imports, register) {
          *        queue/offline system is not working.
          */
         bus.on('queue.error', () => {
-            socket.emit('Offline');
+            socket.emit('OutOfOrder');
         });
 
         /**
