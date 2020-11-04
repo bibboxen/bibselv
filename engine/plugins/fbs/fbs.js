@@ -466,48 +466,8 @@ module.exports = function(options, imports, register) {
         },
         err => {
             if (err.message === 'FBS is offline' && data.queued === false) {
-                const material = {
-                    itemIdentifier: data.itemIdentifier,
-                    offline: true,
-                    ok: '1',
-                    itemProperties: {
-                        id: data.itemIdentifier,
-                        title: 'fbs.offline.title'
-                    },
-                    dueDate: data.noBlockDueDate
-                };
-
-                bus.once('fbs.checkout.offline.stored' + data.itemIdentifier, () => {
-                    bus.emit(data.busEvent, {
-                        timestamp: new Date().getTime(),
-                        result: material
-                    });
-                });
-
-                bus.once('fbs.checkout.offline.error' + data.itemIdentifier, err => {
-                    bus.emit(data.errorEvent, err);
-                });
-
-                // Store for later processing.
-                const file = data.username;
-                bus.emit('storage.append', {
-                    type: 'offline',
-                    name: file,
-                    obj: {
-                        date: data.checkedInDate,
-                        action: 'checkout',
-                        username: data.username,
-                        password: data.password,
-                        itemIdentifier: data.itemIdentifier
-                    },
-                    lockFile: true,
-                    busEvent: 'fbs.checkout.offline.stored' + data.itemIdentifier,
-                    errorEvent: 'fbs.checkout.offline.error' + data.itemIdentifier
-                });
-
                 // Add to job queue.
-                data.file = file;
-                bus.emit('offline.add.checkout', data);
+                bus.emit('queue.add.checkout', data);
             } else {
                 bus.emit(data.errorEvent, err);
             }
@@ -545,45 +505,8 @@ module.exports = function(options, imports, register) {
         },
         err => {
             if (err.message === 'FBS is offline' && data.queued === false) {
-                const material = {
-                    itemIdentifier: data.itemIdentifier,
-                    offline: true,
-                    ok: '1',
-                    itemProperties: {
-                        id: data.itemIdentifier,
-                        title: 'fbs.offline.title'
-                    }
-                };
-
-                bus.once('fbs.checkin.offline.stored' + data.itemIdentifier, res => {
-                    bus.emit(data.busEvent, {
-                        timestamp: new Date().getTime(),
-                        result: material
-                    });
-                });
-
-                bus.once('fbs.checkin.offline.error' + data.itemIdentifier, err => {
-                    bus.emit(data.errorEvent, err);
-                });
-
-                // Store for later processing.
-                const file = data.transaction;
-                bus.emit('storage.append', {
-                    type: 'offline',
-                    name: file,
-                    obj: {
-                        action: 'checkin',
-                        date: data.checkedInDate,
-                        itemIdentifier: data.itemIdentifier
-                    },
-                    lockFile: true,
-                    busEvent: 'fbs.checkin.offline.stored' + data.itemIdentifier,
-                    errorEvent: 'fbs.checkin.offline.error' + data.itemIdentifier
-                });
-
                 // Add to job queue.
-                data.file = file;
-                bus.emit('offline.add.checkin', data);
+                bus.emit('queue.add.checkin', data);
             } else {
                 bus.emit(data.errorEvent, err);
             }

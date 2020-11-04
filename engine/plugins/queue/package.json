@@ -1,0 +1,20 @@
+{
+    "name": "queue",
+    "description": "Plugin to queue FBS requests in offline mode",
+    "version": "0.0.1",
+    "main": "queue.js",
+    "private": true,
+    "dependencies": {
+        "bull": "^3.18.0",
+        "q": "^1.5.1",
+        "uniqid": "^5.2.0"
+    },
+    "plugin": {
+        "consumes": [
+            "bus"
+        ],
+        "provides": [
+            "queue"
+        ]
+    }
+}
