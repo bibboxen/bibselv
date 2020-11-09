@@ -1,0 +1,25 @@
+.content {
+    // Display & position
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $font-color;
+    margin-right: 10%;
+    padding: 15%;
+
+    // Text
+    font-size: 100px;
+    user-select: none;
+
+    // Color
+    background-color: $white;
+
+    // Shadow
+    @include box-shadow();
+}
+
+.content-with-numpad {
+    // Display & position
+    margin: 0 15%;
+}
+

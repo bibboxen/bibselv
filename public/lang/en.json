@@ -1,0 +1,145 @@
+{
+  "banner-header-book-with-fine": {
+    "defaultMessage": "This book has a fine"
+  },
+  "banner-header-book-for-check-in": {
+    "defaultMessage": "This book must be handed in"
+  },
+  "book-is-registered": {
+    "defaultMessage": "The book has been registered. Ready for the next one"
+  },
+  "button-navbar-check-in": {
+    "defaultMessage": "Hand in"
+  },
+  "button-navbar-check-out": {
+    "defaultMessage": "Loan"
+  },
+  "button-navbar-finish": {
+    "defaultMessage": "Exit"
+  },
+  "button-navbar-status": {
+    "defaultMessage": "Status"
+  },
+  "check-in-items-help-box-text": {
+    "defaultMessage": "Use the hand scanner to scan the barcode on the book. Or enter the book's ISBN number"
+  },
+  "check-in-items-input-label": {
+    "defaultMessage": "Barcode"
+  },
+  "check-out-items-help-box-text": {
+    "defaultMessage": "Use the hand scanner to scan the barcode on the book"
+  },
+  "check-out-items-input-label": {
+    "defaultMessage": "Barcode"
+  },
+  "help-box-header": {
+    "defaultMessage": "Help"
+  },
+  "initial-button-check-in": {
+    "defaultMessage": "Hand in"
+  },
+  "initial-button-check-out": {
+    "defaultMessage": "Loan"
+  },
+  "initial-button-status": {
+    "defaultMessage": "Status"
+  },
+  "initial-choose-a-function": {
+    "defaultMessage": "Select a function to start"
+  },
+  "login-not-configured": {
+    "defaultMessage": "Login method is not configured"
+  },
+  "scan-login-help-box-text": {
+    "defaultMessage": "Use the barcode scanner to scan your library card"
+  },
+  "scan-login-password-input-label": {
+    "defaultMessage": "Password"
+  },
+  "scan-login-password-password-help-box-text": {
+    "defaultMessage": "If you have forgotten your PIN code, you can contact a librarian to get a new one"
+  },
+  "scan-login-password-password-subheader": {
+    "defaultMessage": "Enter your PIN code"
+  },
+  "scan-login-password-usename-help-box-text": {
+    "defaultMessage": "Use the hand scanner to scan the barcode of your library card"
+  },
+  "status-header-current-loans": {
+    "defaultMessage": "Current loans"
+  },
+  "status-header-ready-for-pickup": {
+    "defaultMessage": "Ready for pickup"
+  },
+  "status-header-reservations": {
+    "defaultMessage": "Reservations"
+  },
+  "check-in-items-header": {
+    "defaultMessage": "Hand in"
+  },
+  "check-in-items-subheader": {
+    "defaultMessage": "Scan the barcode of the book you are checking in"
+  },
+  "check-in-items-ok-button": {
+    "defaultMessage": "Ok"
+  },
+  "check-in-items-delete-button": {
+    "defaultMessage": "Delete"
+  },
+  "scan-login-password-first-subheader": {
+    "defaultMessage": "Use the hand scanner to scan the barcode of your library card"
+  },
+  "scan-login-password-second-subheader": {
+    "defaultMessage": "Enter your password"
+  },
+  "check-out-items-ok-button": {
+    "defaultMessage": "Ok"
+  },
+  "check-out-items-delete-button": {
+    "defaultMessage": "Delete"
+  },
+  "check-out-items-header": {
+    "defaultMessage": "Loan"
+  },
+  "check-out-items-subheader": {
+    "defaultMessage": "Scan the barcode of the book you wish to loan"
+  },
+  "status-header": {
+    "defaultMessage": "Status"
+  },
+  "status-header-print": {
+    "defaultMessage": "Status"
+  },
+  "status-subheader": {
+    "defaultMessage": "Your loans and reservations"
+  },
+  "scan-login-header": {
+    "defaultMessage": "Login"
+  },
+  "scan-login-subheader": {
+    "defaultMessage": "Scan your library card"
+  },
+  "banner-adapter-fetching-info": {
+    "defaultMessage": "Fetching information"
+  },
+  "button-navbar-print": {
+    "defaultMessage": "Print"
+  },
+  "scan-login-password-header": {
+    "defaultMessage": "Login"
+  },
+  "app-token-not-valid": {
+    "defaultMessage": "Token not valid. Access denied"
+  },
+  "banner-title-author": {
+    "defaultMessage": "{title} by {author}"
+  },
+  "print-reservation-note": {
+    "defaultMessage": "Reservation note"
+  },
+  "status-unavailable": {
+    "defaultMessage": "Status is temporarily unavailable"
+  }
+}
+
+

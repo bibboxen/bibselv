@@ -1,3 +1,30 @@
 {
-    "eventTimeout": 1000
+    "eventTimeout": 1000,
+    "tokenValidationEndPoint": "http://nginx/token/validate/",
+    "tokenGetEndPoint": "http://nginx/token/get/",
+    "tokenRefreshEndPoint": "http://nginx/token/refresh",
+    "fbsEndPoint": "https://Cicero-fbs.com/rest/sip2/",
+    "fbsOnlineCheckConfig": {
+        "username": "xxxx",
+        "password": "yyyy",
+        "agency": "DK-zzzzzz"
+    },
+    "boxConfig": {
+        "uri": "http://nginx/box/configuration/"
+    },
+    "server": {
+        "host": "0.0.0.0",
+        "port": 3000,
+        "cors": "*:*",
+        "namespace": ""
+    },
+    "logstash": {
+        "host": "logstash",
+        "port": 28777
+    },
+    "redis": {
+        "host": "redis",
+        "port": 6379,
+        "db": 0
+    }
 }

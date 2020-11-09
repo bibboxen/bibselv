@@ -47,19 +47,33 @@ const plugins = [
         isEventExpired: isEventExpired
     },
     {
-        packagePath: './plugins/network',
+        packagePath: './plugins/logger',
+        host: config.logstash.host,
+        port: config.logstash.port,
         isEventExpired: isEventExpired
     },
     {
-        packagePath: './plugins/ctrl',
+        packagePath: './plugins/config',
+        config: config.boxConfig,
         isEventExpired: isEventExpired
     },
     {
         packagePath: './plugins/fbs',
+        fbsEndPoint: config.fbsEndPoint,
+        config: config.fbsOnlineCheckConfig,
+        isEventExpired: isEventExpired
+    },
+    {
+        packagePath: './plugins/queue',
+        host: config.redis.host,
+        port: config.redis.port,
+        db: config.redis.db,
         isEventExpired: isEventExpired
     },
     {
         packagePath: './plugins/client',
+        config: config.redis,
+        persistent: true,
         isEventExpired: isEventExpired
     },
     {
@@ -68,8 +82,14 @@ const plugins = [
     },
     {
         packagePath: './plugins/server',
-        port: 8010,
-        path: path.join(__dirname, 'public'),
+        host: config.server.host,
+        port: config.server.port,
+        cors: config.server.cors,
+        namespace: config.server.namespace,
+        tokenValidationEndPoint: config.tokenValidationEndPoint,
+        tokenGetEndPoint: config.tokenGetEndPoint,
+        tokenRefreshEndPoint: config.tokenRefreshEndPoint,
+        fbsEndPoint: config.fbsEndPoint,
         isEventExpired: isEventExpired
     }
 ];
@@ -92,17 +112,3 @@ process.on('uncaughtException', error => {
 // Ensure proper process exit when killed in term.
 process.once('SIGINT', () => { process.exit(); });
 process.once('SIGTERM', () => { process.exit(); });
-
-// If process is forked from bootstrap send keep-alive events back.
-if (process.send) {
-    setInterval(() => {
-        process.send({
-            ping: new Date().getTime()
-        });
-    }, 10000);
-
-    // Inform bootstrap that it's ready.
-    process.send({
-        ready: true
-    });
-}

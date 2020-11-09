@@ -1,0 +1,90 @@
+@import 'bootstrap';
+@import 'variables';
+@import 'banner';
+@import 'barcode';
+@import 'bubble';
+@import 'button';
+@import 'content';
+@import 'header';
+@import 'help-box';
+@import 'icon-bubble';
+@import 'input';
+@import 'loading';
+@import 'navbar';
+@import 'numpad';
+
+html {
+    height: 100%;
+    width: 100%;
+}
+body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $slightly-white;
+}
+
+p {
+    // Text
+    font-size: 1rem;
+    user-select: none;
+}
+
+h1 {
+    // Display & position
+    margin-bottom: 5%;
+    // Color
+    color: $font-color;
+
+    // Text
+    user-select: none;
+    font-family: $font-family-sans-serif;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.container {
+    // Display & position
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.visible-on-print {
+    // Display & position
+    display: none;
+}
+
+.status-container {
+    // Display & position
+    display: flex;
+    width: 100%;
+
+    h1 {
+        display: none; 
+    }
+}
+
+@media print {
+    .visible-on-print {
+        // Display & position
+        display: flex;
+
+        // Text
+        user-select: none;
+        font-size: 1.5rem;
+    }
+
+    .status-container {
+        // Display & position
+        display: flex;
+        flex-direction: column;
+    
+        h1 {
+            display: flex; 
+        }
+    }
+}

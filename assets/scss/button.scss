@@ -1,0 +1,78 @@
+
+.button {
+    // Display & position
+    margin: 1%;
+    padding: 1%;
+    border-radius: 3%;
+    border-width: 1px;
+    border-style: solid;
+
+    // Color
+    color: $white;
+    border-color: $purple;
+    background-color: $purple;
+
+
+    // Text
+    font-family: $font-family-sans-serif;
+    font-size: 1rem;
+    user-select: none;
+
+    &.green {
+        // Display & position
+        width: 15%;
+
+        // Color
+        border-color: $green-border;
+        background-color: $green;
+    }
+
+    &.yellow {
+        // Display & position
+        width: 15%;
+
+        // Color
+        border-color: $yellow;
+        background-color: $yellow;
+        color: $font-color;
+    }
+    &.purple {
+        // Display & position
+        width: 15%;
+
+        // Color
+        border-color: $purple;
+        background-color: $purple;
+    }
+    &.red {
+        // Display & position
+        width: 15%;
+        margin-left: 3%;
+
+        // Color
+        border-color: $red;
+        background-color: $red;
+    }
+
+    &.blue {
+        // Display & position
+        width: 15%;
+
+        // Color
+        border-color: $blue;
+        background-color: $blue;
+    }
+
+    &.grey {
+        // Display & position
+        width: 15%;
+
+        // Color
+        border-color: $grey;
+        background-color: $grey;
+    }
+
+    >.icon {
+        margin-left: 5px;
+    }
+}

@@ -1,0 +1,61 @@
+.navbar {
+    // Display & position
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80px;
+    margin-bottom: 5%;
+
+    // Color
+    background-color: $white;
+
+    &.initial {
+        // Color
+        background-color: transparent;
+    }
+    .text-container {
+        // Display & position
+        width: 35%;
+
+        > .text {
+            // Display & position
+            margin-left: 5%;
+
+            // Color
+            color: $font-color;
+
+            // Text
+            font-family: $font-family-sans-serif;
+            font-weight: 300;
+            font-size: 1.5rem;
+            user-select: none;
+        }
+
+        > .bold {
+            // Text
+            font-weight: 700;
+        }
+
+        .birthday-icon {
+            // Display & position
+            margin-left: 10px;
+
+            // Text
+            font-size: 1.5rem;
+            user-select: none;
+        }
+    }
+
+    .button-container {
+        // Display & position
+        width: 65%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+@media print {
+    .navbar {
+        display: none;
+    }
+}

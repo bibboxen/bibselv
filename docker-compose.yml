@@ -12,6 +12,7 @@ services:
     image: itkdev/mariadb:latest
     networks:
       - app
+      - frontend
     ports:
       - '3306'
     environment:
@@ -21,7 +22,7 @@ services:
       - MYSQL_DATABASE=db
 
   phpfpm:
-    image: itkdev/php7.2-fpm:latest
+    image: itkdev/php7.4-fpm:latest
     networks:
       - app
     environment:
@@ -32,6 +33,7 @@ services:
       - PHP_MAX_EXECUTION_TIME=30
       - PHP_MEMORY_LIMIT=256M
       - DOCKER_HOST_DOMAIN=${COMPOSE_DOMAIN}
+      - PHP_IDE_CONFIG=serverName=localhost
     depends_on:
       - mariadb
     volumes:
@@ -55,11 +57,44 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`)"
 
   engine:
-    build: .docker/engine
-    command: node app.js
+    image: node:14
+    networks:
+      - app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - nginx
+    volumes:
+      - ./engine:/app:delegated
+    ports:
+      - '8030:3000'
+    command: npm run dev
+
+  frontend:
+    image: node:14
+    networks:
+      - app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app:delegated
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.9.1
     networks:
       - app
     ports:
-      - '8010:3000'
+      - 28777
     volumes:
-      - ./engine/:/app:delegated
+      - ${PWD}/.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ${PWD}/.docker/jvm.options:/usr/share/logstash/config/jvm.options:ro
+      - .docker/pipeline:/usr/share/logstash/pipeline:ro
+
+  redis:
+    image: 'redis:5'
+    networks:
+      - app
+    ports:
+      - '6379'

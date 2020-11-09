@@ -1,0 +1,31 @@
+.help-box {
+    // Display & position
+    background-color: $white;
+    border: 1px solid $font-color;
+    padding: 8%;
+
+    // Color
+    color: $font-color;
+
+    // Shadow
+    @include box-shadow();
+
+    .helpbox-header {
+        // Text
+        font-size: 1.5rem;
+        user-select: none;
+
+        .icon-helpbox {
+            // Display & position
+            margin-right: 5px;
+        }
+    }
+}
+
+
+
+@media print {
+    .help-box {
+        display:none;
+    }
+}

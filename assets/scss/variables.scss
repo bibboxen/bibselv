@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap');
+
+$yellow: #dce00c;
+$purple: #ce05d2;
+$blue: #006cd0;
+$red: #e94343;
+$green: #04c373;
+$light-green: #C6F5E2;
+$grey: #ebebeb;
+$green-border: #0aa966;
+$red-border: #d13636;
+$grey-border: #dedede;
+$white: #fff;
+$font-color: #1e1e1e;
+$slightly-white: #f8f8ff;
+// Set Roboto font
+$font-family-sans-serif: Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
+@mixin box-shadow($top: 0px, $left: 0px, $blur: 20px, $size: 1px, $color: rgba(0, 0, 0, 0.3)) {
+    -webkit-box-shadow: $top $left $blur $size $color;
+    -moz-box-shadow: $top $left $blur $size $color;
+    box-shadow: $top $left $blur $size $color;
+}
