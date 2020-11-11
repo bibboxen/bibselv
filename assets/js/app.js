@@ -124,7 +124,7 @@ function App({ uniqueId, socket }) {
 
         // Out of order from backend
         socket.on('OutOfOrder', () => {
-            setErrorMessage("Der er sket en uventet serverfejl, genindlæs siden for at prøve igen.");
+            setErrorMessage('Der er sket en uventet serverfejl, genindlæs siden for at prøve igen.');
         });
 
         // Configuration received from backend.
