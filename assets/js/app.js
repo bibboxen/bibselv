@@ -122,11 +122,17 @@ function App({ uniqueId, socket }) {
             setConnectionState(CONNECTION_OFFLINE);
         });
 
+        // Out of order from backend
+        socket.on('OutOfOrder', () => {
+            setErrorMessage("Der er sket en uventet serverfejl, genindlæs siden for at prøve igen.");
+        });
+
         // Configuration received from backend.
         socket.on('Configuration', (data) => {
             loadTranslations(data.defaultLanguageCode);
             setBoxConfig(data);
         });
+
 
         // Listen for changes to machine state.
         socket.on('UpdateState', (data) => {
