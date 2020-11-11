@@ -133,7 +133,6 @@ function App({ uniqueId, socket }) {
             setBoxConfig(data);
         });
 
-
         // Listen for changes to machine state.
         socket.on('UpdateState', (data) => {
             // Reset idle timer.
