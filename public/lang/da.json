@@ -5,6 +5,9 @@
   "banner-header-book-for-check-in": {
     "defaultMessage": "Denne bog skal afleveres"
   },
+  "app-server-error": {
+    "defaultMessage": "Der er sket en uventet serverfejl, genindlæs siden for at prøve igen."
+  },
   "book-is-registered": {
     "defaultMessage": "Bogen blev registreret. Klar til næste"
   },
