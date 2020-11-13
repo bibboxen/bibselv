@@ -5,6 +5,12 @@
       "value": "Token not valid. Access denied"
     }
   ],
+  "app-server-error": [
+    {
+      "type": 0,
+      "value": "An unexpected error happened, refresh the page and try again."
+    }
+  ],
   "banner-adapter-fetching-info": [
     {
       "type": 0,

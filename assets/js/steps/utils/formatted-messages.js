@@ -81,6 +81,7 @@ export function BannerTitleAuthor(title, author) {
 
 // App strings
 export const AppTokenNotValid = <FormattedMessage id='app-token-not-valid' defaultMessage='app-token-not-valid' />;
+export const ServerError = <FormattedMessage id='app-server-error' defaultMessage='app-server-error' />;
 
 // Print strings
 export const PrintReservationNote = <FormattedMessage id='print-reservation-note' defaultMessage='print-reservation-note' />;

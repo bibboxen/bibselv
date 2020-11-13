@@ -5,6 +5,12 @@
       "value": "Token ikke valid. Adgang nægtet"
     }
   ],
+  "app-server-error": [
+    {
+      "type": 0,
+      "value": "Der er sket en uventet serverfejl, genindlæs siden for at prøve igen."
+    }
+  ],
   "banner-adapter-fetching-info": [
     {
       "type": 0,

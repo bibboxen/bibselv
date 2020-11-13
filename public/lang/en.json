@@ -128,6 +128,9 @@
   "scan-login-password-header": {
     "defaultMessage": "Login"
   },
+  "app-server-error": {
+    "defaultMessage": "An unexpected error happened, refresh the page and try again."
+  },
   "app-token-not-valid": {
     "defaultMessage": "Token not valid. Access denied"
   },
