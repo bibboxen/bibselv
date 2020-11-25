@@ -148,12 +148,12 @@ Request.prototype.send = function send(message, firstVar, callback) {
                 // Log message from FBS.
                 var sip2message = 'No message';
                 if (res.hasError()) {
-                  sip2message = res.getError();
+                    sip2message = res.getError();
                 } else {
-                  var sip2 = body.match(/<response>(.*)<\/response>/);
-                  sip2message = sip2[1];
+                    var sip2 = body.match(/<response>(.*)<\/response>/);
+                    sip2message = sip2[1];
                 }
-                self.bus.emit('logger.info', { 'type': 'FBS', 'message': sip2message, 'xml': body});
+                self.bus.emit('logger.info', { 'type': 'FBS', 'message': sip2message, 'xml': body });
             }
         });
     } catch (error) {
