@@ -8,16 +8,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import BookStatus from '../utils/book-status';
 import {
-    faCheck,
-    faSpinner,
     faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
-import {StatusBannerHeaderOverdueBook, StatusBannerHeaderOverdueBooks} from "../utils/formatted-messages";
+import { StatusBannerHeaderOverdueBooks } from "../utils/formatted-messages";
 
 /**
- * OverdueBookBanner.
+ * OverdueBooksBanner.
  *
  * @param item
  *   Item to be displayed by the banner components
@@ -33,7 +30,7 @@ function OverdueBooksBanner({ items, visibleOnPrint = false }) {
     let icon = faExclamationTriangle;
 
     if (visibleOnPrint) {
-        //classes.push('visible-on-print');
+        classes.push('visible-on-print');
     }
 
     const classNames = classes.join(' ');
@@ -51,10 +48,10 @@ function OverdueBooksBanner({ items, visibleOnPrint = false }) {
                     <div className={'item mb-2'} key={'overdueItem' + (item.id || item.itemIdentifier)}>
                         {item.title && <div className='title'>{item.title}</div>}
                         {item.author &&
-                        <span className='author'>Af {item.author}</span>
+                            <span className='author'>Af {item.author}</span>
                         }
                         {!item.author &&
-                        <span className='author'>Uden forfatter</span>
+                            <span className='author'>Uden forfatter</span>
                         }
                     </div>
                 ))}

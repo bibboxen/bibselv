@@ -165,14 +165,11 @@
     animation: banner-spinner 5s linear infinite;
 }
 
-
-
 @media print {
     .banner {
         display: none;
     }
-    .visibe-on-print {
-        display: -webkit-box;
+    .visible-on-print {
         border: 0;
 
         .header {
