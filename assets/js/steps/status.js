@@ -38,6 +38,10 @@ import {
     CONNECTION_ONLINE
 } from '../constants';
 import Alert from './utils/alert';
+import Banner from "./components/banner";
+import BookBanner from "./components/book-banner";
+import BookStatus from "./utils/book-status";
+import OverdueBooksBanner from "./components/overdue-books-banner";
 
 /**
  * Status.
@@ -66,28 +70,51 @@ function Status({ actionHandler }) {
         };
     }, [actionHandler]);
 
-    const loanedItems = [
-        ...adaptListOfBooksWitErrorAndTitle(
-            context.machineState.get.fineItems,
-            StatusBannerHeaderFinedBook
-        ),
-        ...adaptListOfBooksWitErrorAndTitle(
-            context.machineState.get.overdueItems,
-            StatusBannerHeaderOverdueBook
-        ),
-        ...adaptListOfBooksWitErrorAndTitle(
-            context.machineState.get.recallItems,
-            StatusBannerHeaderOverdueBook
-        ),
-        ...adaptListOfBooks(context.machineState.get.chargedItems)
+
+    const holdItems = [
+        ...context.machineState.get.holdItems,
+    ];
+    const unavailableHoldItems = [
+        ...context.machineState.get.unavailableHoldItems,
+    ];
+    const overdueItems = [
+        ...context.machineState.get.overdueItems,
+    ];
+    let loanedItems = [
+        ...context.machineState.get.chargedItems,
     ];
 
-    const holdItems = adaptListOfBooksWithSuccess(
-        context.machineState.get.holdItems
+    // Filter out loaned items that are not in overdueItems.
+    loanedItems = loanedItems.filter(function (obj) {
+        return !overdueItems.some(function(obj2) {
+            return obj.id === obj2.id;
+        });
+    });
+
+    const currentLoansContent = (<>
+        {overdueItems && (
+            <OverdueBooksBanner items={overdueItems} visibleOnPrint={true}/>
+        )}
+        {loanedItems && loanedItems.map((item) => (
+            <BookBanner item={item} key={'loanedItem' + item.id || item.itemIdentifier} visibleOnPrint={true}/>
+        ))}
+    </>);
+
+    const reservationsContent = (
+        <>
+            {unavailableHoldItems && unavailableHoldItems.map((item) => (
+                <BookBanner item={item} key={'unavailableHoldItem' + item.id || item.itemIdentifier} visibleOnPrint={true}/>
+            ))}
+        </>
     );
 
-    const unavailableHoldItems = adaptListOfBooks(
-        context.machineState.get.unavailableHoldItems
+    const readyForPickupContent = (
+        <>
+            {holdItems && holdItems.map((item) => {
+                item.status = BookStatus.SUCCESS;
+                return <BookBanner item={item} key={'holdItem' + item.id || item.itemIdentifier} visibleOnPrint={true}/>
+            })}
+        </>
     );
 
     return (
@@ -107,19 +134,26 @@ function Status({ actionHandler }) {
             <div className='status-container'>
                 <h1>{StatusHeaderPrint}</h1>
                 <div className='col-md-4 mt-4'>
-                    <BannerList title={StatusHeaderCurrentLoans} items={loanedItems} visibleOnPrint={true}/>
+                    <BannerList
+                        title={StatusHeaderCurrentLoans}
+                        numberOfItems={loanedItems.length + overdueItems.length}
+                        content={currentLoansContent}
+                        visibleOnPrint={true}
+                    />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
                         title={StatusHeaderReservations}
-                        items={unavailableHoldItems}
+                        numberOfItems={unavailableHoldItems.length}
+                        content={reservationsContent}
                         visibleOnPrint={true}
                     />
                 </div>
                 <div className='col-md-4 mt-4'>
                     <BannerList
                         title={StatusHeaderReadyForPickup}
-                        items={holdItems}
+                        numberOfItems={holdItems.length}
+                        content={readyForPickupContent}
                         visibleOnPrint={true}
                     />
                 </div>

@@ -20,6 +20,15 @@
         font-weight: 700;
     }
 
+    .title {
+        font-weight: bold;
+    }
+
+    .author {
+        font-weight: normal;
+        font-size: .8em;
+    }
+
     .text {
         &:before {
             content: '\00a0-\00a0';
@@ -27,14 +36,14 @@
     }
 
     &.danger {
-        // Color 
+        // Color
         background-color: $red;
         border-color: $red;
         color: $white;
     }
 
     &.success {
-        // Color 
+        // Color
         background-color: $light-green;
         border-color: $green-border;
     }
@@ -48,6 +57,76 @@
         // Text
         font-size: 15px;
         user-select: none;
+    }
+}
+
+.book-banner {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 5px 0;
+    padding: 5px 10px 5px 10px;
+    border-radius: 2px;
+    border: 1px solid $grey-border;
+
+    // Text
+    font-family: $font-family-sans-serif;
+    user-select: none;
+
+    // Color
+    background-color: $grey;
+    color: $font-color;
+
+    .header {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    .author {
+        font-weight: 300;
+    }
+
+    &.danger {
+        // Color
+        background-color: $red;
+        border-color: $red;
+        color: $white;
+    }
+
+    &.success {
+        // Color
+        background-color: $light-green;
+        border-color: $green-border;
+    }
+}
+
+.overdue-books-banner {
+    border-radius: 2px;
+    border: 1px solid $grey-border;
+    font-family: $font-family-sans-serif;
+    user-select: none;
+    background-color: $grey;
+    color: $font-color;
+    margin: 5px 0;
+    padding: 5px 10px 0 10px;
+
+    .items {
+        line-height: 1.25;
+    }
+
+    .header {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    .author {
+        font-weight: 300;
+    }
+
+    &.danger {
+        background-color: $red;
+        border-color: $red;
+        color: $white;
     }
 }
 
@@ -92,7 +171,7 @@
     .banner {
         display: none;
     }
-    .visibe-on-print { 
+    .visibe-on-print {
         display: -webkit-box;
         border: 0;
 

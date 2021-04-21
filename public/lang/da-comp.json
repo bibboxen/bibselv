@@ -23,6 +23,12 @@
       "value": "Denne bog skal afleveres"
     }
   ],
+  "banner-header-books-for-check-in": [
+    {
+      "type": 0,
+      "value": " bøger skal afleveres"
+    }
+  ],
   "banner-header-book-with-fine": [
     {
       "type": 0,
