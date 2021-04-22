@@ -14,7 +14,7 @@ import {
     faSpinner,
     faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
-import {BookBannerByAuthor, BookBannerWithoutAuthor} from "../utils/formatted-messages";
+import { BookBannerByAuthor, BookBannerWithoutAuthor } from '../utils/formatted-messages';
 
 /**
  * BookBanner.
@@ -26,9 +26,9 @@ import {BookBannerByAuthor, BookBannerWithoutAuthor} from "../utils/formatted-me
  * @constructor
  */
 function BookBanner({ item }) {
-    let classes = ['book-banner'];
+    const classes = ['book-banner'];
 
-    let {author, title, status, id} = item;
+    let { author, title, status, id } = item;
     let icon = null;
 
     switch (status) {

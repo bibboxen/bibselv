@@ -10,11 +10,6 @@ import MachineStateContext from './utils/machine-state-context';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import {
-    adaptListOfBooksWithSuccess,
-    adaptListOfBooks,
-    adaptListOfBooksWitErrorAndTitle
-} from './utils/banner-adapter';
-import {
     faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -23,8 +18,6 @@ import {
     StatusHeaderCurrentLoans,
     StatusHeaderReservations,
     StatusHeaderReadyForPickup,
-    StatusBannerHeaderFinedBook,
-    StatusBannerHeaderOverdueBook,
     StatusHeaderPrint,
     StatusUnavailable
 } from './utils/formatted-messages';
@@ -38,10 +31,9 @@ import {
     CONNECTION_ONLINE
 } from '../constants';
 import Alert from './utils/alert';
-import Banner from "./components/banner";
-import BookBanner from "./components/book-banner";
-import BookStatus from "./utils/book-status";
-import OverdueBooksBanner from "./components/overdue-books-banner";
+import BookBanner from './components/book-banner';
+import BookStatus from './utils/book-status';
+import OverdueBooksBanner from './components/overdue-books-banner';
 
 /**
  * Status.
@@ -70,22 +62,21 @@ function Status({ actionHandler }) {
         };
     }, [actionHandler]);
 
-
     const holdItems = [
-        ...context.machineState.get.holdItems,
+        ...context.machineState.get.holdItems
     ];
     const unavailableHoldItems = [
-        ...context.machineState.get.unavailableHoldItems,
+        ...context.machineState.get.unavailableHoldItems
     ];
     const overdueItems = [
-        ...context.machineState.get.overdueItems,
+        ...context.machineState.get.overdueItems
     ];
     let loanedItems = [
-        ...context.machineState.get.chargedItems,
+        ...context.machineState.get.chargedItems
     ];
 
     // Filter out loaned items that are not in overdueItems.
-    loanedItems = loanedItems.filter(function (obj) {
+    loanedItems = loanedItems.filter(function(obj) {
         return !overdueItems.some(function(obj2) {
             return obj.id === obj2.id;
         });
@@ -112,7 +103,7 @@ function Status({ actionHandler }) {
         <>
             {holdItems && holdItems.map((item) => {
                 item.status = BookStatus.SUCCESS;
-                return <BookBanner item={item} key={'holdItem' + item.id || item.itemIdentifier} visibleOnPrint={true}/>
+                return <BookBanner item={item} key={'holdItem' + item.id || item.itemIdentifier} visibleOnPrint={true}/>;
             })}
         </>
     );
