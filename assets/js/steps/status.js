@@ -96,14 +96,14 @@ function Status({ actionHandler }) {
             <OverdueBooksBanner items={overdueItems} visibleOnPrint={true}/>
         )}
         {loanedItems && loanedItems.map((item) => (
-            <BookBanner item={item} key={'loanedItem' + item.id || item.itemIdentifier} visibleOnPrint={true}/>
+            <BookBanner item={item} key={'loanedItem' + item.id || item.itemIdentifier} />
         ))}
     </>);
 
     const reservationsContent = (
         <>
             {unavailableHoldItems && unavailableHoldItems.map((item) => (
-                <BookBanner item={item} key={'unavailableHoldItem' + item.id || item.itemIdentifier} visibleOnPrint={true}/>
+                <BookBanner item={item} key={'unavailableHoldItem' + item.id || item.itemIdentifier} />
             ))}
         </>
     );

@@ -20,21 +20,15 @@ import {
  *
  * @param item
  *   Item to be displayed by the banner components
- * @param visibleOnPrint
- *   Display on print output?
  *
  * @return {*}
  * @constructor
  */
-function BookBanner({ item, visibleOnPrint = false }) {
+function BookBanner({ item }) {
     let classes = ['book-banner'];
 
     let {author, title, status, id} = item;
     let icon = null;
-
-    if (visibleOnPrint) {
-        //classes.push('visible-on-print');
-    }
 
     switch (status) {
         case BookStatus.ERROR:
@@ -74,8 +68,7 @@ function BookBanner({ item, visibleOnPrint = false }) {
 }
 
 BookBanner.propTypes = {
-    item: PropTypes.object.isRequired,
-    visibleOnPrint: PropTypes.bool
+    item: PropTypes.object.isRequired
 };
 
 export default BookBanner;

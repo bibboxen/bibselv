@@ -18,20 +18,14 @@ import { StatusBannerHeaderOverdueBooks } from "../utils/formatted-messages";
  *
  * @param item
  *   Item to be displayed by the banner components
- * @param visibleOnPrint
- *   Display on print output?
  *
  * @return {*}
  * @constructor
  */
-function OverdueBooksBanner({ items, visibleOnPrint = false }) {
+function OverdueBooksBanner({ items }) {
     let classes = ['overdue-books-banner', 'danger'];
 
     let icon = faExclamationTriangle;
-
-    if (visibleOnPrint) {
-        classes.push('visible-on-print');
-    }
 
     const classNames = classes.join(' ');
 
@@ -61,8 +55,7 @@ function OverdueBooksBanner({ items, visibleOnPrint = false }) {
 }
 
 OverdueBooksBanner.propTypes = {
-    items: PropTypes.array.isRequired,
-    visibleOnPrint: PropTypes.bool
+    items: PropTypes.array.isRequired
 };
 
 export default OverdueBooksBanner;
