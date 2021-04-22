@@ -73,29 +73,15 @@ function Status({ actionHandler }) {
 
     const holdItems = [
         ...context.machineState.get.holdItems,
-        {
-            id: '12312312',
-            author: 'Author Larsen',
-            title: 'En fed bog'
-        }
     ];
     const unavailableHoldItems = [
         ...context.machineState.get.unavailableHoldItems,
-        {
-            id: '12312312',
-            author: 'Author Larsen',
-            title: 'En fed bog'
-        }
     ];
     const overdueItems = [
         ...context.machineState.get.overdueItems,
     ];
     let loanedItems = [
         ...context.machineState.get.chargedItems,
-        {
-            id: '12312312',
-            title: 'En fed bog'
-        }
     ];
 
     // Filter out loaned items that are not in overdueItems.

@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
-import { StatusBannerHeaderOverdueBooks } from "../utils/formatted-messages";
+import {BookBannerByAuthor, BookBannerWithoutAuthor, StatusBannerHeaderOverdueBooks} from "../utils/formatted-messages";
 
 /**
  * OverdueBooksBanner.
@@ -42,10 +42,10 @@ function OverdueBooksBanner({ items }) {
                     <div className={'item mb-2'} key={'overdueItem' + (item.id || item.itemIdentifier)}>
                         {item.title && <div className='title'>{item.title}</div>}
                         {item.author &&
-                            <span className='author'>Af {item.author}</span>
+                            <span className='author'>{BookBannerByAuthor(item.author)}</span>
                         }
                         {!item.author &&
-                            <span className='author'>Uden forfatter</span>
+                            <span className='author'>{BookBannerWithoutAuthor}</span>
                         }
                     </div>
                 ))}
