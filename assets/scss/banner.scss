@@ -169,7 +169,8 @@
     .banner {
         display: none;
     }
-    .visible-on-print {
+    .visibe-on-print {
+        display: -webkit-box;
         border: 0;
 
         .header {
