@@ -34,7 +34,7 @@ function OverdueBooksBanner({ items }) {
             <div className={'top'}>
                 <span className={'header'}>
                     {icon && <FontAwesomeIcon icon={icon} size={'lg'} className={'mr-2'} />}
-                    {items.length} {StatusBannerHeaderOverdueBooks}
+                    {StatusBannerHeaderOverdueBooks(items.length)}
                 </span>
             </div>
             <div className={'items mt-2'}>

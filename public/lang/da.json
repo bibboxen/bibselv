@@ -6,7 +6,7 @@
     "defaultMessage": "Denne bog skal afleveres"
   },
   "banner-header-books-for-check-in": {
-    "defaultMessage": " bøger skal afleveres"
+    "defaultMessage": "{numberOfBooks} bøger skal afleveres"
   },
   "app-server-error": {
     "defaultMessage": "Der er sket en uventet serverfejl, genindlæs siden for at prøve igen."

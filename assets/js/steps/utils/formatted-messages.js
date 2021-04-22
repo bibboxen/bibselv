@@ -40,7 +40,16 @@ export const StatusHeaderReadyForPickup = <FormattedMessage id='status-header-re
 export const StatusBannerHeaderFinedBook = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='banner-header-book-with-fine' />;
 export const StatusBannerHeaderOverdueBook = <FormattedMessage id='banner-header-book-for-check-in' defaultMessage='banner-header-book-for-check-in' />;
 export const StatusUnavailable = <FormattedMessage id='status-unavailable' defaultMessage='status-unavailable' />;
-export const StatusBannerHeaderOverdueBooks = <FormattedMessage id='banner-header-books-for-check-in' defaultMessage='banner-header-books-for-check-in' />;
+
+/**
+ * Create HeaderOverdueBooks translation.
+ * @param numberOfBooks
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export function StatusBannerHeaderOverdueBooks(numberOfBooks) {
+    return <FormattedMessage id="banner-header-books-for-check-in" defaultMessage="banner-header-books-for-check-in" values={{ numberOfBooks: numberOfBooks }} />;
+}
 
 // Help box strings.
 export const HelpBoxHeader = <FormattedMessage id='help-box-header' defaultMessage='help-box-header' />;

@@ -25,6 +25,10 @@
   ],
   "banner-header-books-for-check-in": [
     {
+      "type": 1,
+      "value": "numberOfBooks"
+    },
+    {
       "type": 0,
       "value": " bøger skal afleveres"
     }
