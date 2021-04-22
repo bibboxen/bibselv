@@ -14,6 +14,7 @@ import {
     faSpinner,
     faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
+import {BookBannerByAuthor, BookBannerWithoutAuthor} from "../utils/formatted-messages";
 
 /**
  * BookBanner.
@@ -57,10 +58,10 @@ function BookBanner({ item }) {
             <div className={'body'}>
                 {title && <div className='title'>{title}</div>}
                 {author &&
-                    <div className='author'>Af {author}</div>
+                    <div className='author'>{BookBannerByAuthor(author)}</div>
                 }
                 {!author &&
-                    <div className='author'>Uden forfatter</div>
+                    <div className='author'>{BookBannerWithoutAuthor}</div>
                 }
             </div>
         </div>

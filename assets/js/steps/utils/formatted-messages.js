@@ -95,3 +95,9 @@ export const ServerError = <FormattedMessage id='app-server-error' defaultMessag
 
 // Print strings
 export const PrintReservationNote = <FormattedMessage id='print-reservation-note' defaultMessage='print-reservation-note' />;
+
+// Book banner
+export function BookBannerByAuthor(author) {
+    return <FormattedMessage id="book-banner-by-author" defaultMessage="book-banner-by-author" values={{ author: author }} />;
+}
+export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;
