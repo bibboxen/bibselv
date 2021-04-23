@@ -54,6 +54,7 @@ export const ScanLoginSubheader = <FormattedMessage id='scan-login-subheader' de
 
 // Login strings
 export const LoginLoginNotConfigured = <FormattedMessage id='login-not-configured' defaultMessage='login-not-configured' />;
+export const LoginLoginError = <FormattedMessage id='login-error' defaultMessage='login-error' />;
 
 // Navbar strings
 export const NavbarButtonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='button-navbar-check-out' />;

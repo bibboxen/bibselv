@@ -5,12 +5,11 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
-import Input from '../components/input';
 import HelpBox from '../components/help-box';
 import Button from '../components/button';
 import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
 import QwertyKeyboard from '../utils/qwerty-keyboard';
 import MachineStateContext from '../utils/machine-state-context';
@@ -20,12 +19,13 @@ import {
     ScanPasswordLoginFirstHelpboxText,
     ScanPasswordLoginInputLabel,
     ScanPasswordLoginSecondHelpboxText,
-    ScanPasswordLoginHeader
+    ScanPasswordLoginHeader,
+    LoginLoginError
 } from '../utils/formatted-messages';
 import BarcodeHandler from '../utils/barcode-handler';
 import { ACTION_RESET } from '../../constants';
 import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
-import Alert from "../utils/alert";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * ScanPasswordLogin.
@@ -128,6 +128,8 @@ function ScanPasswordLogin({ actionHandler }) {
         });
     }
 
+    const loginError = context?.machineState?.get?.loginError;
+
     return (
         <>
             <Header
@@ -141,27 +143,32 @@ function ScanPasswordLogin({ actionHandler }) {
             </div>
             <div className='col-md-1'/>
             <div className='col-md-6'>
-                {context?.machineState?.get?.loginError &&
-                  <Alert message={context?.machineState?.get?.loginError} variant={'danger'}/>
-                }
+
                 {!usernameScanned && (
                     <div className='content'>
                         <img src={BarcodeScannerIcon} height={300} width={300}/>
                     </div>
                 )}
                 {usernameScanned && (
-                    <Input
-                        name='password'
-                        label={ScanPasswordLoginInputLabel}
-                        value={password}
-                        onChange={onKeyboardInput}
-                        type='password'
-                    />
+                    <>
+                        <div className={'input' + (loginError ? ' error' : '')}>
+                            <label htmlFor={'password'}>{ScanPasswordLoginInputLabel}</label>
+                            <input name={'password'} id={'password'} type='password' value={password} onChange={onKeyboardInput} autoFocus />
+                            {loginError &&
+                            <div className='error-banner'>
+                                <span className='info-banner-icon'>
+                                    <FontAwesomeIcon icon={faExclamationTriangle} />
+                                </span>
+                                {LoginLoginError}
+                            </div>
+                            }
+                        </div>
+                    </>
                 )}
             </div>
             <div className='col-md-5'>
                 {usernameScanned && (context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
-                <QwertyKeyboard handleKeyPress={onInput}/>
+                    <QwertyKeyboard handleKeyPress={onInput}/>
                 }
             </div>
             {context.boxConfig.get.debugEnabled && (

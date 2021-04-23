@@ -294,5 +294,11 @@
           "type": 0,
           "value": "Status is temporarily unavailable"
       }
+  ],
+  "login-error": [
+    {
+      "type": 0,
+      "value": "Login failed. Try again"
+    }
   ]
 }

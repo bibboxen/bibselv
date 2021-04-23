@@ -142,6 +142,9 @@
   },
   "status-unavailable": {
     "defaultMessage": "Status is temporarily unavailable"
+  },
+  "login-error": {
+    "defaultMessage": "Login failed. Try again"
   }
 }
 

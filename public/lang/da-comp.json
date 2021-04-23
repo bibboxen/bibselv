@@ -290,10 +290,15 @@
     }
   ],
   "status-unavailable": [
+      {
+          "type": 0,
+          "value": "Status er midlertidigt utilgængeligt"
+      }
+  ],
+  "login-error": [
     {
       "type": 0,
-      "value": "Status er midlertidigt utilgængeligt"
+      "value": "Login fejlede, prøv igen"
     }
   ]
-
 }
