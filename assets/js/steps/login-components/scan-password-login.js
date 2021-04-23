@@ -25,6 +25,7 @@ import {
 import BarcodeHandler from '../utils/barcode-handler';
 import { ACTION_RESET } from '../../constants';
 import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
+import Alert from "../utils/alert";
 
 /**
  * ScanPasswordLogin.
@@ -140,6 +141,9 @@ function ScanPasswordLogin({ actionHandler }) {
             </div>
             <div className='col-md-1'/>
             <div className='col-md-6'>
+                {context?.machineState?.get?.loginError &&
+                  <Alert message={context?.machineState?.get?.loginError} variant={'danger'}/>
+                }
                 {!usernameScanned && (
                     <div className='content'>
                         <img src={BarcodeScannerIcon} height={300} width={300}/>

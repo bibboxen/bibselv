@@ -300,6 +300,33 @@ class ActionHandler {
          */
         this.bus.once(busEvent, resp => {
             const user = resp.patron;
+
+            // Report error if invalid patron.
+            if (user.validPatron !== 'Y') {
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'loginError',
+                    data: {
+                        error: 'Invalid patron'
+                    }
+                });
+                return;
+            }
+
+            // Report error if invalid patron password.
+            if (user.validPatronPassword !== 'Y') {
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'loginError',
+                    data: {
+                        error: 'Invalid password'
+                    }
+                });
+                return;
+            }
+
             const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
             let birthdayToday = false;
 
