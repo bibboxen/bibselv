@@ -23,6 +23,32 @@
       "value": "Denne bog skal afleveres"
     }
   ],
+  "banner-header-books-for-check-in": [
+    {
+      "type": 1,
+      "value": "numberOfBooks"
+    },
+    {
+      "type": 0,
+      "value": " bøger skal afleveres"
+    }
+  ],
+  "book-banner-by-author": [
+    {
+      "type": 0,
+      "value": "Af "
+    },
+    {
+      "type": 1,
+      "value": "author"
+    }
+  ],
+  "book-banner-without-author": [
+    {
+      "type": 0,
+      "value": "Uden forfatter"
+    }
+  ],
   "banner-header-book-with-fine": [
     {
       "type": 0,

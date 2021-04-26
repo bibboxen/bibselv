@@ -41,6 +41,16 @@ export const StatusBannerHeaderFinedBook = <FormattedMessage id='banner-header-b
 export const StatusBannerHeaderOverdueBook = <FormattedMessage id='banner-header-book-for-check-in' defaultMessage='banner-header-book-for-check-in' />;
 export const StatusUnavailable = <FormattedMessage id='status-unavailable' defaultMessage='status-unavailable' />;
 
+/**
+ * Create HeaderOverdueBooks translation.
+ * @param numberOfBooks
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export function StatusBannerHeaderOverdueBooks(numberOfBooks) {
+    return <FormattedMessage id="banner-header-books-for-check-in" defaultMessage="banner-header-books-for-check-in" values={{ numberOfBooks: numberOfBooks }} />;
+}
+
 // Help box strings.
 export const HelpBoxHeader = <FormattedMessage id='help-box-header' defaultMessage='help-box-header' />;
 
@@ -85,3 +95,15 @@ export const ServerError = <FormattedMessage id='app-server-error' defaultMessag
 
 // Print strings
 export const PrintReservationNote = <FormattedMessage id='print-reservation-note' defaultMessage='print-reservation-note' />;
+
+// Book banner
+/**
+ * Return a string of "by author".
+ * @param author
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export function BookBannerByAuthor(author) {
+    return <FormattedMessage id="book-banner-by-author" defaultMessage="book-banner-by-author" values={{ author: author }} />;
+}
+export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;

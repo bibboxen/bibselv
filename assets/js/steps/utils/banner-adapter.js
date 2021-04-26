@@ -86,6 +86,7 @@ export function adaptListOfBooksWithSuccess(listOfBooks) {
  * Adapts books from state machine with error (red banner) to the banner component and title.
  *
  * @param listOfBooks
+ * @param title
  * @return {[]}
  */
 export function adaptListOfBooksWitErrorAndTitle(listOfBooks, title) {
