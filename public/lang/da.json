@@ -151,5 +151,8 @@
   },
   "status-unavailable": {
     "defaultMessage": "Status er midlertidigt utilgængeligt"
+  },
+  "login-error": {
+    "defaultMessage": "Login fejlede, prøv igen"
   }
 }
