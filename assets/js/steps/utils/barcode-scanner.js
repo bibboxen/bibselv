@@ -13,7 +13,7 @@ import {
 } from '../../constants';
 
 // Barcode pattern.
-const pattern = /^(!B[A-Z]\d{2})(?<code>.+)!C$/;
+const pattern = /(!B[A-Z]\d{2})(?<code>\w+)!C/g;
 
 /* Examples
   Default:    !BA10\d{10}!C
@@ -60,38 +60,44 @@ export class BarcodeScanner {
         }
 
         if (this.code.length > 0) {
-            let codedBarcodeScanner = false;
-            let barcodeType = BARCODE_TYPE_DEFAULT;
-            let outputCode = this.code;
-            const matches = pattern.exec(this.code);
+            const input = this.code;
+            const matches = [...input.matchAll(pattern)];
 
-            if (matches !== null && matches.groups.code) {
-                codedBarcodeScanner = true;
-                outputCode = matches.groups.code;
+            // Make callback for each match.
+            matches.forEach(match => {
+                let barcodeType = BARCODE_TYPE_DEFAULT;
+                let codedBarcodeScanner = false;
+                let callbackCode = this.code;
 
-                switch (this.code.substr(1, 4)) {
-                    case BARCODE_CODE_COMMAND:
+                if (match !== null && match.groups.code) {
+                    codedBarcodeScanner = true;
+                    callbackCode = match.groups.code;
+
+                    switch (this.code.substr(1, 4)) {
+                        case BARCODE_CODE_COMMAND:
+                            barcodeType = BARCODE_TYPE_COMMAND;
+                            break;
+                        case BARCODE_CODE_2OF5:
+                            barcodeType = BARCODE_TYPE_2OF5;
+                            break;
+                    }
+                } else {
+                    // For scanners that are not coded.
+                    if (this.code.length === 3) {
                         barcodeType = BARCODE_TYPE_COMMAND;
-                        break;
-                    case BARCODE_CODE_2OF5:
-                        barcodeType = BARCODE_TYPE_2OF5;
-                        break;
+                    }
                 }
-            } else {
-                // For scanners that are not coded.
-                if (this.code.length === 3) {
-                    barcodeType = BARCODE_TYPE_COMMAND;
-                }
-            }
 
-            const callbackObject = {
-                type: barcodeType,
-                codedBarcodeScanner: codedBarcodeScanner,
-                code: this.code,
-                outputCode: outputCode
-            };
+                const callbackObject = {
+                    type: barcodeType,
+                    codedBarcodeScanner: codedBarcodeScanner,
+                    code: match ? match[0] : input,
+                    outputCode: callbackCode
+                };
 
-            this.resultCallback(callbackObject);
+                this.resultCallback(callbackObject);
+            });
+
             this.code = '';
         } else {
             this.code = '';
