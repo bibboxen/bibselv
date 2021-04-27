@@ -60,8 +60,8 @@ export class BarcodeScanner {
         }
 
         if (this.code.length > 0) {
-            let input = this.code;
-            let matches = [...input.matchAll(pattern)];
+            const input = this.code;
+            const matches = [...input.matchAll(pattern)];
 
             // Make callback for each match.
             matches.forEach(match => {
