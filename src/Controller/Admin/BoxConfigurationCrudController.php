@@ -70,6 +70,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 }),
 
             FormField::addPanel('Options'),
+            BooleanField::new('hasFrontpageCheckIn')->hideOnIndex(),
             BooleanField::new('hasTouch')->hideOnIndex(),
             BooleanField::new('hasKeyboard')->hideOnIndex(),
             BooleanField::new('hasPrinter')->hideOnIndex(),
