@@ -199,6 +199,15 @@ module.exports = function(options, imports, register) {
                 _onEnter: function(client) {
                     debug('Entered checkInItems on client: ' + client.token);
                     client.state.step = 'checkInItems';
+
+                    // If an item has been set for check in, check it in.
+                    if (client.internal?.checkInItemOnEnter) {
+                        client.actionData = {
+                            itemIdentifier: client.internal.checkInItemOnEnter
+                        };
+                        client.internal.checkInItemOnEnter = null;
+                        actionHandler.checkInItem(client);
+                    }
                 },
                 _onExit: function(client) {
                     client.actionData = null;
