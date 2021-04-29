@@ -153,7 +153,7 @@ Request.prototype.send = function send(message, firstVar, callback) {
                     var sip2 = body.match(/<response>(.*)<\/response>/);
                     sip2message = sip2[1];
                 }
-                self.bus.emit('logger.info', { 'type': 'FBS', 'message': sip2message, 'xml': body });
+                self.bus.emit('logger.info', { type: 'FBS', message: sip2message, xml: body });
             }
         });
     } catch (error) {
