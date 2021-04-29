@@ -124,14 +124,14 @@ Request.prototype.send = function send(message, firstVar, callback) {
                 if (!error) {
                     res = new Response(body, firstVar);
                     if (res.hasError()) {
-                        err = new Error(res.getError());
+                        error = new Error(res.getError());
                     } else {
-                        err = new Error('Unknown error', response.statusCode());
+                        error = new Error('Unknown error', response.statusCode());
                     }
                 }
                 // Log error message from FBS.
-                self.bus.emit('logger.err', { type: 'FBS', message: err });
-                callback(error, null);
+                self.bus.emit('logger.err', { type: 'FBS', message: error });
+                callback(new Error('FBS is offline'), null);
             } else {
                 // Send debug message.
                 debug(response.statusCode + ':' + message.substr(0, 2));
@@ -146,8 +146,14 @@ Request.prototype.send = function send(message, firstVar, callback) {
                 callback(err, res);
 
                 // Log message from FBS.
-                var sip2 = body.match(/<response>(.*)<\/response>/);
-                self.bus.emit('logger.info', { type: 'FBS', message: sip2 !== null ? sip2[1] : 'sip2 is null', xml: body });
+                var sip2message = 'No message';
+                if (res.hasError()) {
+                    sip2message = res.getError();
+                } else {
+                    var sip2 = body.match(/<response>(.*)<\/response>/);
+                    sip2message = sip2[1];
+                }
+                self.bus.emit('logger.info', { type: 'FBS', message: sip2message, xml: body });
             }
         });
     } catch (error) {
