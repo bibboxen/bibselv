@@ -39,6 +39,7 @@ class ActionHandler {
      */
     enterFlow(client, flow) {
         client.state.flow = flow;
+        client.internal.checkInItemOnEnter = client.actionData.checkInItemOnEnter;
 
         if (flow === 'checkInItems') {
             // Check in flow does not require that the user is logged in.
