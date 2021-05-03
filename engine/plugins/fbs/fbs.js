@@ -8,6 +8,7 @@
 const Q = require('q');
 const debug = require('debug')('bibbox:FBS:main');
 const Request = require('./request.js');
+const Brakes = require('brakes');
 
 /**
  * Default constructor.
@@ -273,7 +274,7 @@ FBS.prototype.block = function block(username, reason) {
  * @param {function} register
  *   Callback function used to register this plugin.
  */
-module.exports = function(options, imports, register) {
+module.exports = function (options, imports, register) {
     const bus = imports.bus;
 
     // Extend configuration with the end-point (it's done this way to keep config.json more simple).
@@ -286,87 +287,76 @@ module.exports = function(options, imports, register) {
     const onlineState = {
         online: true,
         threshold: 5,
+        requestTimeout: 2000,
         successfulOnlineChecks: 5,
         onlineTimeout: 5000,
-        offlineTimeout: 30000,
-        ensureOnlineCheckTimeout: 300000
+        offlineTimeout: 30000
     };
 
-    let checkOnlineStateTimeout = null;
-    let ensureCheckOnlineStateTimeout = null;
-
-    /**
-     * Online checker.
-     *
-     * State machine that handles the FBS online/offline state.
-     */
-    const checkOnlineState = () => {
-        // Clear extra timeout, to make sure only one is running.
-        if (ensureCheckOnlineStateTimeout != null) {
-            clearTimeout(ensureCheckOnlineStateTimeout);
-        }
-
-        // Start extra timeout.
-        ensureCheckOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.onlineTimeout + onlineState.ensureOnlineCheckTimeout);
-
-        // Make sure only one checkOnlineStateTimeout is running.
-        if (checkOnlineStateTimeout != null) {
-            clearTimeout(checkOnlineStateTimeout);
-            checkOnlineStateTimeout = null;
-        }
-
-        // Create FBS object (using the online check configuration from the config.json file).
+    // Check if FBS is offline.
+    // @TODO: Remove false &&.
+    if (false && enableOnlineChecks) {
         const fbs = new FBS(bus, options.config);
 
-        // Update configuration (optional configuration in config.json).
-        onlineState.threshold = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.threshold : onlineState.threshold;
-        onlineState.onlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.onlineTimeout : onlineState.onlineTimeout;
-        onlineState.offlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.offlineTimeout : onlineState.offlineTimeout;
+        const checkFBSOnline = function () {
+            const deferred = Q.defer();
 
-        fbs.libraryStatus().then(
-            res => {
-                // Listen to online check event send below.
-                if (Object.prototype.hasOwnProperty.call(res, 'onlineState') && res.onlineStatus) {
-                    if (onlineState.successfulOnlineChecks >= onlineState.threshold) {
-                        // FBS is online and threshold has been reached, so state online.
-                        checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.onlineTimeout);
-                        onlineState.online = true;
-                    } else {
-                        // FBS online but threshold _not_ reached, so state offline.
-                        onlineState.successfulOnlineChecks++;
-                        onlineState.online = false;
-                        checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
+            // Update configuration (optional configuration in config.json).
+            onlineState.threshold = fbs?.config?.onlineState?.threshold ?? onlineState.threshold;
+            onlineState.onlineTimeout = fbs?.config?.onlineState?.onlineTimeout ?? onlineState.onlineTimeout;
+            onlineState.offlineTimeout = fbs?.config?.onlineState?.offlineTimeout ?? onlineState.offlineTimeout;
+
+            // Check for library status.
+            fbs.libraryStatus()
+                .then(result => {
+                    if (!result) {
+                        deferred.reject(new Error('Result is not set'));
                     }
-                } else {
-                    // FBS is offline, so it the state.
-                    onlineState.successfulOnlineChecks = 0;
-                    onlineState.online = false;
-                    checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-                }
 
-                // Send state event into the bus.
-                const eventName = onlineState.online ? 'fbs.online' : 'fbs.offline';
-                bus.emit(eventName, {
-                    timestamp: new Date().getTime(),
-                    online: onlineState
+                    if (result.onlineStatus) {
+                        deferred.resolve(true);
+                    } else {
+                        deferred.reject(new Error('FBS reports that it is offline'));
+                    }
+                })
+                .catch(error => {
+                    deferred.reject(error);
                 });
-            },
-            () => {
-                // Error connecting to FBS.
-                onlineState.online = false;
-                onlineState.successfulOnlineChecks = 0;
-                checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-                bus.emit('fbs.offline', {
-                    timestamp: new Date().getTime(),
-                    online: onlineState
-                });
-            }
-        );
-    };
 
-    // Start the online checker.
-    if (enableOnlineChecks) {
-        checkOnlineState();
+            return deferred.promise;
+        }
+
+        const brake = new Brakes(checkFBSOnline, {
+            timeout: onlineState.requestTimeout,
+            threshold: onlineState.threshold,
+            circuitDuration: onlineState.offlineTimeout
+        });
+
+        // Successful state.
+        brake.on('circuitClosed', function () {
+            const eventName = 'fbs.online';
+            onlineState.online = true;
+            bus.emit(eventName, {
+                timestamp: new Date().getTime(),
+                online: onlineState
+            });
+        });
+
+        // Error state.
+        brake.on('circuitOpen', function () {
+            const eventName = 'fbs.offline';
+            onlineState.online = false;
+            bus.emit(eventName, {
+                timestamp: new Date().getTime(),
+                online: onlineState
+            });
+        });
+
+        // Setup online check interval.
+        // @TODO: Re-add interval.
+        //setInterval(() => {
+            brake.exec('onlineCheck');
+        //}, onlineState.onlineTimeout);
     }
 
     bus.on('fbs.connection_state', () => {
@@ -400,14 +390,14 @@ module.exports = function(options, imports, register) {
     bus.on('fbs.library.status', data => {
         const fbs = new FBS(bus, data.config);
         fbs.libraryStatus().then(res => {
-            bus.emit(data.busEvent, {
-                timestamp: new Date().getTime(),
-                results: res
+                bus.emit(data.busEvent, {
+                    timestamp: new Date().getTime(),
+                    results: res
+                });
+            },
+            err => {
+                bus.emit(data.errorEvent, err);
             });
-        },
-        err => {
-            bus.emit(data.errorEvent, err);
-        });
     });
 
     /**
@@ -416,14 +406,14 @@ module.exports = function(options, imports, register) {
     bus.on('fbs.patron', data => {
         const fbs = new FBS(bus, data.config);
         fbs.patronInformation(data.username, data.password).then(status => {
-            bus.emit(data.busEvent, {
-                timestamp: new Date().getTime(),
-                patron: status
+                bus.emit(data.busEvent, {
+                    timestamp: new Date().getTime(),
+                    patron: status
+                });
+            },
+            err => {
+                bus.emit(data.errorEvent, err);
             });
-        },
-        err => {
-            bus.emit(data.errorEvent, err);
-        });
     });
 
     /**
@@ -459,19 +449,19 @@ module.exports = function(options, imports, register) {
             noBlock,
             data.transactionDate
         ).then(res => {
-            bus.emit(data.busEvent, {
-                timestamp: new Date().getTime(),
-                result: res
+                bus.emit(data.busEvent, {
+                    timestamp: new Date().getTime(),
+                    result: res
+                });
+            },
+            err => {
+                if (err.message === 'FBS is offline' && data.queued === false) {
+                    // Add to job queue.
+                    bus.emit('queue.add.checkout', data);
+                } else {
+                    bus.emit(data.errorEvent, err);
+                }
             });
-        },
-        err => {
-            if (err.message === 'FBS is offline' && data.queued === false) {
-                // Add to job queue.
-                bus.emit('queue.add.checkout', data);
-            } else {
-                bus.emit(data.errorEvent, err);
-            }
-        });
     });
 
     /**
@@ -498,19 +488,19 @@ module.exports = function(options, imports, register) {
             data.checkedInDate,
             noBlock
         ).then(res => {
-            bus.emit(data.busEvent, {
-                timestamp: new Date().getTime(),
-                result: res
+                bus.emit(data.busEvent, {
+                    timestamp: new Date().getTime(),
+                    result: res
+                });
+            },
+            err => {
+                if (err.message === 'FBS is offline' && data.queued === false) {
+                    // Add to job queue.
+                    bus.emit('queue.add.checkin', data);
+                } else {
+                    bus.emit(data.errorEvent, err);
+                }
             });
-        },
-        err => {
-            if (err.message === 'FBS is offline' && data.queued === false) {
-                // Add to job queue.
-                bus.emit('queue.add.checkin', data);
-            } else {
-                bus.emit(data.errorEvent, err);
-            }
-        });
     });
 
     /**
@@ -520,6 +510,22 @@ module.exports = function(options, imports, register) {
         const fbs = new FBS(bus, data.config);
         fbs.renew(data.username, data.password, data.itemIdentifier)
             .then(res => {
+                    bus.emit(data.busEvent, {
+                        timestamp: new Date().getTime(),
+                        result: res
+                    });
+                },
+                err => {
+                    bus.emit(data.errorEvent, err);
+                });
+    });
+
+    /**
+     * Listen to renew all requests.
+     */
+    bus.on('fbs.renew.all', data => {
+        const fbs = new FBS(bus, data.config);
+        fbs.renewAll(data.username, data.password).then(res => {
                 bus.emit(data.busEvent, {
                     timestamp: new Date().getTime(),
                     result: res
@@ -531,35 +537,19 @@ module.exports = function(options, imports, register) {
     });
 
     /**
-     * Listen to renew all requests.
-     */
-    bus.on('fbs.renew.all', data => {
-        const fbs = new FBS(bus, data.config);
-        fbs.renewAll(data.username, data.password).then(res => {
-            bus.emit(data.busEvent, {
-                timestamp: new Date().getTime(),
-                result: res
-            });
-        },
-        err => {
-            bus.emit(data.errorEvent, err);
-        });
-    });
-
-    /**
      * Listen to block patron requests.
      */
     bus.on('fbs.block', data => {
         const fbs = new FBS(bus, data.config);
         fbs.block(data.username, data.reason).then(res => {
-            bus.emit(data.busEvent, {
-                timestamp: new Date().getTime(),
-                result: res
+                bus.emit(data.busEvent, {
+                    timestamp: new Date().getTime(),
+                    result: res
+                });
+            },
+            err => {
+                bus.emit(data.errorEvent, err);
             });
-        },
-        err => {
-            bus.emit(data.errorEvent, err);
-        });
     });
 
     register(null, {

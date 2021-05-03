@@ -115,10 +115,25 @@ Request.prototype.send = function send(message, firstVar, callback) {
         body: xml
     };
 
+
     try {
         var err = null;
         var request = require('request');
         request.post(options, function(error, response, body) {
+            console.log('------------------------');
+            console.log('REQUEST')
+            console.log('------------------------');
+            console.log('OPTIONS');
+            console.log(options);
+            console.log('------------------------');
+            console.log('RESPONSE:');
+            console.log(response.statusCode);
+            console.log(response.message);
+            console.log('ERROR:');
+            console.log(error);
+            console.log('BODY:');
+            console.log(body);
+
             var res = null;
             if (error || response.statusCode !== 200) {
                 if (!error) {
