@@ -286,37 +286,31 @@ module.exports = function (options, imports, register) {
     // Defines the configuration for the online checker below.
     const onlineState = {
         online: true,
-        threshold: 5,
-        requestTimeout: 2000,
-        successfulOnlineChecks: 5,
-        onlineTimeout: 5000,
-        offlineTimeout: 30000
+        threshold: options?.config?.threshold ?? .5,
+        requestTimeout: options?.config?.requestTimeout ?? 2000,
+        circuitDuration: options?.config?.circuitDuration ?? 30000,
+        waitThreshold: options?.config?.waitThreshold ?? 10,
+        intervalDuration: options?.config?.intervalDuration ?? 5000
     };
 
     // Check if FBS is offline.
-    // @TODO: Remove false &&.
-    if (false && enableOnlineChecks) {
-        const fbs = new FBS(bus, options.config);
+    if (enableOnlineChecks) {
+        const onlineCheckFBS = new FBS(bus, options.config);
 
         const checkFBSOnline = function () {
             const deferred = Q.defer();
 
-            // Update configuration (optional configuration in config.json).
-            onlineState.threshold = fbs?.config?.onlineState?.threshold ?? onlineState.threshold;
-            onlineState.onlineTimeout = fbs?.config?.onlineState?.onlineTimeout ?? onlineState.onlineTimeout;
-            onlineState.offlineTimeout = fbs?.config?.onlineState?.offlineTimeout ?? onlineState.offlineTimeout;
-
             // Check for library status.
-            fbs.libraryStatus()
+            onlineCheckFBS.libraryStatus()
                 .then(result => {
                     if (!result) {
                         deferred.reject(new Error('Result is not set'));
                     }
 
-                    if (result.onlineStatus) {
-                        deferred.resolve(true);
+                    if (result.onlineStatus === 'Y') {
+                        deferred.resolve(result);
                     } else {
-                        deferred.reject(new Error('FBS reports that it is offline'));
+                        deferred.reject(new Error('FBS is offline'));
                     }
                 })
                 .catch(error => {
@@ -329,36 +323,39 @@ module.exports = function (options, imports, register) {
         const brake = new Brakes(checkFBSOnline, {
             timeout: onlineState.requestTimeout,
             threshold: onlineState.threshold,
-            circuitDuration: onlineState.offlineTimeout
-        });
-
-        // Successful state.
-        brake.on('circuitClosed', function () {
-            const eventName = 'fbs.online';
-            onlineState.online = true;
-            bus.emit(eventName, {
-                timestamp: new Date().getTime(),
-                online: onlineState
-            });
+            circuitDuration: onlineState.circuitDuration,
+            waitThreshold: onlineState.waitThreshold,
         });
 
         // Error state.
         brake.on('circuitOpen', function () {
-            const eventName = 'fbs.offline';
             onlineState.online = false;
-            bus.emit(eventName, {
+            bus.emit('fbs.offline', {
                 timestamp: new Date().getTime(),
                 online: onlineState
             });
         });
 
         // Setup online check interval.
-        // @TODO: Re-add interval.
-        //setInterval(() => {
-            brake.exec('onlineCheck');
-        //}, onlineState.onlineTimeout);
+        setInterval(() => {
+            if (!brake.isOpen()) {
+                brake.exec('onlineCheck').then(
+                    () => {
+                        onlineState.online = true;
+                        bus.emit('fbs.online', {
+                            timestamp: new Date().getTime(),
+                            online: onlineState
+                        });
+                    },
+                    () => {}
+                );
+            }
+        }, onlineState.intervalDuration);
     }
 
+    /**
+     * Listen to connection state requests.
+     */
     bus.on('fbs.connection_state', () => {
         const eventName = onlineState.online ? 'fbs.online' : 'fbs.offline';
         bus.emit(eventName, {
