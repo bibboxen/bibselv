@@ -49,16 +49,17 @@ class FrontendController extends AbstractController
      *
      * @throws \Exception
      */
-    public function fakeOnline() {
-        if (rand(0,2) == 0) {
-            return new Response('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>98YYYYYY60099920210503    1117392.00AODK-zzzzz|AMXXXXX|BXYYYYYYYYYYYNNYYY|</response></ns2:sip>', 200);
+    public function fakeOnline()
+    {
+        if (0 === rand(0, 2)) {
+            $response = new Response('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>98YYYYYY60099920210503    1117392.00AODK-zzzzz|AMXXXXX|BXYYYYYYYYYYYNNYYY|</response></ns2:sip>', 200);
+        } elseif (0 === rand(0, 1)) {
+            $response = new Response('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>ERROR INPUT</response></ns2:sip>', 200);
+        } else {
+            $response = new Response('', 500);
         }
-        else if (rand(0,1) === 0) {
-            return new Response('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>ERROR INPUT</response></ns2:sip>', 200);
-        }
-        else {
-            return new Response('', 500);
-        }
+
+        return $response;
     }
 
     /**
