@@ -274,7 +274,7 @@ FBS.prototype.block = function block(username, reason) {
  * @param {function} register
  *   Callback function used to register this plugin.
  */
-module.exports = function (options, imports, register) {
+module.exports = function(options, imports, register) {
     const bus = imports.bus;
 
     // Extend configuration with the end-point (it's done this way to keep config.json more simple).
@@ -286,7 +286,7 @@ module.exports = function (options, imports, register) {
     // Defines the configuration for the online checker below.
     const onlineState = {
         online: true,
-        threshold: options?.config?.threshold ?? .5,
+        threshold: options?.config?.threshold ?? 0.5,
         requestTimeout: options?.config?.requestTimeout ?? 2000,
         circuitDuration: options?.config?.circuitDuration ?? 30000,
         waitThreshold: options?.config?.waitThreshold ?? 10,
@@ -297,7 +297,7 @@ module.exports = function (options, imports, register) {
     if (enableOnlineChecks) {
         const onlineCheckFBS = new FBS(bus, options.config);
 
-        const checkFBSOnline = function () {
+        const checkFBSOnline = function() {
             const deferred = Q.defer();
 
             // Check for library status.
@@ -318,17 +318,17 @@ module.exports = function (options, imports, register) {
                 });
 
             return deferred.promise;
-        }
+        };
 
         const brake = new Brakes(checkFBSOnline, {
             timeout: onlineState.requestTimeout,
             threshold: onlineState.threshold,
             circuitDuration: onlineState.circuitDuration,
-            waitThreshold: onlineState.waitThreshold,
+            waitThreshold: onlineState.waitThreshold
         });
 
         // Error state.
-        brake.on('circuitOpen', function () {
+        brake.on('circuitOpen', function() {
             onlineState.online = false;
             bus.emit('fbs.offline', {
                 timestamp: new Date().getTime(),
@@ -387,14 +387,14 @@ module.exports = function (options, imports, register) {
     bus.on('fbs.library.status', data => {
         const fbs = new FBS(bus, data.config);
         fbs.libraryStatus().then(res => {
-                bus.emit(data.busEvent, {
-                    timestamp: new Date().getTime(),
-                    results: res
-                });
-            },
-            err => {
-                bus.emit(data.errorEvent, err);
+            bus.emit(data.busEvent, {
+                timestamp: new Date().getTime(),
+                results: res
             });
+        },
+        err => {
+            bus.emit(data.errorEvent, err);
+        });
     });
 
     /**
@@ -403,14 +403,14 @@ module.exports = function (options, imports, register) {
     bus.on('fbs.patron', data => {
         const fbs = new FBS(bus, data.config);
         fbs.patronInformation(data.username, data.password).then(status => {
-                bus.emit(data.busEvent, {
-                    timestamp: new Date().getTime(),
-                    patron: status
-                });
-            },
-            err => {
-                bus.emit(data.errorEvent, err);
+            bus.emit(data.busEvent, {
+                timestamp: new Date().getTime(),
+                patron: status
             });
+        },
+        err => {
+            bus.emit(data.errorEvent, err);
+        });
     });
 
     /**
@@ -446,19 +446,19 @@ module.exports = function (options, imports, register) {
             noBlock,
             data.transactionDate
         ).then(res => {
-                bus.emit(data.busEvent, {
-                    timestamp: new Date().getTime(),
-                    result: res
-                });
-            },
-            err => {
-                if (err.message === 'FBS is offline' && data.queued === false) {
-                    // Add to job queue.
-                    bus.emit('queue.add.checkout', data);
-                } else {
-                    bus.emit(data.errorEvent, err);
-                }
+            bus.emit(data.busEvent, {
+                timestamp: new Date().getTime(),
+                result: res
             });
+        },
+        err => {
+            if (err.message === 'FBS is offline' && data.queued === false) {
+                // Add to job queue.
+                bus.emit('queue.add.checkout', data);
+            } else {
+                bus.emit(data.errorEvent, err);
+            }
+        });
     });
 
     /**
@@ -485,19 +485,19 @@ module.exports = function (options, imports, register) {
             data.checkedInDate,
             noBlock
         ).then(res => {
-                bus.emit(data.busEvent, {
-                    timestamp: new Date().getTime(),
-                    result: res
-                });
-            },
-            err => {
-                if (err.message === 'FBS is offline' && data.queued === false) {
-                    // Add to job queue.
-                    bus.emit('queue.add.checkin', data);
-                } else {
-                    bus.emit(data.errorEvent, err);
-                }
+            bus.emit(data.busEvent, {
+                timestamp: new Date().getTime(),
+                result: res
             });
+        },
+        err => {
+            if (err.message === 'FBS is offline' && data.queued === false) {
+                // Add to job queue.
+                bus.emit('queue.add.checkin', data);
+            } else {
+                bus.emit(data.errorEvent, err);
+            }
+        });
     });
 
     /**
@@ -507,14 +507,14 @@ module.exports = function (options, imports, register) {
         const fbs = new FBS(bus, data.config);
         fbs.renew(data.username, data.password, data.itemIdentifier)
             .then(res => {
-                    bus.emit(data.busEvent, {
-                        timestamp: new Date().getTime(),
-                        result: res
-                    });
-                },
-                err => {
-                    bus.emit(data.errorEvent, err);
+                bus.emit(data.busEvent, {
+                    timestamp: new Date().getTime(),
+                    result: res
                 });
+            },
+            err => {
+                bus.emit(data.errorEvent, err);
+            });
     });
 
     /**
@@ -523,14 +523,14 @@ module.exports = function (options, imports, register) {
     bus.on('fbs.renew.all', data => {
         const fbs = new FBS(bus, data.config);
         fbs.renewAll(data.username, data.password).then(res => {
-                bus.emit(data.busEvent, {
-                    timestamp: new Date().getTime(),
-                    result: res
-                });
-            },
-            err => {
-                bus.emit(data.errorEvent, err);
+            bus.emit(data.busEvent, {
+                timestamp: new Date().getTime(),
+                result: res
             });
+        },
+        err => {
+            bus.emit(data.errorEvent, err);
+        });
     });
 
     /**
@@ -539,14 +539,14 @@ module.exports = function (options, imports, register) {
     bus.on('fbs.block', data => {
         const fbs = new FBS(bus, data.config);
         fbs.block(data.username, data.reason).then(res => {
-                bus.emit(data.busEvent, {
-                    timestamp: new Date().getTime(),
-                    result: res
-                });
-            },
-            err => {
-                bus.emit(data.errorEvent, err);
+            bus.emit(data.busEvent, {
+                timestamp: new Date().getTime(),
+                result: res
             });
+        },
+        err => {
+            bus.emit(data.errorEvent, err);
+        });
     });
 
     register(null, {
