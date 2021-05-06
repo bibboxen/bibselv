@@ -8,7 +8,7 @@
         "username": "xxxx",
         "password": "yyyy",
         "agency": "DK-zzzzzz",
-        "endpoint": "http://nginx/fake-online",
+        "endpoint": "http://nginx/test/fake-online-stable",
         "threshold": 0.5,
         "requestTimeout": 2000,
         "circuitDuration": 30000,

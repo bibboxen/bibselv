@@ -327,8 +327,15 @@ module.exports = function(options, imports, register) {
             waitThreshold: onlineState.waitThreshold
         });
 
-        // Error state.
+        // Circuit is in working state.
+        brake.on('circuitClosed', function() {
+            debug('Online check circuit closed. Testing online again.');
+        });
+
+        // Circuit is in error state.
         brake.on('circuitOpen', function() {
+            debug('Entering offline state. Waiting ' + onlineState.circuitDuration + ' ms before trying to enter online state.');
+
             onlineState.online = false;
             bus.emit('fbs.offline', {
                 timestamp: new Date().getTime(),
@@ -341,13 +348,20 @@ module.exports = function(options, imports, register) {
             if (!brake.isOpen()) {
                 brake.exec('onlineCheck').then(
                     () => {
-                        onlineState.online = true;
-                        bus.emit('fbs.online', {
-                            timestamp: new Date().getTime(),
-                            online: onlineState
-                        });
+                        // If in offline state, enter online.
+                        if (!onlineState.online) {
+                            debug('Entering online state.');
+
+                            onlineState.online = true;
+                            bus.emit('fbs.online', {
+                                timestamp: new Date().getTime(),
+                                online: onlineState
+                            });
+                        }
                     },
-                    () => {}
+                    () => {
+                        debug('Error testing FBS online state');
+                    }
                 );
             }
         }, onlineState.intervalDuration);

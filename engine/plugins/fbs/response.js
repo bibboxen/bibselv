@@ -193,7 +193,7 @@ Response.prototype.parseEncoding = function parseEncoding() {
             mappings.push(['onlineStatus', 1]);
             mappings.push(['checkIn', 1]);
             mappings.push(['checkOut', 1]);
-            mappings.push(['acsRenewalPolicy', 1]);
+            mappings.push(['renewalPolicy', 1]);
             mappings.push(['statusUpdate', 1]);
             mappings.push(['offline', 1]);
             mappings.push(['timeoutPeriod', 3]);

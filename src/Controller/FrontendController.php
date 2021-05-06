@@ -40,29 +40,6 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/fake-online", name="fake_online", condition="env('string:APP_ENV') === 'dev'"))
-     *
-     * Simulates an unstable FBS endpoint for 99 requests.
-     *
-     * @return Response
-     *   Http response
-     *
-     * @throws \Exception
-     */
-    public function fakeOnline()
-    {
-        if (0 === rand(0, 2)) {
-            $response = new Response('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>98YYYYYY60099920210503    1117392.00AODK-zzzzz|AMXXXXX|BXYYYYYYYYYYYNNYYY|</response></ns2:sip>', 200);
-        } elseif (0 === rand(0, 1)) {
-            $response = new Response('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>ERROR INPUT</response></ns2:sip>', 200);
-        } else {
-            $response = new Response('', 500);
-        }
-
-        return $response;
-    }
-
-    /**
      * @Route("/", name="index")
      *
      * @return Response
