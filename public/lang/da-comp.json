@@ -326,5 +326,11 @@
       "type": 0,
       "value": "Login fejlede, prøv igen"
     }
+  ],
+  "button-navbar-login-method": [
+    {
+      "type": 0,
+      "value": "Skift loginmetode"
+    }
   ]
 }

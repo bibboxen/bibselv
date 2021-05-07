@@ -72,6 +72,7 @@ export const NavbarButtonStatus = <FormattedMessage id='button-navbar-status' de
 export const NavbarButtonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='button-navbar-check-in' />;
 export const NavbarButtonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='button-navbar-finish' />;
 export const NavbarButtonPrint = <FormattedMessage id='button-navbar-print' defaultMessage='button-navbar-print' />;
+export const NavbarButtonLoginMethod = <FormattedMessage id='button-navbar-login-method' defaultMessage='button-navbar-login-method' />;
 
 // Initial strings
 export const InitialButtonCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='initial-button-check-out' />;

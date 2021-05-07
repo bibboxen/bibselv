@@ -75,6 +75,70 @@ class ActionHandler {
     }
 
     /**
+     * Removes a login session.
+     *
+     * @param client
+     */
+    clearLoginSession(client) {
+        if (client?.meta?.loginSession) {
+            delete client.meta.loginSession;
+        }
+    }
+
+    /**
+     * Starts a login session.
+     *
+     * @param client
+     *   The client.
+     * @param loginMethod
+     *   The chosen login method: "loginScanUsernamePassword" or "loginScanUsername".
+     */
+    startLoginSession(client, loginMethod) {
+        const now = new Date();
+        const expire = new Date(now.getTime() + 1000 * 60 * 5);
+
+        if (!client.meta) {
+            client.meta = {};
+        }
+
+        client.meta.loginSession = {
+            loginMethod: loginMethod,
+            start: now,
+            expire: expire,
+            expireTimestamp: expire.getTime()
+        };
+
+        this.stateMachine.transition(client, 'initial');
+    }
+
+    /**
+     * Choose login method.
+     *
+     * @param client
+     *   The client.
+     */
+    chooseLogin(client) {
+        // @TODO: Change this to AD login when it is implemented.
+        let loginMethod = 'loginScanUsername';
+
+        if (client?.meta?.loginSession) {
+            const loginSession = client.meta.loginSession;
+
+            const now = new Date();
+            if (loginSession.expireTimestamp > now.getTime()) {
+                debug('Active login session');
+                loginMethod = loginSession.loginMethod;
+            }
+            else {
+                debug('Login session expired. Clearing login session')
+                this.clearLoginSession(client);
+            }
+        }
+
+        this.stateMachine.transition(client, loginMethod);
+    }
+
+    /**
      * Check out item for the client.
      *
      * @param {object} client
@@ -345,7 +409,9 @@ class ActionHandler {
                 user: {
                     name: names[0],
                     birthdayToday: birthdayToday,
-                    id: user.id
+                    id: user.id,
+                    // @TODO: This should be decided based on the user's role.
+                    isAdmin: true
                 },
                 internal: {
                     username: loginData.username,

@@ -72,6 +72,15 @@
         background-color: $grey;
     }
 
+    &.dark-grey {
+        // Display & position
+        width: 15%;
+
+        // Color
+        border-color: $dark-grey;
+        background-color: $dark-grey;
+    }
+
     >.icon {
         margin-left: 5px;
     }

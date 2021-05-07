@@ -11,7 +11,8 @@ import {
     faSignOutAlt,
     faBug,
     faPrint,
-    faBirthdayCake
+    faBirthdayCake,
+    faSignInAlt
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +21,8 @@ import {
     NavbarButtonStatus,
     NavbarButtonCheckIn,
     NavbarButtonFinish,
-    NavbarButtonPrint
+    NavbarButtonPrint,
+    NavbarButtonLoginMethod
 } from '../utils/formatted-messages';
 import CheckInIconWhite from '../../../scss/images/check-in-white.svg';
 import CheckOutIconBlack from '../../../scss/images/check-out-black.svg';
@@ -62,10 +64,26 @@ function NavBar({ actionHandler }) {
     ];
 
     /**
+     * Enter change login flow.
+     */
+    function changeLoginMethod() {
+        actionHandler('changeFlow', {
+            flow: 'changeLoginMethod',
+        });
+    }
+
+    /**
      * Prints the page, available in status component.
      */
     function printPage() {
         window.print();
+    }
+
+    /**
+     * Stop login session.
+     */
+    function stopLoginSession() {
+        actionHandler('stopLoginSession');
     }
 
     return (
@@ -90,6 +108,17 @@ function NavBar({ actionHandler }) {
                 )}
             </div>
             <div className='button-container'>
+                {context.machineState.get.step === 'initial' && context?.machineState?.get?.activeLoginSession &&
+                    <Button handleButtonPress={stopLoginSession} label={'Stop login session'} color={'dark-grey'} />
+                }
+                {context?.machineState?.get?.user?.isAdmin &&
+                    <Button
+                        label={NavbarButtonLoginMethod}
+                        icon={faSignInAlt}
+                        handleButtonPress={() => changeLoginMethod()}
+                        color='dark-grey'
+                    />
+                }
                 {context.machineState.get.step === 'status' && context.boxConfig.get.hasPrinter &&
                     <Button
                         label={NavbarButtonPrint}

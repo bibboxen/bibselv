@@ -154,5 +154,8 @@
   },
   "login-error": {
     "defaultMessage": "Login fejlede, prøv igen"
+  },
+  "button-navbar-login-method": {
+    "defaultMessage": "Skift loginmetode"
   }
 }

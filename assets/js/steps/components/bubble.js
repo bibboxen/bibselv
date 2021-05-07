@@ -23,19 +23,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  *  calls the statemachine if a user requests a state change.
  * @param disabled
  *   Disable the Bubble.
+ * @param onClick
+ *   Optional onClick.
  *
  * @return {*}
  * @constructor
  */
-function Bubble({ type, label, icon, img, actionHandler, disabled }) {
+function Bubble({ type, label, icon, img, actionHandler, disabled, onClick }) {
     const classes = `bubble ${type.toLowerCase()} ${disabled ? 'disabled' : ''}`;
+
+    let clickHandler = () => {};
+
+    if (onClick) {
+        clickHandler = onClick;
+    }
+    else if (actionHandler) {
+        clickHandler = () => {
+            actionHandler('enterFlow', { flow: type });
+        };
+    }
 
     return (
         <div
             className={classes}
             onClick={() => {
                 if (!disabled) {
-                    actionHandler('enterFlow', { flow: type });
+                    clickHandler();
                 }
             }}
         >
@@ -64,7 +77,8 @@ Bubble.propTypes = {
     icon: PropTypes.object,
     img: PropTypes.string,
     disabled: PropTypes.bool,
-    actionHandler: PropTypes.func.isRequired
+    actionHandler: PropTypes.func,
+    onClick: PropTypes.func
 };
 
 export default Bubble;
