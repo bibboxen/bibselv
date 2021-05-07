@@ -8,6 +8,7 @@
 const Q = require('q');
 const debug = require('debug')('bibbox:FBS:main');
 const Request = require('./request.js');
+const Brakes = require('brakes');
 
 /**
  * Default constructor.
@@ -285,90 +286,90 @@ module.exports = function(options, imports, register) {
     // Defines the configuration for the online checker below.
     const onlineState = {
         online: true,
-        threshold: 5,
-        successfulOnlineChecks: 5,
-        onlineTimeout: 5000,
-        offlineTimeout: 30000,
-        ensureOnlineCheckTimeout: 300000
+        threshold: options?.config?.threshold ?? 0.5,
+        requestTimeout: options?.config?.requestTimeout ?? 2000,
+        circuitDuration: options?.config?.circuitDuration ?? 30000,
+        waitThreshold: options?.config?.waitThreshold ?? 10,
+        intervalDuration: options?.config?.intervalDuration ?? 5000
     };
 
-    let checkOnlineStateTimeout = null;
-    let ensureCheckOnlineStateTimeout = null;
-
-    /**
-     * Online checker.
-     *
-     * State machine that handles the FBS online/offline state.
-     */
-    const checkOnlineState = () => {
-        // Clear extra timeout, to make sure only one is running.
-        if (ensureCheckOnlineStateTimeout != null) {
-            clearTimeout(ensureCheckOnlineStateTimeout);
-        }
-
-        // Start extra timeout.
-        ensureCheckOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.onlineTimeout + onlineState.ensureOnlineCheckTimeout);
-
-        // Make sure only one checkOnlineStateTimeout is running.
-        if (checkOnlineStateTimeout != null) {
-            clearTimeout(checkOnlineStateTimeout);
-            checkOnlineStateTimeout = null;
-        }
-
-        // Create FBS object (using the online check configuration from the config.json file).
-        const fbs = new FBS(bus, options.config);
-
-        // Update configuration (optional configuration in config.json).
-        onlineState.threshold = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.threshold : onlineState.threshold;
-        onlineState.onlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.onlineTimeout : onlineState.onlineTimeout;
-        onlineState.offlineTimeout = Object.prototype.hasOwnProperty.call(fbs, 'onlineState') ? fbs.config.onlineState.offlineTimeout : onlineState.offlineTimeout;
-
-        fbs.libraryStatus().then(
-            res => {
-                // Listen to online check event send below.
-                if (Object.prototype.hasOwnProperty.call(res, 'onlineState') && res.onlineStatus) {
-                    if (onlineState.successfulOnlineChecks >= onlineState.threshold) {
-                        // FBS is online and threshold has been reached, so state online.
-                        checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.onlineTimeout);
-                        onlineState.online = true;
-                    } else {
-                        // FBS online but threshold _not_ reached, so state offline.
-                        onlineState.successfulOnlineChecks++;
-                        onlineState.online = false;
-                        checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-                    }
-                } else {
-                    // FBS is offline, so it the state.
-                    onlineState.successfulOnlineChecks = 0;
-                    onlineState.online = false;
-                    checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-                }
-
-                // Send state event into the bus.
-                const eventName = onlineState.online ? 'fbs.online' : 'fbs.offline';
-                bus.emit(eventName, {
-                    timestamp: new Date().getTime(),
-                    online: onlineState
-                });
-            },
-            () => {
-                // Error connecting to FBS.
-                onlineState.online = false;
-                onlineState.successfulOnlineChecks = 0;
-                checkOnlineStateTimeout = setTimeout(checkOnlineState, onlineState.offlineTimeout);
-                bus.emit('fbs.offline', {
-                    timestamp: new Date().getTime(),
-                    online: onlineState
-                });
-            }
-        );
-    };
-
-    // Start the online checker.
+    // Check if FBS is offline.
     if (enableOnlineChecks) {
-        checkOnlineState();
+        const onlineCheckFBS = new FBS(bus, options.config);
+
+        const checkFBSOnline = function() {
+            const deferred = Q.defer();
+
+            // Check for library status.
+            onlineCheckFBS.libraryStatus()
+                .then(result => {
+                    if (!result) {
+                        deferred.reject(new Error('Result is not set'));
+                    }
+
+                    if (result.onlineStatus === 'Y') {
+                        deferred.resolve(result);
+                    } else {
+                        deferred.reject(new Error('FBS is offline'));
+                    }
+                })
+                .catch(error => {
+                    deferred.reject(error);
+                });
+
+            return deferred.promise;
+        };
+
+        const brake = new Brakes(checkFBSOnline, {
+            timeout: onlineState.requestTimeout,
+            threshold: onlineState.threshold,
+            circuitDuration: onlineState.circuitDuration,
+            waitThreshold: onlineState.waitThreshold
+        });
+
+        // Circuit is in working state.
+        brake.on('circuitClosed', function() {
+            debug('Online check circuit closed. Testing online again.');
+        });
+
+        // Circuit is in error state.
+        brake.on('circuitOpen', function() {
+            debug('Entering offline state. Waiting ' + onlineState.circuitDuration + ' ms before trying to enter online state.');
+
+            onlineState.online = false;
+            bus.emit('fbs.offline', {
+                timestamp: new Date().getTime(),
+                online: onlineState
+            });
+        });
+
+        // Setup online check interval.
+        setInterval(() => {
+            if (!brake.isOpen()) {
+                brake.exec('onlineCheck').then(
+                    () => {
+                        // If in offline state, enter online.
+                        if (!onlineState.online) {
+                            debug('Entering online state.');
+
+                            onlineState.online = true;
+                            bus.emit('fbs.online', {
+                                timestamp: new Date().getTime(),
+                                online: onlineState
+                            });
+                        }
+                    },
+                    () => {
+                        debug('Error testing FBS online state');
+                    }
+                );
+            }
+        }, onlineState.intervalDuration);
     }
 
+    /**
+     * Listen to connection state requests.
+     */
     bus.on('fbs.connection_state', () => {
         const eventName = onlineState.online ? 'fbs.online' : 'fbs.offline';
         bus.emit(eventName, {
