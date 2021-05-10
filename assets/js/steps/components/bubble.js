@@ -36,8 +36,7 @@ function Bubble({ type, label, icon, img, actionHandler, disabled, onClick }) {
 
     if (onClick) {
         clickHandler = onClick;
-    }
-    else if (actionHandler) {
+    } else if (actionHandler) {
         clickHandler = () => {
             actionHandler('enterFlow', { flow: type });
         };

@@ -73,6 +73,7 @@ export const NavbarButtonCheckIn = <FormattedMessage id='button-navbar-check-in'
 export const NavbarButtonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='button-navbar-finish' />;
 export const NavbarButtonPrint = <FormattedMessage id='button-navbar-print' defaultMessage='button-navbar-print' />;
 export const NavbarButtonLoginMethod = <FormattedMessage id='button-navbar-login-method' defaultMessage='button-navbar-login-method' />;
+export const NavbarStopLoginSession = <FormattedMessage id='navbar-stop-login-session' defaultMessage='navbar-stop-login-session' />;
 
 // Initial strings
 export const InitialButtonCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='initial-button-check-out' />;
@@ -109,3 +110,7 @@ export function BookBannerByAuthor(author) {
     return <FormattedMessage id="book-banner-by-author" defaultMessage="book-banner-by-author" values={{ author: author }} />;
 }
 export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;
+
+// change-login-method.js
+export const ChangeLoginMethodScanUsername = <FormattedMessage id='change-login-method-scan-username' defaultMessage='change-login-method-scan-username' />;
+export const ChangeLoginMethodScanUsernameAndPassword = <FormattedMessage id='change-login-method-scan-username-and-password' defaultMessage='change-login-method-scan-username-and-password' />;

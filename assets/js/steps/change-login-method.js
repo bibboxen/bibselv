@@ -3,11 +3,11 @@
  * The initial page the user meets, from here they can go to other pages.
  */
 
-import React, { useContext } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
-import {faBarcode, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
-import MachineStateContext from './utils/machine-state-context';
+import { faBarcode } from '@fortawesome/free-solid-svg-icons';
+import {ChangeLoginMethodScanUsername, ChangeLoginMethodScanUsernameAndPassword} from "./utils/formatted-messages";
 
 /**
  * Initial component.
@@ -18,18 +18,16 @@ import MachineStateContext from './utils/machine-state-context';
  * @constructor
  */
 function ChangeLoginMethod({ actionHandler }) {
-    const context = useContext(MachineStateContext);
-
     // @TODO: Add icon and labels.
     const components = [
         {
             type: 'loginScanUsername',
-            label: 'Skan brugernavn',
+            label: ChangeLoginMethodScanUsername,
             icon: faBarcode
         },
         {
             type: 'loginScanUsernamePassword',
-            label: 'Skan brugernavn og kodeord',
+            label: ChangeLoginMethodScanUsernameAndPassword,
             icon: faBarcode
         }
     ];
@@ -63,7 +61,7 @@ function ChangeLoginMethod({ actionHandler }) {
                             img={component.img}
                             disabled={component.disabled}
                             onClick={() => {
-                              handleChangeLoginMethod(component.type)
+                                handleChangeLoginMethod(component.type);
                             }}
                         />
                     </div>

@@ -12,9 +12,9 @@ import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from './utils/machine-state-context';
 import { Sound } from './utils/sound';
-import ChangeLoginMethod from "./change-login-method";
-import ScanLogin from "./login-components/scan-login";
-import ScanPasswordLogin from "./login-components/scan-password-login";
+import ChangeLoginMethod from './change-login-method';
+import ScanLogin from './login-components/scan-login';
+import ScanPasswordLogin from './login-components/scan-password-login';
 
 /**
  * Bibbox app.
@@ -83,9 +83,9 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
             case 'changeLoginMethod':
                 return <ChangeLoginMethod actionHandler={actionHandler} />;
             case 'loginScanUsername':
-                return <ScanLogin actionHandler={actionHandler} />
+                return <ScanLogin actionHandler={actionHandler} />;
             case 'loginScanUsernamePassword':
-                return <ScanPasswordLogin actionHandler={actionHandler} />
+                return <ScanPasswordLogin actionHandler={actionHandler} />;
             default:
                 return <Initial actionHandler={actionHandler} />;
         }

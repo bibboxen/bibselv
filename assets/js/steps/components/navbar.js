@@ -22,7 +22,8 @@ import {
     NavbarButtonCheckIn,
     NavbarButtonFinish,
     NavbarButtonPrint,
-    NavbarButtonLoginMethod
+    NavbarButtonLoginMethod,
+    NavbarStopLoginSession
 } from '../utils/formatted-messages';
 import CheckInIconWhite from '../../../scss/images/check-in-white.svg';
 import CheckOutIconBlack from '../../../scss/images/check-out-black.svg';
@@ -68,7 +69,7 @@ function NavBar({ actionHandler }) {
      */
     function changeLoginMethod() {
         actionHandler('changeFlow', {
-            flow: 'changeLoginMethod',
+            flow: 'changeLoginMethod'
         });
     }
 
@@ -109,13 +110,18 @@ function NavBar({ actionHandler }) {
             </div>
             <div className='button-container'>
                 {context.machineState.get.step === 'initial' && context?.machineState?.get?.activeLoginSession &&
-                    <Button handleButtonPress={stopLoginSession} label={'Stop login session'} color={'dark-grey'} />
+                    <Button
+                        handleButtonPress={stopLoginSession}
+                        icon={faSignOutAlt}
+                        label={NavbarStopLoginSession}
+                        color={'dark-grey'}
+                    />
                 }
-                {context?.machineState?.get?.user?.isAdmin &&
+                {!context?.machineState?.get?.activeLoginSession && context?.machineState?.get?.user?.isAdmin &&
                     <Button
                         label={NavbarButtonLoginMethod}
                         icon={faSignInAlt}
-                        handleButtonPress={() => changeLoginMethod()}
+                        handleButtonPress={changeLoginMethod}
                         color='dark-grey'
                     />
                 }
@@ -123,7 +129,7 @@ function NavBar({ actionHandler }) {
                     <Button
                         label={NavbarButtonPrint}
                         icon={faPrint}
-                        handleButtonPress={() => printPage()}
+                        handleButtonPress={printPage}
                         color='green'
                     />
                 }
