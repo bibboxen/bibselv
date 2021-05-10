@@ -128,9 +128,8 @@ class ActionHandler {
             if (loginSession.expireTimestamp > now.getTime()) {
                 debug('Active login session');
                 loginMethod = loginSession.loginMethod;
-            }
-            else {
-                debug('Login session expired. Clearing login session')
+            } else {
+                debug('Login session expired. Clearing login session');
                 this.clearLoginSession(client);
             }
         }

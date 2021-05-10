@@ -3,11 +3,11 @@
  * The initial page the user meets, from here they can go to other pages.
  */
 
-import React  from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
-import {ChangeLoginMethodScanUsername, ChangeLoginMethodScanUsernameAndPassword} from "./utils/formatted-messages";
+import { ChangeLoginMethodScanUsername, ChangeLoginMethodScanUsernameAndPassword } from './utils/formatted-messages';
 
 /**
  * Initial component.
