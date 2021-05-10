@@ -64,6 +64,8 @@ function NavBar({ actionHandler }) {
         }
     ];
 
+    const showChangeLoginMethodButton = context.boxConfig.get.loginSessionEnabled && !context?.machineState?.get?.activeLoginSession && context?.machineState?.get?.user?.isAdmin;
+
     /**
      * Enter change login flow.
      */
@@ -109,6 +111,15 @@ function NavBar({ actionHandler }) {
                 )}
             </div>
             <div className='button-container'>
+                {showChangeLoginMethodButton &&
+                    <Button
+                        label={NavbarButtonLoginMethod}
+                        icon={faSignInAlt}
+                        handleButtonPress={changeLoginMethod}
+                        color='dark-grey'
+                    />
+                }
+
                 {context.machineState.get.step === 'initial' && context?.machineState?.get?.activeLoginSession &&
                     <Button
                         handleButtonPress={stopLoginSession}
@@ -117,14 +128,8 @@ function NavBar({ actionHandler }) {
                         color={'dark-grey'}
                     />
                 }
-                {!context?.machineState?.get?.activeLoginSession && context?.machineState?.get?.user?.isAdmin &&
-                    <Button
-                        label={NavbarButtonLoginMethod}
-                        icon={faSignInAlt}
-                        handleButtonPress={changeLoginMethod}
-                        color='dark-grey'
-                    />
-                }
+
+                { /* @TODO: Remove this from the navbar */ }
                 {context.machineState.get.step === 'status' && context.boxConfig.get.hasPrinter &&
                     <Button
                         label={NavbarButtonPrint}
@@ -133,6 +138,7 @@ function NavBar({ actionHandler }) {
                         color='green'
                     />
                 }
+
                 {context.machineState.get.step !== 'initial' &&
                     <>
                         {['status', 'checkInItems', 'checkOutItems'].includes(context.machineState.get.step) &&

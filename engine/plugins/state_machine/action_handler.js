@@ -94,8 +94,30 @@ class ActionHandler {
      *   The chosen login method: "loginScanUsernamePassword" or "loginScanUsername".
      */
     startLoginSession(client, loginMethod) {
+        // Ignore request if loginSessionEnabled is set to false.
+        if (client?.config?.loginSessionEnabled === false) {
+            return;
+        }
+
+        // @TODO: Clean up naming in admin to avoid mapping.
+        const allowedLoginMethods = client?.config?.loginSessionMethods.map(method => {
+            if (method === 'login_barcode_password') {
+                return "loginScanUsernamePassword";
+            }
+            else if (method === 'login_barcode') {
+                return "loginScanUsername";
+            }
+            return method;
+        });
+
+        if (!allowedLoginMethods.includes(loginMethod)) {
+            return;
+        }
+
         const now = new Date();
-        const expire = new Date(now.getTime() + 1000 * 60 * 5);
+
+        // Default to 15 min. as login session timeout.
+        const expire = new Date(now.getTime() + 1000 * (client?.config?.loginSessionTimeout ?? 15 * 60));
 
         if (!client.meta) {
             client.meta = {};

@@ -130,16 +130,22 @@ class BoxConfiguration
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Groups("boxConfiguration")
      */
     private $loginSessionTimeout;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Groups("boxConfiguration")
      */
     private $loginSessionEnabled;
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     *
+     * @Groups("boxConfiguration")
      */
     private $loginSessionMethods = [];
 

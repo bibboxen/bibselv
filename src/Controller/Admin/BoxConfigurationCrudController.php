@@ -74,7 +74,9 @@ class BoxConfigurationCrudController extends AbstractCrudController
             BooleanField::new('hasPrinter')->hideOnIndex(),
             BooleanField::new('soundEnabled')->hideOnIndex(),
             BooleanField::new('debugEnabled'),
-            BooleanField::new('hasFrontpageCheckIn')->hideOnIndex(),
+            BooleanField::new('hasFrontpageCheckIn')
+                ->setHelp('Scanning an item on the frontpage will result in a check-in of the material.')
+                ->hideOnIndex(),
             IntegerField::new('inactivityTimeOut')->hideOnIndex(),
             TextField::new('reservedMaterialInstruction'),
             ChoiceField::new('defaultLanguageCode')

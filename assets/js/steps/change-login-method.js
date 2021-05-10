@@ -1,36 +1,44 @@
 /**
  * @file
- * The initial page the user meets, from here they can go to other pages.
+ * Component for starting a login session.
  */
 
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
 import { ChangeLoginMethodScanUsername, ChangeLoginMethodScanUsernameAndPassword } from './utils/formatted-messages';
+import MachineStateContext from "./utils/machine-state-context";
 
 /**
- * Initial component.
+ * Change login method.
  *
- * Supplies a front page.
+ * Component for starting a login session.
  *
  * @return {*}
  * @constructor
  */
 function ChangeLoginMethod({ actionHandler }) {
-    // @TODO: Add icon and labels.
-    const components = [
-        {
-            type: 'loginScanUsername',
-            label: ChangeLoginMethodScanUsername,
-            icon: faBarcode
-        },
-        {
+    const context = useContext(MachineStateContext);
+    const boxConfig = context.boxConfig;
+
+    const components = [];
+
+    if (boxConfig?.get?.loginSessionMethods?.includes('login_barcode_password')) {
+        components.push({
             type: 'loginScanUsernamePassword',
             label: ChangeLoginMethodScanUsernameAndPassword,
             icon: faBarcode
-        }
-    ];
+        });
+    }
+
+    if (boxConfig?.get?.loginSessionMethods?.includes('login_barcode')) {
+        components.push({
+            type: 'loginScanUsername',
+            label: ChangeLoginMethodScanUsername,
+            icon: faBarcode
+        });
+    }
 
     /**
      * Handle scanned items.
@@ -49,7 +57,9 @@ function ChangeLoginMethod({ actionHandler }) {
                 {'Vælg login metode'}
             </h1>
             <div>
-                {'@TODO: Skriv hvilke options der er valgt'}
+                { /* @TODO: Fix translation and styling */ }
+                <span>Timeout: </span> {boxConfig?.get?.loginSessionTimeout} s.
+                Efter denne periode stopper login sessionen.
             </div>
             <div className='row justify-content-center'>
                 {components.map((component) => (

@@ -451,6 +451,7 @@ module.exports = function(options, imports, register) {
 
         clientModule.load(data.token, data.config).then(function load(client) {
             client = stateMachine.reset(client);
+            client.config = data.config;
             clientModule.save(data.token, client);
 
             bus.emit(data.busEvent, client);

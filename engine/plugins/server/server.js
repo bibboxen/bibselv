@@ -217,6 +217,9 @@ module.exports = function(options, imports, register) {
                     fbsConfig.location = config.sip2User.location;
                     fbsConfig.endpoint = options.fbsEndPoint + fbsConfig.agency;
                     fbsConfig.defaultPassword = config.defaultPassword;
+                    fbsConfig.loginSessionEnabled = config.loginSessionEnabled;
+                    fbsConfig.loginSessionMethods = config.loginSessionMethods;
+                    fbsConfig.loginSessionTimeout = config.loginSessionTimeout;
 
                     // Remove engine only configuration, so secrets are not sent to the frontend.
                     delete config.sip2User;
