@@ -129,6 +129,21 @@ class BoxConfiguration
     private $hasFrontpageCheckIn;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $loginSessionTimeout;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $loginSessionEnabled;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $loginSessionMethods = [];
+
+    /**
      * BoxConfiguration toString.
      *
      * @return mixed
@@ -514,6 +529,75 @@ class BoxConfiguration
     public function setHasFrontpageCheckIn(?bool $hasFrontpageCheckIn): self
     {
         $this->hasFrontpageCheckIn = $hasFrontpageCheckIn;
+
+        return $this;
+    }
+
+    /**
+     * Get Login session timeout.
+     *
+     * @return int|null
+     */
+    public function getLoginSessionTimeout(): ?int
+    {
+        return $this->loginSessionTimeout;
+    }
+
+    /**
+     * Set Login session timeout.
+     *
+     * @param int|null $loginSessionTimeout
+     * @return $this
+     */
+    public function setLoginSessionTimeout(?int $loginSessionTimeout): self
+    {
+        $this->loginSessionTimeout = $loginSessionTimeout;
+
+        return $this;
+    }
+
+    /**
+     * Get login session enabled.
+     *
+     * @return bool|null
+     */
+    public function getLoginSessionEnabled(): ?bool
+    {
+        return $this->loginSessionEnabled;
+    }
+
+    /**
+     * Set login session enabled.
+     *
+     * @param bool $loginSessionEnabled
+     * @return $this
+     */
+    public function setLoginSessionEnabled(bool $loginSessionEnabled): self
+    {
+        $this->loginSessionEnabled = $loginSessionEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get login session methods.
+     *
+     * @return array|null
+     */
+    public function getLoginSessionMethods(): ?array
+    {
+        return $this->loginSessionMethods;
+    }
+
+    /**
+     * Set login session methods.
+     *
+     * @param array|null $loginSessionMethods
+     * @return $this
+     */
+    public function setLoginSessionMethods(?array $loginSessionMethods): self
+    {
+        $this->loginSessionMethods = $loginSessionMethods;
 
         return $this;
     }
