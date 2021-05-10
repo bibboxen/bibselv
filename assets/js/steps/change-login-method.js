@@ -3,12 +3,12 @@
  * Component for starting a login session.
  */
 
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
 import { ChangeLoginMethodScanUsername, ChangeLoginMethodScanUsernameAndPassword } from './utils/formatted-messages';
-import MachineStateContext from "./utils/machine-state-context";
+import MachineStateContext from './utils/machine-state-context';
 
 /**
  * Change login method.

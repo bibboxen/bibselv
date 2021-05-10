@@ -553,6 +553,7 @@ class BoxConfiguration
      * Set Login session timeout.
      *
      * @param int|null $loginSessionTimeout
+     *
      * @return $this
      */
     public function setLoginSessionTimeout(?int $loginSessionTimeout): self
@@ -576,6 +577,7 @@ class BoxConfiguration
      * Set login session enabled.
      *
      * @param bool $loginSessionEnabled
+     *
      * @return $this
      */
     public function setLoginSessionEnabled(bool $loginSessionEnabled): self
@@ -599,6 +601,7 @@ class BoxConfiguration
      * Set login session methods.
      *
      * @param array|null $loginSessionMethods
+     *
      * @return $this
      */
     public function setLoginSessionMethods(?array $loginSessionMethods): self

@@ -102,10 +102,9 @@ class ActionHandler {
         // @TODO: Clean up naming in admin to avoid mapping.
         const allowedLoginMethods = client?.config?.loginSessionMethods.map(method => {
             if (method === 'login_barcode_password') {
-                return "loginScanUsernamePassword";
-            }
-            else if (method === 'login_barcode') {
-                return "loginScanUsername";
+                return 'loginScanUsernamePassword';
+            } else if (method === 'login_barcode') {
+                return 'loginScanUsername';
             }
             return method;
         });
