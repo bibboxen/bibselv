@@ -143,7 +143,6 @@ function ScanPasswordLogin({ actionHandler }) {
             </div>
             <div className='col-md-1'/>
             <div className='col-md-6'>
-
                 {!usernameScanned && (
                     <div className='content'>
                         <img src={BarcodeScannerIcon} height={300} width={300}/>

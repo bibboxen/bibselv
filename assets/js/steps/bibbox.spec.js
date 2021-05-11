@@ -48,7 +48,7 @@ describe('Check out items component (Udlån)', () => {
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'loginScan'
+                        step: 'loginScanUsername'
                     }}
                     connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
@@ -74,7 +74,7 @@ describe('Check out items component (Udlån)', () => {
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'loginScan',
+                        step: 'loginScanUsername',
                         items: [
                             {
                                 id: '5313004378',
@@ -888,7 +888,7 @@ describe('Tests of navbar component', () => {
 });
 
 describe('Tests of configuration', () => {
-    it('render the logincomponent defined in the config (login barcode password)', () => {
+    it('render the login component defined in the config (login barcode password)', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
@@ -902,7 +902,7 @@ describe('Tests of configuration', () => {
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'LoginScan',
+                        step: 'loginScanUsernamePassword',
                         items: []
                     }}
                     connectionState={CONNECTION_ONLINE}
@@ -910,6 +910,7 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
+
         expect(wrapper.find('.subheader').text()).toEqual(
             'scan-login-password-first-subheader'
         );
@@ -929,7 +930,7 @@ describe('Tests of configuration', () => {
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'LoginScan',
+                        step: 'loginScanUsername',
                         items: []
                     }}
                     connectionState={CONNECTION_ONLINE}
@@ -956,7 +957,7 @@ describe('Tests of configuration', () => {
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'loginScan',
+                        step: 'loginScanUsernamePassword',
                         items: []
                     }}
                     connectionState={CONNECTION_ONLINE}
