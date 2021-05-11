@@ -75,7 +75,7 @@ it('Test that the checkOutItems flow can be entered from initial state', done =>
         client = app.services.state_machine.action(client, 'enterFlow', {
             flow: 'checkOutItems'
         });
-        client.state.step.should.equal('loginScan');
+        client.state.step.should.equal('loginScanUsername');
         client.state.flow.should.equal('checkOutItems');
     }).then(done).catch(done.fail);
 });
@@ -214,7 +214,7 @@ it('Test that an item can be checked in', done => {
     }).catch(done.fail);
 });
 
-it('Test that the user ends in loginScan when changing flow from checkInItems to checkOutItems', done => {
+it('Test that the user ends in loginScanUsername when changing flow from checkInItems to checkOutItems', done => {
     let client = {
         token: '123',
         config: config.fbs
@@ -231,7 +231,7 @@ it('Test that the user ends in loginScan when changing flow from checkInItems to
         client = app.services.state_machine.action(client, 'changeFlow', {
             flow: 'checkOutItems'
         });
-        client.state.step.should.equal('loginScan');
+        client.state.step.should.equal('loginScanUsername');
         client.state.flow.should.equal('checkOutItems');
     }).then(done).catch(done.fail);
 });
