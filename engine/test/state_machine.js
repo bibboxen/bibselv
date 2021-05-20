@@ -120,7 +120,7 @@ it('Test that test user can log in and check out an item', done => {
                 client.state.step.should.equal('checkOutItems');
                 client.state.flow.should.equal('checkOutItems');
 
-                client.state.user.name.should.equal('Testkort');
+                client.state.user.name.should.equal('Testkort Mickey Mouse');
                 client.internal.username.should.equal('3210000000');
                 client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
 
@@ -274,7 +274,7 @@ it('Test that the user can change to checkOutItems when logged in', done => {
                 client.state.step.should.equal('checkOutItems');
                 client.state.flow.should.equal('checkOutItems');
 
-                client.state.user.name.should.equal('Testkort');
+                client.state.user.name.should.equal('Testkort Mickey Mouse');
                 client.internal.user.personalName.should.equal('Testkort Mickey Mouse');
 
                 app.services.state_machine.handleEvent({
@@ -348,7 +348,7 @@ it('Tests that status can be retrieved', done => {
                 client.state.step.should.equal('status');
                 client.state.flow.should.equal('status');
 
-                client.state.user.name.should.equal('Testkort');
+                client.state.user.name.should.equal('Testkort Mickey Mouse');
                 client.state.user.birthdayToday.should.equal(false);
 
                 client.state.holdItems.length.should.equal(3);
