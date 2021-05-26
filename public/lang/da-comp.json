@@ -363,6 +363,12 @@
             "value": "Loginmetoden bliver brugt i hele sessionen"
         }
     ],
+    "navbar-start-login-session": [
+        {
+            "type": 0,
+            "value": "Start login session"
+        }
+    ],
     "change-login-method-timeout-message": [
         {
             "type": 0,

@@ -69,6 +69,12 @@
             "value": "The login method will be used throughout the session"
         }
     ],
+    "navbar-start-login-session": [
+        {
+            "type": 0,
+            "value": "Start login session"
+        }
+    ],
     "book-is-registered": [
         {
             "type": 0,
