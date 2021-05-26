@@ -16,35 +16,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  *   Button icon.
  * @param img
  *   Button image.
- * @param handleButtonPress
- *   Function for when button is pressed.
- * @param color
- *   Which color the button has.
  * @param disabled
  *   Disable button
  *
  * @return {*}
  * @constructor
  */
-const Button = ({ label, icon, img, handleButtonPress, color, disabled }) => {
-    const classes = color ? `button ${color.toLowerCase()}` : 'button';
-
+const Button = ({ label, icon, img, disabled, ...rest }) => {
     return (
         <button
-            onClick={handleButtonPress}
-            className={classes}
             type='button'
             disabled={disabled}
+            {...rest}
         >
-            {label}
-            <span className='icon'>
-                {img &&
+            <span>
+                <div className='icon'>
+                    {img &&
                     <img src={img} height={18} />
-                }
-                {icon &&
+                    }
+                    {icon &&
                     <FontAwesomeIcon icon={icon} />
-                }
-            </span>
+                    }
+                </div>
+                {label}</span>
+            <div className="button-barcode"></div>
         </button>
     );
 };
@@ -56,9 +51,7 @@ Button.propTypes = {
     ]),
     icon: PropTypes.object,
     img: PropTypes.string,
-    color: PropTypes.string,
-    disabled: PropTypes.bool,
-    handleButtonPress: PropTypes.func.isRequired
+    disabled: PropTypes.bool
 };
 
 export default Button;
