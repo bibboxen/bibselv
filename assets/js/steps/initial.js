@@ -100,7 +100,7 @@ function Initial({ actionHandler }) {
                             icon={component.icon}
                             img={component.img}
                             disabled={component.disabled}
-                            actionHandler={actionHandler}
+                            onClick={() => actionHandler('enterFlow', { flow: component.type })}
                         />
                     </div>
                 ))}
