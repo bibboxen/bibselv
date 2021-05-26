@@ -69,7 +69,6 @@ function NavBar({ actionHandler }) {
 
     const showChangeLoginMethodButton = loginSessionEnabled && !activeLoginSession && user?.isAdmin && numberOfLoginSessionMethods > 1 && step !== 'changeLoginMethod';
     const showStartLoginSessionButton = (step === 'status' || step === 'checkOutItems') && numberOfLoginSessionMethods === 1 && !activeLoginSession;
-    const showStartLoginStopButton = (step === 'status' || step === 'checkOutItems') && activeLoginSession;
 
     /**
      * Enter change login flow.
@@ -132,7 +131,7 @@ function NavBar({ actionHandler }) {
                     className='button start-session'
                 />
                 }
-                {showStartLoginStopButton &&
+                {activeLoginSession &&
                 <Button
                     onClick={stopLoginSession}
                     icon={faStopCircle}
