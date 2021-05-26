@@ -8,11 +8,10 @@
     border: 1px solid $grey-border;
 
     // Text
-    font-family: $font-family-sans-serif;
     user-select: none;
 
     // Color
-    background-color: $grey;
+    background-color: $neutral-dark;
     color: $font-color;
 
     .header {
@@ -37,15 +36,15 @@
 
     &.danger {
         // Color
-        background-color: $red;
-        border-color: $red;
+        background-color: $danger;
+        border-color: $danger;
         color: $white;
     }
 
     &.success {
         // Color
-        background-color: $light-green;
-        border-color: $green-border;
+        background-color: $success-light;
+        border-color: $success-border;
     }
 
     >.icon {
@@ -70,11 +69,10 @@
     border: 1px solid $grey-border;
 
     // Text
-    font-family: $font-family-sans-serif;
     user-select: none;
 
     // Color
-    background-color: $grey;
+    background-color: $neutral-dark;
     color: $font-color;
 
     .header {
@@ -88,24 +86,23 @@
 
     &.danger {
         // Color
-        background-color: $red;
-        border-color: $red;
+        background-color: $danger;
+        border-color: $danger;
         color: $white;
     }
 
     &.success {
         // Color
-        background-color: $light-green;
-        border-color: $green-border;
+        background-color: $success-light;
+        border-color: $success-border;
     }
 }
 
 .overdue-books-banner {
     border-radius: 2px;
     border: 1px solid $grey-border;
-    font-family: $font-family-sans-serif;
     user-select: none;
-    background-color: $grey;
+    background-color: $neutral-dark;
     color: $font-color;
     margin: 5px 0;
     padding: 5px 10px 0 10px;
@@ -124,8 +121,8 @@
     }
 
     &.danger {
-        background-color: $red;
-        border-color: $red;
+        background-color: $danger;
+        border-color: $danger;
         color: $white;
     }
 }
@@ -135,7 +132,6 @@
     display: inline-flex;
 
     // Text
-    font-family: $font-family-sans-serif;
     user-select: none;
     font-size: 1rem;
 
@@ -151,7 +147,7 @@
 
         // Color
         color: white;
-        background-color: $blue;
+        background-color: $status-color;
     }
 }
 

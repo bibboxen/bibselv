@@ -1,21 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap');
+// Main colors
+$session: #025935;
+$stop-session-font: #FFA928;
+$check-out-items-color: #dce00c;
+$check-in-items-color: #ce05d2;
+$status-color: #006cd0;
 
-$yellow: #dce00c;
-$purple: #ce05d2;
-$blue: #006cd0;
-$red: #e94343;
-$green: #04c373;
-$light-green: #C6F5E2;
-$grey: #ebebeb;
-$green-border: #0aa966;
-$red-border: #d13636;
-$grey-border: #dedede;
+// Danger/success
+$danger: #e94343;
+$success: #04c373;
+
+// Shades
 $white: #fff;
-$font-color: #1e1e1e;
-$slightly-white: #f8f8ff;
-$dark-grey: #555555;
-// Set Roboto font
-$font-family-sans-serif: Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+$neutral-lightest: #f8f8ff;
+$neutral-lighter: #dedede;
+$neutral: #ebebeb;
+$neutral-dark: #555555;
+$neutral-darkest: #1e1e1e;
+
+// Applied
+$background-color: $neutral-lightest;
+$font-color: $neutral-darkest;
+$success-light: ligthen($success, 10%);
+$success-border: darken($success, 10%);
+$danger-border: darken($danger, 10%);
+$grey-border: $neutral-lighter;
 
 @mixin box-shadow($top: 0px, $left: 0px, $blur: 20px, $size: 1px, $color: rgba(0, 0, 0, 0.3)) {
     -webkit-box-shadow: $top $left $blur $size $color;
