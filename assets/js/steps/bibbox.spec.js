@@ -700,8 +700,8 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        // expect(wrapper.find('.overdue-books-banner.danger').length).toEqual(1);
-        // expect(wrapper.find('.book-banner.success').length).toEqual(1);
+        expect(wrapper.find('.overdue-books-banner.danger').length).toEqual(1);
+        expect(wrapper.find('.book-banner.success').length).toEqual(1);
     });
 });
 
@@ -781,7 +781,7 @@ describe('Tests of navbar component', () => {
             </IntlProvider>
 
         );
-        // expect(wrapper.find('.button-container button').length).toEqual(4);
+        expect(wrapper.find('.button-container button').length).toEqual(4);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
             'button-navbar-check-out'
         );
@@ -821,7 +821,7 @@ describe('Tests of navbar component', () => {
                 />
             </IntlProvider>
         );
-        // expect(wrapper.find('.button-container button').length).toEqual(4);
+        expect(wrapper.find('.button-container button').length).toEqual(4);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
             'button-navbar-check-out'
         );
