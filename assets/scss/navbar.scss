@@ -3,9 +3,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 80px;
+    min-height: 90px;
     margin-bottom: 5%;
-
+    padding: 0;
     // Color
     background-color: $white;
 
@@ -25,7 +25,6 @@
             color: $font-color;
 
             // Text
-            font-family: $font-family-sans-serif;
             font-weight: 300;
             font-size: 1.5rem;
             user-select: none;
