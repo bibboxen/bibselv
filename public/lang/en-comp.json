@@ -43,6 +43,32 @@
             "value": "author"
         }
     ],
+    "change-login-method-timeout-message": [
+        {
+            "type": 0,
+            "value": "Timeout: "
+        },
+        {
+            "type": 1,
+            "value": "seconds"
+        },
+        {
+            "type": 0,
+            "value": "s. After this timespan the login session expires."
+        }
+    ],
+    "change-login-method-pick-login-method-header": [
+        {
+            "type": 0,
+            "value": "Pick login method"
+        }
+    ],
+    "change-login-method-pick-login-method-subheader": [
+        {
+            "type": 0,
+            "value": "The login method will be used throughout the session"
+        }
+    ],
     "book-is-registered": [
         {
             "type": 0,
@@ -67,7 +93,7 @@
             "value": "Exit"
         }
     ],
-    "button-navbar-print": [
+    "button-status-print": [
         {
             "type": 0,
             "value": "Print"

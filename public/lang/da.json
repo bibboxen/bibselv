@@ -134,7 +134,7 @@
     "banner-adapter-fetching-info": {
         "defaultMessage": "Henter informationer"
     },
-    "button-navbar-print": {
+    "button-status-print": {
         "defaultMessage": "Print"
     },
     "scan-login-password-header": {
@@ -145,6 +145,9 @@
     },
     "banner-title-author": {
         "defaultMessage": "{title} af {author}"
+    },
+    "change-login-method-timeout-message": {
+        "defaultMessage": "Timeout: {seconds} s. Efter denne periode stopper login sessionen."
     },
     "print-reservation-note": {
         "defaultMessage": "Reservationsnote"
@@ -166,5 +169,14 @@
     },
     "navbar-stop-login-session": {
         "defaultMessage": "Stop login session"
+    },
+    "navbar-start-login-session": {
+        "defaultMessage": "Start login session"
+    },
+    "change-login-method-pick-login-method-header": {
+        "defaultMessage": "Vælg loginmetode"
+    },
+    "change-login-method-pick-login-method-subheader": {
+        "defaultMessage": "Loginmetoden bliver brugt i hele sessionen"
     }
 }
