@@ -13,11 +13,11 @@
 
     &.status {
         // Color
-        background-color: $blue;
+        background-color: $status-color;
 
         .icon {
             // Color
-            color: $blue;
+            color: $status-color;
         }
 
         .barcode-inner {
@@ -30,21 +30,21 @@
 
     &.status.disabled {
         // Color
-        background-color: $grey;
+        background-color: $neutral;
 
         .icon {
             // Color
-            color: $grey;
+            color: $neutral;
         }
     }
 
     &.checkinitems {
         // Color
-        background-color: $purple;
+        background-color: $check-in-items-color;
 
         .icon {
             // Color
-            color: $purple;
+            color: $check-in-items-color;
         }
 
         .barcode-inner {
@@ -57,11 +57,11 @@
 
     &.checkoutitems {
         // Color
-        background-color: $yellow;
+        background-color: $check-out-items-color;
 
         .icon {
             // Color
-            color: $yellow;
+            color: $check-out-items-color;
         }
 
         .barcode-inner {

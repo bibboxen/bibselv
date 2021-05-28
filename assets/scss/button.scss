@@ -1,87 +1,104 @@
-
-.button {
+@mixin navbar-button($color: $check-in-items-color, $font-color) {
     // Display & position
-    margin: 1%;
-    padding: 1%;
-    border-radius: 3%;
-    border-width: 1px;
-    border-style: solid;
+    min-width: 150px;
+    padding: 10px;
+    cursor: pointer;
+
+    // Color
+    color: $font-color;
+    background-color: $color;
+    min-height: 90px;
+
+    span {
+        display: flex;
+    }
+}
+
+button {
+    // Display & position
+    display: flex;
+    align-items: center;
+
+    // Text
+    font-size: 1rem;
+    user-select: none;
+    border: none;
 
     // Color
     color: $white;
-    border-color: $purple;
-    background-color: $purple;
+    background-color: $neutral-dark;
 
-
-    // Text
-    font-family: $font-family-sans-serif;
-    font-size: 1rem;
-    user-select: none;
-
-    &.green {
-        // Display & position
-        width: 15%;
-
+    &.print {
         // Color
-        border-color: $green-border;
-        background-color: $green;
+        background-color: $success;
+        width: 100%;
+        height: 40px;
+        span {
+            display: flex;
+        }
     }
 
-    &.yellow {
-        // Display & position
-        width: 15%;
-
-        // Color
-        border-color: $yellow;
-        background-color: $yellow;
-        color: $font-color;
+    &.check-out-items {
+        // Mixin
+        @include navbar-button($check-out-items-color, $black);
     }
-    &.purple {
-        // Display & position
-        width: 15%;
-
-        // Color
-        border-color: $purple;
-        background-color: $purple;
+    &.check-in-items {
+        // Mixin
+        @include navbar-button($check-in-items-color, $white);
     }
-    &.red {
-        // Display & position
-        width: 15%;
-        margin-left: 3%;
+    &.logout {
+        // Mixin
+        @include navbar-button($danger, $white);
+        position: relative;
+        justify-content: flex-end;
+        padding: 0 0 0 10px;
+        min-width: 240px;
+        .button-barcode {
+            display: flex;
+            width: 200px;
+            height: 90px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-image: url('images/logout-barcode.png');
+            margin-right: 0px;
+        }
 
-        // Color
-        border-color: $red;
-        background-color: $red;
-    }
-
-    &.blue {
-        // Display & position
-        width: 15%;
-
-        // Color
-        border-color: $blue;
-        background-color: $blue;
+        span {
+            left: 10px;
+            background-color: $danger;
+            min-width: 60px;
+            position: absolute;
+        }
     }
 
-    &.grey {
-        // Display & position
-        width: 15%;
-
-        // Color
-        border-color: $grey;
-        background-color: $grey;
+    &.status {
+        // Mixin
+        @include navbar-button($status-color, $white);
     }
 
-    &.dark-grey {
-        // Display & position
-        width: 15%;
-
-        // Color
-        border-color: $dark-grey;
-        background-color: $dark-grey;
+    &.offline {
+        // Mixin
+        @include navbar-button($neutral, $white);
     }
 
+    &.stop-session {
+        // Mixin
+        @include navbar-button($session, $stop-session-font);
+    }
+
+    &.start-session {
+        // Mixin
+        @include navbar-button($success, $black);
+    }
+
+    &.login-method {
+        // Mixin
+        @include navbar-button($neutral-dark, $white);
+    }
+
+    span{
     >.icon {
-        margin-left: 5px;
+        margin: 0 5px;
     }
+}
 }

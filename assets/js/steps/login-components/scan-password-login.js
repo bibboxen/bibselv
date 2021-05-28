@@ -173,13 +173,13 @@ function ScanPasswordLogin({ actionHandler }) {
             {context.boxConfig.get.debugEnabled && (
                 <div className='col-md'>
                     <Button
-                        label={'indtast brugernavn'}
+                        label={'Indtast brugernavn'}
                         icon={faArrowAltCircleRight}
-                        handleButtonPress={() => handleUsernameInput('C023648674')}/>
+                        onClick={() => handleUsernameInput('C023648674')}/>
                     <Button
                         label={'Snydelogin'}
                         icon={faArrowAltCircleRight}
-                        handleButtonPress={() =>
+                        onClick={() =>
                             actionHandler('login', {
                                 username: 'C023648674',
                                 useDefaultPassword: true

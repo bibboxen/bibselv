@@ -93,7 +93,7 @@
             "value": "Afslut"
         }
     ],
-    "button-navbar-print": [
+    "button-status-print": [
         {
             "type": 0,
             "value": "Print"
@@ -349,6 +349,38 @@
         {
             "type": 0,
             "value": "Stop login session"
+        }
+    ],
+    "change-login-method-pick-login-method-header": [
+        {
+            "type": 0,
+            "value": "Vælg loginmetode"
+        }
+    ],
+    "change-login-method-pick-login-method-subheader": [
+        {
+            "type": 0,
+            "value": "Loginmetoden bliver brugt i hele sessionen"
+        }
+    ],
+    "navbar-start-login-session": [
+        {
+            "type": 0,
+            "value": "Start login session"
+        }
+    ],
+    "change-login-method-timeout-message": [
+        {
+            "type": 0,
+            "value": "Timeout: "
+        },
+        {
+            "type": 1,
+            "value": "seconds"
+        },
+        {
+            "type": 0,
+            "value": "s. Efter denne periode stopper login sessionen."
         }
     ]
 }

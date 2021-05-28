@@ -16,7 +16,6 @@ describe('Tests of bubble component', () => {
                 type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
-                actionHandler={() => console.log()}
             />
         );
         expect(wrapper.exists('.bubble-test')).toEqual(true);
@@ -28,7 +27,6 @@ describe('Tests of bubble component', () => {
                 type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
-                actionHandler={() => console.log()}
             />
         );
         expect(wrapper.text()).toEqual('Bubble');
@@ -40,7 +38,6 @@ describe('Tests of bubble component', () => {
                 type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
-                actionHandler={() => console.log()}
             />
         );
         expect(wrapper.exists('.icon')).toEqual(true);
@@ -53,7 +50,7 @@ describe('Tests of bubble component', () => {
                 type='bubble-test'
                 label='Bubble'
                 icon={faCheck}
-                actionHandler={mockCallBack}
+                onClick={() => mockCallBack()}
             />
         );
         wrapper.find('.bubble').simulate('click');

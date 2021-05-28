@@ -73,8 +73,9 @@ function ScanLogin({ actionHandler }) {
                 <div className='col-md'>
                     <Button
                         label={'Snydelogin'}
+                        className="status"
                         icon={faArrowAltCircleRight}
-                        handleButtonPress={() =>
+                        onClick={() =>
                             actionHandler('login', {
                                 username: 'C023648674',
                                 useDefaultPassword: true

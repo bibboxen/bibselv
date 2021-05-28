@@ -29,27 +29,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @return {*}
  * @constructor
  */
-function Bubble({ type, label, icon, img, actionHandler, disabled, onClick }) {
+function Bubble({ type, label, icon, img, disabled, ...rest }) {
     const classes = `bubble ${type.toLowerCase()} ${disabled ? 'disabled' : ''}`;
-
-    let clickHandler = () => {};
-
-    if (onClick) {
-        clickHandler = onClick;
-    } else if (actionHandler) {
-        clickHandler = () => {
-            actionHandler('enterFlow', { flow: type });
-        };
-    }
 
     return (
         <div
             className={classes}
-            onClick={() => {
-                if (!disabled) {
-                    clickHandler();
-                }
-            }}
+            {...rest}
         >
             <div className='inner-bubble'>
                 <div className='text-and-icon'>

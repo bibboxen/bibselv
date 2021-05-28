@@ -18,7 +18,6 @@
 
         // Text
         font-size: 2rem;
-        font-family: $font-family-sans-serif;
         user-select: none;
 
         // Shadow
@@ -26,14 +25,14 @@
 
         &.green {
             // Color
-            border: 2px solid $green;
+            border: 2px solid $success;
             font-size: 1.5rem;
             align-items: center;
         }
 
         &.red {
             // Color
-            border: 2px solid $red;
+            border: 2px solid $danger;
             font-size: 1.5rem;
             align-items: center;
         }
