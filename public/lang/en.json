@@ -145,6 +145,12 @@
   },
   "login-error": {
     "defaultMessage": "Login failed. Try again"
+  },
+  "banner-header-books-for-check-in": {
+    "defaultMessage": "{numberOfBooks} books should be checked in"
+  },
+  "book-banner-by-author": {
+    "defaultMessage": "By {author}"
   }
 }
 
