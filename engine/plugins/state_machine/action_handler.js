@@ -412,9 +412,8 @@ class ActionHandler {
                 return;
             }
 
-            const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
+            const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName : 'No name';
             let birthdayToday = false;
-
             // Set birthdayToday boolean.
             if (Object.prototype.hasOwnProperty.call(user, 'PB')) {
                 const nowDate = new Date();
@@ -427,7 +426,7 @@ class ActionHandler {
 
             const actionData = {
                 user: {
-                    name: names[0],
+                    name: names,
                     birthdayToday: birthdayToday,
                     id: user.id,
                     // @TODO: This should be decided based on the user's role.
