@@ -538,7 +538,7 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.header').text()).toEqual('status-header');
+        expect(wrapper.find('.header').at(0).text()).toEqual('status-header');
     });
 
     it('renders the books from machine state when the state is status, it is logged in and there are books', () => {
@@ -617,12 +617,11 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.banner .header').at(0).text()).toEqual('banner-header-book-with-fine');
-        expect(wrapper.find('.banner .header').at(1).text()).toEqual('banner-header-book-for-check-in');
-        expect(wrapper.find('.banner .header').at(2).text()).toEqual('banner-header-book-for-check-in');
-        expect(wrapper.find('.banner .header').at(3).text()).toEqual('Mellem rejer og hundestejler');
-        expect(wrapper.find('.banner .header').at(4).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces');
-        expect(wrapper.find('.banner .header').at(5).text()).toEqual('Insekter i farver');
+        expect(wrapper.find('.header').at(0).text()).toEqual('status-header');
+        expect(wrapper.find('.overdue-books-banner .title').text()).toEqual('Open book');
+        expect(wrapper.find('.book-banner .title').at(0).text()).toEqual('Mellem rejer og hundestejler');
+        expect(wrapper.find('.book-banner .title').at(1).text()).toEqual('Det eksperimenterende billedværksted: [Bind] 1: indføring i den kunstneriske proces');
+        expect(wrapper.find('.book-banner .title').at(2).text()).toEqual('Insekter i farver');
     });
 
     it('renders the books with the correct styling classes, success/danger', () => {
@@ -701,8 +700,8 @@ describe('Status component', () => {
                 />
             </IntlProvider>
         );
-        expect(wrapper.find('.banner.danger').length).toEqual(3);
-        expect(wrapper.find('.banner.success').length).toEqual(1);
+        expect(wrapper.find('.overdue-books-banner.danger').length).toEqual(1);
+        expect(wrapper.find('.book-banner.success').length).toEqual(1);
     });
 });
 

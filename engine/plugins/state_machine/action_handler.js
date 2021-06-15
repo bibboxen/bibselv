@@ -39,6 +39,7 @@ class ActionHandler {
      */
     enterFlow(client, flow) {
         client.state.flow = flow;
+        client.internal.checkInItemOnEnter = client.actionData.checkInItemOnEnter;
 
         if (flow === 'checkInItems') {
             // Check in flow does not require that the user is logged in.
@@ -300,9 +301,35 @@ class ActionHandler {
          */
         this.bus.once(busEvent, resp => {
             const user = resp.patron;
-            const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName.split(' ') : ['No name'];
-            let birthdayToday = false;
 
+            // Report error if invalid patron.
+            if (user.validPatron !== 'Y') {
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'loginError',
+                    data: {
+                        error: 'Invalid patron'
+                    }
+                });
+                return;
+            }
+
+            // Report error if invalid patron password.
+            if (user.validPatronPassword !== 'Y') {
+                this.handleEvent({
+                    name: 'Action',
+                    token: client.token,
+                    action: 'loginError',
+                    data: {
+                        error: 'Invalid password'
+                    }
+                });
+                return;
+            }
+
+            const names = Object.prototype.hasOwnProperty.call(user, 'personalName') ? user.personalName : 'No name';
+            let birthdayToday = false;
             // Set birthdayToday boolean.
             if (Object.prototype.hasOwnProperty.call(user, 'PB')) {
                 const nowDate = new Date();
@@ -315,7 +342,7 @@ class ActionHandler {
 
             const actionData = {
                 user: {
-                    name: names[0],
+                    name: names,
                     birthdayToday: birthdayToday,
                     id: user.id
                 },

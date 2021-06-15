@@ -38,8 +38,17 @@ export const StatusHeaderCurrentLoans = <FormattedMessage id='status-header-curr
 export const StatusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='status-header-reservations' />;
 export const StatusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='status-header-ready-for-pickup' />;
 export const StatusBannerHeaderFinedBook = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='banner-header-book-with-fine' />;
-export const StatusBannerHeaderOverdueBook = <FormattedMessage id='banner-header-book-for-check-in' defaultMessage='banner-header-book-for-check-in' />;
 export const StatusUnavailable = <FormattedMessage id='status-unavailable' defaultMessage='status-unavailable' />;
+
+/**
+ * Create HeaderOverdueBooks translation.
+ * @param numberOfBooks
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export function StatusBannerHeaderOverdueBooks(numberOfBooks) {
+    return <FormattedMessage id="banner-header-books-for-check-in" defaultMessage="banner-header-books-for-check-in" values={{ numberOfBooks: numberOfBooks }} />;
+}
 
 // Help box strings.
 export const HelpBoxHeader = <FormattedMessage id='help-box-header' defaultMessage='help-box-header' />;
@@ -54,6 +63,7 @@ export const ScanLoginSubheader = <FormattedMessage id='scan-login-subheader' de
 
 // Login strings
 export const LoginLoginNotConfigured = <FormattedMessage id='login-not-configured' defaultMessage='login-not-configured' />;
+export const LoginLoginError = <FormattedMessage id='login-error' defaultMessage='login-error' />;
 
 // Navbar strings
 export const NavbarButtonCheckOut = <FormattedMessage id='button-navbar-check-out' defaultMessage='button-navbar-check-out' />;
@@ -81,6 +91,19 @@ export function BannerTitleAuthor(title, author) {
 
 // App strings
 export const AppTokenNotValid = <FormattedMessage id='app-token-not-valid' defaultMessage='app-token-not-valid' />;
+export const ServerError = <FormattedMessage id='app-server-error' defaultMessage='app-server-error' />;
 
 // Print strings
 export const PrintReservationNote = <FormattedMessage id='print-reservation-note' defaultMessage='print-reservation-note' />;
+
+// Book banner
+/**
+ * Return a string of "by author".
+ * @param author
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export function BookBannerByAuthor(author) {
+    return <FormattedMessage id="book-banner-by-author" defaultMessage="book-banner-by-author" values={{ author: author }} />;
+}
+export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;

@@ -36,6 +36,17 @@ This document contains "schemas" for each message that can be sent through the w
     }
 }
 
+# Enter checkIn flow with an item for check in
+{
+    "name": "Action",
+    "token": "[token for the given machine]",
+    "action": "enterFlow",
+    "data": {
+        "flow": "checkInItems",
+        "checkInItemOnEnter": "[item code]",
+    }
+}
+
 # Login
 {
     "name": "Action",

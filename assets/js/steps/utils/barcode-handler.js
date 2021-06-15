@@ -51,6 +51,11 @@ export class BarcodeHandler {
         const commandCallback = this.commandCallback;
 
         return function(result) {
+            // Reject non-coded results.
+            if (!result.codedBarcodeScanner) {
+                return;
+            }
+
             if (result.type === BARCODE_TYPE_COMMAND) {
                 switch (result.outputCode) {
                     case BARCODE_COMMAND_FINISH:

@@ -57,12 +57,30 @@ function Initial({ actionHandler }) {
         }
     ];
 
+    /**
+     * Handle scanned items.
+     *
+     * @param scannedBarcode
+     */
+    function handleItemCheckIn(scannedBarcode) {
+        actionHandler('enterFlow', {
+            flow: 'checkInItems',
+            checkInItemOnEnter: scannedBarcode
+        });
+    }
+
     // Setup barcode scanner.
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner();
         const barcodeCallback = (new BarcodeHandler([
             ACTION_ENTER_FLOW_CHECKIN, ACTION_ENTER_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS
-        ], actionHandler)).createCallback();
+        ], actionHandler, function(result) {
+            // If hasFrontpageCheckIn enabled in the box configuration, go to checkIn flow and pass
+            // the scanned items for instant check in.
+            if (context.boxConfig?.get?.hasFrontpageCheckIn) {
+                handleItemCheckIn(result.code);
+            }
+        })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
         return () => { barcodeScanner.stop(); };

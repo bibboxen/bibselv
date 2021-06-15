@@ -5,6 +5,18 @@
   "banner-header-book-for-check-in": {
     "defaultMessage": "Denne bog skal afleveres"
   },
+  "banner-header-books-for-check-in": {
+    "defaultMessage": "{numberOfBooks} bøger skal afleveres"
+  },
+  "book-banner-by-author": {
+    "defaultMessage": "Af {author}"
+  },
+  "book-banner-without-author": {
+    "defaultMessage": "Uden forfatter"
+  },
+  "app-server-error": {
+    "defaultMessage": "Der er sket en uventet serverfejl, genindlæs siden for at prøve igen."
+  },
   "book-is-registered": {
     "defaultMessage": "Bogen blev registreret. Klar til næste"
   },
@@ -139,5 +151,8 @@
   },
   "status-unavailable": {
     "defaultMessage": "Status er midlertidigt utilgængeligt"
+  },
+  "login-error": {
+    "defaultMessage": "Login fejlede, prøv igen"
   }
 }

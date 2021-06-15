@@ -5,6 +5,12 @@
       "value": "Token ikke valid. Adgang nægtet"
     }
   ],
+  "app-server-error": [
+    {
+      "type": 0,
+      "value": "Der er sket en uventet serverfejl, genindlæs siden for at prøve igen."
+    }
+  ],
   "banner-adapter-fetching-info": [
     {
       "type": 0,
@@ -15,6 +21,32 @@
     {
       "type": 0,
       "value": "Denne bog skal afleveres"
+    }
+  ],
+  "banner-header-books-for-check-in": [
+    {
+      "type": 1,
+      "value": "numberOfBooks"
+    },
+    {
+      "type": 0,
+      "value": " bøger skal afleveres"
+    }
+  ],
+  "book-banner-by-author": [
+    {
+      "type": 0,
+      "value": "Af "
+    },
+    {
+      "type": 1,
+      "value": "author"
+    }
+  ],
+  "book-banner-without-author": [
+    {
+      "type": 0,
+      "value": "Uden forfatter"
     }
   ],
   "banner-header-book-with-fine": [
@@ -284,10 +316,15 @@
     }
   ],
   "status-unavailable": [
+      {
+          "type": 0,
+          "value": "Status er midlertidigt utilgængeligt"
+      }
+  ],
+  "login-error": [
     {
       "type": 0,
-      "value": "Status er midlertidigt utilgængeligt"
+      "value": "Login fejlede, prøv igen"
     }
   ]
-
 }

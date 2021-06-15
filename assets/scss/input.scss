@@ -5,7 +5,7 @@
             // Display & position
             padding: 10px 0 10px 5px;
             margin-bottom: 10px;
-            
+
             // Color
             background-color: $light-green;
             border: 2px solid $green-border;
@@ -27,6 +27,36 @@
 
             // Color
             border-color: $green-border;
+        }
+    }
+    &.error {
+        .error-banner {
+            // Display & position
+            padding: 10px 0 10px 5px;
+            margin-bottom: 10px;
+
+            // Color
+            color: white;
+            background-color: $red;
+            border: 2px solid $red-border;
+            border-top-style: 1px solid;
+
+            // Text
+            user-select: none;
+            font-family: "Roboto", sans-serif;
+            font-size: 15px;
+            .info-banner-icon {
+                // Display & position
+                margin: 0 10px;
+            }
+        }
+        input {
+            // Display & position
+            border-style: double;
+            border-bottom: 0;
+
+            // Color
+            border-color: $red-border;
         }
     }
 }

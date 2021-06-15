@@ -10,7 +10,7 @@ import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
-import { AppTokenNotValid } from './steps/utils/formatted-messages';
+import { AppTokenNotValid, ServerError } from './steps/utils/formatted-messages';
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
 
 /**
@@ -120,6 +120,11 @@ function App({ uniqueId, socket }) {
         // Handle when FBS is offline.
         socket.on('Offline', () => {
             setConnectionState(CONNECTION_OFFLINE);
+        });
+
+        // Out of order from backend
+        socket.on('OutOfOrder', () => {
+            setErrorMessage(ServerError);
         });
 
         // Configuration received from backend.

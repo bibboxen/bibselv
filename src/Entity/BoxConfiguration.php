@@ -122,6 +122,13 @@ class BoxConfiguration
     private $uniqueId;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true, options={"default":"1"})
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $hasFrontpageCheckIn = true;
+
+    /**
      * BoxConfiguration toString.
      *
      * @return mixed
@@ -483,6 +490,30 @@ class BoxConfiguration
     public function setUniqueId(string $uniqueId): self
     {
         $this->uniqueId = $uniqueId;
+
+        return $this;
+    }
+
+    /**
+     * Get has frontpage check in.
+     *
+     * @return bool|null
+     */
+    public function getHasFrontpageCheckIn(): ?bool
+    {
+        return $this->hasFrontpageCheckIn;
+    }
+
+    /**
+     * Set has frontpage check in.
+     *
+     * @param bool|null $hasFrontpageCheckIn
+     *
+     * @return $this
+     */
+    public function setHasFrontpageCheckIn(?bool $hasFrontpageCheckIn): self
+    {
+        $this->hasFrontpageCheckIn = $hasFrontpageCheckIn;
 
         return $this;
     }

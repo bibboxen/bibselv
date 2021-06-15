@@ -128,6 +128,9 @@
   "scan-login-password-header": {
     "defaultMessage": "Login"
   },
+  "app-server-error": {
+    "defaultMessage": "An unexpected error happened, refresh the page and try again."
+  },
   "app-token-not-valid": {
     "defaultMessage": "Token not valid. Access denied"
   },
@@ -139,6 +142,15 @@
   },
   "status-unavailable": {
     "defaultMessage": "Status is temporarily unavailable"
+  },
+  "login-error": {
+    "defaultMessage": "Login failed. Try again"
+  },
+  "banner-header-books-for-check-in": {
+    "defaultMessage": "{numberOfBooks} books should be checked in"
+  },
+  "book-banner-by-author": {
+    "defaultMessage": "By {author}"
   }
 }
 
