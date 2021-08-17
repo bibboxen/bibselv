@@ -9,13 +9,14 @@ import ScanLogin from './login-components/scan-login';
 import ScanPasswordLogin from './login-components/scan-password-login';
 import { LoginLoginNotConfigured } from './utils/formatted-messages';
 import MachineStateContext from './utils/machine-state-context';
+import AzureAdLogin from './login-components/azure-ad-login';
 
 /**
  * Renders a login component based on configuration
  *
  * @param actionHandler
- *  As the state can only be changed by the statemachine, the actionHandler
- *  calls the statemachine if a user requests a state change.
+ *  As the state can only be changed by the state machine, the actionHandler
+ *  calls the state machine if a user requests a state change.
  * @return {*}
  * @constructor
  */
@@ -37,6 +38,12 @@ function Login({ actionHandler }) {
             case 'login_barcode_password':
                 return (
                     <ScanPasswordLogin
+                        actionHandler={actionHandler}
+                    />
+                );
+            case 'azure_ad_login':
+                return (
+                    <AzureAdLogin
                         actionHandler={actionHandler}
                     />
                 );

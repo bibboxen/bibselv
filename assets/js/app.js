@@ -11,7 +11,8 @@ import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
 import { AppTokenNotValid, ServerError } from './steps/utils/formatted-messages';
-import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
+import {AZURE_AD_LOGIN, CONNECTION_OFFLINE, CONNECTION_ONLINE} from './constants';
+import MsalProviderWrapper from "./steps/msal-provider-wrapper";
 
 /**
  * App. The main entrypoint of the react application.
@@ -309,6 +310,32 @@ function App({ uniqueId, socket }) {
         });
     }
 
+    /**
+     * Render box depending on auth method. Azure Ad auth requires that the box be wrapped a MsalProvider.
+     *
+     * @param boxConfig
+     *
+     * @return {JSX.Element}
+     */
+    function renderBox(boxConfig) {
+        switch (boxConfig.loginMethod) {
+            case AZURE_AD_LOGIN:
+                return <MsalProviderWrapper
+                    boxConfigurationInput={boxConfig}
+                    machineStateInput={machineState}
+                    connectionState={connectionState}
+                    actionHandler={handleAction}
+                />;
+            default:
+                return <Bibbox
+                    boxConfigurationInput={boxConfig}
+                    machineStateInput={machineState}
+                    connectionState={connectionState}
+                    actionHandler={handleAction}
+                />;
+        }
+    }
+
     return (
         <IntlProvider locale={language} messages={messages}>
             {machineState && boxConfig && !errorMessage && (
@@ -320,12 +347,7 @@ function App({ uniqueId, socket }) {
                         eventsThrottle={500}
                         timeout={boxConfig.inactivityTimeOut}
                     />
-                    <Bibbox
-                        boxConfigurationInput={boxConfig}
-                        machineStateInput={machineState}
-                        connectionState={connectionState}
-                        actionHandler={handleAction}
-                    />
+                    {renderBox(boxConfig)}
                 </div>
             )}
             {errorMessage && <Alert message={errorMessage}/>}

@@ -29,3 +29,8 @@ export const ACTION_CHANGE_FLOW_STATUS = 'changeFlowStatus';
 // Connection constants
 export const CONNECTION_ONLINE = 'online';
 export const CONNECTION_OFFLINE = 'offline';
+
+// Login method constants
+export const LOGIN_BARCODE = 'login_barcode';
+export const LOGIN_BARCODE_PASSWORD = 'login_barcode_password';
+export const AZURE_AD_LOGIN = 'azure_ad_login';
