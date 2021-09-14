@@ -33,7 +33,6 @@ function AzureAdLogin({ actionHandler }) {
      */
     useEffect(() => {
         if (!isAuthenticated) {
-            let d = 1;
             instance.loginRedirect(loginRequest).catch(e => {
                 console.error(e);
             });
@@ -60,12 +59,11 @@ function AzureAdLogin({ actionHandler }) {
 
     return (
         <>
-            <p>Hello World!</p>
             <AuthenticatedTemplate>
-                <p>You are signed in - </p>
+                <p>You are signed in</p>
             </AuthenticatedTemplate>
             <UnauthenticatedTemplate>
-                <p>You are not signed in - Please sign in.</p>
+                <p>You are not signed in - Please sign in</p>
             </UnauthenticatedTemplate>
         </>
     );

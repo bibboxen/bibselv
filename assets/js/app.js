@@ -11,8 +11,8 @@ import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import Alert from './steps/utils/alert';
 import { AppTokenNotValid, ServerError } from './steps/utils/formatted-messages';
-import {AZURE_AD_LOGIN, CONNECTION_OFFLINE, CONNECTION_ONLINE} from './constants';
-import MsalProviderWrapper from "./steps/msal-provider-wrapper";
+import { AZURE_AD_LOGIN, CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
+import MsalProviderWrapper from './steps/msal-provider-wrapper';
 
 /**
  * App. The main entrypoint of the react application.
