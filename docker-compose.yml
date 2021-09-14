@@ -34,6 +34,7 @@ services:
       - PHP_MEMORY_LIMIT=256M
       - DOCKER_HOST_DOMAIN=${COMPOSE_DOMAIN}
       - PHP_IDE_CONFIG=serverName=localhost
+      - COMPOSER_VERSION=2
     depends_on:
       - mariadb
     volumes:
