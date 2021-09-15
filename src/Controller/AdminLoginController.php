@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AdminLoginController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/login", name="admin_login")
      *
      * @param AuthenticationUtils $authenticationUtils
      *
@@ -31,14 +31,19 @@ class AdminLoginController extends AbstractController
         // Get last username entered by the user.
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', [
+        return $this->render('@EasyAdmin/page/login.html.twig', [
+            'page_title' => 'test',
+            'csrf_token_intention' => 'authenticate',
+            'forgot_password_enabled' => true,
+            'username_parameter' => 'email',
+            'password_parameter' => 'password',
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/logout", name="admin_logout")
      */
     public function logout()
     {
