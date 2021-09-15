@@ -118,6 +118,9 @@
     "escapestudios/symfony2-coding-standard": {
         "version": "3.11.0"
     },
+    "fakerphp/faker": {
+        "version": "v1.16.0"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
         "recipe": {
@@ -129,9 +132,6 @@
         "files": [
             ".php_cs.dist"
         ]
-    },
-    "fzaninotto/faker": {
-        "version": "v1.9.1"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
