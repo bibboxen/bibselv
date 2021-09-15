@@ -48,7 +48,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ['7.4', '8.0'
+                php: ['7.4', '8.0']
         name: Coding style (${{ matrix.php }})
         steps:
             - uses: actions/checkout@v2
@@ -85,7 +85,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ['7.4', '8.0'
+                php: ['7.4', '8.0']
         name: Coding style fixer (${{ matrix.php }})
         steps:
             - uses: actions/checkout@v2
@@ -128,7 +128,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ['7.4', '8.0'
+                php: ['7.4', '8.0']
         name: Validate database schema (${{ matrix.php }})
         steps:
             - uses: actions/checkout@v2
