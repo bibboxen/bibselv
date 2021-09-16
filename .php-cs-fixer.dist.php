@@ -6,9 +6,9 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('engine')
 ;
 
-return PhpCsFixer\Config::create()
-    ->setRules([
-        '@PSR2' => true,
+$config = new PhpCsFixer\Config();
+return $config->setRules([
+        '@PSR12' => true,
         '@Symfony' => true,
         '@Symfony:risky' => false,
         'phpdoc_align' => false,

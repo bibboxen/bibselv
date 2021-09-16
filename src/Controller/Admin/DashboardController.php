@@ -21,7 +21,7 @@ class DashboardController extends AbstractDashboardController
     private AdminUrlGenerator $adminUrlGenerator;
 
     /**
-     * DashboardController constructor
+     * DashboardController constructor.
      *
      * @param AdminUrlGenerator $adminUrlGenerator
      */
