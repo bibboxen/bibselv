@@ -32,7 +32,6 @@ class AdminLoginController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('@EasyAdmin/page/login.html.twig', [
-            'page_title' => 'test',
             'csrf_token_intention' => 'authenticate',
             'forgot_password_enabled' => true,
             'username_parameter' => 'email',
