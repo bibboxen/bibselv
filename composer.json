@@ -79,13 +79,13 @@
             "@check-coding-standards/phpcs"
         ],
         "check-coding-standards/php-cs-fixer": [
-            "php-cs-fixer --config=.php-cs-fixer.dist.php fix --dry-run --format=checkstyle"
+            "vendor/bin/php-cs-fixer fix --format=checkstyle --dry-run"
         ],
         "check-coding-standards/phpcs": [
             "phpcs --standard=phpcs.xml.dist"
         ],
         "apply-coding-standards/php-cs-fixer": [
-            "php-cs-fixer --config=.php-cs-fixer.dist.php fix"
+            "vendor/bin/php-cs-fixer fix --format=checkstyle"
         ],
         "apply-coding-standards/phpcs": [
             "phpcbf --standard=phpcs.xml.dist"
@@ -94,7 +94,7 @@
             "phpcs --standard=phpcs.xml.dist --report=checkstyle"
         ],
         "actions/phpcsfixer": [
-            "php-cs-fixer --config=.php-cs-fixer.dist.php fix --dry-run --diff --diff-format=udiff"
+            "vendor/bin/php-cs-fixer fix --format=checkstyle --dry-run"
         ],
         "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'"
     },
