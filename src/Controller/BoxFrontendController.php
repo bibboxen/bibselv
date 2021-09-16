@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("", name="frontend_")
+ * @Route("/box", name="box_frontend_")
  */
-class FrontendController extends AbstractController
+class BoxFrontendController extends AbstractController
 {
     private BoxConfigurationRepository $boxConfigurationRepository;
     private string $engineSocketURI = '';
@@ -49,7 +49,7 @@ class FrontendController extends AbstractController
      */
     public function index()
     {
-        return new Response('Bad request: Missing configuration id.', 400);
+        throw $this->createNotFoundException('Bad request: Missing configuration id');
     }
 
     /**
@@ -65,18 +65,14 @@ class FrontendController extends AbstractController
      */
     public function load(string $uniqueId): Response
     {
-        if (empty($uniqueId)) {
-            return new Response('Bad request: Missing configuration id', 400);
-        }
-
         // Check that configuration exists.
         $boxConfig = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);
         if (is_null($boxConfig)) {
-            return new Response('Bad request: Wrong configuration id', 400);
+            throw $this->createNotFoundException('Bad request: Unknown configuration id');
         }
 
         return $this->render(
-            'frontend.html.twig',
+            'box.html.twig',
             [
                 'uniqueId' => $uniqueId,
                 'socketUri' => $this->engineSocketURI,

@@ -102,6 +102,12 @@ Next access the React frontend where `x` below is the id of the configuration en
 open http://$(docker-compose port nginx 80)?id=x
 ```
 
+### Azure AD login
+For working with the Azure Ad login in your local dev environment you need access the box from a URL that qualifies as "secure origin". This means either `https`, `127.0.0.1` or `localhost`. The standard `0.0.0.0` docker IP does not qualify.
+
+Using a non-secure origin will result in browser errors like:
+`BrowserAuthError: pkce_not_created: The PKCE code challenge and verifier could not be generated. Detail:TypeError: can't access property "digest", window.crypto.subtle is undefined`
+
 ## Logging
 The engine uses logstash to log messages, and these can be seen in the docker setup with the following command.
 ```sh
