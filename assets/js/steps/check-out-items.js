@@ -135,12 +135,11 @@ function CheckOutItems({ actionHandler }) {
         let soundToPlay = null;
 
         /**
-         * Play sound for successful checkout.
+         * Handle successful checkout.
          */
         let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_OUT || book.status === BookStatus.RENEWED).length;
         if (booksLength > checkedOutBooksLength) {
             setCheckedOutBooksLength(booksLength);
-            soundToPlay = 'success';
         }
 
         /**

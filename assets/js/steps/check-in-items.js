@@ -166,12 +166,11 @@ function CheckInItems({ actionHandler }) {
         });
 
         /**
-         * Play sound for successful checkin.
+         * Handle successful checkin.
          */
         let booksLength = context.machineState.get.items.filter(book => book.status === BookStatus.CHECKED_IN && book.message !== 'Reserveret').length;
         if (booksLength > checkedInBooksLength) {
             setCheckedInBooksLength(booksLength);
-            soundToPlay = 'success';
         }
 
         /**
