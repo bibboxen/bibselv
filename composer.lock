@@ -1974,16 +1974,16 @@
         },
         {
             "name": "itk-dev/openid-connect-bundle",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itk-dev/openid-connect-bundle.git",
-                "reference": "1288762326b1ae1010f9af5d7d8794f7fe02b9e1"
+                "reference": "f464b8b3880e81ff71d0f9f41877fa00c21de914"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itk-dev/openid-connect-bundle/zipball/1288762326b1ae1010f9af5d7d8794f7fe02b9e1",
-                "reference": "1288762326b1ae1010f9af5d7d8794f7fe02b9e1",
+                "url": "https://api.github.com/repos/itk-dev/openid-connect-bundle/zipball/f464b8b3880e81ff71d0f9f41877fa00c21de914",
+                "reference": "f464b8b3880e81ff71d0f9f41877fa00c21de914",
                 "shasum": ""
             },
             "require": {
@@ -2027,9 +2027,9 @@
             "description": "Symfony bundle for openid-connect",
             "support": {
                 "issues": "https://github.com/itk-dev/openid-connect-bundle/issues",
-                "source": "https://github.com/itk-dev/openid-connect-bundle/tree/1.0.0"
+                "source": "https://github.com/itk-dev/openid-connect-bundle/tree/1.0.1"
             },
-            "time": "2021-09-16T10:24:08+00:00"
+            "time": "2021-09-20T08:13:40+00:00"
         },
         {
             "name": "laminas/laminas-code",
