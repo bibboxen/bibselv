@@ -28,7 +28,7 @@ class AdLoginState implements \Serializable
     public string $userName;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function serialize(): ?string
     {
@@ -37,13 +37,13 @@ class AdLoginState implements \Serializable
                 $this->boxId,
                 $this->state,
                 $this->accountType,
-                $this->userName
+                $this->userName,
             ]
         );
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function unserialize($data): void
     {

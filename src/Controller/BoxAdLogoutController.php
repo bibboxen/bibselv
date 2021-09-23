@@ -8,16 +8,12 @@
 namespace App\Controller;
 
 use App\Service\AzureAdService;
-use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
-use ItkDev\OpenIdConnect\Exception\ValidationException;
-use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * class BoxAdLogoutController
+ * class BoxAdLogoutController.
  *
  * Handles login flow for Azure Ad B2C
  */
@@ -26,7 +22,7 @@ class BoxAdLogoutController extends AbstractController
     private AzureAdService $azureAdService;
 
     /**
-     * BoxAdLogoutController constructor
+     * BoxAdLogoutController constructor.
      *
      * @param AzureAdService $azureAdService
      */

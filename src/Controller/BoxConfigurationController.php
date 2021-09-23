@@ -8,14 +8,11 @@ namespace App\Controller;
 
 use App\Repository\BoxConfigurationRepository;
 use App\Service\AzureAdService;
-use App\Utils\AdLoginState;
 use App\Utils\Types\LoginMethods;
-use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,7 +27,7 @@ class BoxConfigurationController extends AbstractController
     private AdapterInterface $cache;
 
     /**
-     * BoxConfigurationController constructor
+     * BoxConfigurationController constructor.
      *
      * @param BoxConfigurationRepository $boxConfigurationRepository
      * @param AzureAdService $azureAdService
@@ -53,6 +50,7 @@ class BoxConfigurationController extends AbstractController
      *   Box configuration unique id
      *
      * @return JsonResponse
+     *
      * @throws InvalidArgumentException
      */
     final public function index(SessionInterface $session, string $uniqueId): JsonResponse
@@ -66,10 +64,10 @@ class BoxConfigurationController extends AbstractController
         // @TODO: Hack - Output the languageCode is lowercase - this should be done in the serialisation process.
         $boxConfiguration->setDefaultLanguageCode(strtolower($boxConfiguration->getDefaultLanguageCode()));
 
-        if ($boxConfiguration->getLoginMethod() === LoginMethods::AZURE_AD_LOGIN) {
+        if (LoginMethods::AZURE_AD_LOGIN === $boxConfiguration->getLoginMethod()) {
             $boxState = $this->azureAdService->getBoxLoginState($boxConfiguration->getUniqueId());
             $boxConfiguration->setAdLoginState($boxState);
-            
+
             // @TODO if/when to clear the cache
         }
 

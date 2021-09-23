@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * class BoxAdLoginController
+ * class BoxAdLoginController.
  *
  * Handles login flow for Azure Ad B2C
  */
@@ -26,7 +26,7 @@ class BoxAdLoginController extends AbstractController
     private AzureAdService $azureAdService;
 
     /**
-     * BoxAdLoginController constructor
+     * BoxAdLoginController constructor.
      *
      * @param AzureAdService $azureAdService
      */
@@ -53,7 +53,7 @@ class BoxAdLoginController extends AbstractController
     }
 
     /**
-     * Redirect endpoint that receives return redirects from Azure AD
+     * Redirect endpoint that receives return redirects from Azure AD.
      *
      * Validates and gets credentials, sets them on the session and redirects to the
      * specific box URL
@@ -67,9 +67,9 @@ class BoxAdLoginController extends AbstractController
     {
         $loginState = $this->azureAdService->getAdLoginState($request);
         $this->azureAdService->saveBoxLoginState($loginState);
-        
-        $boxUrl = $this->generateUrl('box_frontend_load', array('uniqueId' => $loginState->boxId));
-        
+
+        $boxUrl = $this->generateUrl('box_frontend_load', ['uniqueId' => $loginState->boxId]);
+
         return new RedirectResponse($boxUrl);
     }
 }

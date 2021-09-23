@@ -23,7 +23,7 @@ class AzureAdService
     private int $leeway;
 
     /**
-     * AzureAdService constructor
+     * AzureAdService constructor.
      *
      * @param OpenIdConfigurationProvider $provider
      * @param RequestStack $requestStack
@@ -39,7 +39,7 @@ class AzureAdService
     }
 
     /**
-     * Get the Azure B2C login URL
+     * Get the Azure B2C login URL.
      *
      * @throws ItkOpenIdConnectException
      */
@@ -53,16 +53,16 @@ class AzureAdService
 
         return $this->provider->getAuthorizationUrl(['state' => $state, 'nonce' => $nonce]);
     }
-    
+
     public function getLogoutUrl(): string
     {
         //@TODO Needs to be implemented in https://github.com/itk-dev/openid-connect
-        
+
         return '';
     }
 
     /**
-     * Get the ad login state from the redirect request
+     * Get the ad login state from the redirect request.
      *
      * @throws ValidationException
      */
@@ -86,7 +86,7 @@ class AzureAdService
     }
 
     /**
-     * Save the login state
+     * Save the login state.
      *
      * @param AdLoginState $adLoginState
      *
@@ -100,9 +100,10 @@ class AzureAdService
     }
 
     /**
-     * Get the saved login state for a box
+     * Get the saved login state for a box.
      *
      * @param string $uniqueId
+     *
      * @return AdLoginState|null
      *
      * @throws InvalidArgumentException
@@ -121,7 +122,7 @@ class AzureAdService
     }
 
     /**
-     * Get credentials from the redirect request
+     * Get credentials from the redirect request.
      *
      * @throws ValidationException
      */
