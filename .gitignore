@@ -30,3 +30,5 @@ yarn-error.log
 package-lock.json
 .eslintrc.js
 .php-cs-fixer.cache
+
+temp/

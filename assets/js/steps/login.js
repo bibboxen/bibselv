@@ -22,6 +22,9 @@ import MachineStateContext from './utils/machine-state-context';
 function Login({ actionHandler }) {
     // The context of the machine
     const context = useContext(MachineStateContext);
+    const loginMethod = context?.boxConfig?.get?.loginMethod ? context.boxConfig.get.loginMethod : '';
+
+    console.log(context);
 
     /**
      * Renders a login component based on configuration
@@ -29,9 +32,11 @@ function Login({ actionHandler }) {
     function renderStep(loginConfig) {
         switch (loginConfig.toLowerCase()) {
             case 'azure_ad_login':
-                // @TODO set redirect url dynamically with correct params /box/ad-login/{uniqueId}/{boxState}
-                window.location.href = '/box/ad-login/unique23/checkoutitems';
-                break;
+                const flow = context.machineState.get.flow;
+                const uniqueId = context.boxConfig.get.uniqueId;
+
+                window.location.href = `/box/ad-login/${uniqueId}/${flow}`;
+                return (<></>);
             case 'login_barcode':
                 return (
                     <ScanLogin
@@ -49,7 +54,7 @@ function Login({ actionHandler }) {
         }
     }
 
-    return renderStep(context.boxConfig.get.loginMethod);
+    return renderStep(loginMethod);
 }
 
 Login.propTypes = {

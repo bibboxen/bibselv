@@ -54,10 +54,29 @@ module.exports = function(options, imports, register) {
             initial: {
                 _onEnter: function(client) {
                     debug('Entered initial on client: ' + client.token);
-                    client.state = {
-                        step: 'initial'
-                    };
-                    client.internal = {};
+                    console.log(client);
+                    console.log('fisk');
+
+                    if (client?.internal?.initializationData?.loginMethod === 'azure_ad_login' &&
+                        client?.internal?.initializationData?.adLoginState?.state &&
+                        client?.internal?.initializationData?.adLoginState?.accountType &&
+                        client?.internal?.initializationData?.adLoginState?.userName) {
+                        client.actionData = {
+                            username: client.internal.initializationData.adLoginState.userName,
+                            password: client.config.defaultPassword
+                        };
+                        client.state = {
+                            flow: client.internal.initializationData.adLoginState.state
+                        };
+
+                        actionHandler.login(client);
+                    }
+                    else {
+                        client.state = {
+                            step: 'initial'
+                        };
+                        client.internal = {};
+                    }
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -73,6 +92,28 @@ module.exports = function(options, imports, register) {
                 enterFlow: function(client) {
                     debug('Triggered enterFlow on client: ' + client.token);
                     actionHandler.enterFlow(client, client.actionData.flow);
+                },
+                /**
+                 * Login error for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginError: function(client) {
+                    debug('Triggered loginError on client: ' + client.token);
+                    client.state.loginError = client.actionData.error;
+                },
+                /**
+                 * Login success for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginSuccess: function(client) {
+                    debug('Triggered loginSuccess on client: ' + client.token);
+                    client.state.user = client.actionData.user;
+                    client.internal = client.actionData.internal;
+                    this.transition(client, client.state.flow);
                 }
             },
             /**
@@ -373,6 +414,12 @@ module.exports = function(options, imports, register) {
 
         clientModule.load(data.token, data.config).then(function load(client) {
             client = stateMachine.reset(client);
+
+            // Pass initializationData.
+            client.internal = {
+                initializationData: data.initializationData
+            };
+
             clientModule.save(data.token, client);
 
             bus.emit(data.busEvent, client);

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import {Spinner} from "react-bootstrap";
 
 /**
  * Loading.
@@ -14,7 +15,7 @@ import React from 'react';
 function Loading() {
     return (
         <div className='loading-screen'>
-            <span className='loading-text'>Afventer konfiguration...</span>
+            <Spinner animation={"border"}/>
         </div>
     );
 }

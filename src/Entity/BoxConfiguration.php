@@ -124,6 +124,8 @@ class BoxConfiguration
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
      */
     private $uniqueId;
 
