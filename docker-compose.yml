@@ -47,7 +47,7 @@ services:
       - frontend
     depends_on:
       - phpfpm
-      - engine'
+      - engine
     ports:
       - '80'
       - '443'
@@ -86,7 +86,7 @@ services:
     networks:
       - app
     ports:
-      - 28777
+      - '28777'
     volumes:
       - ${PWD}/.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ${PWD}/.docker/jvm.options:/usr/share/logstash/config/jvm.options:ro
