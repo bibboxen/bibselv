@@ -53,7 +53,7 @@ class BoxAdLoginController extends AbstractController
     }
 
     /**
-     * Redirect endpoint that recieves return redirects from Azure AD
+     * Redirect endpoint that receives return redirects from Azure AD
      *
      * Validates and gets credentials, sets them on the session and redirects to the
      * specific box URL

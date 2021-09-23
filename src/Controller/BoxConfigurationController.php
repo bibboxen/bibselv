@@ -69,6 +69,8 @@ class BoxConfigurationController extends AbstractController
         if ($boxConfiguration->getLoginMethod() === LoginMethods::AZURE_AD_LOGIN) {
             $boxState = $this->azureAdService->getBoxLoginState($boxConfiguration->getUniqueId());
             $boxConfiguration->setAdLoginState($boxState);
+            
+            // @TODO if/when to clear the cache
         }
 
         return $this->json($boxConfiguration, 200, [], ['groups' => ['boxConfiguration']]);
