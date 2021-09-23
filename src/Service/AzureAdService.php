@@ -41,19 +41,33 @@ class AzureAdService
     /**
      * Get the Azure B2C login URL.
      *
+     * @param string $uniqueId
+     *   The id of the box
+     * @param string $boxState
+     *   The checkout|status state of the box
+     *
+     * @return string
+     *   The Azure login URL with state
+     *
      * @throws ItkOpenIdConnectException
      */
-    public function getLoginUrl(string $uniqueId, string $state = BoxFlowStates::CHECK_OUT_ITEMS): string
+    public function getLoginUrl(string $uniqueId, string $boxState = BoxFlowStates::CHECK_OUT_ITEMS): string
     {
         $session = $this->requestStack->getSession();
-        $state = $uniqueId.':'.$state;
+        $boxState = $uniqueId.':'.$boxState;
 
         $nonce = $this->provider->generateNonce();
         $session->set('oauth2nonce', $nonce);
 
-        return $this->provider->getAuthorizationUrl(['state' => $state, 'nonce' => $nonce]);
+        return $this->provider->getAuthorizationUrl(['state' => $boxState, 'nonce' => $nonce]);
     }
 
+    /**
+     * Get the Azure B2C logout URL.
+     *
+     * @return string
+     *   The Azure logout URL with state
+     */
     public function getLogoutUrl(): string
     {
         //@TODO Needs to be implemented in https://github.com/itk-dev/openid-connect
@@ -63,6 +77,10 @@ class AzureAdService
 
     /**
      * Get the ad login state from the redirect request.
+     *
+     * @param Request $request
+     *
+     * @return AdLoginState
      *
      * @throws ValidationException
      */
@@ -123,6 +141,10 @@ class AzureAdService
 
     /**
      * Get credentials from the redirect request.
+     *
+     * @param Request $request
+     *
+     * @return array
      *
      * @throws ValidationException
      */

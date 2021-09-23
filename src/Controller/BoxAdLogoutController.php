@@ -38,8 +38,10 @@ class BoxAdLogoutController extends AbstractController
      * and redirects to Azure AD for login
      *
      * @Route("/box/ad-logout", name="box_ad_logout")
+     *
+     * @return RedirectResponse
      */
-    public function index(string $uniqueId, string $boxState): RedirectResponse
+    public function index(): RedirectResponse
     {
         $authUrl = $this->azureAdService->getLogoutUrl();
 

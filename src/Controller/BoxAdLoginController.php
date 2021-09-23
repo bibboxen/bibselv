@@ -43,6 +43,13 @@ class BoxAdLoginController extends AbstractController
      *
      * @Route("/box/ad-login/{uniqueId}/{boxState}", name="box_ad_login")
      *
+     * @param string $uniqueId
+     *   The id of the box
+     * @param string $boxState
+     *   The checkout|status state of the box
+     *
+     * @return RedirectResponse
+     *
      * @throws ItkOpenIdConnectException
      */
     public function index(string $uniqueId, string $boxState): RedirectResponse
@@ -60,8 +67,12 @@ class BoxAdLoginController extends AbstractController
      *
      * @Route("/oidc", name="box_ad_redirect_uri")
      *
-     * @throws ValidationException
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     *
      * @throws InvalidArgumentException
+     * @throws ValidationException
      */
     public function oidc(Request $request): RedirectResponse
     {
