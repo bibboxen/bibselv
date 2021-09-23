@@ -33,7 +33,9 @@
         "escapestudios/symfony2-coding-standard": "^3.11",
         "fakerphp/faker": "^1.16",
         "friendsofphp/php-cs-fixer": "^3.1",
-        "symfony/maker-bundle": "^1.21"
+        "symfony/maker-bundle": "^1.21",
+        "symfony/stopwatch": "5.3.*",
+        "symfony/web-profiler-bundle": "5.3.*"
     },
     "config": {
         "preferred-install": {
