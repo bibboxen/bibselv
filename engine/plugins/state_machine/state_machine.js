@@ -72,8 +72,7 @@ module.exports = function(options, imports, register) {
                         };
 
                         actionHandler.login(client);
-                    }
-                    else {
+                    } else {
                         client.state = {
                             step: 'initial'
                         };

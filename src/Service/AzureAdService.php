@@ -121,6 +121,7 @@ class AzureAdService
      * Remove the login state from cache.
      *
      * @param string $boxId
+     *
      * @throws InvalidArgumentException
      */
     public function removeLoginState(string $boxId): void
