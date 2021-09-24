@@ -19,7 +19,7 @@ import {
     InitialButtonCheckOut,
     InitialButtonStatus,
     InitialButtonCheckIn,
-    InitialHeader, StatusUnavailable
+    InitialHeader, StatusUnavailable, LoginLoginError
 } from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
 import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
@@ -88,37 +88,46 @@ function Initial({ actionHandler }) {
 
     return (
         <div className='col-md-12'>
-            <h1 className='mb-5'>
-                {InitialHeader}
-            </h1>
-            <div className='row justify-content-center'>
-                {components.map((component) => (
-                    <div key={component.type} className='col-md-3'>
-                        <Bubble
-                            type={component.type}
-                            label={component.label}
-                            icon={component.icon}
-                            img={component.img}
-                            disabled={component.disabled}
-                            onClick={() => actionHandler('enterFlow', { flow: component.type })}
-                        />
+            {!context?.machineState?.get?.processing &&
+                <>
+                    <h1 className='mb-5'>
+                        {InitialHeader}
+                    </h1>
+                    <div className='row justify-content-center'>
+                        {components.map((component) => (
+                            <div key={component.type} className='col-md-3'>
+                                <Bubble
+                                    type={component.type}
+                                    label={component.label}
+                                    icon={component.icon}
+                                    img={component.img}
+                                    disabled={component.disabled}
+                                    actionHandler={actionHandler}
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <div className='row justify-content-center mt-5'>
-                {components.map((component) => (
-                    <div key={component.type} className='col-md-3'>
-                        <Barcode
-                            key={'barcode' + component.type}
-                            type={component.type}
-                            disabled={component.disabled}
-                        />
+                    <div className='row justify-content-center mt-5'>
+                        {components.map((component) => (
+                            <div key={component.type} className='col-md-3'>
+                                <Barcode
+                                    key={'barcode' + component.type}
+                                    type={component.type}
+                                    disabled={component.disabled}
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </>
+            }
             {context.connectionState?.get === CONNECTION_OFFLINE &&
                 <div>
                     <Alert variant='warning' message={StatusUnavailable} />
+                </div>
+            }
+            {context.machineState?.get?.loginError &&
+                <div>
+                    <Alert message={LoginLoginError} />
                 </div>
             }
         </div>

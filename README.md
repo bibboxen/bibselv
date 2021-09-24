@@ -102,6 +102,63 @@ Next access the React frontend where `x` below is the id of the configuration en
 open http://$(docker-compose port nginx 80)?id=x
 ```
 
+### Azure AD login
+To test locally see "Bibselv OpenIDConnect" credentials in 1Password.
+
+Login flow is as follows:
+Box frontend -> Symfony (route: box_ad_login) -> Azure -> Symfony (route: box_ad_redirect_uri) -> Box frontend (calls config w. state)
+
+#### Symfony (route: box_ad_login)
+Receives the box id `uniqueId` and the `boxState` to indicate if the box entered "check out" or "status". Then adds this to the Azure AD login url as openid state, before redirecting to Azure.
+
+#### Symfony (route: box_ad_redirect_uri)
+Receives the redirect back from Azure after login, validates the credentials and gets username and type. Gets box id and box state from openid connect state and caches it all as a `AdLoginState` keyed by the box id. Then redirects to the box URL.
+
+#### Symfony (route: box_frontend_load)
+Endpoint for the individual box. Loads the box. Then the box calls the config box config endpoint.
+
+#### Symfony (route: box_configuration)
+Endpoint for box configuration. If there is a cached `AdLoginState` object it loads this and includes it in the config as `adLoginState`. If no state is cached `adLoginState` is set to `null`
+```json
+{
+    "id": 25,
+    "hasPrinter": true,
+    "reservedMaterialInstruction": "Dolor est ut ea natus iusto deserunt inventore.",
+    "inactivityTimeOut": 360000,
+    "soundEnabled": false,
+    "school": {
+        "name": "Beder Skole"
+    },
+    "loginMethod": "azure_ad_login",
+    "adLoginState": {
+        "state": "checkoutitems",
+        "accountType": "student",
+        "userName": "test1234"
+    },
+    "hasTouch": false,
+    "hasKeyboard": false,
+    "sip2User": {
+        "username": "test_test",
+        "password": "12345678",
+        "agencyId": "DK-718680",
+        "location": "Kalvehave"
+    },
+    "defaultPassword": "0000",
+    "debugEnabled": false,
+    "defaultLanguageCode": "da",
+    "hasFrontpageCheckIn": true
+}
+```
+
+### Azure AD logout
+@TODO Needs to be implemented in https://github.com/itk-dev/openid-connect to support the `BoxAdLogoutController`
+
+### Azure AD error handling
+@TODO We need to decide how and when to expose errors from Azure to the end user.
+
+#### Frontend box
+Loads the config and enters flow based on exposed state.
+
 ## Logging
 The engine uses logstash to log messages, and these can be seen in the docker setup with the following command.
 ```sh

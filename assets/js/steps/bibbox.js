@@ -78,14 +78,13 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
                 return <CheckInItems actionHandler={actionHandler} />;
             case 'status':
                 return <Status actionHandler={actionHandler} />;
-            case 'initial':
-                return <Initial actionHandler={actionHandler} />;
             case 'changeLoginMethod':
                 return <ChangeLoginMethod actionHandler={actionHandler} />;
             case 'loginScanUsername':
                 return <ScanLogin actionHandler={actionHandler} />;
             case 'loginScanUsernamePassword':
                 return <ScanPasswordLogin actionHandler={actionHandler} />;
+            case 'initial':
             default:
                 return <Initial actionHandler={actionHandler} />;
         }
@@ -96,7 +95,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
             <NavBar actionHandler={actionHandler} />
             <div className='container'>
                 <div className='row' style={{ width: '100%' }}>
-                    {renderStep(machineStateInput.step)}
+                    {renderStep(machineStateInput.step ?? '')}
                 </div>
             </div>
         </MachineStateContext.Provider>

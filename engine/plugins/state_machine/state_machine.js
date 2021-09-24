@@ -54,10 +54,30 @@ module.exports = function(options, imports, register) {
             initial: {
                 _onEnter: function(client) {
                     debug('Entered initial on client: ' + client.token);
-                    client.state = {
-                        step: 'initial'
-                    };
-                    client.internal = {};
+
+                    // Go to selected flow if the user has made a successful AD login.
+                    if (client?.internal?.initializationData?.loginMethod === 'azure_ad_login' &&
+                        client?.internal?.initializationData?.adLoginState?.state &&
+                        client?.internal?.initializationData?.adLoginState?.accountType &&
+                        client?.internal?.initializationData?.adLoginState?.userName
+                    ) {
+                        client.actionData = {
+                            username: client.internal.initializationData.adLoginState.userName,
+                            password: client.config.defaultPassword
+                        };
+                        client.state = {
+                            step: 'initial',
+                            processing: true,
+                            flow: client.internal.initializationData.adLoginState.state
+                        };
+
+                        actionHandler.login(client);
+                    } else {
+                        client.state = {
+                            step: 'initial'
+                        };
+                        client.internal = {};
+                    }
 
                     // If active login session, expose the info to the client.
                     if (client?.meta?.loginSession) {
@@ -95,6 +115,28 @@ module.exports = function(options, imports, register) {
                 enterFlow: function(client) {
                     debug('Triggered enterFlow on client: ' + client.token);
                     actionHandler.enterFlow(client, client.actionData.flow);
+                },
+                /**
+                 * Login error for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginError: function(client) {
+                    debug('Triggered loginError on client: ' + client.token);
+                    client.state.loginError = client.actionData.error;
+                },
+                /**
+                 * Login success for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginSuccess: function(client) {
+                    debug('Triggered loginSuccess on client: ' + client.token);
+                    client.state.user = client.actionData.user;
+                    client.internal = client.actionData.internal;
+                    this.transition(client, client.state.flow);
                 }
             },
             /**
@@ -450,8 +492,20 @@ module.exports = function(options, imports, register) {
         debug('state_machine.start', data.token);
 
         clientModule.load(data.token, data.config).then(function load(client) {
+            // If successful AD login pass initializationData.
+            if (data.initializationData?.loginMethod === 'azure_ad_login' &&
+                data.initializationData?.adLoginState?.state &&
+                data.initializationData?.adLoginState?.accountType &&
+                data.initializationData?.adLoginState?.userName
+            ) {
+                client.internal = {
+                    initializationData: data.initializationData
+                };
+            }
+
             client = stateMachine.reset(client);
             client.config = data.config;
+
             clientModule.save(data.token, client);
 
             bus.emit(data.busEvent, client);

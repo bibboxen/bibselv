@@ -36,7 +36,7 @@ jobs:
                   restore-keys: ${{ matrix.php }}-composer-
 
             - name: Validate composer files
-              run: composer validate composer.json
+              run: composer validate composer.json --strict
 
             - name: Composer install with exported .env variables
               run: |
