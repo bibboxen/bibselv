@@ -54,18 +54,20 @@ module.exports = function(options, imports, register) {
             initial: {
                 _onEnter: function(client) {
                     debug('Entered initial on client: ' + client.token);
-                    console.log(client);
-                    console.log('fisk');
 
+                    // Go to selected flow if the user has made a successful AD login.
                     if (client?.internal?.initializationData?.loginMethod === 'azure_ad_login' &&
                         client?.internal?.initializationData?.adLoginState?.state &&
                         client?.internal?.initializationData?.adLoginState?.accountType &&
-                        client?.internal?.initializationData?.adLoginState?.userName) {
+                        client?.internal?.initializationData?.adLoginState?.userName
+                    ) {
                         client.actionData = {
                             username: client.internal.initializationData.adLoginState.userName,
                             password: client.config.defaultPassword
                         };
                         client.state = {
+                            step: 'initial',
+                            processing: true,
                             flow: client.internal.initializationData.adLoginState.state
                         };
 
@@ -413,12 +415,18 @@ module.exports = function(options, imports, register) {
         debug('state_machine.start', data.token);
 
         clientModule.load(data.token, data.config).then(function load(client) {
-            client = stateMachine.reset(client);
+            // If successful AD login pass initializationData.
+            if (data.initializationData?.loginMethod === 'azure_ad_login' &&
+                data.initializationData?.adLoginState?.state &&
+                data.initializationData?.adLoginState?.accountType &&
+                data.initializationData?.adLoginState?.userName
+            ) {
+                client.internal = {
+                    initializationData: data.initializationData
+                };
+            }
 
-            // Pass initializationData.
-            client.internal = {
-                initializationData: data.initializationData
-            };
+            client = stateMachine.reset(client);
 
             clientModule.save(data.token, client);
 

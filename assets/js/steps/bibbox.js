@@ -79,7 +79,6 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
             case 'loginscan':
                 return <Login actionHandler={actionHandler} />;
             case 'initial':
-                return <Initial actionHandler={actionHandler} />;
             default:
                 return <Initial actionHandler={actionHandler} />;
         }
@@ -90,7 +89,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
             <NavBar actionHandler={actionHandler} />
             <div className='container'>
                 <div className='row' style={{ width: '100%' }}>
-                    {renderStep(machineStateInput.step)}
+                    {renderStep(machineStateInput.step ?? '')}
                 </div>
             </div>
         </MachineStateContext.Provider>
