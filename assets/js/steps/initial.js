@@ -88,11 +88,11 @@ function Initial({ actionHandler }) {
 
     return (
         <div className='col-md-12'>
-            <h1 className='mb-5'>
-                {InitialHeader}
-            </h1>
             {!context?.machineState?.get?.processing &&
                 <>
+                    <h1 className='mb-5'>
+                        {InitialHeader}
+                    </h1>
                     <div className='row justify-content-center'>
                         {components.map((component) => (
                             <div key={component.type} className='col-md-3'>

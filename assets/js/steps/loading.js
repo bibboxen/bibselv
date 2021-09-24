@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {Spinner} from "react-bootstrap";
+import { Spinner } from 'react-bootstrap';
 
 /**
  * Loading.
@@ -15,7 +15,7 @@ import {Spinner} from "react-bootstrap";
 function Loading() {
     return (
         <div className='loading-screen'>
-            <Spinner animation={"border"}/>
+            <Spinner animation={'border'}/>
         </div>
     );
 }
