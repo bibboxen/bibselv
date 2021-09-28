@@ -118,7 +118,7 @@ it('Test that test user can log in and check out an item', done => {
 
         // @TODO: Handle this better than timeout.
         setTimeout(() => {
-            app.services.client.load('123').then(function (client) {
+            app.services.client.load('123').then(function(client) {
                 client.state.step.should.equal('checkOutItems');
                 client.state.flow.should.equal('checkOutItems');
 
@@ -139,7 +139,7 @@ it('Test that test user can log in and check out an item', done => {
                     const spyCall = app.services.state_machine.handleEvent.getCall(3);
                     spyCall.firstArg.action.should.equal('checkOutItem');
 
-                    app.services.client.load('123').then(function (client) {
+                    app.services.client.load('123').then(function(client) {
                         client.state.items.length.should.equal(1);
                         client.state.items[0].itemIdentifier.should.equal('3274626533');
                         client.state.items[0].title.should.equal('Helbred dit liv');
