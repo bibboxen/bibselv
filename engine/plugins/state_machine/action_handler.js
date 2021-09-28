@@ -86,6 +86,24 @@ class ActionHandler {
     }
 
     /**
+     * Map login method names from configuration to state names.
+     *
+     * @param {string} method
+     *   The login method string.
+     * @return {string|*}
+     */
+    mapLoginMethods(method) {
+        if (method === 'login_barcode_password') {
+            return 'loginScanUsernamePassword';
+        } else if (method === 'login_barcode') {
+            return 'loginScanUsername';
+        } else if (method === 'azure_ad_login') {
+            return 'loginAzureAD';
+        }
+        return method;
+    }
+
+    /**
      * Starts a login session.
      *
      * @param client
@@ -100,14 +118,7 @@ class ActionHandler {
         }
 
         // @TODO: Clean up naming in admin to avoid mapping.
-        const allowedLoginMethods = client?.config?.loginSessionMethods.map(method => {
-            if (method === 'login_barcode_password') {
-                return 'loginScanUsernamePassword';
-            } else if (method === 'login_barcode') {
-                return 'loginScanUsername';
-            }
-            return method;
-        });
+        const allowedLoginMethods = client?.config?.loginSessionMethods.map(this.mapLoginMethods);
 
         if (!allowedLoginMethods.includes(loginMethod)) {
             return;
@@ -139,8 +150,7 @@ class ActionHandler {
      *   The client.
      */
     chooseLogin(client) {
-        // @TODO: Change this to AD login when it is implemented.
-        let loginMethod = 'loginScanUsername';
+        let loginMethod = this.mapLoginMethods(client?.config?.loginMethod ?? '');
 
         if (client?.meta?.loginSession) {
             const loginSession = client.meta.loginSession;

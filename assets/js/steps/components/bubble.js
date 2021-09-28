@@ -18,13 +18,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  *   Bubble icon.
  * @param img
  *   Bubble image.
- * @param actionHandler
- *  As the state can only be changed by the statemachine, the actionHandler
- *  calls the statemachine if a user requests a state change.
  * @param disabled
  *   Disable the Bubble.
- * @param onClick
- *   Optional onClick.
+ * @param rest
  *
  * @return {*}
  * @constructor
@@ -62,7 +58,6 @@ Bubble.propTypes = {
     icon: PropTypes.object,
     img: PropTypes.string,
     disabled: PropTypes.bool,
-    actionHandler: PropTypes.func,
     onClick: PropTypes.func
 };
 

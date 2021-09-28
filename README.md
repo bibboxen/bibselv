@@ -205,7 +205,7 @@ All tests runs with Github Actions for each PR to develop.
 Frontend tests runs with jest.
 
 ```
-docker-compose exec frontend bash -c 'npm test'
+docker-compose run frontend bash -c 'npm test'
 ```
 
 ### Engine

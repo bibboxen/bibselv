@@ -156,6 +156,21 @@ module.exports = function(options, imports, register) {
                 }
             },
             /**
+             * LoginAzureAD state is for logging in with Azure AD.
+             */
+            loginAzureAD: {
+                _onEnter: function(client) {
+                    debug('Entered loginAzureAD on client: ' + client.token);
+                    client.state.step = 'loginAzureAD';
+                },
+                _onExit: function(client) {
+                    client.actionData = null;
+                },
+                _reset: function(client) {
+                    this.transition(client, 'initial');
+                }
+            },
+            /**
              * LoginScanUsernamePassword state is for scanning the username and password to login.
              */
             loginScanUsernamePassword: {
@@ -200,6 +215,18 @@ module.exports = function(options, imports, register) {
                     client.state.user = client.actionData.user;
                     client.internal = client.actionData.internal;
                     this.transition(client, client.state.flow);
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             /**
@@ -249,6 +276,18 @@ module.exports = function(options, imports, register) {
                     client.state.user = client.actionData.user;
                     client.internal = client.actionData.internal;
                     this.transition(client, client.state.flow);
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             /**
@@ -294,6 +333,28 @@ module.exports = function(options, imports, register) {
                 changeFlow: function(client) {
                     debug('Triggered changeFlow on client: ' + client.token);
                     actionHandler.changeFlow(client, client.actionData.flow);
+                },
+                /**
+                 * Start login session flow.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                startLoginSession: function(client) {
+                    debug('Triggered startLoginSession on client: ' + client.token);
+                    this.transition(client, 'changeLoginMethod');
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             checkInItems: {
@@ -345,6 +406,18 @@ module.exports = function(options, imports, register) {
                 changeFlow: function(client) {
                     debug('Triggered changeFlow on client: ' + client.token);
                     actionHandler.changeFlow(client, client.actionData.flow);
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             /**
@@ -380,6 +453,28 @@ module.exports = function(options, imports, register) {
                 statusUpdated: function(client) {
                     debug('Triggered statusUpdated on client: ' + client.token);
                     client.state = Object.assign({}, client.state, client.actionData);
+                },
+                /**
+                 * Start login session flow.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                startLoginSession: function(client) {
+                    debug('Triggered startLoginSession on client: ' + client.token);
+                    this.transition(client, 'changeLoginMethod');
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             /**

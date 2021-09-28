@@ -222,6 +222,7 @@ module.exports = function(options, imports, register) {
                     fbsConfig.loginSessionEnabled = config.loginSessionEnabled;
                     fbsConfig.loginSessionMethods = config.loginSessionMethods;
                     fbsConfig.loginSessionTimeout = config.loginSessionTimeout;
+                    fbsConfig.loginMethod = config.loginMethod;
 
                     // Get AD information for starting state_machine in logged in state if successful login.
                     initializationData.adLoginState = { ...config.adLoginState };
