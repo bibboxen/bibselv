@@ -8,7 +8,8 @@
         "endpoint": "https://cicero-fbs.com/rest/sip2/DK-775100",
         "agency": "DK-775100",
         "location": "hb",
-        "defaultPassword": "00000"
+        "defaultPassword": "00000",
+        "loginMethod": "login_barcode_password"
     },
     "paths": {
         "base": "files",

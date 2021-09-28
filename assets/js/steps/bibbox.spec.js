@@ -854,7 +854,7 @@ describe('Tests of navbar component', () => {
                         user: {
                             birthdayToday: false,
                             name: 'ITK',
-                            isAdmin: true
+                            isAdmin: false
                         },
                         holdItems: [],
                         overdueItems: [],
@@ -895,14 +895,16 @@ describe('Tests of navbar component', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginSessionMethods: ['login_barcode_password']
+                        loginSessionMethods: ['login_barcode_password'],
+                        loginSessionEnabled: true
                     }}
                     machineStateInput={{
                         flow: 'status',
                         step: 'status',
                         user: {
                             birthdayToday: false,
-                            name: 'ITK'
+                            name: 'ITK',
+                            isAdmin: true
                         },
                         holdItems: [],
                         overdueItems: [],
@@ -934,7 +936,7 @@ describe('Tests of navbar component', () => {
             'button-navbar-finish'
         );
     });
-    it('renders the five buttons in the navbar status with sessioning enabled and two login methods', () => {
+    it('renders the five buttons in the navbar status with sessioning started', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
@@ -961,7 +963,8 @@ describe('Tests of navbar component', () => {
                         chargedItems: [],
                         fineItems: [],
                         recallItems: [],
-                        unavailableHoldItems: []
+                        unavailableHoldItems: [],
+                        activeLoginSession: true
                     }}
                     connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
@@ -971,7 +974,7 @@ describe('Tests of navbar component', () => {
         );
         expect(wrapper.find('.button-container button').length).toEqual(5);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
-            'button-navbar-login-method'
+            'navbar-stop-login-session'
         );
         expect(wrapper.find('.button-container button').at(1).text()).toEqual(
             'button-navbar-check-out'

@@ -439,7 +439,7 @@ class ActionHandler {
                     name: names,
                     birthdayToday: birthdayToday,
                     id: user.id,
-                    isAdmin: client.meta.user.isAdmin ?? false
+                    isAdmin: client?.meta?.user?.isAdmin ?? false
                 },
                 internal: {
                     username: loginData.username,

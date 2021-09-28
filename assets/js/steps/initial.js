@@ -37,6 +37,7 @@ import Alert from './utils/alert';
  */
 function Initial({ actionHandler }) {
     const context = useContext(MachineStateContext);
+    const activeLoginSession = context?.machineState?.get?.activeLoginSession ?? false;
 
     const components = [
         {
@@ -77,7 +78,7 @@ function Initial({ actionHandler }) {
         ], actionHandler, function(result) {
             // If hasFrontpageCheckIn enabled in the box configuration, go to checkIn flow and pass
             // the scanned items for instant check in.
-            if (context.boxConfig?.get?.hasFrontpageCheckIn) {
+            if (context.boxConfig?.get?.hasFrontpageCheckIn && !activeLoginSession) {
                 handleItemCheckIn(result.code);
             }
         })).createCallback();
