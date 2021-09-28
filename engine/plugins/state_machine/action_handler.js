@@ -439,8 +439,7 @@ class ActionHandler {
                     name: names,
                     birthdayToday: birthdayToday,
                     id: user.id,
-                    // @TODO: This should be decided based on the user's role.
-                    isAdmin: true
+                    isAdmin: client.meta.user.isAdmin ?? false
                 },
                 internal: {
                     username: loginData.username,

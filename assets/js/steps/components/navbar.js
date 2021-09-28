@@ -68,7 +68,7 @@ function NavBar({ actionHandler }) {
     ];
 
     const showChangeLoginMethodButton = loginSessionEnabled && !activeLoginSession && user?.isAdmin && numberOfLoginSessionMethods > 1 && step !== 'changeLoginMethod';
-    const showStartLoginSessionButton = (step === 'status' || step === 'checkOutItems') && numberOfLoginSessionMethods === 1 && !activeLoginSession;
+    const showStartLoginSessionButton = user?.isAdmin && !activeLoginSession && !activeLoginSession;
 
     /**
      * Enter change login flow.

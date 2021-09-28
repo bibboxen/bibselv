@@ -70,6 +70,9 @@ module.exports = function(options, imports, register) {
                             processing: true,
                             flow: client.internal.initializationData.adLoginState.state
                         };
+                        client.meta.user = {
+                            isAdmin: client.internal.initializationData.adLoginState.accountType === 'teacher'
+                        };
 
                         actionHandler.login(client);
                     } else {
