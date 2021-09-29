@@ -44,7 +44,6 @@ function NavBar({ actionHandler }) {
     const { step, activeLoginSession, user } = context.machineState.get;
     const { loginSessionEnabled, school, loginSessionMethods, debugEnabled } = context.boxConfig.get;
     const classes = step === 'initial' ? 'navbar initial' : 'navbar';
-    const numberOfLoginSessionMethods = loginSessionMethods?.length;
     const components = [
         {
             class: 'button check-out-items',
@@ -67,17 +66,7 @@ function NavBar({ actionHandler }) {
         }
     ];
 
-    const showChangeLoginMethodButton = loginSessionEnabled && !activeLoginSession && user?.isAdmin && numberOfLoginSessionMethods > 1 && step !== 'changeLoginMethod';
-    const showStartLoginSessionButton = user?.isAdmin && !activeLoginSession && !activeLoginSession;
-
-    /**
-     * Enter change login flow.
-     */
-    function changeLoginMethod() {
-        actionHandler('changeFlow', {
-            flow: 'changeLoginMethod'
-        });
-    }
+    const showStartLoginSessionButton = user?.isAdmin && loginSessionEnabled && loginSessionMethods?.length > 0 && !activeLoginSession && step !== 'changeLoginMethod';
 
     /**
      * Stop login session.
@@ -115,14 +104,6 @@ function NavBar({ actionHandler }) {
                 )}
             </div>
             <div className='button-container'>
-                {showChangeLoginMethodButton &&
-                <Button
-                    label={NavbarButtonLoginMethod}
-                    icon={faExchangeAlt}
-                    onClick={changeLoginMethod}
-                    className='button login-method'
-                />
-                }
                 {showStartLoginSessionButton &&
                 <Button
                     onClick={startLoginSession}
