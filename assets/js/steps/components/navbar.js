@@ -12,8 +12,7 @@ import {
     faStopCircle,
     faBug,
     faBirthdayCake,
-    faSignOutAlt,
-    faExchangeAlt
+    faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,7 +21,6 @@ import {
     NavbarButtonStatus,
     NavbarButtonCheckIn,
     NavbarButtonFinish,
-    NavbarButtonLoginMethod,
     NavbarStopLoginSession,
     NavbarStartLoginSession
 } from '../utils/formatted-messages';
