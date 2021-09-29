@@ -72,7 +72,7 @@ class BoxFrontendController extends AbstractController
         }
 
         return $this->render(
-            'box.html.twig',
+            'box/frontend.html.twig',
             [
                 'uniqueId' => $uniqueId,
                 'socketUri' => $this->engineSocketURI,

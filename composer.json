@@ -14,6 +14,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "easycorp/easyadmin-bundle": "^3.1",
+        "itk-dev/openid-connect-bundle": "^1.0",
         "symfony/console": "^5.3",
         "symfony/dotenv": "^5.3",
         "symfony/expression-language": "^5.3",
@@ -32,7 +33,9 @@
         "escapestudios/symfony2-coding-standard": "^3.11",
         "fakerphp/faker": "^1.16",
         "friendsofphp/php-cs-fixer": "^3.1",
-        "symfony/maker-bundle": "^1.21"
+        "symfony/maker-bundle": "^1.21",
+        "symfony/stopwatch": "5.3.*",
+        "symfony/web-profiler-bundle": "5.3.*"
     },
     "config": {
         "preferred-install": {

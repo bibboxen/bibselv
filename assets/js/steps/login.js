@@ -28,6 +28,10 @@ function Login({ actionHandler }) {
      */
     function renderStep(loginConfig) {
         switch (loginConfig.toLowerCase()) {
+            case 'azure_ad_login':
+                // @TODO set redirect url dynamically with correct params /box/ad-login/{uniqueId}/{boxState}
+                window.location.href = '/box/ad-login/unique23/checkoutitems';
+                break;
             case 'login_barcode':
                 return (
                     <ScanLogin

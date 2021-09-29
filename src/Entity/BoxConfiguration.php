@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\BoxConfigurationRepository;
+use App\Utils\AdLoginState;
 use App\Utils\Types\LoginMethods;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -68,6 +69,11 @@ class BoxConfiguration
      * @Groups("boxConfiguration")
      */
     private $loginMethod;
+
+    /**
+     * @Groups("boxConfiguration")
+     */
+    private ?AdLoginState $adLoginState = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -318,6 +324,22 @@ class BoxConfiguration
         $this->loginMethod = $loginMethod;
 
         return $this;
+    }
+
+    /**
+     * @return AdLoginState
+     */
+    public function getAdLoginState(): ?AdLoginState
+    {
+        return $this->adLoginState;
+    }
+
+    /**
+     * @param AdLoginState $adLoginState
+     */
+    public function setAdLoginState(?AdLoginState $adLoginState): void
+    {
+        $this->adLoginState = $adLoginState;
     }
 
     /**
