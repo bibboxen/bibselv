@@ -92,7 +92,7 @@ function Status({ actionHandler }) {
     });
 
     const currentLoansContent = (<>
-        {overdueItems && (
+        {overdueItems && overdueItems.length > 0 && (
             <OverdueBooksBanner items={overdueItems} />
         )}
         {loanedItems && loanedItems.map((item) => (

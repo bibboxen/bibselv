@@ -20,7 +20,7 @@ $neutral-darkest: #1e1e1e;
 // Applied
 $background-color: $neutral-lightest;
 $font-color: $neutral-darkest;
-$success-light: ligthen($success, 10%);
+$success-light: lighten($success, 10%);
 $success-border: darken($success, 10%);
 $danger-border: darken($danger, 10%);
 $grey-border: $neutral-lighter;
