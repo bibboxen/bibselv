@@ -65,11 +65,16 @@ module.exports = function(options, imports, register) {
                             username: client.internal.initializationData.adLoginState.userName,
                             password: client.config.defaultPassword
                         };
+
                         client.state = {
                             step: 'initial',
                             processing: true,
                             flow: client.internal.initializationData.adLoginState.state
                         };
+
+                        if (!client.meta) {
+                            client.meta = {};
+                        }
                         client.meta.user = {
                             isAdmin: client.internal.initializationData.adLoginState.accountType === 'teacher'
                         };
