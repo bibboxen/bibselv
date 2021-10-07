@@ -39,6 +39,7 @@ export const StatusHeaderReservations = <FormattedMessage id='status-header-rese
 export const StatusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='status-header-ready-for-pickup' />;
 export const StatusBannerHeaderFinedBook = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='banner-header-book-with-fine' />;
 export const StatusUnavailable = <FormattedMessage id='status-unavailable' defaultMessage='status-unavailable' />;
+export const StatusButtonPrint = <FormattedMessage id='button-status-print' defaultMessage='button-status-print' />;
 
 /**
  * Create HeaderOverdueBooks translation.
@@ -70,7 +71,9 @@ export const NavbarButtonCheckOut = <FormattedMessage id='button-navbar-check-ou
 export const NavbarButtonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='button-navbar-status' />;
 export const NavbarButtonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='button-navbar-check-in' />;
 export const NavbarButtonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='button-navbar-finish' />;
-export const NavbarButtonPrint = <FormattedMessage id='button-navbar-print' defaultMessage='button-navbar-print' />;
+export const NavbarButtonLoginMethod = <FormattedMessage id='button-navbar-login-method' defaultMessage='button-navbar-login-method' />;
+export const NavbarStopLoginSession = <FormattedMessage id='navbar-stop-login-session' defaultMessage='navbar-stop-login-session' />;
+export const NavbarStartLoginSession = <FormattedMessage id='navbar-start-login-session' defaultMessage='navbar-start-login-session' />;
 
 // Initial strings
 export const InitialButtonCheckOut = <FormattedMessage id='initial-button-check-out' defaultMessage='initial-button-check-out' />;
@@ -107,3 +110,18 @@ export function BookBannerByAuthor(author) {
     return <FormattedMessage id="book-banner-by-author" defaultMessage="book-banner-by-author" values={{ author: author }} />;
 }
 export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;
+
+// change-login-method.js
+export const ChangeLoginMethodScanUsername = <FormattedMessage id='change-login-method-scan-username' defaultMessage='change-login-method-scan-username' />;
+export const ChangeLoginMethodScanUsernameAndPassword = <FormattedMessage id='change-login-method-scan-username-and-password' defaultMessage='change-login-method-scan-username-and-password' />;
+export const ChangeLoginMethodPickLoginMethodHeader = <FormattedMessage id='change-login-method-pick-login-method-header' defaultMessage='change-login-method-pick-login-method-header' />;
+export const ChangeLoginMethodPickLoginMethodSubheader = <FormattedMessage id='change-login-method-pick-login-method-subheader' defaultMessage='change-login-method-pick-login-method-subheader' />;
+/**
+ * Create ChangeLoginMethodTimeoutMessage translation.
+ * @param seconds
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export function ChangeLoginMethodTimeoutMessage(seconds) {
+    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ seconds: seconds }} />;
+}

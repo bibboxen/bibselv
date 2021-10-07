@@ -75,6 +75,100 @@ class ActionHandler {
     }
 
     /**
+     * Removes a login session.
+     *
+     * @param client
+     */
+    clearLoginSession(client) {
+        if (client?.meta?.loginSession) {
+            delete client.meta.loginSession;
+        }
+    }
+
+    /**
+     * Map login method names from configuration to state names.
+     *
+     * @param {string} method
+     *   The login method string.
+     * @return {string|*}
+     */
+    mapLoginMethods(method) {
+        if (method === 'login_barcode_password') {
+            return 'loginScanUsernamePassword';
+        } else if (method === 'login_barcode') {
+            return 'loginScanUsername';
+        } else if (method === 'azure_ad_login') {
+            return 'loginAzureAD';
+        }
+        return method;
+    }
+
+    /**
+     * Starts a login session.
+     *
+     * @param client
+     *   The client.
+     * @param loginMethod
+     *   The chosen login method: "loginScanUsernamePassword" or "loginScanUsername".
+     */
+    startLoginSession(client, loginMethod) {
+        // Ignore request if loginSessionEnabled is set to false.
+        if (client?.config?.loginSessionEnabled === false) {
+            return;
+        }
+
+        // @TODO: Clean up naming in admin to avoid mapping.
+        const allowedLoginMethods = client?.config?.loginSessionMethods.map(this.mapLoginMethods);
+
+        if (!allowedLoginMethods.includes(loginMethod)) {
+            return;
+        }
+
+        const now = new Date();
+
+        // Default to 15 min. as login session timeout.
+        const expire = new Date(now.getTime() + 1000 * (client?.config?.loginSessionTimeout ?? 15 * 60));
+
+        if (!client.meta) {
+            client.meta = {};
+        }
+
+        client.meta.loginSession = {
+            loginMethod: loginMethod,
+            start: now,
+            expire: expire,
+            expireTimestamp: expire.getTime()
+        };
+
+        this.stateMachine.transition(client, 'initial');
+    }
+
+    /**
+     * Choose login method.
+     *
+     * @param client
+     *   The client.
+     */
+    chooseLogin(client) {
+        let loginMethod = this.mapLoginMethods(client?.config?.loginMethod ?? '');
+
+        if (client?.meta?.loginSession) {
+            const loginSession = client.meta.loginSession;
+
+            const now = new Date();
+            if (loginSession.expireTimestamp > now.getTime()) {
+                debug('Active login session');
+                loginMethod = loginSession.loginMethod;
+            } else {
+                debug('Login session expired. Clearing login session');
+                this.clearLoginSession(client);
+            }
+        }
+
+        this.stateMachine.transition(client, loginMethod);
+    }
+
+    /**
      * Check out item for the client.
      *
      * @param {object} client
@@ -344,7 +438,8 @@ class ActionHandler {
                 user: {
                     name: names,
                     birthdayToday: birthdayToday,
-                    id: user.id
+                    id: user.id,
+                    isAdmin: client?.meta?.user?.isAdmin ?? false
                 },
                 internal: {
                     username: loginData.username,

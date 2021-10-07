@@ -210,6 +210,8 @@ module.exports = function(options, imports, register) {
 
                 // Get configuration for this client box based on config id from token validation.
                 bus.on(clientConfigEvent, (config) => {
+                    const initializationData = {};
+
                     // Set FBS related configuration.
                     fbsConfig.username = config.sip2User.username;
                     fbsConfig.password = config.sip2User.password;
@@ -217,10 +219,19 @@ module.exports = function(options, imports, register) {
                     fbsConfig.location = config.sip2User.location;
                     fbsConfig.endpoint = options.fbsEndPoint + fbsConfig.agency;
                     fbsConfig.defaultPassword = config.defaultPassword;
+                    fbsConfig.loginSessionEnabled = config.loginSessionEnabled;
+                    fbsConfig.loginSessionMethods = config.loginSessionMethods;
+                    fbsConfig.loginSessionTimeout = config.loginSessionTimeout;
+                    fbsConfig.loginMethod = config.loginMethod;
+
+                    // Get AD information for starting state_machine in logged in state if successful login.
+                    initializationData.adLoginState = { ...config.adLoginState };
+                    initializationData.loginMethod = config.loginMethod;
 
                     // Remove engine only configuration, so secrets are not sent to the frontend.
                     delete config.sip2User;
                     delete config.defaultPassword;
+                    delete config.adLoginState;
 
                     // Send the front end related config to the front end.
                     socket.emit('Configuration', config);
@@ -229,7 +240,8 @@ module.exports = function(options, imports, register) {
                     bus.emit('state_machine.start', {
                         token: token,
                         config: fbsConfig,
-                        busEvent: clientConnectionId
+                        busEvent: clientConnectionId,
+                        initializationData: initializationData
                     });
                 });
 

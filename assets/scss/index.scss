@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap');
 @import 'bootstrap';
 @import 'variables';
 @import 'banner';
@@ -21,7 +22,8 @@ body {
     margin: 0;
     height: 100%;
     width: 100%;
-    background-color: $slightly-white;
+    background-color: $background-color;
+    font-family: 'Roboto';
 }
 
 p {
@@ -38,7 +40,6 @@ h1 {
 
     // Text
     user-select: none;
-    font-family: $font-family-sans-serif;
     font-size: 1.5rem;
     text-align: center;
 }
@@ -64,7 +65,7 @@ h1 {
     width: 100%;
 
     h1 {
-        display: none; 
+        display: none;
     }
 }
 
@@ -82,9 +83,9 @@ h1 {
         // Display & position
         display: flex;
         flex-direction: column;
-    
+
         h1 {
-            display: flex; 
+            display: flex;
         }
     }
 }

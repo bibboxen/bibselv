@@ -12,8 +12,10 @@ use App\Utils\Types\LoginMethods;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,6 +27,7 @@ class BoxConfigurationController extends AbstractController
     private AzureAdService $azureAdService;
     private SessionInterface $session;
     private AdapterInterface $cache;
+    private EventDispatcherInterface $dispatcher;
 
     /**
      * BoxConfigurationController constructor.
@@ -33,13 +36,15 @@ class BoxConfigurationController extends AbstractController
      * @param AzureAdService $azureAdService
      * @param SessionInterface $session
      * @param AdapterInterface $boxAdStateCache
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(BoxConfigurationRepository $boxConfigurationRepository, AzureAdService $azureAdService, SessionInterface $session, AdapterInterface $boxAdStateCache)
+    public function __construct(BoxConfigurationRepository $boxConfigurationRepository, AzureAdService $azureAdService, SessionInterface $session, AdapterInterface $boxAdStateCache, EventDispatcherInterface $dispatcher)
     {
         $this->boxConfigurationRepository = $boxConfigurationRepository;
         $this->azureAdService = $azureAdService;
         $this->session = $session;
         $this->cache = $boxAdStateCache;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -68,7 +73,14 @@ class BoxConfigurationController extends AbstractController
             $boxState = $this->azureAdService->getBoxLoginState($boxConfiguration->getUniqueId());
             $boxConfiguration->setAdLoginState($boxState);
 
-            // @TODO if/when to clear the cache
+            // Cleanup after returning response.
+            $uniqueId = $boxConfiguration->getUniqueId();
+            $this->dispatcher->addListener(
+                KernelEvents::TERMINATE,
+                function () use ($uniqueId) {
+                    $this->azureAdService->removeLoginState($uniqueId);
+                }
+            );
         }
 
         return $this->json($boxConfiguration, 200, [], ['groups' => ['boxConfiguration']]);

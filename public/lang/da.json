@@ -1,158 +1,182 @@
 {
-  "banner-header-book-with-fine": {
-    "defaultMessage": "Denne bog har en bøde"
-  },
-  "banner-header-book-for-check-in": {
-    "defaultMessage": "Denne bog skal afleveres"
-  },
-  "banner-header-books-for-check-in": {
-    "defaultMessage": "{numberOfBooks} bøger skal afleveres"
-  },
-  "book-banner-by-author": {
-    "defaultMessage": "Af {author}"
-  },
-  "book-banner-without-author": {
-    "defaultMessage": "Uden forfatter"
-  },
-  "app-server-error": {
-    "defaultMessage": "Der er sket en uventet serverfejl, genindlæs siden for at prøve igen."
-  },
-  "book-is-registered": {
-    "defaultMessage": "Bogen blev registreret. Klar til næste"
-  },
-  "button-navbar-check-in": {
-    "defaultMessage": "Aflever"
-  },
-  "button-navbar-check-out": {
-    "defaultMessage": "Lån"
-  },
-  "button-navbar-finish": {
-    "defaultMessage": "Afslut"
-  },
-  "button-navbar-status": {
-    "defaultMessage": "Status"
-  },
-  "check-in-items-help-box-text": {
-    "defaultMessage": "Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer"
-  },
-  "check-in-items-input-label": {
-    "defaultMessage": "Stregkode"
-  },
-  "check-out-items-help-box-text": {
-    "defaultMessage": "Brug håndscanneren til at scanne stregkoden på bogen"
-  },
-  "check-out-items-input-label": {
-    "defaultMessage": "Stregkode"
-  },
-  "help-box-header": {
-    "defaultMessage": "Hjælp"
-  },
-  "initial-button-check-in": {
-    "defaultMessage": "Aflever"
-  },
-  "initial-button-check-out": {
-    "defaultMessage": "Lån"
-  },
-  "initial-button-status": {
-    "defaultMessage": "Status"
-  },
-  "initial-choose-a-function": {
-    "defaultMessage": "Vælg en funktion for at starte"
-  },
-  "login-not-configured": {
-    "defaultMessage": "Loginmetode er ikke konfigureret"
-  },
-  "scan-login-help-box-text": {
-    "defaultMessage": "Brug håndscanneren til at scanne stregkoden din lånerkort"
-  },
-  "scan-login-password-input-label": {
-    "defaultMessage": "Password"
-  },
-  "scan-login-password-password-help-box-text": {
-    "defaultMessage": "Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny"
-  },
-  "scan-login-password-password-subheader": {
-    "defaultMessage": "Tast din pinkode"
-  },
-  "scan-login-password-usename-help-box-text": {
-    "defaultMessage": "Brug håndscanneren til at scanne stregkoden din lånerkort"
-  },
-  "status-header-current-loans": {
-    "defaultMessage": "Aktuelle lån"
-  },
-  "status-header-ready-for-pickup": {
-    "defaultMessage": "Klar til afhentning"
-  },
-  "status-header-reservations": {
-    "defaultMessage": "Reservationer"
-  },
-  "check-in-items-header": {
-    "defaultMessage": "Aflever"
-  },
-  "check-in-items-subheader": {
-    "defaultMessage": "Scan stregkoden på bogen du vil aflevere"
-  },
-  "check-in-items-ok-button": {
-    "defaultMessage": "Ok"
-  },
-  "check-in-items-delete-button": {
-    "defaultMessage": "Slet"
-  },
-  "scan-login-password-first-subheader": {
-    "defaultMessage": "Brug scanneren til at scanne stregkoden på dit bibliotekskort"
-  },
-  "scan-login-password-second-subheader": {
-    "defaultMessage": "Indtast din adgangskode"
-  },
-  "check-out-items-ok-button": {
-    "defaultMessage": "Ok"
-  },
-  "check-out-items-delete-button": {
-    "defaultMessage": "Slet"
-  },
-  "check-out-items-header": {
-    "defaultMessage": "Lån"
-  },
-  "check-out-items-subheader": {
-    "defaultMessage": "Scan stregkoden på bogen du vil låne"
-  },
-  "status-header": {
-    "defaultMessage": "Status"
-  },
-  "status-header-print": {
-    "defaultMessage": "Status"
-  },
-  "status-subheader": {
-    "defaultMessage": "Dine lån og reservationer"
-  },
-  "scan-login-header": {
-    "defaultMessage": "Login"
-  },
-  "scan-login-subheader": {
-    "defaultMessage": "Scan dit bibliotekskort"
-  },
-  "banner-adapter-fetching-info": {
-    "defaultMessage": "Henter informationer"
-  },
-  "button-navbar-print": {
-    "defaultMessage": "Print"
-  },
-  "scan-login-password-header": {
-    "defaultMessage": "Login"
-  },
-  "app-token-not-valid": {
-    "defaultMessage": "Token ikke valid. Adgang nægtet"
-  },
-  "banner-title-author": {
-    "defaultMessage": "{title} af {author}"
-  },
-  "print-reservation-note": {
-    "defaultMessage": "Reservationsnote"
-  },
-  "status-unavailable": {
-    "defaultMessage": "Status er midlertidigt utilgængeligt"
-  },
-  "login-error": {
-    "defaultMessage": "Login fejlede, prøv igen"
-  }
+    "banner-header-book-with-fine": {
+        "defaultMessage": "Denne bog har en bøde"
+    },
+    "banner-header-book-for-check-in": {
+        "defaultMessage": "Denne bog skal afleveres"
+    },
+    "banner-header-books-for-check-in": {
+        "defaultMessage": "{numberOfBooks} bøger skal afleveres"
+    },
+    "book-banner-by-author": {
+        "defaultMessage": "Af {author}"
+    },
+    "book-banner-without-author": {
+        "defaultMessage": "Uden forfatter"
+    },
+    "app-server-error": {
+        "defaultMessage": "Der er sket en uventet serverfejl, genindlæs siden for at prøve igen."
+    },
+    "book-is-registered": {
+        "defaultMessage": "Bogen blev registreret. Klar til næste"
+    },
+    "button-navbar-check-in": {
+        "defaultMessage": "Aflever"
+    },
+    "button-navbar-check-out": {
+        "defaultMessage": "Lån"
+    },
+    "button-navbar-finish": {
+        "defaultMessage": "Afslut"
+    },
+    "button-navbar-status": {
+        "defaultMessage": "Status"
+    },
+    "check-in-items-help-box-text": {
+        "defaultMessage": "Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer"
+    },
+    "check-in-items-input-label": {
+        "defaultMessage": "Stregkode"
+    },
+    "check-out-items-help-box-text": {
+        "defaultMessage": "Brug håndscanneren til at scanne stregkoden på bogen"
+    },
+    "check-out-items-input-label": {
+        "defaultMessage": "Stregkode"
+    },
+    "help-box-header": {
+        "defaultMessage": "Hjælp"
+    },
+    "initial-button-check-in": {
+        "defaultMessage": "Aflever"
+    },
+    "initial-button-check-out": {
+        "defaultMessage": "Lån"
+    },
+    "initial-button-status": {
+        "defaultMessage": "Status"
+    },
+    "initial-choose-a-function": {
+        "defaultMessage": "Vælg en funktion for at starte"
+    },
+    "login-not-configured": {
+        "defaultMessage": "Loginmetode er ikke konfigureret"
+    },
+    "scan-login-help-box-text": {
+        "defaultMessage": "Brug håndscanneren til at scanne stregkoden din lånerkort"
+    },
+    "scan-login-password-input-label": {
+        "defaultMessage": "Password"
+    },
+    "scan-login-password-password-help-box-text": {
+        "defaultMessage": "Har du glemt din pinkode kan du kontakte en bibliotekar for at få lavet en ny"
+    },
+    "scan-login-password-password-subheader": {
+        "defaultMessage": "Tast din pinkode"
+    },
+    "scan-login-password-usename-help-box-text": {
+        "defaultMessage": "Brug håndscanneren til at scanne stregkoden din lånerkort"
+    },
+    "status-header-current-loans": {
+        "defaultMessage": "Aktuelle lån"
+    },
+    "status-header-ready-for-pickup": {
+        "defaultMessage": "Klar til afhentning"
+    },
+    "status-header-reservations": {
+        "defaultMessage": "Reservationer"
+    },
+    "check-in-items-header": {
+        "defaultMessage": "Aflever"
+    },
+    "check-in-items-subheader": {
+        "defaultMessage": "Scan stregkoden på bogen du vil aflevere"
+    },
+    "check-in-items-ok-button": {
+        "defaultMessage": "Ok"
+    },
+    "check-in-items-delete-button": {
+        "defaultMessage": "Slet"
+    },
+    "scan-login-password-first-subheader": {
+        "defaultMessage": "Brug scanneren til at scanne stregkoden på dit bibliotekskort"
+    },
+    "scan-login-password-second-subheader": {
+        "defaultMessage": "Indtast din adgangskode"
+    },
+    "check-out-items-ok-button": {
+        "defaultMessage": "Ok"
+    },
+    "check-out-items-delete-button": {
+        "defaultMessage": "Slet"
+    },
+    "check-out-items-header": {
+        "defaultMessage": "Lån"
+    },
+    "check-out-items-subheader": {
+        "defaultMessage": "Scan stregkoden på bogen du vil låne"
+    },
+    "status-header": {
+        "defaultMessage": "Status"
+    },
+    "status-header-print": {
+        "defaultMessage": "Status"
+    },
+    "status-subheader": {
+        "defaultMessage": "Dine lån og reservationer"
+    },
+    "scan-login-header": {
+        "defaultMessage": "Login"
+    },
+    "scan-login-subheader": {
+        "defaultMessage": "Scan dit bibliotekskort"
+    },
+    "banner-adapter-fetching-info": {
+        "defaultMessage": "Henter informationer"
+    },
+    "button-status-print": {
+        "defaultMessage": "Print"
+    },
+    "scan-login-password-header": {
+        "defaultMessage": "Login"
+    },
+    "app-token-not-valid": {
+        "defaultMessage": "Token ikke valid. Adgang nægtet"
+    },
+    "banner-title-author": {
+        "defaultMessage": "{title} af {author}"
+    },
+    "change-login-method-timeout-message": {
+        "defaultMessage": "Timeout: {seconds} s. Efter denne periode stopper login sessionen."
+    },
+    "print-reservation-note": {
+        "defaultMessage": "Reservationsnote"
+    },
+    "status-unavailable": {
+        "defaultMessage": "Status er midlertidigt utilgængeligt"
+    },
+    "login-error": {
+        "defaultMessage": "Login fejlede, prøv igen"
+    },
+    "button-navbar-login-method": {
+        "defaultMessage": "Skift loginmetode"
+    },
+    "change-login-method-scan-username": {
+        "defaultMessage": "Skan brugernavn"
+    },
+    "change-login-method-scan-username-and-password": {
+        "defaultMessage": "Skan brugernavn og kodeord"
+    },
+    "navbar-stop-login-session": {
+        "defaultMessage": "Stop login session"
+    },
+    "navbar-start-login-session": {
+        "defaultMessage": "Start login session"
+    },
+    "change-login-method-pick-login-method-header": {
+        "defaultMessage": "Vælg loginmetode"
+    },
+    "change-login-method-pick-login-method-subheader": {
+        "defaultMessage": "Loginmetoden bliver brugt i hele sessionen"
+    }
 }

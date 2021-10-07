@@ -44,7 +44,7 @@ Copy engine configuration files:
 cp engine/example_config.json engine/config.json
 ```
 
-@TOOD: __Note__ that the config.json contains FBS configuration at this point, but will later version be loaded from the Symfony administration backend as box configuration. So this is an hack for now.
+@TODO: __Note__ that the config.json contains FBS configuration at this point, but will later version be loaded from the Symfony administration backend as box configuration. So this is an hack for now.
 
 Install dependencies for the engine.
 ```
@@ -205,7 +205,7 @@ All tests runs with Github Actions for each PR to develop.
 Frontend tests runs with jest.
 
 ```
-docker-compose exec frontend bash -c 'npm test'
+docker-compose run frontend bash -c 'npm test'
 ```
 
 ### Engine
@@ -250,7 +250,7 @@ docker-compose exec frontend bash -c 'npm run build'
 ```
 
 ## Translations
-The React front end used (formatJS)[https://formatjs.io/] to handle translations.
+The React front end used [formatJS](https://formatjs.io/) to handle translations.
 
 To extract new strings in json.
 ```sh

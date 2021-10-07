@@ -118,6 +118,18 @@ class AzureAdService
     }
 
     /**
+     * Remove the login state from cache.
+     *
+     * @param string $boxId
+     *
+     * @throws InvalidArgumentException
+     */
+    public function removeLoginState(string $boxId): void
+    {
+        $this->cache->deleteItem($boxId);
+    }
+
+    /**
      * Get the saved login state for a box.
      *
      * @param string $uniqueId

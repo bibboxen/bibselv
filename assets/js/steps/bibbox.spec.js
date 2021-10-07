@@ -44,11 +44,11 @@ describe('Check out items component (Udlån)', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode'
+                        loginSessionMethods: ['login_barcode']
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'loginScan'
+                        step: 'loginScanUsername'
                     }}
                     connectionState={CONNECTION_ONLINE}
                     actionHandler={() => { }}
@@ -70,11 +70,11 @@ describe('Check out items component (Udlån)', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode'
+                        loginSessionMethods: ['login_barcode']
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'loginScan',
+                        step: 'loginScanUsername',
                         items: [
                             {
                                 id: '5313004378',
@@ -836,7 +836,7 @@ describe('Tests of navbar component', () => {
         );
     });
 
-    it('renders the five buttons in the navbar status', () => {
+    it('renders the four buttons in the navbar status with sessioning not enabled', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
@@ -853,7 +853,58 @@ describe('Tests of navbar component', () => {
                         step: 'status',
                         user: {
                             birthdayToday: false,
-                            name: 'ITK'
+                            name: 'ITK',
+                            isAdmin: false
+                        },
+                        holdItems: [],
+                        overdueItems: [],
+                        chargedItems: [],
+                        fineItems: [],
+                        recallItems: [],
+                        unavailableHoldItems: []
+                    }}
+                    connectionState={CONNECTION_ONLINE}
+                    actionHandler={() => { }}
+                />
+            </IntlProvider>
+
+        );
+        expect(wrapper.find('.button-container button').length).toEqual(4);
+        expect(wrapper.find('.button-container button').at(0).text()).toEqual(
+            'button-navbar-check-out'
+        );
+        expect(wrapper.find('.button-container button').at(1).text()).toEqual(
+            'button-navbar-status'
+        );
+        expect(wrapper.find('.button-container button').at(2).text()).toEqual(
+            'button-navbar-check-in'
+        );
+        expect(wrapper.find('.button-container button').at(3).text()).toEqual(
+            'button-navbar-finish'
+        );
+    });
+
+    it('renders the five buttons in the navbar status with sessioning enabled', () => {
+        const wrapper = mount(
+            <IntlProvider locale="en" translations={translations} >
+                <Bibbox
+                    boxConfigurationInput={{
+                        soundEnabled: false,
+                        inactivityTimeOut: 3000,
+                        hasPrinter: true,
+                        school: {
+                            name: 'Mårslet Skole'
+                        },
+                        loginSessionMethods: ['login_barcode_password'],
+                        loginSessionEnabled: true
+                    }}
+                    machineStateInput={{
+                        flow: 'status',
+                        step: 'status',
+                        user: {
+                            birthdayToday: false,
+                            name: 'ITK',
+                            isAdmin: true
                         },
                         holdItems: [],
                         overdueItems: [],
@@ -870,7 +921,60 @@ describe('Tests of navbar component', () => {
         );
         expect(wrapper.find('.button-container button').length).toEqual(5);
         expect(wrapper.find('.button-container button').at(0).text()).toEqual(
-            'button-navbar-print'
+            'navbar-start-login-session'
+        );
+        expect(wrapper.find('.button-container button').at(1).text()).toEqual(
+            'button-navbar-check-out'
+        );
+        expect(wrapper.find('.button-container button').at(2).text()).toEqual(
+            'button-navbar-status'
+        );
+        expect(wrapper.find('.button-container button').at(3).text()).toEqual(
+            'button-navbar-check-in'
+        );
+        expect(wrapper.find('.button-container button').at(4).text()).toEqual(
+            'button-navbar-finish'
+        );
+    });
+    it('renders the five buttons in the navbar status with sessioning started', () => {
+        const wrapper = mount(
+            <IntlProvider locale="en" translations={translations} >
+                <Bibbox
+                    boxConfigurationInput={{
+                        soundEnabled: false,
+                        inactivityTimeOut: 3000,
+                        hasPrinter: true,
+                        school: {
+                            name: 'Mårslet Skole'
+                        },
+                        loginSessionMethods: ['login_barcode_password', 'login_barcode'],
+                        loginSessionEnabled: true
+                    }}
+                    machineStateInput={{
+                        flow: 'status',
+                        step: 'status',
+                        user: {
+                            birthdayToday: false,
+                            name: 'ITK',
+                            isAdmin: true
+                        },
+                        holdItems: [],
+                        overdueItems: [],
+                        chargedItems: [],
+                        fineItems: [],
+                        recallItems: [],
+                        unavailableHoldItems: [],
+                        activeLoginSession: true
+                    }}
+                    connectionState={CONNECTION_ONLINE}
+                    actionHandler={() => { }}
+                />
+            </IntlProvider>
+
+        );
+        expect(wrapper.find('.button-container button').length).toEqual(5);
+        expect(wrapper.find('.button-container button').at(0).text()).toEqual(
+            'navbar-stop-login-session'
         );
         expect(wrapper.find('.button-container button').at(1).text()).toEqual(
             'button-navbar-check-out'
@@ -888,7 +992,7 @@ describe('Tests of navbar component', () => {
 });
 
 describe('Tests of configuration', () => {
-    it('render the logincomponent defined in the config (login barcode password)', () => {
+    it('render the login component defined in the config (login barcode password)', () => {
         const wrapper = mount(
             <IntlProvider locale="en" translations={translations} >
                 <Bibbox
@@ -898,11 +1002,11 @@ describe('Tests of configuration', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode_password'
+                        loginSessionMethods: ['login_barcode_password']
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'LoginScan',
+                        step: 'loginScanUsernamePassword',
                         items: []
                     }}
                     connectionState={CONNECTION_ONLINE}
@@ -910,6 +1014,7 @@ describe('Tests of configuration', () => {
                 />
             </IntlProvider>
         );
+
         expect(wrapper.find('.subheader').text()).toEqual(
             'scan-login-password-first-subheader'
         );
@@ -925,11 +1030,11 @@ describe('Tests of configuration', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode'
+                        loginSessionMethods: ['login_barcode']
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'LoginScan',
+                        step: 'loginScanUsername',
                         items: []
                     }}
                     connectionState={CONNECTION_ONLINE}
@@ -952,11 +1057,11 @@ describe('Tests of configuration', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode'
+                        loginSessionMethods: ['login_barcode']
                     }}
                     machineStateInput={{
                         flow: 'checkOutItems',
-                        step: 'loginScan',
+                        step: 'loginScanUsernamePassword',
                         items: []
                     }}
                     connectionState={CONNECTION_ONLINE}
@@ -982,7 +1087,7 @@ describe('Tests of callback data', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode'
+                        loginSessionMethods: ['login_barcode']
                     }}
                     machineStateInput={{
                         step: 'initial'
@@ -1010,7 +1115,7 @@ describe('Tests of callback data', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode'
+                        loginSessionMethods: ['login_barcode']
                     }}
                     machineStateInput={{
                         step: 'initial'
@@ -1038,7 +1143,7 @@ describe('Tests of callback data', () => {
                         school: {
                             name: 'Mårslet Skole'
                         },
-                        loginMethod: 'login_barcode'
+                        loginSessionMethods: ['login_barcode']
                     }}
                     machineStateInput={{
                         step: 'initial'

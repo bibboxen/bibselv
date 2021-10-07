@@ -14,7 +14,6 @@ describe('Test of button component', () => {
         shallow(
             <Button
                 icon={faCheck}
-                handleButtonPress={() => console.log()}
                 which='class'
             />
         );
@@ -24,18 +23,16 @@ describe('Test of button component', () => {
         const wrapper = mount(
             <Button
                 icon={faCheck}
-                handleButtonPress={() => console.log()}
-                color='red'
+                className='class'
             />
         );
-        expect(wrapper.exists('.red')).toEqual(true);
+        expect(wrapper.exists('.class')).toEqual(true);
     });
 
     it('Renders icon', () => {
         const wrapper = mount(
             <Button
                 icon={faCheck}
-                handleButtonPress={() => console.log()}
                 which='class'
             />
         );
@@ -49,8 +46,8 @@ describe('Test of button component', () => {
         const button = shallow(
             <Button
                 icon={faCheck}
-                handleButtonPress={mockCallBack}
                 which='class'
+                onClick={() => mockCallBack()}
             />
         );
         button.find('button').simulate('click');
