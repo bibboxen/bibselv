@@ -18,6 +18,8 @@ services:
       - PHP_MAX_EXECUTION_TIME=30
       - PHP_MEMORY_LIMIT=128M
       - COMPOSER_VERSION=1
+    depends_on:
+      - memcached
     volumes:
       - .:/app:delegated
 
@@ -42,7 +44,7 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_SERVER_DOMAIN}`)"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"     
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
        #- "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=ITKBasicAuth@file"
 
   engine:
@@ -50,6 +52,8 @@ services:
     networks:
       - app
     working_dir: /app
+    depends_on:
+      - redis
     environment:
       - NODE_ENV=development
     volumes:
@@ -83,3 +87,11 @@ services:
       - app
     ports:
       - '6379'
+
+  memcached:
+    image: 'memcached:latest'
+    restart: unless-stopped
+    networks:
+      - app
+    environment:
+      - MEMCACHED_CACHE_SIZE=64
