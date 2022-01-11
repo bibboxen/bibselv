@@ -24,7 +24,6 @@ security:
             security: false
 
         main:
-            anonymous: true
             lazy: true
             provider: app_user_provider
             guard:
@@ -39,7 +38,6 @@ security:
             provider: users_in_memory
             pattern: '^/box/configuration'
             stateless: true
-            anonymous: lazy
             guard:
                 authenticators:
                     - App\Security\TokenAuthenticator
