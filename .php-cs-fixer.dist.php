@@ -1,13 +1,13 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+$finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
     ->exclude('var')
     ->exclude('engine')
 ;
 
-$config = new PhpCsFixer\Config();
-return $config->setRules([
+return (new PhpCsFixer\Config())
+    ->setRules([
         '@PSR12' => true,
         '@Symfony' => true,
         '@Symfony:risky' => false,
