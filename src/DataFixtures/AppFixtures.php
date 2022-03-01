@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
     /**
      * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('da_DK');
 
@@ -111,6 +111,9 @@ class AppFixtures extends Fixture
             $boxConfiguration->setLoginMethod($faker->randomElement(LoginMethods::getLoginMethodList()));
             $boxConfiguration->setDefaultPassword('0000');
             $boxConfiguration->setDefaultLanguageCode('DA');
+            $boxConfiguration->setLoginSessionEnabled($faker->boolean);
+            $boxConfiguration->setLoginSessionMethods($faker->randomElements(LoginMethods::getLoginMethodList()));
+            $boxConfiguration->setLoginSessionTimeout($faker->numberBetween(60, 600));
 
             $manager->persist($boxConfiguration);
         }

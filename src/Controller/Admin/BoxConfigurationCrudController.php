@@ -59,29 +59,45 @@ class BoxConfigurationCrudController extends AbstractCrudController
             TextField::new('name'),
             AssociationField::new('school'),
             AssociationField::new('sip2User'),
-            TextField::new('reservedMaterialInstruction'),
-            TextField::new('defaultPassword')->hideOnIndex(),
             TextField::new('uniqueId')
                 ->setLabel('Identifier')
                 ->setFormTypeOption('disabled', 'disabled')
                 // This only applies to index and detail pages.
                 ->formatValue(function ($value) {
-                    return $this->router->generate('frontend_load', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
+                    return $this->router->generate('box_frontend_load', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
                 }),
 
             FormField::addPanel('Options'),
-            BooleanField::new('hasFrontpageCheckIn')->hideOnIndex(),
             BooleanField::new('hasTouch')->hideOnIndex(),
             BooleanField::new('hasKeyboard')->hideOnIndex(),
             BooleanField::new('hasPrinter')->hideOnIndex(),
             BooleanField::new('soundEnabled')->hideOnIndex(),
             BooleanField::new('debugEnabled'),
-            IntegerField::new('inactivityTimeOut')->hideOnIndex(),
-            ChoiceField::new('loginMethod')
-                ->setChoices(LoginMethods::getLoginMethodList())
+            BooleanField::new('hasFrontpageCheckIn')
+                ->setHelp('Scanning an item on the frontpage will result in a check-in of the material.')
                 ->hideOnIndex(),
+            IntegerField::new('inactivityTimeOut')->hideOnIndex(),
+            TextField::new('reservedMaterialInstruction'),
             ChoiceField::new('defaultLanguageCode')
                 ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))
+                ->hideOnIndex(),
+
+            FormField::addPanel('Login'),
+            ChoiceField::new('loginMethod')
+                ->setHelp('Standard login option')
+                ->setChoices(LoginMethods::getLoginMethodList())
+                ->hideOnIndex(),
+            TextField::new('defaultPassword')->hideOnIndex(),
+            BooleanField::new('loginSessionEnabled')
+                ->setHelp('Enables option to start login sessions where the default login is replaced by another login method.')
+                ->hideOnIndex(),
+            IntegerField::new('loginSessionTimeout')
+                ->setHelp('Time (in seconds) before reverting to default login method.')
+                ->hideOnIndex(),
+            ChoiceField::new('loginSessionMethods')
+                ->setHelp('The login method options when starting a login session.')
+                ->setChoices(LoginMethods::getLoginMethodList())
+                ->allowMultipleChoices(true)
                 ->hideOnIndex(),
         ];
     }

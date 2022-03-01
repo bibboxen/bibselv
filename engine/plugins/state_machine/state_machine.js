@@ -54,16 +54,66 @@ module.exports = function(options, imports, register) {
             initial: {
                 _onEnter: function(client) {
                     debug('Entered initial on client: ' + client.token);
-                    client.state = {
-                        step: 'initial'
-                    };
-                    client.internal = {};
+
+                    // Go to selected flow if the user has made a successful AD login.
+                    if (client?.internal?.initializationData?.loginMethod === 'azure_ad_login' &&
+                        client?.internal?.initializationData?.adLoginState?.state &&
+                        client?.internal?.initializationData?.adLoginState?.accountType &&
+                        client?.internal?.initializationData?.adLoginState?.userName
+                    ) {
+                        client.actionData = {
+                            username: client.internal.initializationData.adLoginState.userName,
+                            password: client.config.defaultPassword
+                        };
+
+                        client.state = {
+                            step: 'initial',
+                            processing: true,
+                            flow: client.internal.initializationData.adLoginState.state
+                        };
+
+                        if (!client.meta) {
+                            client.meta = {};
+                        }
+                        client.meta.user = {
+                            isAdmin: client.internal.initializationData.adLoginState.accountType === 'teacher'
+                        };
+
+                        actionHandler.login(client);
+                    } else {
+                        client.state = {
+                            step: 'initial'
+                        };
+                        client.internal = {};
+                    }
+
+                    // If active login session, expose the info to the client.
+                    if (client?.meta?.loginSession) {
+                        const loginSession = client.meta.loginSession;
+
+                        const now = new Date();
+                        if (loginSession.expireTimestamp > now.getTime()) {
+                            client.state.activeLoginSession = true;
+                        }
+                    }
                 },
                 _onExit: function(client) {
                     client.actionData = null;
                 },
                 _reset: function(client) {
                     this.transition(client, 'initial');
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 },
                 /**
                  * The user enters a flow on a client.
@@ -73,21 +123,38 @@ module.exports = function(options, imports, register) {
                 enterFlow: function(client) {
                     debug('Triggered enterFlow on client: ' + client.token);
                     actionHandler.enterFlow(client, client.actionData.flow);
+                },
+                /**
+                 * Login error for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginError: function(client) {
+                    debug('Triggered loginError on client: ' + client.token);
+                    client.state.loginError = client.actionData.error;
+                },
+                /**
+                 * Login success for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginSuccess: function(client) {
+                    debug('Triggered loginSuccess on client: ' + client.token);
+                    client.state.user = client.actionData.user;
+                    client.internal = client.actionData.internal;
+                    this.transition(client, client.state.flow);
                 }
             },
             /**
-             * Choose Login state is for choosing login method.
-             *
-             * Since there is only one login method supported at the moment, it
-             * automatically transitions to this state.
-             *
-             * @TODO: Handle more login methods.
+             * Enters the chosen login method.
              */
             chooseLogin: {
                 _onEnter: function(client) {
                     debug('Entered chooseLogin on client: ' + client.token);
                     client.state.step = 'chooseLogin';
-                    this.transition(client, 'loginScan');
+                    actionHandler.chooseLogin(client);
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -97,14 +164,27 @@ module.exports = function(options, imports, register) {
                 }
             },
             /**
-             * Login Scan state is for scanning the username/password.
-             *
-             * @TODO: Rename to a more appropriate name consistent with the frontend.
+             * LoginAzureAD state is for logging in with Azure AD.
              */
-            loginScan: {
+            loginAzureAD: {
                 _onEnter: function(client) {
-                    debug('Entered loginScan on client: ' + client.token);
-                    client.state.step = 'loginScan';
+                    debug('Entered loginAzureAD on client: ' + client.token);
+                    client.state.step = 'loginAzureAD';
+                },
+                _onExit: function(client) {
+                    client.actionData = null;
+                },
+                _reset: function(client) {
+                    this.transition(client, 'initial');
+                }
+            },
+            /**
+             * LoginScanUsernamePassword state is for scanning the username and password to login.
+             */
+            loginScanUsernamePassword: {
+                _onEnter: function(client) {
+                    debug('Entered loginScanUsernamePassword on client: ' + client.token);
+                    client.state.step = 'loginScanUsernamePassword';
                 },
                 _onExit: function(client) {
                     client.actionData = null;
@@ -120,11 +200,6 @@ module.exports = function(options, imports, register) {
                  */
                 login: function(client) {
                     debug('Triggered login on client: ' + client.token);
-
-                    // Use default password if requested.
-                    if (client.actionData.useDefaultPassword) {
-                        client.actionData.password = client.config.defaultPassword;
-                    }
                     actionHandler.login(client);
                 },
                 /**
@@ -148,6 +223,79 @@ module.exports = function(options, imports, register) {
                     client.state.user = client.actionData.user;
                     client.internal = client.actionData.internal;
                     this.transition(client, client.state.flow);
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
+                }
+            },
+            /**
+             * LoginScanUsername state is for scanning the username to login.
+             */
+            loginScanUsername: {
+                _onEnter: function(client) {
+                    debug('Entered loginScanUsername on client: ' + client.token);
+                    client.state.step = 'loginScanUsername';
+                },
+                _onExit: function(client) {
+                    client.actionData = null;
+                },
+                _reset: function(client) {
+                    this.transition(client, 'initial');
+                },
+                /**
+                 * Login a user on the client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                login: function(client) {
+                    debug('Triggered login on client: ' + client.token);
+                    // Use default password.
+                    client.actionData.password = client.config.defaultPassword;
+                    actionHandler.login(client);
+                },
+                /**
+                 * Login error for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginError: function(client) {
+                    debug('Triggered loginError on client: ' + client.token);
+                    client.state.loginError = client.actionData.error;
+                },
+                /**
+                 * Login success for login attempt on client.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                loginSuccess: function(client) {
+                    debug('Triggered loginSuccess on client: ' + client.token);
+                    client.state.user = client.actionData.user;
+                    client.internal = client.actionData.internal;
+                    this.transition(client, client.state.flow);
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             /**
@@ -193,6 +341,28 @@ module.exports = function(options, imports, register) {
                 changeFlow: function(client) {
                     debug('Triggered changeFlow on client: ' + client.token);
                     actionHandler.changeFlow(client, client.actionData.flow);
+                },
+                /**
+                 * Start login session flow.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                startLoginSession: function(client) {
+                    debug('Triggered startLoginSession on client: ' + client.token);
+                    this.transition(client, 'changeLoginMethod');
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             checkInItems: {
@@ -244,6 +414,18 @@ module.exports = function(options, imports, register) {
                 changeFlow: function(client) {
                     debug('Triggered changeFlow on client: ' + client.token);
                     actionHandler.changeFlow(client, client.actionData.flow);
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
                 }
             },
             /**
@@ -279,6 +461,47 @@ module.exports = function(options, imports, register) {
                 statusUpdated: function(client) {
                     debug('Triggered statusUpdated on client: ' + client.token);
                     client.state = Object.assign({}, client.state, client.actionData);
+                },
+                /**
+                 * Start login session flow.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                startLoginSession: function(client) {
+                    debug('Triggered startLoginSession on client: ' + client.token);
+                    this.transition(client, 'changeLoginMethod');
+                },
+                /**
+                 * Stop an active login session.
+                 *
+                 * @param client
+                 *   The client.
+                 */
+                stopLoginSession: function(client) {
+                    actionHandler.clearLoginSession(client);
+                    if (client?.state?.activeLoginSession) {
+                        delete client.state.activeLoginSession;
+                    }
+                }
+            },
+            /**
+             * Change Login state allows for starting login session based on other method.
+             */
+            changeLoginMethod: {
+                _onEnter: function(client) {
+                    debug('Entered changeLoginMethod on client: ' + client.token);
+                    client.state.step = 'changeLoginMethod';
+                },
+                _onExit: function(client) {
+                    client.actionData = null;
+                },
+                _reset: function(client) {
+                    this.transition(client, 'initial');
+                },
+                selectLoginMethod: function(client) {
+                    debug('Triggered selectLoginMethod on client: ' + client.token);
+                    actionHandler.startLoginSession(client, client.actionData.loginMethod);
                 }
             }
         },
@@ -372,7 +595,20 @@ module.exports = function(options, imports, register) {
         debug('state_machine.start', data.token);
 
         clientModule.load(data.token, data.config).then(function load(client) {
+            // If successful AD login pass initializationData.
+            if (data.initializationData?.loginMethod === 'azure_ad_login' &&
+                data.initializationData?.adLoginState?.state &&
+                data.initializationData?.adLoginState?.accountType &&
+                data.initializationData?.adLoginState?.userName
+            ) {
+                client.internal = {
+                    initializationData: data.initializationData
+                };
+            }
+
             client = stateMachine.reset(client);
+            client.config = data.config;
+
             clientModule.save(data.token, client);
 
             bus.emit(data.busEvent, client);

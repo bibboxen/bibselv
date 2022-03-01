@@ -10,7 +10,8 @@ import MachineStateContext from './utils/machine-state-context';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import {
-    faInfoCircle
+    faInfoCircle,
+    faPrint
 } from '@fortawesome/free-solid-svg-icons';
 import {
     StatusHeader,
@@ -19,6 +20,7 @@ import {
     StatusHeaderReservations,
     StatusHeaderReadyForPickup,
     StatusHeaderPrint,
+    StatusButtonPrint,
     StatusUnavailable
 } from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
@@ -34,7 +36,7 @@ import Alert from './utils/alert';
 import BookBanner from './components/book-banner';
 import BookStatus from './utils/book-status';
 import OverdueBooksBanner from './components/overdue-books-banner';
-
+import Button from './components/button';
 /**
  * Status.
  *
@@ -62,6 +64,13 @@ function Status({ actionHandler }) {
         };
     }, [actionHandler]);
 
+    /**
+     * Prints the page, available in status component.
+     */
+    function printPage() {
+        window.print();
+    }
+
     const holdItems = [
         ...context.machineState.get.holdItems
     ];
@@ -83,7 +92,7 @@ function Status({ actionHandler }) {
     });
 
     const currentLoansContent = (<>
-        {overdueItems && (
+        {overdueItems && overdueItems.length > 0 && (
             <OverdueBooksBanner items={overdueItems} />
         )}
         {loanedItems && loanedItems.map((item) => (
@@ -116,6 +125,16 @@ function Status({ actionHandler }) {
                 type='status'
                 icon={faInfoCircle}
             />
+            <div className="col-md-2">
+                {context.boxConfig.get.hasPrinter &&
+                    <Button
+                        label={StatusButtonPrint}
+                        icon={faPrint}
+                        onClick={printPage}
+                        className='button print'
+                    />
+                }
+            </div>
             {context.connectionState.get === CONNECTION_OFFLINE &&
             <div className='status-container'>
                 <Alert message={StatusUnavailable} />

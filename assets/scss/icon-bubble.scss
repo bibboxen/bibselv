@@ -16,7 +16,7 @@
 
     // Shadow
     @include box-shadow();
-    
+
     >.icon {
         // Display & position
         position: absolute;
@@ -33,22 +33,22 @@
     }
     &.checkoutitems {
         // Color
-        background-color: $yellow;
+        background-color: $check-out-items-color;
     }
-    
+
     &.status {
         // Color
-        background-color: $blue;
+        background-color: $status-color;
     }
-    
+
     &.checkinitems {
         // Color
-        background-color: $purple;
+        background-color: $check-in-items-color;
     }
 
     &.login {
         // Color
-        background-color: $green;
+        background-color: $success;
     }
 }
 

@@ -9,8 +9,8 @@
 ###< symfony/framework-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
-/.php_cs
-/.php_cs.cache
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 
 ###> squizlabs/php_codesniffer ###
@@ -29,3 +29,16 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 package-lock.json
 .eslintrc.js
+.php-cs-fixer.cache
+
+temp/
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###

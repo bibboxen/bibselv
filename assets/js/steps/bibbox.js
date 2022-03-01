@@ -5,7 +5,6 @@
 
 import React, { useEffect } from 'react';
 import Initial from './initial';
-import Login from './login';
 import Status from './status';
 import CheckInItems from './check-in-items';
 import NavBar from './components/navbar';
@@ -13,6 +12,10 @@ import CheckOutItems from './check-out-items';
 import PropTypes from 'prop-types';
 import MachineStateContext from './utils/machine-state-context';
 import { Sound } from './utils/sound';
+import ChangeLoginMethod from './change-login-method';
+import ScanLogin from './login-components/scan-login';
+import ScanPasswordLogin from './login-components/scan-password-login';
+import AzureADLogin from './login-components/azure-ad-login';
 
 /**
  * Bibbox app.
@@ -69,17 +72,22 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
      * @return component to be rendered
      */
     function renderStep(step) {
-        switch (step.toLowerCase()) {
-            case 'checkoutitems':
+        switch (step) {
+            case 'checkOutItems':
                 return <CheckOutItems actionHandler={actionHandler} />;
-            case 'checkinitems':
+            case 'checkInItems':
                 return <CheckInItems actionHandler={actionHandler} />;
             case 'status':
                 return <Status actionHandler={actionHandler} />;
-            case 'loginscan':
-                return <Login actionHandler={actionHandler} />;
+            case 'changeLoginMethod':
+                return <ChangeLoginMethod actionHandler={actionHandler} />;
+            case 'loginAzureAD':
+                return <AzureADLogin />;
+            case 'loginScanUsername':
+                return <ScanLogin actionHandler={actionHandler} />;
+            case 'loginScanUsernamePassword':
+                return <ScanPasswordLogin actionHandler={actionHandler} />;
             case 'initial':
-                return <Initial actionHandler={actionHandler} />;
             default:
                 return <Initial actionHandler={actionHandler} />;
         }
@@ -90,7 +98,7 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
             <NavBar actionHandler={actionHandler} />
             <div className='container'>
                 <div className='row' style={{ width: '100%' }}>
-                    {renderStep(machineStateInput.step)}
+                    {renderStep(machineStateInput.step ?? '')}
                 </div>
             </div>
         </MachineStateContext.Provider>

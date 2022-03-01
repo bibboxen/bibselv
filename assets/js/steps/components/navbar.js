@@ -8,10 +8,11 @@ import Button from './button';
 import MachineStateContext from '../utils/machine-state-context';
 import {
     faInfoCircle,
-    faSignOutAlt,
+    faPlayCircle,
+    faStopCircle,
     faBug,
-    faPrint,
-    faBirthdayCake
+    faBirthdayCake,
+    faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +21,8 @@ import {
     NavbarButtonStatus,
     NavbarButtonCheckIn,
     NavbarButtonFinish,
-    NavbarButtonPrint
+    NavbarStopLoginSession,
+    NavbarStartLoginSession
 } from '../utils/formatted-messages';
 import CheckInIconWhite from '../../../scss/images/check-in-white.svg';
 import CheckOutIconBlack from '../../../scss/images/check-out-black.svg';
@@ -37,52 +39,62 @@ import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from '../../constants';
  */
 function NavBar({ actionHandler }) {
     const context = useContext(MachineStateContext);
-    const classes = context.machineState.get.step === 'initial' ? 'navbar initial' : 'navbar';
-
+    const { step, activeLoginSession, user } = context.machineState.get;
+    const { loginSessionEnabled, school, loginSessionMethods, debugEnabled } = context.boxConfig.get;
+    const classes = step === 'initial' ? 'navbar initial' : 'navbar';
     const components = [
         {
-            color: 'yellow',
+            class: 'button check-out-items',
             data: { flow: 'checkOutItems' },
             label: NavbarButtonCheckOut,
             img: CheckOutIconBlack
         },
         {
-            color: context.connectionState.get === CONNECTION_ONLINE ? 'blue' : 'grey',
+            class: context.connectionState.get === CONNECTION_ONLINE ? 'button status' : 'button offline',
             data: { flow: 'status' },
             disabled: context.connectionState.get === CONNECTION_OFFLINE,
             label: NavbarButtonStatus,
             icon: faInfoCircle
         },
         {
-            color: 'purple',
+            class: 'button check-in-items',
             data: { flow: 'checkInItems' },
             label: NavbarButtonCheckIn,
             img: CheckInIconWhite
         }
     ];
 
+    const showStartLoginSessionButton = user?.isAdmin && loginSessionEnabled && loginSessionMethods?.length > 0 && !activeLoginSession && step !== 'changeLoginMethod';
+
     /**
-     * Prints the page, available in status component.
+     * Stop login session.
      */
-    function printPage() {
-        window.print();
+    function stopLoginSession() {
+        actionHandler('stopLoginSession');
+    }
+
+    /**
+     * Stop login session.
+     */
+    function startLoginSession() {
+        actionHandler('startLoginSession');
     }
 
     return (
         <div className={classes} >
             <div className='text-container'>
-                <span className='text'>{context.boxConfig.get.school.name}</span>
-                {context.machineState.get.user && (
+                <span className='text'>{school.name}</span>
+                {user && (
                     <span className='text bold'>
-                        {context.machineState.get.user.name}
+                        {user.name}
                     </span>
                 )}
-                {context.machineState.get.user && context.machineState.get.user.birthdayToday && (
+                {user?.birthdayToday && (
                     <span className='birthday-icon'>
                         <FontAwesomeIcon icon={faBirthdayCake}/>
                     </span>
                 )}
-                {context.boxConfig.get.debugEnabled && (
+                {debugEnabled && (
                     <span className='text bold'>
                         Debug mode!
                         <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }}/>
@@ -90,25 +102,33 @@ function NavBar({ actionHandler }) {
                 )}
             </div>
             <div className='button-container'>
-                {context.machineState.get.step === 'status' && context.boxConfig.get.hasPrinter &&
-                    <Button
-                        label={NavbarButtonPrint}
-                        icon={faPrint}
-                        handleButtonPress={() => printPage()}
-                        color='green'
-                    />
+                {showStartLoginSessionButton &&
+                <Button
+                    onClick={startLoginSession}
+                    icon={faPlayCircle}
+                    label={NavbarStartLoginSession}
+                    className='button start-session'
+                />
                 }
-                {context.machineState.get.step !== 'initial' &&
+                {activeLoginSession &&
+                <Button
+                    onClick={stopLoginSession}
+                    icon={faStopCircle}
+                    label={NavbarStopLoginSession}
+                    className='button stop-session'
+                />
+                }
+                {step !== 'initial' &&
                     <>
-                        {['status', 'checkInItems', 'checkOutItems'].includes(context.machineState.get.step) &&
+                        {['status', 'checkInItems', 'checkOutItems'].includes(step) &&
                             components.map((button) => (
                                 <Button
-                                    key={button.color}
+                                    key={button.class}
                                     label={button.label}
                                     icon={button.icon}
                                     disabled={button.disabled}
-                                    handleButtonPress={() => actionHandler('changeFlow', button.data)}
-                                    color={button.color}
+                                    onClick={() => actionHandler('changeFlow', button.data)}
+                                    className={button.class}
                                     img={button.img}
                                 />
                             ))
@@ -116,8 +136,8 @@ function NavBar({ actionHandler }) {
                         <Button
                             label={NavbarButtonFinish}
                             icon={faSignOutAlt}
-                            handleButtonPress={() => actionHandler('reset')}
-                            color='red'
+                            onClick={() => actionHandler('reset')}
+                            className='button logout'
                         />
                     </>
                 }

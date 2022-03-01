@@ -7,8 +7,8 @@
             margin-bottom: 10px;
 
             // Color
-            background-color: $light-green;
-            border: 2px solid $green-border;
+            background-color: $success-light;
+            border: 2px solid $success-border;
             border-top-style: 1px solid;
 
             // Text
@@ -26,7 +26,7 @@
             border-bottom: 0;
 
             // Color
-            border-color: $green-border;
+            border-color: $success-border;
         }
     }
     &.error {
@@ -37,8 +37,8 @@
 
             // Color
             color: white;
-            background-color: $red;
-            border: 2px solid $red-border;
+            background-color: $danger;
+            border: 2px solid $danger-border;
             border-top-style: 1px solid;
 
             // Text
@@ -56,7 +56,7 @@
             border-bottom: 0;
 
             // Color
-            border-color: $red-border;
+            border-color: $danger-border;
         }
     }
 }

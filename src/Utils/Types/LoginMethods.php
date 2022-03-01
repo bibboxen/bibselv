@@ -9,7 +9,7 @@ class LoginMethods
 {
     public const LOGIN_BARCODE = 'login_barcode';
     public const LOGIN_BARCODE_PASSWORD = 'login_barcode_password';
-    public const UNILOGIN = 'unilogin';
+    public const AZURE_AD_LOGIN = 'azure_ad_login';
 
     /**
      * Get array of all defined login methods.

@@ -1,13 +1,13 @@
 /**
  * @file
- * Tests of ScanPasswordLogin
+ * Tests of azure ad login.
  */
 
 import React from 'react';
 import { shallow } from 'enzyme';
 import { it } from '@jest/globals';
-import Login from './login';
-import MachineStateContext from './utils/machine-state-context';
+import MachineStateContext from '../utils/machine-state-context';
+import AzureADLogin from './azure-ad-login';
 
 it('renders without crashing', () => {
     const machineState = {
@@ -16,7 +16,7 @@ it('renders without crashing', () => {
 
     shallow(
         <MachineStateContext.Provider value={machineState}>
-            <Login actionHandler={() => {}} />
+            <AzureADLogin />
         </MachineStateContext.Provider>
     );
 });
