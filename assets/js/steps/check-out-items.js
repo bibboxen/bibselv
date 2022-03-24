@@ -7,7 +7,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BarcodeScanner } from './utils/barcode-scanner';
-import { ACTION_CHANGE_FLOW_STATUS, ACTION_CHANGE_FLOW_CHECKIN, ACTION_RESET } from '../constants';
+import {
+    ACTION_CHANGE_FLOW_STATUS,
+    ACTION_CHANGE_FLOW_CHECKIN,
+    ACTION_RESET,
+    BARCODE_SCANNING_TIMEOUT
+} from '../constants';
 import MachineStateContext from './utils/machine-state-context';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
@@ -51,7 +56,7 @@ function CheckOutItems({ actionHandler }) {
      * Set up barcode scanner listener.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner();
+        const barcodeScanner = new BarcodeScanner(context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (new BarcodeHandler([
             ACTION_CHANGE_FLOW_STATUS, ACTION_CHANGE_FLOW_CHECKIN, ACTION_RESET
         ], actionHandler, function(result) {

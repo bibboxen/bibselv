@@ -158,6 +158,13 @@ class BoxConfiguration
     private $loginSessionMethods = [];
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $barcodeTimeout;
+
+    /**
      * BoxConfiguration toString.
      *
      * @return mixed
@@ -631,6 +638,18 @@ class BoxConfiguration
     public function setLoginSessionMethods(?array $loginSessionMethods): self
     {
         $this->loginSessionMethods = $loginSessionMethods;
+
+        return $this;
+    }
+
+    public function getBarcodeTimeout(): ?int
+    {
+        return $this->barcodeTimeout;
+    }
+
+    public function setBarcodeTimeout(?int $barcodeTimeout): self
+    {
+        $this->barcodeTimeout = $barcodeTimeout;
 
         return $this;
     }

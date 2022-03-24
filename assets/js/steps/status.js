@@ -28,7 +28,7 @@ import {
     ACTION_CHANGE_FLOW_CHECKIN,
     ACTION_CHANGE_FLOW_CHECKOUT,
     ACTION_PRINT,
-    ACTION_RESET,
+    ACTION_RESET, BARCODE_SCANNING_TIMEOUT,
     CONNECTION_OFFLINE,
     CONNECTION_ONLINE
 } from '../constants';
@@ -53,7 +53,7 @@ function Status({ actionHandler }) {
      * Set up barcode scanner listener.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner();
+        const barcodeScanner = new BarcodeScanner(context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (new BarcodeHandler([
             ACTION_CHANGE_FLOW_CHECKIN, ACTION_CHANGE_FLOW_CHECKOUT, ACTION_RESET, ACTION_PRINT
         ], actionHandler)).createCallback();

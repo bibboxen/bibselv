@@ -77,6 +77,8 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 ->setHelp('Scanning an item on the frontpage will result in a check-in of the material.')
                 ->hideOnIndex(),
             IntegerField::new('inactivityTimeOut')->hideOnIndex(),
+            IntegerField::new('barcodeTimeout')->hideOnIndex()
+                ->setHelp('Set delay before barcode is committed. Defaults to 500 ms.'),
             TextField::new('reservedMaterialInstruction'),
             ChoiceField::new('defaultLanguageCode')
                 ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))

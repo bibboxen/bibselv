@@ -23,7 +23,7 @@ import {
     LoginLoginError
 } from '../utils/formatted-messages';
 import BarcodeHandler from '../utils/barcode-handler';
-import { ACTION_RESET } from '../../constants';
+import { ACTION_RESET, BARCODE_SCANNING_TIMEOUT } from '../../constants';
 import BarcodeScannerIcon from '../../../scss/images/barcode-scanner.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -49,7 +49,7 @@ function ScanPasswordLogin({ actionHandler }) {
      * Setup barcode scanner.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner();
+        const barcodeScanner = new BarcodeScanner(context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (new BarcodeHandler([
             ACTION_RESET
         ], actionHandler, function(result) {
