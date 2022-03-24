@@ -642,11 +642,23 @@ class BoxConfiguration
         return $this;
     }
 
+    /**
+     * Get barcode timeout.
+     *
+     * @return int|null
+     */
     public function getBarcodeTimeout(): ?int
     {
         return $this->barcodeTimeout;
     }
 
+    /**
+     * Set barcode timeout.
+     *
+     * @param int|null $barcodeTimeout
+     *
+     * @return $this
+     */
     public function setBarcodeTimeout(?int $barcodeTimeout): self
     {
         $this->barcodeTimeout = $barcodeTimeout;
