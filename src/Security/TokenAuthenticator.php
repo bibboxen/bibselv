@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Handle authentication base on token.

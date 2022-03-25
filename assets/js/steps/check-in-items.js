@@ -29,7 +29,8 @@ import BarcodeHandler from './utils/barcode-handler';
 import {
     ACTION_CHANGE_FLOW_CHECKOUT,
     ACTION_CHANGE_FLOW_STATUS,
-    ACTION_RESET
+    ACTION_RESET,
+    BARCODE_SCANNING_TIMEOUT
 } from '../constants';
 import CheckInWhite from '../../scss/images/check-in-white.svg';
 
@@ -120,7 +121,7 @@ function CheckInItems({ actionHandler }) {
      * Set up barcode scanner listener.
      */
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner();
+        const barcodeScanner = new BarcodeScanner(context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (new BarcodeHandler([
             ACTION_CHANGE_FLOW_CHECKOUT, ACTION_CHANGE_FLOW_STATUS, ACTION_RESET
         ], actionHandler, function(result) {

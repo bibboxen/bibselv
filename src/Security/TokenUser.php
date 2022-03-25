@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * User with information obtained during authentication with token.

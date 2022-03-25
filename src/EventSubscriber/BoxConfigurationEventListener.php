@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains event listener for creating unique id for each box configuration.
