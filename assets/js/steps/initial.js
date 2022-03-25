@@ -11,7 +11,7 @@ import Barcode from './components/barcode';
 import {
     ACTION_ENTER_FLOW_CHECKIN,
     ACTION_ENTER_FLOW_CHECKOUT,
-    ACTION_ENTER_FLOW_STATUS,
+    ACTION_ENTER_FLOW_STATUS, BARCODE_SCANNING_TIMEOUT,
     CONNECTION_OFFLINE
 } from '../constants';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -72,7 +72,7 @@ function Initial({ actionHandler }) {
 
     // Setup barcode scanner.
     useEffect(() => {
-        const barcodeScanner = new BarcodeScanner();
+        const barcodeScanner = new BarcodeScanner(context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT);
         const barcodeCallback = (new BarcodeHandler([
             ACTION_ENTER_FLOW_CHECKIN, ACTION_ENTER_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS
         ], actionHandler, function(result) {
