@@ -17,7 +17,6 @@ import MachineStateContext from './utils/machine-state-context';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
 import Header from './components/header';
-import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import NumPad from './utils/num-pad';
 import Sound from './utils/sound';
@@ -32,6 +31,7 @@ import {
 } from './utils/formatted-messages';
 import BarcodeHandler from './utils/barcode-handler';
 import CheckOutWhite from '../../scss/images/check-out-white.svg';
+import { Card } from 'react-bootstrap';
 
 /**
  * CheckOutItems component.
@@ -47,7 +47,6 @@ import CheckOutWhite from '../../scss/images/check-out-white.svg';
 function CheckOutItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
-    const [activeBanner, setActiveBanner] = useState(false);
     const [checkedOutBooksLength, setCheckedOutBooksLength] = useState(0);
     const [errorsLength, setErrorLength] = useState(0);
     const sound = new Sound();
@@ -62,12 +61,12 @@ function CheckOutItems({ actionHandler }) {
         ], actionHandler, function(result) {
             setScannedBarcode(result.outputCode);
             handleItemCheckOut(result.code);
-        }, function() {
-            setScannedBarcode('');
         })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-        return () => { barcodeScanner.stop(); };
+        return () => {
+            barcodeScanner.stop();
+        };
     }, [actionHandler]);
 
     /**
@@ -78,13 +77,11 @@ function CheckOutItems({ actionHandler }) {
      */
     function onInput(key) {
         const typedBarcode = `${scannedBarcode}`;
-        setActiveBanner(false);
         switch (key) {
             case CheckOutItemsDeleteButton:
                 setScannedBarcode(typedBarcode.slice(0, -1));
                 break;
             case CheckOutItemsOkButton:
-                setActiveBanner(true);
                 handleItemCheckOut(scannedBarcode);
                 break;
             default:
@@ -94,38 +91,9 @@ function CheckOutItems({ actionHandler }) {
     }
 
     /**
-     * Function to handle when keydown is enter.
-     */
-    function keyDownFunction(event) {
-        if (event.key === 'Enter') {
-            handleItemCheckOut(scannedBarcode);
-        }
-    }
-
-    /**
-     * Set up keydown listener.
-     */
-    useEffect(() => {
-        window.addEventListener('keydown', keyDownFunction);
-        return () => window.removeEventListener('keydown', keyDownFunction);
-    }, [scannedBarcode]);
-
-    /**
-     * Handles keyboard inputs.
-     *
-     * @param target
-     *    The pressed target.
-     */
-    function onKeyboardInput({ target }) {
-        setActiveBanner(false);
-        setScannedBarcode(target.value);
-    }
-
-    /**
      * Handles keyboard inputs.
      */
     function handleItemCheckOut(scannedBarcode) {
-        setActiveBanner(true);
         actionHandler('checkOutItem', {
             itemIdentifier: scannedBarcode
         });
@@ -177,30 +145,33 @@ function CheckOutItems({ actionHandler }) {
             <Header
                 header={CheckOutItemsHeader}
                 subheader={CheckOutItemsSubheader}
-                type='checkOutItems'
+                type="checkOutItems"
                 img={CheckOutWhite}
             />
-            <div className='col-md-3'>
-                <HelpBox text={CheckOutItemsHelpBoxText} />
+            <div className="col-md-3">
+                <HelpBox text={CheckOutItemsHelpBoxText}/>
             </div>
-            <div className='col-md-1' />
-            <div className='col-md-6'>
-                <Input
-                    name='barcode'
-                    label={CheckOutItemsInputLabel}
-                    value={scannedBarcode}
-                    activeBanner={activeBanner}
-                    onChange={onKeyboardInput}
-                />
-                {items && <BannerList items={items} />}
+            <div className="col-md-1"/>
+            <div className="col-md-8">
+                {items && <BannerList items={items}/>}
             </div>
-            <div className='col-md-5'>
-                {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
-                    <NumPad handleNumpadPress={onInput}
-                        deleteButtonLabel={CheckOutItemsDeleteButton}
-                        okButtonLabel={CheckOutItemsOkButton} />
-                }
-            </div>
+            {(context.boxConfig.get.debugEnabled) &&
+                <Card className="col-md-12 m-5">
+                    <Card.Body className="row">
+                        <div className="col-md-6">
+                            <label className="control-label">{CheckOutItemsInputLabel}</label>
+                            <div className="form-control">
+                                {scannedBarcode}
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <NumPad handleNumpadPress={onInput}
+                                deleteButtonLabel={CheckOutItemsDeleteButton}
+                                okButtonLabel={CheckOutItemsOkButton}/>
+                        </div>
+                    </Card.Body>
+                </Card>
+            }
         </>
     );
 }
