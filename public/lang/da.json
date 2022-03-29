@@ -33,7 +33,7 @@
         "defaultMessage": "Status"
     },
     "check-in-items-help-box-text": {
-        "defaultMessage": "Brug håndscanneren til at scanne stregkoden på bogen. Eller tast bogens ISBN nummer"
+        "defaultMessage": "Brug håndscanneren til at scanne stregkoden på bogen"
     },
     "check-in-items-input-label": {
         "defaultMessage": "Stregkode"
