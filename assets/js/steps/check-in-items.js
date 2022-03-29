@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import HelpBox from './components/help-box';
 import BannerList from './components/banner-list';
 import Header from './components/header';
-import Input from './components/input';
 import { adaptListOfBooksToBanner } from './utils/banner-adapter';
 import NumPad from './utils/num-pad';
 import Print from '../steps/utils/print';
@@ -33,6 +32,7 @@ import {
     BARCODE_SCANNING_TIMEOUT
 } from '../constants';
 import CheckInWhite from '../../scss/images/check-in-white.svg';
+import { Card } from 'react-bootstrap';
 
 /**
  * CheckInItems component.
@@ -45,7 +45,6 @@ import CheckInWhite from '../../scss/images/check-in-white.svg';
 function CheckInItems({ actionHandler }) {
     const context = useContext(MachineStateContext);
     const [scannedBarcode, setScannedBarcode] = useState('');
-    const [activeBanner, setActiveBanner] = useState(false);
     const [handledReservations, setHandledReservations] = useState([]);
     const [newReservation, setNewReservation] = useState(null);
     const [checkedInBooksLength, setCheckedInBooksLength] = useState(0);
@@ -60,13 +59,11 @@ function CheckInItems({ actionHandler }) {
      */
     function onInput(key) {
         const typedBarcode = `${scannedBarcode}`;
-        setActiveBanner(false);
         switch (key) {
             case CheckInItemsDeleteButton:
                 setScannedBarcode(typedBarcode.slice(0, -1));
                 break;
             case CheckInItemsOkButton:
-                setActiveBanner(true);
                 handleItemCheckIn(scannedBarcode);
                 break;
             default:
@@ -76,46 +73,17 @@ function CheckInItems({ actionHandler }) {
     }
 
     /**
-     * Function to handle when keydown is enter.
-     */
-    function keyDownFunction(event) {
-        if (event.key === 'Enter') {
-            handleItemCheckIn(scannedBarcode);
-        }
-    }
-
-    /**
-     * Handles keyboard inputs.
-     *
-     * @param target
-     *    The pressed target.
-     */
-    function onKeyboardInput({ target }) {
-        setActiveBanner(false);
-        setScannedBarcode(target.value);
-    }
-
-    /**
      * Handles keyboard inputs.
      */
-    function handleItemCheckIn(scannedBarcode) {
+    const handleItemCheckIn = (barcode) => {
         // Ignore empty check ins.
-        if (scannedBarcode && scannedBarcode.length > 0) {
-            setActiveBanner(true);
+        if (barcode && barcode.length > 0) {
             actionHandler('checkInItem', {
-                itemIdentifier: scannedBarcode
+                itemIdentifier: barcode
             });
             setScannedBarcode('');
         }
-    }
-
-    /**
-     * Set up keydown listener.
-     */
-    useEffect(() => {
-        window.addEventListener('keydown', keyDownFunction);
-        return () => window.removeEventListener('keydown', keyDownFunction);
-    }, []);
+    };
 
     /**
      * Set up barcode scanner listener.
@@ -125,14 +93,13 @@ function CheckInItems({ actionHandler }) {
         const barcodeCallback = (new BarcodeHandler([
             ACTION_CHANGE_FLOW_CHECKOUT, ACTION_CHANGE_FLOW_STATUS, ACTION_RESET
         ], actionHandler, function(result) {
-            setScannedBarcode(result.outputCode);
             handleItemCheckIn(result.code);
-        }, function() {
-            setScannedBarcode('');
         })).createCallback();
 
         barcodeScanner.start(barcodeCallback);
-        return () => { barcodeScanner.stop(); };
+        return () => {
+            barcodeScanner.stop();
+        };
     }, [actionHandler]);
 
     /**
@@ -151,8 +118,8 @@ function CheckInItems({ actionHandler }) {
         let newReservedBook = null;
 
         /**
-        * Evaluate if a new checked-in book is reserved by another user.
-        */
+         * Evaluate if a new checked-in book is reserved by another user.
+         */
         context.machineState.get.items.forEach(book => {
             if (book.reservedByOtherUser && !handledReservations.includes(book.itemIdentifier)) {
                 const newBook = { ...book };
@@ -222,31 +189,33 @@ function CheckInItems({ actionHandler }) {
             <Header
                 header={CheckInItemsHeader}
                 subheader={CheckInItemsSubheader}
-                type='checkInItems'
+                type="checkInItems"
                 img={CheckInWhite}
             />
-            <div className='col-md-3'>
-                <HelpBox text={CheckInItemsHelpBoxText} />
+            <div className="col-md-3">
+                <HelpBox text={CheckInItemsHelpBoxText}/>
             </div>
-            <div className="col-md-1" />
-            <div className='col-md-6'>
-                <Input
-                    name='barcode'
-                    label={CheckInItemsInputLabel}
-                    activeBanner={activeBanner}
-                    value={scannedBarcode}
-                    onChange={onKeyboardInput}
-                />
-                {items && <BannerList items={items} />}
+            <div className="col-md-1"/>
+            <div className="col-md-8">
+                {items && <BannerList items={items}/>}
             </div>
-            <div className='col-md-5'>
-                {(context.boxConfig.get.debugEnabled || context.boxConfig.get.hasTouch) &&
-                    <NumPad handleNumpadPress={onInput}
-                        deleteButtonLabel={CheckInItemsDeleteButton}
-                        okButtonLabel={CheckInItemsOkButton} />
-                }
-            </div>
-
+            {(context.boxConfig.get.debugEnabled) &&
+                <Card className="col-md-12 m-5">
+                    <Card.Body className="row">
+                        <div className="col-md-6">
+                            <label className="control-label">{CheckInItemsInputLabel}</label>
+                            <div className="form-control">
+                                {scannedBarcode}
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <NumPad handleNumpadPress={onInput}
+                                deleteButtonLabel={CheckInItemsDeleteButton}
+                                okButtonLabel={CheckInItemsOkButton}/>
+                        </div>
+                    </Card.Body>
+                </Card>
+            }
         </>
     );
 }

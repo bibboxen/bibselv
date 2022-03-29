@@ -21,7 +21,7 @@
         "defaultMessage": "Status"
     },
     "check-in-items-help-box-text": {
-        "defaultMessage": "Use the hand scanner to scan the barcode on the book. Or enter the book's ISBN number"
+        "defaultMessage": "Use the hand scanner to scan the barcode on the book"
     },
     "check-in-items-input-label": {
         "defaultMessage": "Barcode"
