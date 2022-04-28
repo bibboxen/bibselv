@@ -129,7 +129,7 @@
         "defaultMessage": "Login"
     },
     "scan-login-subheader": {
-        "defaultMessage": "Scan dit bibliotekskort"
+        "defaultMessage": "Scan din lånerstregkode"
     },
     "banner-adapter-fetching-info": {
         "defaultMessage": "Henter informationer"

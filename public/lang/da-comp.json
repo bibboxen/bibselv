@@ -276,7 +276,7 @@
     "scan-login-subheader": [
         {
             "type": 0,
-            "value": "Scan dit bibliotekskort"
+            "value": "Scan din lånerstregkode"
         }
     ],
     "status-header": [
