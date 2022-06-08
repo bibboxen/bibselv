@@ -17,7 +17,7 @@ import { HelpBoxHeader } from '../utils/formatted-messages';
  * @return {*}
  * @constructor
  */
-function HelpBox({ text }) {
+function HelpBox({ text, header }) {
     return (
         <div className='help-box'>
             <div className='helpbox-header'>
@@ -25,7 +25,8 @@ function HelpBox({ text }) {
                     <FontAwesomeIcon icon={faQuestionCircle} />
                 </span>
                 <span>
-                    {HelpBoxHeader}
+                    {header && header}
+                    {!header && HelpBoxHeader}
                 </span>
                 <p>{text}</p>
             </div>
@@ -35,6 +36,10 @@ function HelpBox({ text }) {
 
 HelpBox.propTypes = {
     text: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+    ]),
+    header: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string
     ])

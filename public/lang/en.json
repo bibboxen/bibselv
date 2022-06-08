@@ -161,17 +161,17 @@
     "navbar-start-login-session": {
         "defaultMessage": "Start login session"
     },
+    "change-login-method-help-box-header": {
+        "defaultMessage": "Information"
+    },
     "change-login-method-timeout-message": {
-        "defaultMessage": "Timeout: {seconds} s. After this timespan the session will stop."
+        "defaultMessage": "You are now allowing loans with barcodes{br} This is possible for {minutes} minutes and {seconds} seconds or until it has been cancelled.{br} Remember to finish, if you leave the room before the session is finished."
     },
     "banner-header-books-for-check-in": {
         "defaultMessage": "Timeout: {seconds} s. After this timespan the session will stop."
     },
     "change-login-method-pick-login-method": {
         "defaultMessage": "Pick login method"
-    },
-    "change-login-method-pick-login-method-subheader": {
-        "defaultMessage": "The login method will be used throughout the session"
     }
 }
 

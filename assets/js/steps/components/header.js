@@ -31,7 +31,7 @@ function Header({ header, subheader, type, icon, img }) {
             </div>
             <div className='col-md-8'>
                 <div className='header'>{header}</div>
-                <div className='subheader'>{subheader}</div>
+                {subheader && <div className='subheader'>{subheader}</div>}
             </div>
         </>
     );
