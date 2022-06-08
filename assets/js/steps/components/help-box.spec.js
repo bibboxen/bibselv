@@ -23,8 +23,8 @@ describe('Test of helpbox', () => {
         const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' /></IntlProvider>);
         expect(wrapper.find('span').at(1).text()).toEqual('Hjælp');
     });
-    it('Renders text', () => {
+    it('Renders subheader from props', () => {
         const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' header="Test" /></IntlProvider>);
-        expect(wrapper.find('span').at(1).text()).toEqual('test');
+        expect(wrapper.find('span').at(1).text()).toEqual('Test');
     });
 });
