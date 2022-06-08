@@ -90,12 +90,6 @@ Now that we have installed all the dependencies need by the frontend and engine,
 docker-compose restart engine
 ```
 
-### Building assets
-To watch for changes in assets and then build:
-```sh
-docker-compose run frontend bash -c 'npm run watch'
-```
-
 ## Using the system
 To get a running frontend you need to first goto the administration interface and setup a box configuration. Start by adding an SIP2 user, then a school an lastly a bibbox box configuration where you select the other two.
 
