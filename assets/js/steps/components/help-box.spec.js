@@ -9,6 +9,7 @@ import { expect, it, describe } from '@jest/globals';
 import HelpBox from './help-box';
 import { IntlProvider } from 'react-intl';
 import { translations } from '../utils/translations-for-test';
+import { at } from 'core-js/core/string';
 
 describe('Test of helpbox', () => {
     it('Renders without crashing', () => {
@@ -18,5 +19,13 @@ describe('Test of helpbox', () => {
     it('Renders text', () => {
         const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' /></IntlProvider>);
         expect(wrapper.find('p').text()).toEqual('text');
+    });
+    it('Renders subheader', () => {
+        const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' /></IntlProvider>);
+        expect(wrapper.find('span').at(1).text()).toEqual('Hjælp');
+    });
+    it('Renders text', () => {
+        const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' header="Test" /></IntlProvider>);
+        expect(wrapper.find('span').at(1).text()).toEqual('test');
     });
 });
