@@ -69,20 +69,6 @@ function ScanLogin({ actionHandler }) {
                     <img src={BarcodeScannerIcon} height={300} width={300} />
                 </div>
             </div>
-            {context.boxConfig.get.debugEnabled && (
-                <div className='col-md'>
-                    <Button
-                        label={'Snydelogin'}
-                        className="status"
-                        icon={faArrowAltCircleRight}
-                        onClick={() =>
-                            actionHandler('login', {
-                                username: 'C023648674',
-                                useDefaultPassword: true
-                            })}
-                    />
-                </div>
-            )}
         </>
     );
 }

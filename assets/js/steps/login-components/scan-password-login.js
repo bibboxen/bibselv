@@ -170,23 +170,6 @@ function ScanPasswordLogin({ actionHandler }) {
                     <QwertyKeyboard handleKeyPress={onInput}/>
                 }
             </div>
-            {context.boxConfig.get.debugEnabled && (
-                <div className='col-md'>
-                    <Button
-                        label={'Indtast brugernavn'}
-                        icon={faArrowAltCircleRight}
-                        onClick={() => handleUsernameInput('C023648674')}/>
-                    <Button
-                        label={'Snydelogin'}
-                        icon={faArrowAltCircleRight}
-                        onClick={() =>
-                            actionHandler('login', {
-                                username: 'C023648674',
-                                useDefaultPassword: true
-                            })}
-                    />
-                </div>
-            )}
         </>
     );
 }
