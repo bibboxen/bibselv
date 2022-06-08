@@ -48,8 +48,20 @@ cp engine/example_config.json engine/config.json
 
 Install dependencies for the engine.
 ```
-docker-compose exec engine bash -c './scripts/install.sh'
+docker-compose run engine bash -c './scripts/install.sh'
 ```
+
+### Environment variables
+For the system to work, create a `.env.local` file and replace the environment variables from the `.env`:
+
+```bash
+CONFIGURATION_URL=APP_CONFIGURATION_URL # Url to OpenId Discovery document
+CLIENT_ID=APP_CLIENT_ID                 # Client id assigned by authorizer
+CLIENT_SECRET=APP_CLIENT_SECRET         # Client password assigned by authorizer
+CALLBACK_URI=APP_CALLBACK_URI           # Callback URI registered at identity provider
+CLI_REDIRECT=APP_CLI_REDIRECT_URI       # Redirect route for CLI login
+```
+
 
 ### Frontend
 
@@ -161,6 +173,7 @@ Loads the config and enters flow based on exposed state.
 
 ## Logging
 The engine uses logstash to log messages, and these can be seen in the docker setup with the following command.
+
 ```sh
 idc logs -f logstash
 ```
