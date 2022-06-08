@@ -18,10 +18,7 @@ describe('Test of helpbox', () => {
     it('Renders text', () => {
         const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' /></IntlProvider>);
         expect(wrapper.find('p').text()).toEqual('text');
-    });
-    it('Renders subheader', () => {
-        const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' /></IntlProvider>);
-        expect(wrapper.find('span').at(1).text()).toEqual('Hjælp');
+        expect(wrapper.find('span').at(1).text()).toEqual('help-box-header');
     });
     it('Renders subheader from props', () => {
         const wrapper = mount(<IntlProvider locale="en" translations={translations}><HelpBox text='text' header="Test" /></IntlProvider>);
