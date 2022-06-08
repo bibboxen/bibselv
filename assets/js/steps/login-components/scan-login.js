@@ -7,9 +7,8 @@ import React, { useEffect, useContext } from 'react';
 import BarcodeScanner from '../utils/barcode-scanner';
 import PropTypes from 'prop-types';
 import HelpBox from '../components/help-box';
-import Button from '../components/button';
 import Header from '../components/header';
-import { faSignInAlt, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import MachineStateContext from '../utils/machine-state-context';
 import {
     ScanLoginHelpboxText,

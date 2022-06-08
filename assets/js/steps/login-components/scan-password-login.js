@@ -6,8 +6,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
 import HelpBox from '../components/help-box';
-import Button from '../components/button';
-import { faArrowAltCircleRight } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
 import { faExclamationTriangle, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
