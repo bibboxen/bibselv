@@ -9,7 +9,6 @@ import { expect, it, describe } from '@jest/globals';
 import HelpBox from './help-box';
 import { IntlProvider } from 'react-intl';
 import { translations } from '../utils/translations-for-test';
-import { at } from 'core-js/core/string';
 
 describe('Test of helpbox', () => {
     it('Renders without crashing', () => {
