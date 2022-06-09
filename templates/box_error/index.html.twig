@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ boxName ?? 'Bibbox'}}: {{ 'Error' | trans }}{% endblock %}
+
+{% block body %}
+    <div class="root">
+        <div>
+            <div class="navbar initial">
+                <div class="text-container">
+                    <span class="text">{{ boxName ?? 'Bibbox' }}</span>
+                </div>
+                <div class="button-container"></div>
+            </div>
+            <div class="container-md">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">{{ 'An error occurred while logging in:'|trans }}</h4>
+                    <dl class="row">
+                        <dt class="col-sm-2">{{ 'Box Id' | trans }}</dt>
+                        <dd class="col-sm-10">{{ boxId ?? 'Unknown' }}</dd>
+                        <dt class="col-sm-2">{{ 'Box Name' | trans}}</dt>
+                        <dd class="col-sm-10">{{ boxName ?? 'Unknown' }}</dd>
+                        <dt class="col-sm-2">{{ 'Error Message' | trans}}</dt>
+                        <dd class="col-sm-10">{{ exceptionMessage ?? 'Unknown' }}</dd>
+                    </dl>
+                    <hr>
+                    <p class="mb-0">{{ 'now' | date('Y-m-d\TH:i:sO') }} - {{ 'The error has been logged for debugging.' | trans }}</p>
+                </div>
+            </div>
+            <div class="container-md pt-4">
+                <p class="text-center">
+                    {% if boxUrl %}
+                        <a class="btn btn-outline-dark" href="{{ boxUrl }}" role="button">◀ {{ 'Return to box' | trans }}</a>
+                    {% else %}
+                        {{ 'Please restart your browser' | trans }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

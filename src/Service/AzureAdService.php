@@ -2,12 +2,16 @@
 
 namespace App\Service;
 
+use App\Exception\AzureAdException;
 use App\Utils\AdLoginState;
 use App\Utils\Types\BoxFlowStates;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
 use ItkDev\OpenIdConnect\Exception\ValidationException;
 use ItkDev\OpenIdConnect\Security\OpenIdConfigurationProvider;
+use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
+use ItkDev\OpenIdConnectBundle\Security\OpenIdConfigurationProviderManager;
 use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -17,25 +21,30 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AzureAdService
 {
-    private OpenIdConfigurationProvider $provider;
+    private const AZURE_AD_KEY = 'AzureAd';
+
+    private OpenIdConfigurationProviderManager $providerManager;
     private RequestStack $requestStack;
     private AdapterInterface $cache;
+    private LoggerInterface $securityLogger;
     private int $leeway;
 
     /**
      * AzureAdService constructor.
      *
-     * @param OpenIdConfigurationProvider $provider
+     * @param OpenIdConfigurationProviderManager $providerManager
      * @param RequestStack $requestStack
      * @param AdapterInterface $cache
+     * @param LoggerInterface $securityLogger
      * @param int $leeway
      */
-    public function __construct(OpenIdConfigurationProvider $provider, RequestStack $requestStack, AdapterInterface $cache, int $leeway = 10)
+    public function __construct(OpenIdConfigurationProviderManager $providerManager, RequestStack $requestStack, AdapterInterface $cache, LoggerInterface $securityLogger, int $leeway = 10)
     {
-        $this->provider = $provider;
-        $this->leeway = $leeway;
+        $this->providerManager = $providerManager;
         $this->requestStack = $requestStack;
         $this->cache = $cache;
+        $this->securityLogger = $securityLogger;
+        $this->leeway = $leeway;
     }
 
     /**
@@ -49,17 +58,19 @@ class AzureAdService
      * @return string
      *   The Azure login URL with state
      *
+     * @throws InvalidProviderException
      * @throws ItkOpenIdConnectException
      */
     public function getLoginUrl(string $uniqueId, string $boxState = BoxFlowStates::CHECK_OUT_ITEMS): string
     {
+        $provider = $this->providerManager->getProvider(self::AZURE_AD_KEY);
         $session = $this->requestStack->getSession();
         $boxState = $uniqueId.':'.$boxState;
 
-        $nonce = $this->provider->generateNonce();
+        $nonce = $provider->generateNonce();
         $session->set('oauth2nonce', $nonce);
 
-        return $this->provider->getAuthorizationUrl(['state' => $boxState, 'nonce' => $nonce]);
+        return $provider->getAuthorizationUrl(['state' => $boxState, 'nonce' => $nonce]);
     }
 
     /**
@@ -82,7 +93,7 @@ class AzureAdService
      *
      * @return AdLoginState
      *
-     * @throws ValidationException
+     * @throws ValidationException|InvalidProviderException
      */
     public function getAdLoginState(Request $request): AdLoginState
     {
@@ -158,32 +169,49 @@ class AzureAdService
      *
      * @return array
      *
-     * @throws ValidationException
+     * @throws AzureAdException
      */
     private function getCredentials(Request $request): array
     {
-        $session = $this->requestStack->getSession();
         try {
+            $session = $this->requestStack->getSession();
+            $provider = $this->providerManager->getProvider(self::AZURE_AD_KEY);
+
             $idToken = $request->query->get('id_token');
 
             if (null === $idToken) {
-                throw new ValidationException('Id token not found.');
+                throw new AzureAdException('Id token not found.');
             }
 
             if (!is_string($idToken)) {
-                throw new ValidationException('Id token not type string');
+                throw new AzureAdException('Id token not type string');
             }
 
             $oauth2nonce = $session->get('oauth2nonce');
             if (null === $oauth2nonce) {
-                throw new ValidationException('oauth2 nonce not found.');
+                throw new AzureAdException('oauth2 nonce not found.');
             }
 
-            $claims = $this->provider->validateIdToken($idToken, $oauth2nonce, $this->leeway);
+            $claims = $provider->validateIdToken($idToken, $oauth2nonce, $this->leeway);
+
+            if (!property_exists($claims, 'AccountType')) {
+                throw new AzureAdException('AccountType not set in claims');
+            }
+            if (!property_exists($claims, 'UserName')) {
+                throw new AzureAdException('UserName not set in claims');
+            }
+            
+            $this->securityLogger->info($claims->UserName . ' logged in with claims ' . print_r($claims, true));
+            
             // Authentication successful
-        } catch (ItkOpenIdConnectException $exception) {
+        } catch (ItkOpenIdConnectException | InvalidProviderException $e) {
             // Handle failed authentication
-            throw new ValidationException($exception->getMessage());
+            if (isset($claims)) {
+                $userName = $claims->UserName ?? 'UNKNOWN';
+                $this->securityLogger->error($userName . ' log in failed with claims ' . print_r($claims, true));
+            }
+            
+            throw new AzureAdException($e->getMessage(), $e->getCode(), $e);
         } finally {
             $session->remove('oauth2nonce');
         }
