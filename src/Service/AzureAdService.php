@@ -7,7 +7,6 @@ use App\Utils\AdLoginState;
 use App\Utils\Types\BoxFlowStates;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
 use ItkDev\OpenIdConnect\Exception\ValidationException;
-use ItkDev\OpenIdConnect\Security\OpenIdConfigurationProvider;
 use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use ItkDev\OpenIdConnectBundle\Security\OpenIdConfigurationProviderManager;
 use Psr\Cache\InvalidArgumentException;
@@ -200,17 +199,17 @@ class AzureAdService
             if (!property_exists($claims, 'UserName')) {
                 throw new AzureAdException('UserName not set in claims');
             }
-            
-            $this->securityLogger->info($claims->UserName . ' logged in with claims ' . print_r($claims, true));
-            
+
+            $this->securityLogger->info($claims->UserName.' logged in with claims '.print_r($claims, true));
+
             // Authentication successful
-        } catch (ItkOpenIdConnectException | InvalidProviderException $e) {
+        } catch (ItkOpenIdConnectException|InvalidProviderException $e) {
             // Handle failed authentication
             if (isset($claims)) {
                 $userName = $claims->UserName ?? 'UNKNOWN';
-                $this->securityLogger->error($userName . ' log in failed with claims ' . print_r($claims, true));
+                $this->securityLogger->error($userName.' log in failed with claims '.print_r($claims, true));
             }
-            
+
             throw new AzureAdException($e->getMessage(), $e->getCode(), $e);
         } finally {
             $session->remove('oauth2nonce');

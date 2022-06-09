@@ -64,7 +64,6 @@ class BoxAdLoginController extends AbstractController
             $authUrl = $this->azureAdService->getLoginUrl($uniqueId, $boxState);
 
             return new RedirectResponse($authUrl);
-
         } catch (InvalidProviderException | ItkOpenIdConnectException $exception) {
             $session->set('exceptionMessage', $exception->getMessage());
 
@@ -96,7 +95,6 @@ class BoxAdLoginController extends AbstractController
             $boxUrl = $this->generateUrl('box_frontend_load', ['uniqueId' => $loginState->boxId]);
 
             return new RedirectResponse($boxUrl);
-
         } catch (ValidationException | InvalidArgumentException | InvalidProviderException $exception) {
             $session->set('exceptionMessage', $exception->getMessage());
 
