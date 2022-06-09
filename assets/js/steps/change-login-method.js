@@ -12,8 +12,8 @@ import {
     ChangeLoginMethodScanUsername,
     ChangeLoginMethodScanUsernameAndPassword,
     ChangeLoginMethodPickLoginMethodHeader,
-    ChangeLoginMethodPickLoginMethodSubheader,
-    ChangeLoginMethodTimeoutMessage
+    ChangeLoginMethodTimeoutMessage,
+    ChangeLoginMethodHelpBoxHeader
 } from './utils/formatted-messages';
 import MachineStateContext from './utils/machine-state-context';
 import Header from './components/header';
@@ -62,12 +62,11 @@ function ChangeLoginMethod({ actionHandler }) {
         <>
             <Header
                 header={ChangeLoginMethodPickLoginMethodHeader}
-                subheader={ChangeLoginMethodPickLoginMethodSubheader}
                 type='login'
                 icon={faSignInAlt}
             />
             <div className='col-md-3'>
-                <HelpBox text={ChangeLoginMethodTimeoutMessage(loginSessionTimeout)} />
+                <HelpBox header={ChangeLoginMethodHelpBoxHeader} text={ChangeLoginMethodTimeoutMessage(loginSessionTimeout)} />
             </div>
             <div className="col-md-1" />
             <div className='col-md-12'>

@@ -147,7 +147,10 @@
         "defaultMessage": "{title} af {author}"
     },
     "change-login-method-timeout-message": {
-        "defaultMessage": "Timeout: {seconds} s. Efter denne periode stopper login sessionen."
+        "defaultMessage": "Du åbner nu for lån ved brug af stregkoder.{br} Denne er åben i {minutes} minutter og {seconds} sekunder eller indtil den bliver afsluttet.{br} Husk at afslutte, hvis i forlader lokalet inden tiden er gået."
+    },
+    "change-login-method-help-box-header": {
+        "defaultMessage": "Information"
     },
     "print-reservation-note": {
         "defaultMessage": "Reservationsnote"
@@ -162,7 +165,7 @@
         "defaultMessage": "Skift loginmetode"
     },
     "change-login-method-scan-username": {
-        "defaultMessage": "Skan brugernavn"
+        "defaultMessage": "Start her"
     },
     "change-login-method-scan-username-and-password": {
         "defaultMessage": "Skan brugernavn og kodeord"
@@ -175,8 +178,5 @@
     },
     "change-login-method-pick-login-method-header": {
         "defaultMessage": "Vælg loginmetode"
-    },
-    "change-login-method-pick-login-method-subheader": {
-        "defaultMessage": "Loginmetoden bliver brugt i hele sessionen"
     }
 }

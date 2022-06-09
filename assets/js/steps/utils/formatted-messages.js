@@ -115,7 +115,7 @@ export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without
 export const ChangeLoginMethodScanUsername = <FormattedMessage id='change-login-method-scan-username' defaultMessage='change-login-method-scan-username' />;
 export const ChangeLoginMethodScanUsernameAndPassword = <FormattedMessage id='change-login-method-scan-username-and-password' defaultMessage='change-login-method-scan-username-and-password' />;
 export const ChangeLoginMethodPickLoginMethodHeader = <FormattedMessage id='change-login-method-pick-login-method-header' defaultMessage='change-login-method-pick-login-method-header' />;
-export const ChangeLoginMethodPickLoginMethodSubheader = <FormattedMessage id='change-login-method-pick-login-method-subheader' defaultMessage='change-login-method-pick-login-method-subheader' />;
+export const ChangeLoginMethodHelpBoxHeader = <FormattedMessage id='change-login-method-help-box-header' defaultMessage='change-login-method-help-box-header' />;
 /**
  * Create ChangeLoginMethodTimeoutMessage translation.
  * @param seconds
@@ -123,5 +123,7 @@ export const ChangeLoginMethodPickLoginMethodSubheader = <FormattedMessage id='c
  * @constructor
  */
 export function ChangeLoginMethodTimeoutMessage(seconds) {
-    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ seconds: seconds }} />;
+    const minutesForMessage = Math.floor(seconds / 60);
+    const secondsForMessage = seconds - minutesForMessage * 60;
+    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ seconds: secondsForMessage, minutes: minutesForMessage, br: <br /> }} />;
 }
