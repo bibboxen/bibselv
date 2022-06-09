@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
-import Alert from './steps/utils/alert';
 import { AppTokenNotValid, ServerError } from './steps/utils/formatted-messages';
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
 
