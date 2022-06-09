@@ -311,7 +311,7 @@ function App({ uniqueId, socket }) {
 
     return (
         <IntlProvider locale={language} messages={messages}>
-            {machineState && boxConfig && !errorMessage && (
+            {machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
                         element={document}
@@ -323,12 +323,12 @@ function App({ uniqueId, socket }) {
                     <Bibbox
                         boxConfigurationInput={boxConfig}
                         machineStateInput={machineState}
+                        errorMessage={errorMessage}
                         connectionState={connectionState}
                         actionHandler={handleAction}
                     />
                 </div>
             )}
-            {errorMessage && <Alert message={errorMessage}/>}
             {!machineState && !boxConfig && <Loading />}
         </IntlProvider>
     );

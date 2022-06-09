@@ -6,6 +6,7 @@
 import React, { useEffect } from 'react';
 import Initial from './initial';
 import Status from './status';
+import Alert from './utils/alert';
 import CheckInItems from './check-in-items';
 import NavBar from './components/navbar';
 import CheckOutItems from './check-out-items';
@@ -28,11 +29,13 @@ import AzureADLogin from './login-components/azure-ad-login';
  *   Callback on requested state change.
  * @param connectionState
  *   Connection state.
+ * @param errorMessage
+ *   Message for displaying error
  *
  * @return {*}
  * @constructor
  */
-function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, connectionState }) {
+function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, connectionState, errorMessage }) {
     const sound = new Sound();
     const { user } = machineStateInput;
 
@@ -98,7 +101,10 @@ function Bibbox({ boxConfigurationInput, machineStateInput, actionHandler, conne
             <NavBar actionHandler={actionHandler} />
             <div className='container'>
                 <div className='row' style={{ width: '100%' }}>
-                    {renderStep(machineStateInput.step ?? '')}
+                    <>
+                        {errorMessage && <Alert message={errorMessage} />}
+                        {!errorMessage && renderStep(machineStateInput.step ?? '')}
+                    </>
                 </div>
             </div>
         </MachineStateContext.Provider>
@@ -109,7 +115,8 @@ Bibbox.propTypes = {
     boxConfigurationInput: PropTypes.object.isRequired,
     machineStateInput: PropTypes.object.isRequired,
     connectionState: PropTypes.string.isRequired,
-    actionHandler: PropTypes.func.isRequired
+    actionHandler: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string
 };
 
 export default Bibbox;

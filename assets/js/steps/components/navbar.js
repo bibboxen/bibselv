@@ -21,6 +21,7 @@ import {
     NavbarButtonStatus,
     NavbarButtonCheckIn,
     NavbarButtonFinish,
+    NavbarButtonReset,
     NavbarStopLoginSession,
     NavbarStartLoginSession
 } from '../utils/formatted-messages';
@@ -133,14 +134,14 @@ function NavBar({ actionHandler }) {
                                 />
                             ))
                         }
-                        <Button
-                            label={NavbarButtonFinish}
-                            icon={faSignOutAlt}
-                            onClick={() => actionHandler('reset')}
-                            className='button logout'
-                        />
                     </>
                 }
+                <Button
+                    label={step === 'initial' ? NavbarButtonReset : NavbarButtonFinish}
+                    icon={faSignOutAlt}
+                    onClick={() => actionHandler('reset')}
+                    className='button logout'
+                />
             </div>
         </div>
     );
