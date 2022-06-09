@@ -119,6 +119,13 @@ class BoxConfigurationCrudController extends AbstractCrudController
             ->add('sip2User');
     }
 
+    /**
+     * Configure crud.
+     *
+     * @param Crud $crud
+     *
+     * @return Crud
+     */
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
