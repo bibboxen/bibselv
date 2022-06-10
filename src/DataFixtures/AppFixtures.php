@@ -15,7 +15,7 @@ use Faker\Factory;
  */
 class AppFixtures extends Fixture
 {
-    private static $schoolNames = [
+    private static array $schoolNames = [
         'Bakkegårdsskolen',
         'Bavnehøj Skole',
         'Beder Skole',

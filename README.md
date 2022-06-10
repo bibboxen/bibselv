@@ -61,7 +61,7 @@ For the system to work, create a `.env.local` file and replace the environment v
 CONFIGURATION_URL=APP_CONFIGURATION_URL # Url to OpenId Discovery document
 CLIENT_ID=APP_CLIENT_ID                 # Client id assigned by authorizer
 CLIENT_SECRET=APP_CLIENT_SECRET         # Client password assigned by authorizer
-CALLBACK_URI=APP_CALLBACK_URI           # Callback URI registered at identity provider
+REDIRECT_URI=APP_REDIRECT_URI           # Redirect URI registered at identity provider
 CLI_REDIRECT=APP_CLI_REDIRECT_URI       # Redirect route for CLI login
 ```
 
