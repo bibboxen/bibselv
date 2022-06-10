@@ -164,6 +164,9 @@
     "change-login-method-help-box-header": {
         "defaultMessage": "Information"
     },
+    "button-navbar-reset": {
+        "defaultMessage": "Reset"
+    },
     "change-login-method-timeout-message": {
         "defaultMessage": "You are now allowing loans with barcodes{br} This is possible for {minutes} minutes and {seconds} seconds or until it has been cancelled.{br} Remember to finish, if you leave the room before the session is finished."
     },

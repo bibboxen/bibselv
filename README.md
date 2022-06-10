@@ -297,6 +297,18 @@ following command (substitute <LANGCODE> with your language code):
 docker-compose exec frontend bash -c "npm run compile -- public/lang/<LANGCODE>.json --ast --out-file public/lang/<LANGCODE>-comp.json"
 ```
 
+### Danish
+
+```sh
+docker-compose exec frontend bash -c "npm run compile -- public/lang/da.json --ast --out-file public/lang/da-comp.json"
+```
+
+### English
+
+```sh
+docker-compose exec frontend bash -c "npm run compile -- public/lang/en.json --ast --out-file public/lang/en-comp.json"
+```
+
 To add the new language, edit `assets/js/app.js` and locate the
 `loadTranslations` function and add your translation. Next edit
 `src/Utils/Types/LanguageCodes.php` and your language. Re-compile the frontend

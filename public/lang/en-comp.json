@@ -87,6 +87,12 @@
       "value": "Change login method"
     }
   ],
+  "button-navbar-reset": [
+    {
+      "type": 0,
+      "value": "Reset"
+    }
+  ],
   "button-navbar-status": [
     {
       "type": 0,

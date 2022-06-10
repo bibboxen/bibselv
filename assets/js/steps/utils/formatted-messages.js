@@ -71,6 +71,7 @@ export const NavbarButtonCheckOut = <FormattedMessage id='button-navbar-check-ou
 export const NavbarButtonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='button-navbar-status' />;
 export const NavbarButtonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='button-navbar-check-in' />;
 export const NavbarButtonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='button-navbar-finish' />;
+export const NavbarButtonReset = <FormattedMessage id='button-navbar-reset' defaultMessage='button-navbar-reset' />;
 export const NavbarButtonLoginMethod = <FormattedMessage id='button-navbar-login-method' defaultMessage='button-navbar-login-method' />;
 export const NavbarStopLoginSession = <FormattedMessage id='navbar-stop-login-session' defaultMessage='navbar-stop-login-session' />;
 export const NavbarStartLoginSession = <FormattedMessage id='navbar-start-login-session' defaultMessage='navbar-start-login-session' />;

@@ -99,6 +99,12 @@
       "value": "Skift loginmetode"
     }
   ],
+  "button-navbar-reset": [
+    {
+      "type": 0,
+      "value": "Nulstil"
+    }
+  ],
   "button-navbar-status": [
     {
       "type": 0,

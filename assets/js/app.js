@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
-import Alert from './steps/utils/alert';
 import { AppTokenNotValid, ServerError } from './steps/utils/formatted-messages';
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
 
@@ -311,7 +310,7 @@ function App({ uniqueId, socket }) {
 
     return (
         <IntlProvider locale={language} messages={messages}>
-            {machineState && boxConfig && !errorMessage && (
+            {machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
                         element={document}
@@ -323,12 +322,12 @@ function App({ uniqueId, socket }) {
                     <Bibbox
                         boxConfigurationInput={boxConfig}
                         machineStateInput={machineState}
+                        errorMessage={errorMessage}
                         connectionState={connectionState}
                         actionHandler={handleAction}
                     />
                 </div>
             )}
-            {errorMessage && <Alert message={errorMessage}/>}
             {!machineState && !boxConfig && <Loading />}
         </IntlProvider>
     );

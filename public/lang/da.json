@@ -164,6 +164,9 @@
     "button-navbar-login-method": {
         "defaultMessage": "Skift loginmetode"
     },
+    "button-navbar-reset": {
+        "defaultMessage": "Nulstil"
+    },
     "change-login-method-scan-username": {
         "defaultMessage": "Start her"
     },
