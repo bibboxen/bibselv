@@ -67,7 +67,7 @@ services:
       - app
     working_dir: /app
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     volumes:
       - .:/app:delegated
 
