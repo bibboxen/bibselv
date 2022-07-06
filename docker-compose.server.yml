@@ -1,4 +1,4 @@
-# itk-version: 1.0.1
+# itk-version: 2.0.1
 version: "3"
 
 networks:
@@ -14,6 +14,8 @@ services:
     restart: unless-stopped
     networks:
       - app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       - PHP_MAX_EXECUTION_TIME=30
       - PHP_MEMORY_LIMIT=128M
@@ -31,6 +33,7 @@ services:
       - frontend
     depends_on:
       - phpfpm
+      - engine
     ports:
       - '80'
     volumes:
@@ -45,7 +48,6 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_SERVER_DOMAIN}`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
-       #- "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=ITKBasicAuth@file"
 
   engine:
     image: node:14
@@ -55,7 +57,7 @@ services:
     depends_on:
       - redis
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     volumes:
       - ./engine:/app:delegated
     command: npm run prod
