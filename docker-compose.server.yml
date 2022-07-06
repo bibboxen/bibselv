@@ -62,11 +62,12 @@ services:
 
   frontend:
     image: node:14
+    command: npm run build
     networks:
       - app
     working_dir: /app
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     volumes:
       - .:/app:delegated
 
