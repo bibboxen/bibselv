@@ -122,7 +122,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=frontend"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.rule=Host(`${COMPOSE_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}Mailhog.rule=Host(`mailhog-${COMPOSE_DOMAIN}`)"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}Mailhog.loadbalancer.server.port=8025"
 
 volumes:
   # Named volume requires that you have NFS shares enabled (performance boost on Macs).
