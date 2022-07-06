@@ -19,7 +19,7 @@
         "uri": "http://nginx/box/configuration/"
     },
     "server": {
-        "host": "0.0.0.0",
+        "host": "engine",
         "port": 3000,
         "cors": "*:*",
         "namespace": ""
