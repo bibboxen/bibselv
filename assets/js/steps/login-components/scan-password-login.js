@@ -5,7 +5,6 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/header';
-import HelpBox from '../components/help-box';
 import PropTypes from 'prop-types';
 import { faExclamationTriangle, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
@@ -14,9 +13,7 @@ import MachineStateContext from '../utils/machine-state-context';
 import {
     ScanPasswordLoginFirstSubheader,
     ScanPasswordLoginSecondSubheader,
-    ScanPasswordLoginFirstHelpboxText,
     ScanPasswordLoginInputLabel,
-    ScanPasswordLoginSecondHelpboxText,
     ScanPasswordLoginHeader,
     LoginLoginError
 } from '../utils/formatted-messages';
@@ -40,7 +37,6 @@ function ScanPasswordLogin({ actionHandler }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [subheader, setSubheader] = useState(ScanPasswordLoginFirstSubheader);
-    const [helpboxText, setHelpboxText] = useState(ScanPasswordLoginFirstHelpboxText);
     const [usernameScanned, setUsernameScanned] = useState(false);
 
     /**
@@ -69,7 +65,6 @@ function ScanPasswordLogin({ actionHandler }) {
     function handleUsernameInput(username) {
         setUsername(username);
         setUsernameScanned(true);
-        setHelpboxText(ScanPasswordLoginSecondHelpboxText);
         setSubheader(ScanPasswordLoginSecondSubheader);
     }
 
