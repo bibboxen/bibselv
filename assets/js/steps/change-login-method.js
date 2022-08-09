@@ -7,13 +7,15 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Bubble from './components/bubble';
 import HelpBox from './components/help-box';
-import { faBarcode, faLock, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import {
-    ChangeLoginMethodScanUsername,
-    ChangeLoginMethodScanUsernameAndPassword,
     ChangeLoginMethodPickLoginMethodHeader,
     ChangeLoginMethodTimeoutMessage,
-    ChangeLoginMethodHelpBoxHeader
+    ChangeLoginMethodHelpBoxHeader,
+    ChangeLoginMethodHelpBoxMainText,
+    ChangeLoginMethodStartHere,
+    ChangeLoginMethodUsernamePassword,
+    ChangeLoginMethodUsername
 } from './utils/formatted-messages';
 import MachineStateContext from './utils/machine-state-context';
 import Header from './components/header';
@@ -34,16 +36,14 @@ function ChangeLoginMethod({ actionHandler }) {
     if (loginSessionMethods.includes('login_barcode_password')) {
         components.push({
             type: 'loginScanUsernamePassword',
-            label: ChangeLoginMethodScanUsernameAndPassword,
-            icon: faLock
+            label: loginSessionMethods.length > 1 ? ChangeLoginMethodUsernamePassword : ChangeLoginMethodStartHere
         });
     }
 
     if (loginSessionMethods.includes('login_barcode')) {
         components.push({
             type: 'loginScanUsername',
-            label: ChangeLoginMethodScanUsername,
-            icon: faBarcode
+            label: loginSessionMethods.length > 1 ? ChangeLoginMethodUsername : ChangeLoginMethodStartHere
         });
     }
 
@@ -58,6 +58,25 @@ function ChangeLoginMethod({ actionHandler }) {
         });
     }
 
+    const styling = {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: "100%",
+        margin: "2em"
+    };
+
+    const getHelpBoxText = () => {
+        return (
+            <>
+                {ChangeLoginMethodTimeoutMessage(loginSessionTimeout)}
+                <br/>
+                <br/>
+                <b>{ChangeLoginMethodHelpBoxMainText}</b>
+            </>
+        );
+    }
+
     return (
         <>
             <Header
@@ -65,27 +84,21 @@ function ChangeLoginMethod({ actionHandler }) {
                 type='login'
                 icon={faSignInAlt}
             />
-            <div className='col-md-3'>
-                <HelpBox header={ChangeLoginMethodHelpBoxHeader} text={ChangeLoginMethodTimeoutMessage(loginSessionTimeout)} />
-            </div>
-            <div className="col-md-1" />
-            <div className='col-md-12'>
-                <div className='row justify-content-center'>
-                    {components.map((component) => (
-                        <div key={component.type} className='col-md-3'>
-                            <Bubble
-                                type={component.type}
-                                label={component.label}
-                                icon={component.icon}
-                                img={component.img}
-                                disabled={component.disabled}
-                                onClick={() => {
-                                    handleChangeLoginMethod(component.type);
-                                }}
-                            />
-                        </div>
-                    ))}
-                </div>
+            <div style={styling}>
+                <HelpBox header={ChangeLoginMethodHelpBoxHeader} text={getHelpBoxText()} style={{marginLeft: "2em"}}/>
+                {components.map((component) => (
+                    <div key={component.type} style={{minWidth: "300px", margin: "3em"}}>
+                        <Bubble
+                            type={component.type}
+                            label={component.label}
+                            onlyText={true}
+                            disabled={component.disabled}
+                            onClick={() => {
+                                handleChangeLoginMethod(component.type);
+                            }}
+                        />
+                    </div>
+                ))}
             </div>
         </>
     );

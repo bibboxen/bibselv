@@ -111,36 +111,34 @@
       "value": "Information"
     }
   ],
+  "change-login-method-help-box-main-text": [
+    {
+      "type": 0,
+      "value": "Remember to finish, if you leave the room before the session is finished."
+    }
+  ],
   "change-login-method-pick-login-method": [
     {
       "type": 0,
       "value": "Pick login method"
     }
   ],
-  "change-login-method-scan-username": [
+  "change-login-method-pick-login-method-header": [
     {
       "type": 0,
-      "value": "Scan username"
+      "value": "Choose login method"
     }
   ],
-  "change-login-method-scan-username-and-password": [
+  "change-login-method-start-here": [
     {
       "type": 0,
-      "value": "Scan username and password"
+      "value": "Start here"
     }
   ],
   "change-login-method-timeout-message": [
     {
       "type": 0,
-      "value": "You are now allowing loans with barcodes"
-    },
-    {
-      "type": 1,
-      "value": "br"
-    },
-    {
-      "type": 0,
-      "value": " This is possible for "
+      "value": "You are now allowing loans with barcodes. This is possible for "
     },
     {
       "type": 1,
@@ -148,23 +146,19 @@
     },
     {
       "type": 0,
-      "value": " minutes and "
-    },
-    {
-      "type": 1,
-      "value": "seconds"
-    },
+      "value": " minutes or until it has been cancelled."
+    }
+  ],
+  "change-login-method-username": [
     {
       "type": 0,
-      "value": " seconds or until it has been cancelled."
-    },
-    {
-      "type": 1,
-      "value": "br"
-    },
+      "value": "Username"
+    }
+  ],
+  "change-login-method-username-password": [
     {
       "type": 0,
-      "value": " Remember to finish, if you leave the room before the session is finished."
+      "value": "Username and password"
     }
   ],
   "check-in-items-delete-button": [

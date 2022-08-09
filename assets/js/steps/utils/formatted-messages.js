@@ -107,10 +107,13 @@ export function BookBannerByAuthor(author) {
 export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;
 
 // change-login-method.js
-export const ChangeLoginMethodScanUsername = <FormattedMessage id='change-login-method-scan-username' defaultMessage='change-login-method-scan-username' />;
-export const ChangeLoginMethodScanUsernameAndPassword = <FormattedMessage id='change-login-method-scan-username-and-password' defaultMessage='change-login-method-scan-username-and-password' />;
 export const ChangeLoginMethodPickLoginMethodHeader = <FormattedMessage id='change-login-method-pick-login-method-header' defaultMessage='change-login-method-pick-login-method-header' />;
 export const ChangeLoginMethodHelpBoxHeader = <FormattedMessage id='change-login-method-help-box-header' defaultMessage='change-login-method-help-box-header' />;
+export const ChangeLoginMethodHelpBoxMainText = <FormattedMessage id='change-login-method-help-box-main-text' defaultMessage='change-login-method-help-box-main-text' />;
+export const ChangeLoginMethodStartHere = <FormattedMessage id='change-login-method-start-here' defaultMessage='change-login-method-start-here' />;
+export const ChangeLoginMethodUsernamePassword = <FormattedMessage id='change-login-method-username-password' defaultMessage='change-login-method-username-password' />;
+export const ChangeLoginMethodUsername = <FormattedMessage id='change-login-method-username' defaultMessage='change-login-method-username' />;
+
 /**
  * Create ChangeLoginMethodTimeoutMessage translation.
  * @param seconds
@@ -118,7 +121,6 @@ export const ChangeLoginMethodHelpBoxHeader = <FormattedMessage id='change-login
  * @constructor
  */
 export function ChangeLoginMethodTimeoutMessage(seconds) {
-    const minutesForMessage = Math.floor(seconds / 60);
-    const secondsForMessage = seconds - minutesForMessage * 60;
-    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ seconds: secondsForMessage, minutes: minutesForMessage, br: <br /> }} />;
+    const minutesForMessage = Math.round(seconds / 60 * 100) / 100;
+    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ minutes: minutesForMessage, br: <br /> }} />;
 }

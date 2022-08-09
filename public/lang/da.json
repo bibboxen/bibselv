@@ -147,10 +147,22 @@
         "defaultMessage": "{title} af {author}"
     },
     "change-login-method-timeout-message": {
-        "defaultMessage": "Du åbner nu for lån ved brug af stregkoder.{br} Denne er åben i {minutes} minutter og {seconds} sekunder eller indtil den bliver afsluttet.{br} Husk at afslutte, hvis i forlader lokalet inden tiden er gået."
+        "defaultMessage": "Du åbner nu for lån ved brug af stregkoder. Denne session er åben i {minutes} minutter, eller indtil den bliver afsluttet."
+    },
+    "change-login-method-start-here": {
+        "defaultMessage": "Start her"
+    },
+    "change-login-method-username": {
+        "defaultMessage": "Brugernavn"
+    },
+    "change-login-method-username-password": {
+        "defaultMessage": "Brugernavn og kodeord"
     },
     "change-login-method-help-box-header": {
         "defaultMessage": "Information"
+    },
+    "change-login-method-help-box-main-text": {
+        "defaultMessage": "Husk at afslutte, hvis du forlader lokalet, inden tiden er gået."
     },
     "print-reservation-note": {
         "defaultMessage": "Reservationsnote"
