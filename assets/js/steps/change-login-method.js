@@ -62,8 +62,8 @@ function ChangeLoginMethod({ actionHandler }) {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: "100%",
-        margin: "2em"
+        width: '100%',
+        margin: '2em'
     };
 
     const getHelpBoxText = () => {
@@ -75,7 +75,7 @@ function ChangeLoginMethod({ actionHandler }) {
                 <b>{ChangeLoginMethodHelpBoxMainText}</b>
             </>
         );
-    }
+    };
 
     return (
         <>
@@ -85,9 +85,9 @@ function ChangeLoginMethod({ actionHandler }) {
                 icon={faSignInAlt}
             />
             <div style={styling}>
-                <HelpBox header={ChangeLoginMethodHelpBoxHeader} text={getHelpBoxText()} style={{marginLeft: "2em"}}/>
+                <HelpBox header={ChangeLoginMethodHelpBoxHeader} text={getHelpBoxText()} style={{ marginLeft: '2em' }}/>
                 {components.map((component) => (
-                    <div key={component.type} style={{minWidth: "300px", margin: "3em"}}>
+                    <div key={component.type} style={{ minWidth: '300px', margin: '3em' }}>
                         <Bubble
                             type={component.type}
                             label={component.label}

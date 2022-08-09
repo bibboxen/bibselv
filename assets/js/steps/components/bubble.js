@@ -67,7 +67,7 @@ Bubble.propTypes = {
     img: PropTypes.string,
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
-    onlyText: PropTypes.bool,
+    onlyText: PropTypes.bool
 };
 
 export default Bubble;
