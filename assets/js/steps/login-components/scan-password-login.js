@@ -136,9 +136,7 @@ function ScanPasswordLogin({ actionHandler }) {
                 type='login'
                 icon={faSignInAlt}
             />
-            <div className='col-md-3'>
-                {!usernameScanned && <HelpBox text={helpboxText}/>}
-            </div>
+            <div className='col-md-3' />
             <div className='col-md-1'/>
             <div className='col-md-6'>
                 {!usernameScanned && (

@@ -6,12 +6,10 @@
 import React, { useEffect, useContext } from 'react';
 import BarcodeScanner from '../utils/barcode-scanner';
 import PropTypes from 'prop-types';
-import HelpBox from '../components/help-box';
 import Header from '../components/header';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import MachineStateContext from '../utils/machine-state-context';
 import {
-    ScanLoginHelpboxText,
     ScanLoginHeader,
     ScanLoginSubheader
 } from '../utils/formatted-messages';
@@ -59,9 +57,7 @@ function ScanLogin({ actionHandler }) {
                 type='login'
                 icon={faSignInAlt}
             />
-            <div className='col-md-3'>
-                <HelpBox text={ScanLoginHelpboxText} />
-            </div>
+            <div className="col-md-3" />
             <div className="col-md-1" />
             <div className='col-md-6'>
                 <div className='content'>
