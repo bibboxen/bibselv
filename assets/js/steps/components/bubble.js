@@ -20,13 +20,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  *   Bubble image.
  * @param disabled
  *   Disable the Bubble.
+ * @param onlyText
+ *
  * @param rest
  *
  * @return {*}
  * @constructor
  */
-function Bubble({ type, label, icon, img, disabled, ...rest }) {
+function Bubble({ type, label, icon, img, disabled, onlyText = false, ...rest }) {
     const classes = `bubble ${type.toLowerCase()} ${disabled ? 'disabled' : ''}`;
+
+    const onlyTextStyling = {};
+
+    if (onlyText) {
+        onlyTextStyling.marginTop = '40%';
+    }
 
     return (
         <div
@@ -34,7 +42,7 @@ function Bubble({ type, label, icon, img, disabled, ...rest }) {
             {...rest}
         >
             <div className='inner-bubble'>
-                <div className='text-and-icon'>
+                <div className='text-and-icon' style={onlyTextStyling}>
                     <div className='icon'>
                         {img &&
                             <img src={img} height={60} />
@@ -58,7 +66,8 @@ Bubble.propTypes = {
     icon: PropTypes.object,
     img: PropTypes.string,
     disabled: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    onlyText: PropTypes.bool
 };
 
 export default Bubble;

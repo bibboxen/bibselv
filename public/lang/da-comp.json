@@ -123,6 +123,12 @@
       "value": "Information"
     }
   ],
+  "change-login-method-help-box-main-text": [
+    {
+      "type": 0,
+      "value": "Husk at afslutte, hvis du forlader lokalet, inden tiden er gået."
+    }
+  ],
   "change-login-method-pick-login-method-header": [
     {
       "type": 0,
@@ -141,18 +147,16 @@
       "value": "Skan brugernavn og kodeord"
     }
   ],
+  "change-login-method-start-here": [
+    {
+      "type": 0,
+      "value": "Start her"
+    }
+  ],
   "change-login-method-timeout-message": [
     {
       "type": 0,
-      "value": "Du åbner nu for lån ved brug af stregkoder."
-    },
-    {
-      "type": 1,
-      "value": "br"
-    },
-    {
-      "type": 0,
-      "value": " Denne er åben i "
+      "value": "Du åbner nu for lån ved brug af stregkoder. Denne session er åben i "
     },
     {
       "type": 1,
@@ -160,23 +164,19 @@
     },
     {
       "type": 0,
-      "value": " minutter og "
-    },
-    {
-      "type": 1,
-      "value": "seconds"
-    },
+      "value": " minutter, eller indtil den bliver afsluttet."
+    }
+  ],
+  "change-login-method-username": [
     {
       "type": 0,
-      "value": " sekunder eller indtil den bliver afsluttet."
-    },
-    {
-      "type": 1,
-      "value": "br"
-    },
+      "value": "Brugernavn"
+    }
+  ],
+  "change-login-method-username-password": [
     {
       "type": 0,
-      "value": " Husk at afslutte, hvis i forlader lokalet inden tiden er gået."
+      "value": "Brugernavn og kodeord"
     }
   ],
   "check-in-items-delete-button": [
