@@ -121,6 +121,7 @@ export const ChangeLoginMethodUsername = <FormattedMessage id='change-login-meth
  * @constructor
  */
 export function ChangeLoginMethodTimeoutMessage(seconds) {
-    const minutesForMessage = Math.round(seconds / 60 * 100) / 100;
-    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ minutes: minutesForMessage, br: <br /> }} />;
+    // Ignoring seconds.
+    const minutesForMessage = Math.floor(seconds / 60);
+    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ minutes: minutesForMessage }} />;
 }

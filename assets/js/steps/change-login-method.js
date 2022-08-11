@@ -69,10 +69,12 @@ function ChangeLoginMethod({ actionHandler }) {
     const getHelpBoxText = () => {
         return (
             <>
-                {ChangeLoginMethodTimeoutMessage(loginSessionTimeout)}
-                <br/>
-                <br/>
-                <b>{ChangeLoginMethodHelpBoxMainText}</b>
+                <div>
+                    {ChangeLoginMethodTimeoutMessage(loginSessionTimeout)}
+                </div>
+                <div className="mt-3">
+                    <strong>{ChangeLoginMethodHelpBoxMainText}</strong>
+                </div>
             </>
         );
     };
