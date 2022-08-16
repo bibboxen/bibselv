@@ -6,13 +6,10 @@
 import React, { useEffect, useContext } from 'react';
 import BarcodeScanner from '../utils/barcode-scanner';
 import PropTypes from 'prop-types';
-import HelpBox from '../components/help-box';
-import Button from '../components/button';
 import Header from '../components/header';
-import { faSignInAlt, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import MachineStateContext from '../utils/machine-state-context';
 import {
-    ScanLoginHelpboxText,
     ScanLoginHeader,
     ScanLoginSubheader
 } from '../utils/formatted-messages';
@@ -60,29 +57,13 @@ function ScanLogin({ actionHandler }) {
                 type='login'
                 icon={faSignInAlt}
             />
-            <div className='col-md-3'>
-                <HelpBox text={ScanLoginHelpboxText} />
-            </div>
+            <div className="col-md-3" />
             <div className="col-md-1" />
             <div className='col-md-6'>
                 <div className='content'>
                     <img src={BarcodeScannerIcon} height={300} width={300} />
                 </div>
             </div>
-            {context.boxConfig.get.debugEnabled && (
-                <div className='col-md'>
-                    <Button
-                        label={'Snydelogin'}
-                        className="status"
-                        icon={faArrowAltCircleRight}
-                        onClick={() =>
-                            actionHandler('login', {
-                                username: 'C023648674',
-                                useDefaultPassword: true
-                            })}
-                    />
-                </div>
-            )}
         </>
     );
 }

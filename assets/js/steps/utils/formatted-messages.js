@@ -9,8 +9,6 @@ import { FormattedMessage } from 'react-intl';
 // Scan password login strings.
 export const ScanPasswordLoginFirstSubheader = <FormattedMessage id='scan-login-password-first-subheader' defaultMessage='scan-login-password-first-subheader' />;
 export const ScanPasswordLoginSecondSubheader = <FormattedMessage id='scan-login-password-second-subheader' defaultMessage='scan-login-password-second-subheader' />;
-export const ScanPasswordLoginFirstHelpboxText = <FormattedMessage id='scan-login-password-usename-help-box-text' defaultMessage='scan-login-password-usename-help-box-text' />;
-export const ScanPasswordLoginSecondHelpboxText = <FormattedMessage id='scan-login-password-password-help-box-text' defaultMessage='scan-login-password-password-help-box-text' />;
 export const ScanPasswordLoginInputLabel = <FormattedMessage id='scan-login-password-input-label' defaultMessage='scan-login-password-input-label' />;
 export const ScanPasswordLoginHeader = <FormattedMessage id='scan-login-password-header' defaultMessage='scan-login-password-header' />;
 
@@ -37,7 +35,6 @@ export const StatusSubheader = <FormattedMessage id='status-subheader' defaultMe
 export const StatusHeaderCurrentLoans = <FormattedMessage id='status-header-current-loans' defaultMessage='status-header-current-loans' />;
 export const StatusHeaderReservations = <FormattedMessage id='status-header-reservations' defaultMessage='status-header-reservations' />;
 export const StatusHeaderReadyForPickup = <FormattedMessage id='status-header-ready-for-pickup' defaultMessage='status-header-ready-for-pickup' />;
-export const StatusBannerHeaderFinedBook = <FormattedMessage id='banner-header-book-with-fine' defaultMessage='banner-header-book-with-fine' />;
 export const StatusUnavailable = <FormattedMessage id='status-unavailable' defaultMessage='status-unavailable' />;
 export const StatusButtonPrint = <FormattedMessage id='button-status-print' defaultMessage='button-status-print' />;
 
@@ -58,12 +55,10 @@ export const HelpBoxHeader = <FormattedMessage id='help-box-header' defaultMessa
 export const InputBookIsRegistered = <FormattedMessage id='book-is-registered' defaultMessage='book-is-registered' />;
 
 // Scan Login strings
-export const ScanLoginHelpboxText = <FormattedMessage id='scan-login-help-box-text' defaultMessage='scan-login-help-box-text' />;
 export const ScanLoginHeader = <FormattedMessage id='scan-login-header' defaultMessage='scan-login-header' />;
 export const ScanLoginSubheader = <FormattedMessage id='scan-login-subheader' defaultMessage='scan-login-subheader' />;
 
 // Login strings
-export const LoginLoginNotConfigured = <FormattedMessage id='login-not-configured' defaultMessage='login-not-configured' />;
 export const LoginLoginError = <FormattedMessage id='login-error' defaultMessage='login-error' />;
 
 // Navbar strings
@@ -71,7 +66,7 @@ export const NavbarButtonCheckOut = <FormattedMessage id='button-navbar-check-ou
 export const NavbarButtonStatus = <FormattedMessage id='button-navbar-status' defaultMessage='button-navbar-status' />;
 export const NavbarButtonCheckIn = <FormattedMessage id='button-navbar-check-in' defaultMessage='button-navbar-check-in' />;
 export const NavbarButtonFinish = <FormattedMessage id='button-navbar-finish' defaultMessage='button-navbar-finish' />;
-export const NavbarButtonLoginMethod = <FormattedMessage id='button-navbar-login-method' defaultMessage='button-navbar-login-method' />;
+export const NavbarButtonReset = <FormattedMessage id='button-navbar-reset' defaultMessage='button-navbar-reset' />;
 export const NavbarStopLoginSession = <FormattedMessage id='navbar-stop-login-session' defaultMessage='navbar-stop-login-session' />;
 export const NavbarStartLoginSession = <FormattedMessage id='navbar-start-login-session' defaultMessage='navbar-start-login-session' />;
 
@@ -112,10 +107,13 @@ export function BookBannerByAuthor(author) {
 export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;
 
 // change-login-method.js
-export const ChangeLoginMethodScanUsername = <FormattedMessage id='change-login-method-scan-username' defaultMessage='change-login-method-scan-username' />;
-export const ChangeLoginMethodScanUsernameAndPassword = <FormattedMessage id='change-login-method-scan-username-and-password' defaultMessage='change-login-method-scan-username-and-password' />;
 export const ChangeLoginMethodPickLoginMethodHeader = <FormattedMessage id='change-login-method-pick-login-method-header' defaultMessage='change-login-method-pick-login-method-header' />;
-export const ChangeLoginMethodPickLoginMethodSubheader = <FormattedMessage id='change-login-method-pick-login-method-subheader' defaultMessage='change-login-method-pick-login-method-subheader' />;
+export const ChangeLoginMethodHelpBoxHeader = <FormattedMessage id='change-login-method-help-box-header' defaultMessage='change-login-method-help-box-header' />;
+export const ChangeLoginMethodHelpBoxMainText = <FormattedMessage id='change-login-method-help-box-main-text' defaultMessage='change-login-method-help-box-main-text' />;
+export const ChangeLoginMethodStartHere = <FormattedMessage id='change-login-method-start-here' defaultMessage='change-login-method-start-here' />;
+export const ChangeLoginMethodUsernamePassword = <FormattedMessage id='change-login-method-username-password' defaultMessage='change-login-method-username-password' />;
+export const ChangeLoginMethodUsername = <FormattedMessage id='change-login-method-username' defaultMessage='change-login-method-username' />;
+
 /**
  * Create ChangeLoginMethodTimeoutMessage translation.
  * @param seconds
@@ -123,5 +121,7 @@ export const ChangeLoginMethodPickLoginMethodSubheader = <FormattedMessage id='c
  * @constructor
  */
 export function ChangeLoginMethodTimeoutMessage(seconds) {
-    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ seconds: seconds }} />;
+    // Ignoring seconds.
+    const minutesForMessage = Math.floor(seconds / 60);
+    return <FormattedMessage id="change-login-method-timeout-message" defaultMessage="change-login-method-timeout-message" values={{ minutes: minutesForMessage }} />;
 }

@@ -149,20 +149,23 @@
     "button-navbar-login-method": {
         "defaultMessage": "Change login method"
     },
-    "change-login-method-scan-username": {
-        "defaultMessage": "Scan username"
-    },
-    "change-login-method-scan-username-and-password": {
-        "defaultMessage": "Scan username and password"
-    },
     "navbar-stop-login-session": {
         "defaultMessage": "Stop login session"
     },
     "navbar-start-login-session": {
         "defaultMessage": "Start login session"
     },
+    "change-login-method-help-box-header": {
+        "defaultMessage": "Information"
+    },
+    "button-navbar-reset": {
+        "defaultMessage": "Reset"
+    },
     "change-login-method-timeout-message": {
-        "defaultMessage": "Timeout: {seconds} s. After this timespan the session will stop."
+        "defaultMessage": "You are now allowing loans with barcodes. This is possible for {minutes} minutes or until it has been cancelled."
+    },
+    "change-login-method-help-box-main-text": {
+        "defaultMessage": "Remember to finish, if you leave the room before the session is finished."
     },
     "banner-header-books-for-check-in": {
         "defaultMessage": "Timeout: {seconds} s. After this timespan the session will stop."
@@ -170,8 +173,17 @@
     "change-login-method-pick-login-method": {
         "defaultMessage": "Pick login method"
     },
-    "change-login-method-pick-login-method-subheader": {
-        "defaultMessage": "The login method will be used throughout the session"
+    "change-login-method-start-here": {
+        "defaultMessage": "Start here"
+    },
+    "change-login-method-username": {
+        "defaultMessage": "Username"
+    },
+    "change-login-method-username-password": {
+        "defaultMessage": "Username and password"
+    },
+    "change-login-method-pick-login-method-header": {
+        "defaultMessage": "Choose login method"
     }
 }
 

@@ -10,10 +10,13 @@ namespace App\Controller;
 use App\Service\AzureAdService;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
 use ItkDev\OpenIdConnect\Exception\ValidationException;
+use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,15 +27,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class BoxAdLoginController extends AbstractController
 {
     private AzureAdService $azureAdService;
+    private LoggerInterface $securityLogger;
 
     /**
      * BoxAdLoginController constructor.
      *
      * @param AzureAdService $azureAdService
+     * @param LoggerInterface $securityLogger
      */
-    public function __construct(AzureAdService $azureAdService)
+    public function __construct(AzureAdService $azureAdService, LoggerInterface $securityLogger)
     {
         $this->azureAdService = $azureAdService;
+        $this->securityLogger = $securityLogger;
     }
 
     /**
@@ -43,20 +49,28 @@ class BoxAdLoginController extends AbstractController
      *
      * @Route("/box/ad-login/{uniqueId}/{boxState}", name="box_ad_login")
      *
+     * @param SessionInterface $session
      * @param string $uniqueId
      *   The id of the box
      * @param string $boxState
      *   The checkout|status state of the box
      *
      * @return RedirectResponse
-     *
-     * @throws ItkOpenIdConnectException
      */
-    public function index(string $uniqueId, string $boxState): RedirectResponse
+    public function index(SessionInterface $session, string $uniqueId, string $boxState): RedirectResponse
     {
-        $authUrl = $this->azureAdService->getLoginUrl($uniqueId, $boxState);
+        try {
+            $session->set('boxId', $uniqueId);
+            $authUrl = $this->azureAdService->getLoginUrl($uniqueId, $boxState);
 
-        return new RedirectResponse($authUrl);
+            return new RedirectResponse($authUrl);
+        } catch (InvalidProviderException|ItkOpenIdConnectException $exception) {
+            $session->set('exceptionMessage', $exception->getMessage());
+
+            $this->securityLogger->error($exception);
+
+            return $this->redirectToRoute('app_box_error');
+        }
     }
 
     /**
@@ -68,19 +82,25 @@ class BoxAdLoginController extends AbstractController
      * @Route("/oidc", name="box_ad_redirect_uri")
      *
      * @param Request $request
+     * @param SessionInterface $session
      *
      * @return RedirectResponse
-     *
-     * @throws InvalidArgumentException
-     * @throws ValidationException
      */
-    public function oidc(Request $request): RedirectResponse
+    public function oidc(Request $request, SessionInterface $session): RedirectResponse
     {
-        $loginState = $this->azureAdService->getAdLoginState($request);
-        $this->azureAdService->saveBoxLoginState($loginState);
+        try {
+            $loginState = $this->azureAdService->getAdLoginState($request);
+            $this->azureAdService->saveBoxLoginState($loginState);
 
-        $boxUrl = $this->generateUrl('box_frontend_load', ['uniqueId' => $loginState->boxId]);
+            $boxUrl = $this->generateUrl('box_frontend_load', ['uniqueId' => $loginState->boxId]);
 
-        return new RedirectResponse($boxUrl);
+            return new RedirectResponse($boxUrl);
+        } catch (ValidationException|InvalidArgumentException|InvalidProviderException $exception) {
+            $session->set('exceptionMessage', $exception->getMessage());
+
+            $this->securityLogger->error($exception);
+
+            return $this->redirectToRoute('app_box_error');
+        }
     }
 }

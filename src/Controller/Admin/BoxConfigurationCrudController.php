@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\BoxConfiguration;
 use App\Utils\Types\LanguageCodes;
 use App\Utils\Types\LoginMethods;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -60,13 +61,12 @@ class BoxConfigurationCrudController extends AbstractCrudController
             AssociationField::new('school'),
             AssociationField::new('sip2User'),
             TextField::new('uniqueId')
-                ->setLabel('Identifier')
-                ->setFormTypeOption('disabled', 'disabled')
+                ->setLabel('Url')
+                ->setDisabled(true)
                 // This only applies to index and detail pages.
                 ->formatValue(function ($value) {
                     return $this->router->generate('box_frontend_load', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
                 }),
-
             FormField::addPanel('Options'),
             BooleanField::new('hasTouch')->hideOnIndex(),
             BooleanField::new('hasKeyboard')->hideOnIndex(),
@@ -79,7 +79,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
             IntegerField::new('inactivityTimeOut')->hideOnIndex(),
             IntegerField::new('barcodeTimeout')->hideOnIndex()
                 ->setHelp('Set delay before barcode is committed. Defaults to 500 ms.'),
-            TextField::new('reservedMaterialInstruction'),
+            TextField::new('reservedMaterialInstruction')->hideOnIndex(),
             ChoiceField::new('defaultLanguageCode')
                 ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))
                 ->hideOnIndex(),
@@ -117,5 +117,19 @@ class BoxConfigurationCrudController extends AbstractCrudController
             ->add('name')
             ->add('school')
             ->add('sip2User');
+    }
+
+    /**
+     * Configure crud.
+     *
+     * @param Crud $crud
+     *
+     * @return Crud
+     */
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->showEntityActionsInlined()
+            ;
     }
 }

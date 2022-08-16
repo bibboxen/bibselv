@@ -54,6 +54,7 @@ button {
         padding: 0 0 0 10px;
         min-width: 240px;
         .button-barcode {
+            border: 10px solid $white;
             display: flex;
             width: 200px;
             height: 90px;

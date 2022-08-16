@@ -1,360 +1,398 @@
 {
-    "app-token-not-valid": [
-        {
-            "type": 0,
-            "value": "Token not valid. Access denied"
-        }
-    ],
-    "app-server-error": [
-        {
-            "type": 0,
-            "value": "An unexpected error happened, refresh the page and try again."
-        }
-    ],
-    "banner-adapter-fetching-info": [
-        {
-            "type": 0,
-            "value": "Fetching information"
-        }
-    ],
-    "banner-header-book-for-check-in": [
-        {
-            "type": 0,
-            "value": "This book must be handed in"
-        }
-    ],
-    "banner-header-book-with-fine": [
-        {
-            "type": 0,
-            "value": "This book has a fine"
-        }
-    ],
-    "banner-title-author": [
-        {
-            "type": 1,
-            "value": "title"
-        },
-        {
-            "type": 0,
-            "value": " by "
-        },
-        {
-            "type": 1,
-            "value": "author"
-        }
-    ],
-    "change-login-method-timeout-message": [
-        {
-            "type": 0,
-            "value": "Timeout: "
-        },
-        {
-            "type": 1,
-            "value": "seconds"
-        },
-        {
-            "type": 0,
-            "value": "s. After this timespan the login session expires."
-        }
-    ],
-    "change-login-method-pick-login-method-header": [
-        {
-            "type": 0,
-            "value": "Pick login method"
-        }
-    ],
-    "change-login-method-pick-login-method-subheader": [
-        {
-            "type": 0,
-            "value": "The login method will be used throughout the session"
-        }
-    ],
-    "navbar-start-login-session": [
-        {
-            "type": 0,
-            "value": "Start login session"
-        }
-    ],
-    "book-is-registered": [
-        {
-            "type": 0,
-            "value": "The book has been registered. Ready for the next one"
-        }
-    ],
-    "button-navbar-check-in": [
-        {
-            "type": 0,
-            "value": "Hand in"
-        }
-    ],
-    "button-navbar-check-out": [
-        {
-            "type": 0,
-            "value": "Loan"
-        }
-    ],
-    "button-navbar-finish": [
-        {
-            "type": 0,
-            "value": "Exit"
-        }
-    ],
-    "button-status-print": [
-        {
-            "type": 0,
-            "value": "Print"
-        }
-    ],
-    "button-navbar-status": [
-        {
-            "type": 0,
-            "value": "Status"
-        }
-    ],
-    "check-in-items-delete-button": [
-        {
-            "type": 0,
-            "value": "Delete"
-        }
-    ],
-    "check-in-items-header": [
-        {
-            "type": 0,
-            "value": "Hand in"
-        }
-    ],
-    "check-in-items-help-box-text": [
-        {
-            "type": 0,
-            "value": "Use the hand scanner to scan the barcode on the book. Or enter the book's ISBN number"
-        }
-    ],
-    "check-in-items-input-label": [
-        {
-            "type": 0,
-            "value": "Barcode"
-        }
-    ],
-    "check-in-items-ok-button": [
-        {
-            "type": 0,
-            "value": "Ok"
-        }
-    ],
-    "check-in-items-subheader": [
-        {
-            "type": 0,
-            "value": "Scan the barcode of the book you are checking in"
-        }
-    ],
-    "check-out-items-delete-button": [
-        {
-            "type": 0,
-            "value": "Delete"
-        }
-    ],
-    "check-out-items-header": [
-        {
-            "type": 0,
-            "value": "Loan"
-        }
-    ],
-    "check-out-items-help-box-text": [
-        {
-            "type": 0,
-            "value": "Use the hand scanner to scan the barcode on the book"
-        }
-    ],
-    "check-out-items-input-label": [
-        {
-            "type": 0,
-            "value": "Barcode"
-        }
-    ],
-    "check-out-items-ok-button": [
-        {
-            "type": 0,
-            "value": "Ok"
-        }
-    ],
-    "check-out-items-subheader": [
-        {
-            "type": 0,
-            "value": "Scan the barcode of the book you wish to loan"
-        }
-    ],
-    "help-box-header": [
-        {
-            "type": 0,
-            "value": "Help"
-        }
-    ],
-    "initial-button-check-in": [
-        {
-            "type": 0,
-            "value": "Hand in"
-        }
-    ],
-    "initial-button-check-out": [
-        {
-            "type": 0,
-            "value": "Loan"
-        }
-    ],
-    "initial-button-status": [
-        {
-            "type": 0,
-            "value": "Status"
-        }
-    ],
-    "initial-choose-a-function": [
-        {
-            "type": 0,
-            "value": "Select a function to start"
-        }
-    ],
-    "login-not-configured": [
-        {
-            "type": 0,
-            "value": "Login method is not configured"
-        }
-    ],
-    "print-reservation-note": [
-        {
-            "type": 0,
-            "value": "Reservation note"
-        }
-    ],
-    "scan-login-header": [
-        {
-            "type": 0,
-            "value": "Login"
-        }
-    ],
-    "scan-login-help-box-text": [
-        {
-            "type": 0,
-            "value": "Use the barcode scanner to scan your library card"
-        }
-    ],
-    "scan-login-password-first-subheader": [
-        {
-            "type": 0,
-            "value": "Use the hand scanner to scan the barcode of your library card"
-        }
-    ],
-    "scan-login-password-header": [
-        {
-            "type": 0,
-            "value": "Login"
-        }
-    ],
-    "scan-login-password-input-label": [
-        {
-            "type": 0,
-            "value": "Password"
-        }
-    ],
-    "scan-login-password-password-help-box-text": [
-        {
-            "type": 0,
-            "value": "If you have forgotten your PIN code, you can contact a librarian to get a new one"
-        }
-    ],
-    "scan-login-password-password-subheader": [
-        {
-            "type": 0,
-            "value": "Enter your PIN code"
-        }
-    ],
-    "scan-login-password-second-subheader": [
-        {
-            "type": 0,
-            "value": "Enter your password"
-        }
-    ],
-    "scan-login-password-usename-help-box-text": [
-        {
-            "type": 0,
-            "value": "Use the hand scanner to scan the barcode of your library card"
-        }
-    ],
-    "scan-login-subheader": [
-        {
-            "type": 0,
-            "value": "Scan your library card"
-        }
-    ],
-    "status-header": [
-        {
-            "type": 0,
-            "value": "Status"
-        }
-    ],
-    "status-header-current-loans": [
-        {
-            "type": 0,
-            "value": "Current loans"
-        }
-    ],
-    "status-header-print": [
-        {
-            "type": 0,
-            "value": "Status"
-        }
-    ],
-    "status-header-ready-for-pickup": [
-        {
-            "type": 0,
-            "value": "Ready for pickup"
-        }
-    ],
-    "status-header-reservations": [
-        {
-            "type": 0,
-            "value": "Reservations"
-        }
-    ],
-    "status-subheader": [
-        {
-            "type": 0,
-            "value": "Your loans and reservations"
-        }
-    ],
-    "status-unavailable": [
-        {
-            "type": 0,
-            "value": "Status is temporarily unavailable"
-        }
-    ],
-    "login-error": [
-        {
-            "type": 0,
-            "value": "Login failed. Try again"
-        }
-    ],
-    "button-navbar-login-method": [
-        {
-            "type": 0,
-            "value": "Change login method"
-        }
-    ],
-    "change-login-method-scan-username": [
-        {
-            "type": 0,
-            "value": "Scan username"
-        }
-    ],
-    "change-login-method-scan-username-and-password": [
-        {
-            "type": 0,
-            "value": "Scan username and password"
-        }
-    ],
-    "navbar-stop-login-session": [
-        {
-            "type": 0,
-            "value": "Stop login session"
-        }
-    ]
+  "app-server-error": [
+    {
+      "type": 0,
+      "value": "An unexpected error happened, refresh the page and try again."
+    }
+  ],
+  "app-token-not-valid": [
+    {
+      "type": 0,
+      "value": "Token not valid. Access denied"
+    }
+  ],
+  "banner-adapter-fetching-info": [
+    {
+      "type": 0,
+      "value": "Fetching information"
+    }
+  ],
+  "banner-header-book-for-check-in": [
+    {
+      "type": 0,
+      "value": "This book must be handed in"
+    }
+  ],
+  "banner-header-book-with-fine": [
+    {
+      "type": 0,
+      "value": "This book has a fine"
+    }
+  ],
+  "banner-header-books-for-check-in": [
+    {
+      "type": 0,
+      "value": "Timeout: "
+    },
+    {
+      "type": 1,
+      "value": "seconds"
+    },
+    {
+      "type": 0,
+      "value": " s. After this timespan the session will stop."
+    }
+  ],
+  "banner-title-author": [
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " by "
+    },
+    {
+      "type": 1,
+      "value": "author"
+    }
+  ],
+  "book-is-registered": [
+    {
+      "type": 0,
+      "value": "The book has been registered. Ready for the next one"
+    }
+  ],
+  "button-navbar-check-in": [
+    {
+      "type": 0,
+      "value": "Hand in"
+    }
+  ],
+  "button-navbar-check-out": [
+    {
+      "type": 0,
+      "value": "Loan"
+    }
+  ],
+  "button-navbar-finish": [
+    {
+      "type": 0,
+      "value": "Exit"
+    }
+  ],
+  "button-navbar-login-method": [
+    {
+      "type": 0,
+      "value": "Change login method"
+    }
+  ],
+  "button-navbar-reset": [
+    {
+      "type": 0,
+      "value": "Reset"
+    }
+  ],
+  "button-navbar-status": [
+    {
+      "type": 0,
+      "value": "Status"
+    }
+  ],
+  "button-status-print": [
+    {
+      "type": 0,
+      "value": "Print"
+    }
+  ],
+  "change-login-method-help-box-header": [
+    {
+      "type": 0,
+      "value": "Information"
+    }
+  ],
+  "change-login-method-help-box-main-text": [
+    {
+      "type": 0,
+      "value": "Remember to finish, if you leave the room before the session is finished."
+    }
+  ],
+  "change-login-method-pick-login-method": [
+    {
+      "type": 0,
+      "value": "Pick login method"
+    }
+  ],
+  "change-login-method-pick-login-method-header": [
+    {
+      "type": 0,
+      "value": "Choose login method"
+    }
+  ],
+  "change-login-method-start-here": [
+    {
+      "type": 0,
+      "value": "Start here"
+    }
+  ],
+  "change-login-method-timeout-message": [
+    {
+      "type": 0,
+      "value": "You are now allowing loans with barcodes. This is possible for "
+    },
+    {
+      "type": 1,
+      "value": "minutes"
+    },
+    {
+      "type": 0,
+      "value": " minutes or until it has been cancelled."
+    }
+  ],
+  "change-login-method-username": [
+    {
+      "type": 0,
+      "value": "Username"
+    }
+  ],
+  "change-login-method-username-password": [
+    {
+      "type": 0,
+      "value": "Username and password"
+    }
+  ],
+  "check-in-items-delete-button": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "check-in-items-header": [
+    {
+      "type": 0,
+      "value": "Hand in"
+    }
+  ],
+  "check-in-items-help-box-text": [
+    {
+      "type": 0,
+      "value": "Use the hand scanner to scan the barcode on the book"
+    }
+  ],
+  "check-in-items-input-label": [
+    {
+      "type": 0,
+      "value": "Barcode"
+    }
+  ],
+  "check-in-items-ok-button": [
+    {
+      "type": 0,
+      "value": "Ok"
+    }
+  ],
+  "check-in-items-subheader": [
+    {
+      "type": 0,
+      "value": "Scan the barcode of the book you are checking in"
+    }
+  ],
+  "check-out-items-delete-button": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "check-out-items-header": [
+    {
+      "type": 0,
+      "value": "Loan"
+    }
+  ],
+  "check-out-items-help-box-text": [
+    {
+      "type": 0,
+      "value": "Use the hand scanner to scan the barcode on the book"
+    }
+  ],
+  "check-out-items-input-label": [
+    {
+      "type": 0,
+      "value": "Barcode"
+    }
+  ],
+  "check-out-items-ok-button": [
+    {
+      "type": 0,
+      "value": "Ok"
+    }
+  ],
+  "check-out-items-subheader": [
+    {
+      "type": 0,
+      "value": "Scan the barcode of the book you wish to loan"
+    }
+  ],
+  "help-box-header": [
+    {
+      "type": 0,
+      "value": "Help"
+    }
+  ],
+  "initial-button-check-in": [
+    {
+      "type": 0,
+      "value": "Hand in"
+    }
+  ],
+  "initial-button-check-out": [
+    {
+      "type": 0,
+      "value": "Loan"
+    }
+  ],
+  "initial-button-status": [
+    {
+      "type": 0,
+      "value": "Status"
+    }
+  ],
+  "initial-choose-a-function": [
+    {
+      "type": 0,
+      "value": "Select a function to start"
+    }
+  ],
+  "login-error": [
+    {
+      "type": 0,
+      "value": "Login failed. Try again"
+    }
+  ],
+  "login-not-configured": [
+    {
+      "type": 0,
+      "value": "Login method is not configured"
+    }
+  ],
+  "navbar-start-login-session": [
+    {
+      "type": 0,
+      "value": "Start login session"
+    }
+  ],
+  "navbar-stop-login-session": [
+    {
+      "type": 0,
+      "value": "Stop login session"
+    }
+  ],
+  "print-reservation-note": [
+    {
+      "type": 0,
+      "value": "Reservation note"
+    }
+  ],
+  "scan-login-header": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
+  "scan-login-help-box-text": [
+    {
+      "type": 0,
+      "value": "Use the barcode scanner to scan your library card"
+    }
+  ],
+  "scan-login-password-first-subheader": [
+    {
+      "type": 0,
+      "value": "Use the hand scanner to scan the barcode of your library card"
+    }
+  ],
+  "scan-login-password-header": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
+  "scan-login-password-input-label": [
+    {
+      "type": 0,
+      "value": "Password"
+    }
+  ],
+  "scan-login-password-password-help-box-text": [
+    {
+      "type": 0,
+      "value": "If you have forgotten your PIN code, you can contact a librarian to get a new one"
+    }
+  ],
+  "scan-login-password-password-subheader": [
+    {
+      "type": 0,
+      "value": "Enter your PIN code"
+    }
+  ],
+  "scan-login-password-second-subheader": [
+    {
+      "type": 0,
+      "value": "Enter your password"
+    }
+  ],
+  "scan-login-password-usename-help-box-text": [
+    {
+      "type": 0,
+      "value": "Use the hand scanner to scan the barcode of your library card"
+    }
+  ],
+  "scan-login-subheader": [
+    {
+      "type": 0,
+      "value": "Scan your library card"
+    }
+  ],
+  "status-header": [
+    {
+      "type": 0,
+      "value": "Status"
+    }
+  ],
+  "status-header-current-loans": [
+    {
+      "type": 0,
+      "value": "Current loans"
+    }
+  ],
+  "status-header-print": [
+    {
+      "type": 0,
+      "value": "Status"
+    }
+  ],
+  "status-header-ready-for-pickup": [
+    {
+      "type": 0,
+      "value": "Ready for pickup"
+    }
+  ],
+  "status-header-reservations": [
+    {
+      "type": 0,
+      "value": "Reservations"
+    }
+  ],
+  "status-subheader": [
+    {
+      "type": 0,
+      "value": "Your loans and reservations"
+    }
+  ],
+  "status-unavailable": [
+    {
+      "type": 0,
+      "value": "Status is temporarily unavailable"
+    }
+  ]
 }

@@ -21,7 +21,7 @@ const Alert = ({ message, variant }) => {
     const classes = `alert alert-${variant || 'danger'} m-5`;
 
     return (
-        <div className={classes} role="alert">
+        <div className={classes} style={{ width: '100%' }} role="alert">
             {message}
         </div>
     );
