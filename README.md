@@ -261,22 +261,10 @@ APP_SECRET=SECRET
 DATABASE_URL=mysql://DB_USER:DB_PASSWORD@mariadb:3306/DB_NAME
 ```
 
-Install symfony packages
+To install and build please run the supplied [restart.sh](restart.sh) script.
 
 ```sh
-composer install --no-dev -o
-```
-
-Run database migrations
-
-```sh
-bin/console doctrine:migrations:migrate
-```
-
-### Building production assets for the frontend
-
-```sh
-docker-compose exec frontend bash -c 'npm run build'
+./restart.sh
 ```
 
 ## Translations
