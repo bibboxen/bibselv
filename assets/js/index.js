@@ -4,20 +4,18 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import '../scss/index.scss';
 import App from './app';
 import socketIOClient from 'socket.io-client';
 
 const rootElement = document.getElementById('reactjs-root');
 const socket = socketIOClient(rootElement.getAttribute('data-socket-uri'));
+const root = createRoot(rootElement);
 
-ReactDOM.render(
-    <React.StrictMode>
-        <App
-            uniqueId={rootElement.getAttribute('data-unique-id')}
-            socket={socket}
-        />
-    </React.StrictMode>,
-    rootElement
-);
+root.render(<React.StrictMode>
+    <App
+        uniqueId={rootElement.getAttribute('data-unique-id')}
+        socket={socket}
+    />
+</React.StrictMode>);
