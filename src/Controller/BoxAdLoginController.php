@@ -7,10 +7,8 @@
 
 namespace App\Controller;
 
-use App\Exception\AzureAdException;
 use App\Service\AzureAdService;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
-use ItkDev\OpenIdConnect\Exception\ValidationException;
 use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;

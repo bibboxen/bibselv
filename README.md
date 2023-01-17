@@ -50,7 +50,7 @@ cp engine/example_config.json engine/config.json
 Install dependencies for the engine.
 
 ```sh
-docker-compose run engine bash -c './scripts/install.sh dev'
+docker-compose run engine bash -c './scripts/install.sh --also=dev'
 ```
 
 ### Environment variables
