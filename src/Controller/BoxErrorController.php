@@ -58,7 +58,7 @@ class BoxErrorController extends AbstractController
             'boxName' => $boxName,
             'exceptionMessage' => $exceptionMessage,
             'error' => $error,
-            'errorDescription' => nl2br($errorDescription),
+            'errorDescription' => $errorDescription,
         ]);
     }
 }
