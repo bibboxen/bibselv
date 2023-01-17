@@ -36,7 +36,7 @@
                             <dt class="col-sm-2">{{ 'Error Message' | trans}}</dt>
                             <dd class="col-sm-10">{{ error ?? 'Unknown' }}</dd>
                             <dt class="col-sm-2">{{ 'Error Description' | trans}}</dt>
-                            <dd class="col-sm-10">{{ errorDescription ?? 'Unknown' }}</dd>
+                            <dd class="col-sm-10">{{ errorDescription | nl2br ?? 'Unknown' }}</dd>
                         {% else %}
                             <dt class="col-sm-2">{{ 'Exception Message' | trans}}</dt>
                             <dd class="col-sm-10">{{ exceptionMessage ?? 'Unknown' }}</dd>
