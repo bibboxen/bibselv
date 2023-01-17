@@ -92,7 +92,7 @@ class AzureAdService
      *
      * @return AdLoginState
      *
-     * @throws ValidationException|InvalidProviderException
+     * @throws AzureAdException
      */
     public function getAdLoginState(Request $request): AdLoginState
     {
