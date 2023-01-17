@@ -2,6 +2,19 @@
 
 {% block title %}{{ boxName ?? 'Bibbox'}}: {{ 'Error' | trans }}{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function redirect () {
+            setTimeout(myURL, 5000);
+        }
+
+        function myURL() {
+            document.location.href = '{{ boxUrl }}';
+        }
+    </script>
+{% endblock %}
+
 {% block body %}
     <div class="root">
         <div>
@@ -13,12 +26,12 @@
             </div>
             <div class="container-md">
                 <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">{{ 'An error occurred while logging in:'|trans }}</h4>
                     <dl class="row">
                         <dt class="col-sm-2">{{ 'Box Id' | trans }}</dt>
                         <dd class="col-sm-10">{{ boxId ?? 'Unknown' }}</dd>
                         <dt class="col-sm-2">{{ 'Box Name' | trans}}</dt>
                         <dd class="col-sm-10">{{ boxName ?? 'Unknown' }}</dd>
-                        <h4 class="alert-heading">{{ 'An error occurred while logging in:'|trans }}</h4>
                         {% if errorDescription %}
                             <dt class="col-sm-2">{{ 'Error Message' | trans}}</dt>
                             <dd class="col-sm-10">{{ error ?? 'Unknown' }}</dd>
