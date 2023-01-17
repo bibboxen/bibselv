@@ -5,13 +5,29 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        function redirect () {
-            setTimeout(myURL, 5000);
-        }
+        let seconds = 30; // seconds for HTML
+        let foo; // variable for clearInterval() function
 
-        function myURL() {
+        function redirect() {
             document.location.href = '{{ boxUrl }}';
         }
+
+        function updateSecs() {
+            document.getElementById("seconds").innerHTML = seconds.toString();
+            seconds--;
+            if (seconds == -1) {
+                clearInterval(foo);
+                redirect();
+            }
+        }
+
+        function countdownTimer() {
+            foo = setInterval(function () {
+                updateSecs()
+            }, 1000);
+        }
+
+        countdownTimer();
     </script>
 {% endblock %}
 
@@ -36,7 +52,7 @@
                             <dt class="col-sm-2">{{ 'Error Message' | trans}}</dt>
                             <dd class="col-sm-10">{{ error ?? 'Unknown' }}</dd>
                             <dt class="col-sm-2">{{ 'Error Description' | trans}}</dt>
-                            <dd class="col-sm-10">{{ errorDescription | nl2br ?? 'Unknown' }}</dd>
+                            <dd class="col-sm-10">{{ errorDescription ?? 'Unknown' }}</dd>
                         {% else %}
                             <dt class="col-sm-2">{{ 'Exception Message' | trans}}</dt>
                             <dd class="col-sm-10">{{ exceptionMessage ?? 'Unknown' }}</dd>
@@ -47,12 +63,14 @@
                 </div>
             </div>
             <div class="container-md pt-4">
-                <p class="text-center">
-                    {% if boxUrl %}
+                {% if boxUrl %}
+                    <p class="text-center">
                         <a class="btn btn-outline-dark" href="{{ boxUrl }}" role="button">◀ {{ 'Return to box' | trans }}</a>
-                    {% else %}
-                        {{ 'Please restart your browser' | trans }}
-                    {% endif %}
+                    </p>
+                    <p class="text-center text-muted">The box should automatically reload in <span id="seconds">7</span> seconds.</p>
+                {% else %}
+                    <p class="text-center">{{ 'Please restart your browser' | trans }}</p>
+                {% endif %}
                 </p>
             </div>
         </div>
