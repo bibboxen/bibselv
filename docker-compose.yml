@@ -134,5 +134,6 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      # "wsize=65536,rsize=65536" @see https://github.com/docker/for-mac/issues/6544
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3,wsize=65536,rsize=65536
       device: ":$PWD"

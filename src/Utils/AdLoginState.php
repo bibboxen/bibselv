@@ -53,6 +53,6 @@ class AdLoginState implements \Serializable
             $this->state,
             $this->accountType,
             $this->userName
-            ) = $list;
+        ) = $list;
     }
 }

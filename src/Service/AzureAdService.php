@@ -80,7 +80,7 @@ class AzureAdService
      */
     public function getLogoutUrl(): string
     {
-        //@TODO Needs to be implemented in https://github.com/itk-dev/openid-connect
+        // @TODO Needs to be implemented in https://github.com/itk-dev/openid-connect
 
         return '';
     }
