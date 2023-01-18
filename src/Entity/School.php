@@ -22,7 +22,6 @@ class School
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
      * @Groups("boxConfiguration")
      */
     private $name;
