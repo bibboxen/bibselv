@@ -35,8 +35,8 @@
         "fakerphp/faker": "^1.16",
         "friendsofphp/php-cs-fixer": "^3.1",
         "symfony/maker-bundle": "^1.21",
-        "symfony/stopwatch": "5.3.*",
-        "symfony/web-profiler-bundle": "5.3.*"
+        "symfony/stopwatch": "5.4.*",
+        "symfony/web-profiler-bundle": "5.4.*"
     },
     "config": {
         "preferred-install": {
@@ -79,30 +79,10 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "apply-coding-standards": [
-            "@apply-coding-standards/php-cs-fixer",
-            "@apply-coding-standards/phpcs"
-        ],
-        "check-coding-standards": [
-            "@check-coding-standards/php-cs-fixer",
-            "@check-coding-standards/phpcs"
-        ],
-        "check-coding-standards/php-cs-fixer": [
-            "vendor/bin/php-cs-fixer fix --format=checkstyle --dry-run"
-        ],
-        "check-coding-standards/phpcs": [
-            "phpcs --standard=phpcs.xml.dist"
-        ],
-        "apply-coding-standards/php-cs-fixer": [
+        "coding-standards-apply": [
             "vendor/bin/php-cs-fixer fix --format=checkstyle"
         ],
-        "apply-coding-standards/phpcs": [
-            "phpcbf --standard=phpcs.xml.dist"
-        ],
-        "actions/phpcs": [
-            "phpcs --standard=phpcs.xml.dist --report=checkstyle"
-        ],
-        "actions/phpcsfixer": [
+        "coding-standards-check": [
             "vendor/bin/php-cs-fixer fix --format=checkstyle --dry-run"
         ],
         "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'"
