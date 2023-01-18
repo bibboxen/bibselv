@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.6] - 2023-01-18
+
+- Fixed missing getUserIdentifier() function in User entity
+- Added missing npm install in retsart script
+
+## [1.0.5] - 2023-01-18
+
 - Fixed exception handling for Azure errors
 - Removed phpcs
 - Updated composer packages
