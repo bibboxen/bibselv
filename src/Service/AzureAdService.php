@@ -6,7 +6,6 @@ use App\Exception\AzureAdException;
 use App\Utils\AdLoginState;
 use App\Utils\Types\BoxFlowStates;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
-use ItkDev\OpenIdConnect\Exception\ValidationException;
 use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use ItkDev\OpenIdConnectBundle\Security\OpenIdConfigurationProviderManager;
 use Psr\Cache\InvalidArgumentException;
@@ -64,7 +63,7 @@ class AzureAdService
     {
         $provider = $this->providerManager->getProvider(self::AZURE_AD_KEY);
         $session = $this->requestStack->getSession();
-        $boxState = $uniqueId.':'.$boxState;
+        $boxState = $uniqueId . ':' . $boxState;
 
         $nonce = $provider->generateNonce();
         $session->set('oauth2nonce', $nonce);
@@ -92,7 +91,7 @@ class AzureAdService
      *
      * @return AdLoginState
      *
-     * @throws ValidationException|InvalidProviderException
+     * @throws AzureAdException
      */
     public function getAdLoginState(Request $request): AdLoginState
     {

@@ -2,6 +2,35 @@
 
 {% block title %}{{ boxName ?? 'Bibbox'}}: {{ 'Error' | trans }}{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let seconds = 30; // seconds for HTML
+        let foo; // variable for clearInterval() function
+
+        function redirect() {
+            document.location.href = '{{ boxUrl }}';
+        }
+
+        function updateSecs() {
+            document.getElementById("seconds").innerHTML = seconds.toString();
+            seconds--;
+            if (seconds == -1) {
+                clearInterval(foo);
+                redirect();
+            }
+        }
+
+        function countdownTimer() {
+            foo = setInterval(function () {
+                updateSecs()
+            }, 1000);
+        }
+
+        countdownTimer();
+    </script>
+{% endblock %}
+
 {% block body %}
     <div class="root">
         <div>
@@ -19,20 +48,29 @@
                         <dd class="col-sm-10">{{ boxId ?? 'Unknown' }}</dd>
                         <dt class="col-sm-2">{{ 'Box Name' | trans}}</dt>
                         <dd class="col-sm-10">{{ boxName ?? 'Unknown' }}</dd>
-                        <dt class="col-sm-2">{{ 'Error Message' | trans}}</dt>
-                        <dd class="col-sm-10">{{ exceptionMessage ?? 'Unknown' }}</dd>
+                        {% if errorDescription %}
+                            <dt class="col-sm-2">{{ 'Error Message' | trans}}</dt>
+                            <dd class="col-sm-10">{{ error ?? 'Unknown' }}</dd>
+                            <dt class="col-sm-2">{{ 'Error Description' | trans}}</dt>
+                            <dd class="col-sm-10">{{ errorDescription | nl2br }}</dd>
+                        {% else %}
+                            <dt class="col-sm-2">{{ 'Exception Message' | trans}}</dt>
+                            <dd class="col-sm-10">{{ exceptionMessage ?? 'Unknown' }}</dd>
+                        {% endif %}
                     </dl>
                     <hr>
                     <p class="mb-0">{{ 'now' | date('Y-m-d\TH:i:sO') }} - {{ 'The error has been logged for debugging.' | trans }}</p>
                 </div>
             </div>
             <div class="container-md pt-4">
-                <p class="text-center">
-                    {% if boxUrl %}
+                {% if boxUrl %}
+                    <p class="text-center">
                         <a class="btn btn-outline-dark" href="{{ boxUrl }}" role="button">◀ {{ 'Return to box' | trans }}</a>
-                    {% else %}
-                        {{ 'Please restart your browser' | trans }}
-                    {% endif %}
+                    </p>
+                    <p class="text-center text-muted">The box should automatically reload in <span id="seconds">7</span> seconds.</p>
+                {% else %}
+                    <p class="text-center">{{ 'Please restart your browser' | trans }}</p>
+                {% endif %}
                 </p>
             </div>
         </div>
