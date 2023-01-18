@@ -81,6 +81,18 @@ class User implements UserInterface
     /**
      * A visual identifier that represents this user.
      *
+     * @see https://symfony.com/blog/new-in-symfony-5-3-improvements-for-security-users#renamed-username-to-identifier
+     *
+     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
      * @return string
      */
     public function getUsername(): string
