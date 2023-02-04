@@ -25,13 +25,13 @@ ReactDOM.render(
 // Initialize web worker to check for unresponsive frontend.
 // If it is unresponsive, reload the page.
 if (window.Worker) {
-    const myWorker = new Worker("../worker.js");
+    const myWorker = new Worker('../worker.js');
 
     myWorker.onmessage = function(e) {
         if (e.data === 'reload') {
             window.location.reload();
         }
-    }
+    };
 
     myWorker.postMessage('ping');
 
