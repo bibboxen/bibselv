@@ -28,16 +28,15 @@ if (window.Worker) {
     const myWorker = new Worker('../worker.js');
 
     myWorker.onmessage = function(e) {
-        if (e.data === 'reload') {
-            window.location.reload();
+        switch (e?.data) {
+            case 'reload':
+                window.location.reload();
+                break;
+            case 'ping':
+                myWorker.postMessage('pong');
+                break;
         }
     };
-
-    myWorker.postMessage('ping');
-
-    setInterval(() => {
-        myWorker.postMessage('ping');
-    }, 5000);
 } else {
     console.warn('Your browser does not support web workers.');
 }
