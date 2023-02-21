@@ -19,3 +19,22 @@ root.render(<React.StrictMode>
         socket={socket}
     />
 </React.StrictMode>);
+
+// Initialize web worker to check for unresponsive frontend.
+// If it is unresponsive, reload the page.
+if (window.Worker) {
+    const myWorker = new Worker('../worker.js');
+
+    myWorker.onmessage = function(e) {
+        switch (e?.data) {
+            case 'reload':
+                window.location.reload();
+                break;
+            case 'ping':
+                myWorker.postMessage('pong');
+                break;
+        }
+    };
+} else {
+    console.warn('Your browser does not support web workers.');
+}

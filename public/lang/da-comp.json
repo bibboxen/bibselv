@@ -412,5 +412,17 @@
       "type": 0,
       "value": "Status er midlertidigt utilgængeligt"
     }
+  ],
+  "socket-io-offline": [
+    {
+      "type": 0,
+      "value": "Forbindelsen til serveren er afbrudt."
+    }
+  ],
+  "socket-io-offline-action": [
+    {
+      "type": 0,
+      "value": "Prøver at genetablere forbindelsen..."
+    }
   ]
 }

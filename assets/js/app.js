@@ -9,8 +9,16 @@ import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
-import { AppTokenNotValid, ServerError } from './steps/utils/formatted-messages';
+import {
+    AppTokenNotValid,
+    LoginLoginError,
+    ServerError,
+    SocketIOOffline,
+    SocketIOOfflineAction
+} from './steps/utils/formatted-messages';
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
+import Alert from "./steps/utils/alert";
+import {Spinner} from "react-bootstrap";
 
 /**
  * App. The main entrypoint of the react application.
@@ -27,6 +35,7 @@ function App({ uniqueId, socket }) {
     const reloadTimeout = 30000;
     const refreshTime = 60 * 60;
 
+    const [socketConnected, setSocketConnected] = useState(null);
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [connectionState, setConnectionState] = useState(CONNECTION_OFFLINE);
@@ -47,7 +56,7 @@ function App({ uniqueId, socket }) {
 
         let token = getToken();
 
-        // Get token. @TODO: Login to ensure
+        // Get token.
         if (token === false) {
             socket.emit('GetToken', {
                 uniqueId: uniqueId
@@ -109,6 +118,14 @@ function App({ uniqueId, socket }) {
             socket.emit('ClientReady', {
                 token: token
             });
+        });
+
+        socket.on("connect", () => {
+            setSocketConnected(true);
+        });
+
+        socket.on("disconnect", () => {
+            setSocketConnected(false);
         });
 
         // Handle when FBS is online.
@@ -310,7 +327,28 @@ function App({ uniqueId, socket }) {
 
     return (
         <IntlProvider locale={language} messages={messages}>
-            {machineState && boxConfig && (
+            {socketConnected === false && (
+                <div className="container">
+                    <div className="alert alert-danger m-5" style={{ width: '100%' }} role="alert">
+                        <h3>{SocketIOOffline}</h3>
+                        <h5>{SocketIOOfflineAction}</h5>
+                        <table>
+                            <tr>
+                                <td>
+                                    <strong>Box Id</strong>
+                                </td>
+                                <td>
+                                    <strong>{boxConfig.uniqueId}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><Spinner animation={"border"} /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            )}
+            {socketConnected !== false && machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
                         element={document}
