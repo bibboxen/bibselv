@@ -39,6 +39,8 @@ class BoxErrorController extends AbstractController
     {
         $uniqueId = $session->get('boxId');
         $exceptionMessage = $session->get('exceptionMessage');
+        $error = $session->get('error');
+        $errorDescription = $session->get('errorDescription');
 
         if (null !== $uniqueId) {
             $boxUrl = $this->generateUrl('box_frontend_load', ['uniqueId' => $uniqueId], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -55,6 +57,8 @@ class BoxErrorController extends AbstractController
             'boxUrl' => $boxUrl,
             'boxName' => $boxName,
             'exceptionMessage' => $exceptionMessage,
+            'error' => $error,
+            'errorDescription' => $errorDescription,
         ]);
     }
 }

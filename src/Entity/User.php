@@ -26,7 +26,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     *
      * @Assert\Email()
      */
     private $email;
@@ -77,6 +76,18 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see https://symfony.com/blog/new-in-symfony-5-3-improvements-for-security-users#renamed-username-to-identifier
+     *
+     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
     }
 
     /**

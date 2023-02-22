@@ -17,35 +17,30 @@ class BoxConfiguration
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     *
      * @Groups("boxConfiguration")
      */
     private $id;
 
     /**
      * @ORM\Column(type="boolean")
-     *
      * @Groups("boxConfiguration")
      */
     private $hasPrinter;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
      * @Groups("boxConfiguration")
      */
     private $reservedMaterialInstruction;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @Groups("boxConfiguration")
      */
     private $inactivityTimeOut;
 
     /**
      * @ORM\Column(type="boolean")
-     *
      * @Groups("boxConfiguration")
      */
     private $soundEnabled;
@@ -53,7 +48,6 @@ class BoxConfiguration
     /**
      * @ORM\ManyToOne(targetEntity=School::class, inversedBy="boxConfigurations")
      * @ORM\JoinColumn(nullable=false)
-     *
      * @Groups("boxConfiguration")
      */
     private $school;
@@ -65,7 +59,6 @@ class BoxConfiguration
 
     /**
      * @ORM\Column(type="string", length=25, nullable=true)
-     *
      * @Groups("boxConfiguration")
      */
     private $loginMethod;
@@ -77,14 +70,12 @@ class BoxConfiguration
 
     /**
      * @ORM\Column(type="boolean")
-     *
      * @Groups("boxConfiguration")
      */
     private $hasTouch;
 
     /**
      * @ORM\Column(type="boolean")
-     *
      * @Groups("boxConfiguration")
      */
     private $hasKeyboard;
@@ -95,7 +86,6 @@ class BoxConfiguration
      *
      * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
      * @ORM\JoinColumn(nullable=false)
-     *
      * @Groups("boxConfiguration")
      */
     private $sip2User;
@@ -103,63 +93,54 @@ class BoxConfiguration
 
     /**
      * @ORM\Column(type="string", length=32)
-     *
      * @Groups("boxConfiguration")
      */
     private $defaultPassword;
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
-     *
      * @Groups("boxConfiguration")
      */
     private $debugEnabled = false;
 
     /**
      * @ORM\Column(type="string", length=2, nullable=true, options={"default": "EN"}))
-     *
      * @Groups("boxConfiguration")
      */
     private $defaultLanguageCode = 'EN';
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
      * @Groups("boxConfiguration")
      */
     private $uniqueId;
 
     /**
      * @ORM\Column(type="boolean", nullable=true, options={"default":"1"})
-     *
      * @Groups("boxConfiguration")
      */
     private $hasFrontpageCheckIn = true;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Groups("boxConfiguration")
      */
     private $loginSessionTimeout;
 
     /**
      * @ORM\Column(type="boolean")
-     *
      * @Groups("boxConfiguration")
      */
     private $loginSessionEnabled;
 
     /**
      * @ORM\Column(type="json", nullable=true)
-     *
      * @Groups("boxConfiguration")
      */
     private $loginSessionMethods = [];
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     *
      * @Groups("boxConfiguration")
      */
     private $barcodeTimeout;

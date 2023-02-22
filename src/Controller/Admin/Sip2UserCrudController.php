@@ -55,6 +55,6 @@ class Sip2UserCrudController extends AbstractCrudController
         return $filters
             ->add('username')
             ->add('boxConfigurations')
-            ;
+        ;
     }
 }

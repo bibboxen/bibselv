@@ -9,7 +9,6 @@ namespace App\Controller;
 
 use App\Service\AzureAdService;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
-use ItkDev\OpenIdConnect\Exception\ValidationException;
 use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -95,10 +94,16 @@ class BoxAdLoginController extends AbstractController
             $boxUrl = $this->generateUrl('box_frontend_load', ['uniqueId' => $loginState->boxId]);
 
             return new RedirectResponse($boxUrl);
-        } catch (ValidationException|InvalidArgumentException|InvalidProviderException $exception) {
+        } catch (\Exception|InvalidArgumentException $exception) {
+            $error = $request->query->get('error');
+            $errorDescription = urldecode($request->query->get('error_description'));
+
             $session->set('exceptionMessage', $exception->getMessage());
+            $session->set('error', 'Azure Ad: '.$error);
+            $session->set('errorDescription', $errorDescription);
 
             $this->securityLogger->error($exception);
+            $this->securityLogger->error($request);
 
             return $this->redirectToRoute('app_box_error');
         }
