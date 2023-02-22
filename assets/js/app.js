@@ -1,6 +1,6 @@
 /**
  * @file
- * The main entrypoint of the react application.
+ * The main entrypoint of the React application.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -11,17 +11,15 @@ import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
 import {
     AppTokenNotValid,
-    LoginLoginError,
     ServerError,
     SocketIOOffline,
-    SocketIOOfflineAction
+    SocketIOOfflineAction, SocketIOOfflineInformation
 } from './steps/utils/formatted-messages';
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
-import Alert from "./steps/utils/alert";
 import {Spinner} from "react-bootstrap";
 
 /**
- * App. The main entrypoint of the react application.
+ * App. The main entrypoint of the React application.
  *
  * @param uniqueId
  *   The unique id of the configuration to load.
@@ -44,6 +42,7 @@ function App({ uniqueId, socket }) {
     const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
     const [tokenTimeout, setTokenTimeout] = useState(null);
+    const [currentTime, setCurrentTime] = useState(new Date());
 
     /**
      * Set up application with configuration and socket connections.
@@ -128,6 +127,13 @@ function App({ uniqueId, socket }) {
             setSocketConnected(false);
         });
 
+        socket.on("connect_error", () => {
+            setSocketConnected(false);
+            setTimeout(() => {
+                socket.connect();
+            }, 1000);
+        });
+
         // Handle when FBS is online.
         socket.on('Online', () => {
             setConnectionState(CONNECTION_ONLINE);
@@ -156,6 +162,21 @@ function App({ uniqueId, socket }) {
                 idleTimerRef.current.reset();
             }
             setMachineState(data);
+        });
+
+        setInterval(() => {
+            setCurrentTime(new Date())
+        }, 1000);
+
+        // Add catch all for unhandled exceptions.
+        window.addEventListener("error", function (e) {
+            setErrorMessage("Error occurred: " + e.error.message);
+            return false;
+        });
+
+        // Add catch all for unhandled promise rejections.
+        window.addEventListener('unhandledrejection', function (e) {
+            setErrorMessage("Error occurred: " + e.reason.message);
         });
     }, []);
 
@@ -186,7 +207,8 @@ function App({ uniqueId, socket }) {
                 token: token
             });
         } else {
-            socket.emit('ClientEvent', {
+            // Volatile to avoid executing a lot of actions when reconnected.
+            socket.volatile.emit('ClientEvent', {
                 name: 'Action',
                 action: action,
                 token: token,
@@ -327,24 +349,16 @@ function App({ uniqueId, socket }) {
 
     return (
         <IntlProvider locale={language} messages={messages}>
+            {currentTime && <div className="current-time">{currentTime.getHours()}:{currentTime.getMinutes()}</div>}
             {socketConnected === false && (
                 <div className="container">
                     <div className="alert alert-danger m-5" style={{ width: '100%' }} role="alert">
                         <h3>{SocketIOOffline}</h3>
-                        <h5>{SocketIOOfflineAction}</h5>
-                        <table>
-                            <tr>
-                                <td>
-                                    <strong>Box Id</strong>
-                                </td>
-                                <td>
-                                    <strong>{boxConfig.uniqueId}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><Spinner animation={"border"} /></td>
-                            </tr>
-                        </table>
+                        <strong>{SocketIOOfflineInformation}</strong>
+                        <div style={{display: "flex", alignItems: 'center', flexDirection: 'column'}}>
+                            <div><Spinner animation={"border"} className="m-3" /></div>
+                            <h5>{SocketIOOfflineAction}</h5>
+                        </div>
                     </div>
                 </div>
             )}

@@ -195,9 +195,12 @@
         "defaultMessage": "Vælg loginmetode"
     },
     "socket-io-offline": {
-        "defaultMessage": "Forbindelsen til serveren er afbrudt. Prøver at genetablere forbindelsen..."
+        "defaultMessage": "Forbindelsen til serveren er afbrudt."
     },
     "socket-io-offline-action": {
         "defaultMessage": "Prøver at genetablere forbindelsen..."
+    },
+    "socket-io-offline-information": {
+        "defaultMessage": "Dette kan skyldes, at forbindelsen til internettet er afbrudt eller ustabil."
     }
 }

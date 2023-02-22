@@ -128,3 +128,4 @@ export function ChangeLoginMethodTimeoutMessage(seconds) {
 
 export const SocketIOOffline = <FormattedMessage id='socket-io-offline' defaultMessage='socket-io-offline' />;
 export const SocketIOOfflineAction = <FormattedMessage id='socket-io-offline-action' defaultMessage='socket-io-offline-action' />;
+export const SocketIOOfflineInformation = <FormattedMessage id='socket-io-offline-information' defaultMessage='socket-io-offline-information' />;

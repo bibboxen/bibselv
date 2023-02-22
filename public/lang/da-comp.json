@@ -424,5 +424,11 @@
       "type": 0,
       "value": "Prøver at genetablere forbindelsen..."
     }
+  ],
+  "socket-io-offline-information": [
+    {
+      "type": 0,
+      "value": "Dette kan skyldes, at forbindelsen til internettet er afbrudt eller ustabil."
+    }
   ]
 }
