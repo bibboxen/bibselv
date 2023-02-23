@@ -50,7 +50,7 @@ cp engine/example_config.json engine/config.json
 Install dependencies for the engine.
 
 ```sh
-docker-compose run engine bash -c './scripts/install.sh'
+docker-compose run engine bash -c './scripts/install.sh --also=dev'
 ```
 
 ### Environment variables
@@ -86,6 +86,20 @@ Install database schema for Symfony using migrations, run
 ```sh
 docker-compose exec phpfpm bash -c 'bin/console doctrine:migrations:migrate'
 ```
+
+To populate the databasde with meaningful test data run the doctrine fixtures
+
+```sh
+docker-compose exec phpfpm bash -c 'bin/console doctrine:fixtures:load'
+```
+
+To create a test user run
+
+```sh
+docker-compose exec phpfpm bash -c 'bin/console app:user:create --email=admin@example.com --password=admin'
+```
+
+
 
 ### Restart
 
@@ -261,22 +275,10 @@ APP_SECRET=SECRET
 DATABASE_URL=mysql://DB_USER:DB_PASSWORD@mariadb:3306/DB_NAME
 ```
 
-Install symfony packages
+To install and build please run the supplied [restart.sh](restart.sh) script.
 
 ```sh
-composer install --no-dev -o
-```
-
-Run database migrations
-
-```sh
-bin/console doctrine:migrations:migrate
-```
-
-### Building production assets for the frontend
-
-```sh
-docker-compose exec frontend bash -c 'npm run build'
+./restart.sh
 ```
 
 ## Translations

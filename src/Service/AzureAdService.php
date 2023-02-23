@@ -6,7 +6,6 @@ use App\Exception\AzureAdException;
 use App\Utils\AdLoginState;
 use App\Utils\Types\BoxFlowStates;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
-use ItkDev\OpenIdConnect\Exception\ValidationException;
 use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use ItkDev\OpenIdConnectBundle\Security\OpenIdConfigurationProviderManager;
 use Psr\Cache\InvalidArgumentException;
@@ -80,7 +79,7 @@ class AzureAdService
      */
     public function getLogoutUrl(): string
     {
-        //@TODO Needs to be implemented in https://github.com/itk-dev/openid-connect
+        // @TODO Needs to be implemented in https://github.com/itk-dev/openid-connect
 
         return '';
     }
@@ -92,7 +91,7 @@ class AzureAdService
      *
      * @return AdLoginState
      *
-     * @throws ValidationException|InvalidProviderException
+     * @throws AzureAdException
      */
     public function getAdLoginState(Request $request): AdLoginState
     {

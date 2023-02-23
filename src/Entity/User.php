@@ -19,7 +19,9 @@ class User implements UserInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -47,6 +49,7 @@ class User implements UserInterface
      * Virtual field used in easy admin forms to enter password in plain text.
      *
      * @Assert\NotBlank()
+     *
      * @Assert\Length(min=5, max=128)
      */
     private ?string $plainPassword = null;
@@ -77,6 +80,18 @@ class User implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see https://symfony.com/blog/new-in-symfony-5-3-improvements-for-security-users#renamed-username-to-identifier
+     *
+     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
     }
 
     /**
