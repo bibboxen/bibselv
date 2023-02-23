@@ -16,7 +16,7 @@ import {
     SocketIOOfflineAction, SocketIOOfflineInformation
 } from './steps/utils/formatted-messages';
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
-import {Spinner} from "react-bootstrap";
+import { Spinner } from 'react-bootstrap';
 
 /**
  * App. The main entrypoint of the React application.
@@ -119,15 +119,15 @@ function App({ uniqueId, socket }) {
             });
         });
 
-        socket.on("connect", () => {
+        socket.on('connect', () => {
             setSocketConnected(true);
         });
 
-        socket.on("disconnect", () => {
+        socket.on('disconnect', () => {
             setSocketConnected(false);
         });
 
-        socket.on("connect_error", () => {
+        socket.on('connect_error', () => {
             setSocketConnected(false);
             setTimeout(() => {
                 socket.connect();
@@ -165,18 +165,18 @@ function App({ uniqueId, socket }) {
         });
 
         setInterval(() => {
-            setCurrentTime(new Date())
+            setCurrentTime(new Date());
         }, 1000);
 
         // Add catch all for unhandled exceptions.
-        window.addEventListener("error", function (e) {
-            setErrorMessage("Error occurred: " + e.error.message);
+        window.addEventListener('error', function(e) {
+            setErrorMessage('Error occurred: ' + e.error.message);
             return false;
         });
 
         // Add catch all for unhandled promise rejections.
-        window.addEventListener('unhandledrejection', function (e) {
-            setErrorMessage("Error occurred: " + e.reason.message);
+        window.addEventListener('unhandledrejection', function(e) {
+            setErrorMessage('Error occurred: ' + e.reason.message);
         });
     }, []);
 
@@ -355,8 +355,8 @@ function App({ uniqueId, socket }) {
                     <div className="alert alert-danger m-5" style={{ width: '100%' }} role="alert">
                         <h3>{SocketIOOffline}</h3>
                         <strong>{SocketIOOfflineInformation}</strong>
-                        <div style={{display: "flex", alignItems: 'center', flexDirection: 'column'}}>
-                            <div><Spinner animation={"border"} className="m-3" /></div>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <div><Spinner animation={'border'} className="m-3" /></div>
                             <h5>{SocketIOOfflineAction}</h5>
                         </div>
                     </div>
