@@ -164,6 +164,7 @@ function App({ uniqueId, socket }) {
             setMachineState(data);
         });
 
+        // Interval for updating clock.
         setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
@@ -349,7 +350,9 @@ function App({ uniqueId, socket }) {
 
     return (
         <IntlProvider locale={language} messages={messages}>
-            {currentTime && <div className="current-time">{currentTime.getHours()}:{currentTime.getMinutes()}</div>}
+            {currentTime && <div className="current-time">
+                {currentTime.toLocaleTimeString()}
+            </div>}
             {socketConnected === false && (
                 <div className="container">
                     <div className="alert alert-danger m-5" style={{ width: '100%' }} role="alert">
