@@ -116,8 +116,8 @@ function ScanPasswordLogin({ actionHandler }) {
      */
     function login() {
         actionHandler('login', {
-            username: username,
-            password: password
+            username,
+            password
         });
     }
 

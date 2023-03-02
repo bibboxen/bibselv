@@ -90,7 +90,7 @@ export class BarcodeScanner {
 
                 const callbackObject = {
                     type: barcodeType,
-                    codedBarcodeScanner: codedBarcodeScanner,
+                    codedBarcodeScanner,
                     code: match ? match[0] : input,
                     outputCode: callbackCode
                 };

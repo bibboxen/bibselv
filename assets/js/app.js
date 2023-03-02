@@ -58,12 +58,12 @@ function App({ uniqueId, socket }) {
         // Get token.
         if (token === false) {
             socket.emit('GetToken', {
-                uniqueId: uniqueId
+                uniqueId
             });
         } else {
             // Token that was not expired was found locally and the client is ready for action.
             socket.emit('ClientReady', {
-                token: token
+                token
             });
             setupTokenRefresh();
         }
@@ -82,7 +82,7 @@ function App({ uniqueId, socket }) {
 
             // Signal that the client is ready.
             socket.emit('ClientReady', {
-                token: token
+                token
             });
         });
 
@@ -100,7 +100,7 @@ function App({ uniqueId, socket }) {
 
             // Signal that the frontend has refreshed the token.
             socket.emit('TokenRefreshed', {
-                token: token
+                token
             });
         });
 
@@ -115,7 +115,7 @@ function App({ uniqueId, socket }) {
             }
 
             socket.emit('ClientReady', {
-                token: token
+                token
             });
         });
 
@@ -204,15 +204,15 @@ function App({ uniqueId, socket }) {
         if (action === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: token
+                token
             });
         } else {
             // Volatile to avoid executing a lot of actions when reconnected.
             socket.volatile.emit('ClientEvent', {
                 name: 'Action',
-                action: action,
-                token: token,
-                data: data
+                action,
+                token,
+                data
             });
         }
     }
@@ -231,7 +231,7 @@ function App({ uniqueId, socket }) {
         if (machineState.step !== 'initial') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: token
+                token
             });
         } else {
             // Reset the idle timer if already on initial step.
@@ -280,7 +280,7 @@ function App({ uniqueId, socket }) {
 
         const newTimeout = setTimeout(() => {
             socket.emit('RefreshToken', {
-                token: token
+                token
             });
         }, nextRefresh * 1000);
 

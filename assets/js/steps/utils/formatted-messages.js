@@ -45,7 +45,7 @@ export const StatusButtonPrint = <FormattedMessage id='button-status-print' defa
  * @constructor
  */
 export function StatusBannerHeaderOverdueBooks(numberOfBooks) {
-    return <FormattedMessage id="banner-header-books-for-check-in" defaultMessage="banner-header-books-for-check-in" values={{ numberOfBooks: numberOfBooks }} />;
+    return <FormattedMessage id="banner-header-books-for-check-in" defaultMessage="banner-header-books-for-check-in" values={{ numberOfBooks }} />;
 }
 
 // Help box strings.
@@ -84,7 +84,7 @@ export const BannerAdapterFetchingInfo = <FormattedMessage id='banner-adapter-fe
  * @param {string} author The author.
  */
 export function BannerTitleAuthor(title, author) {
-    return <FormattedMessage id="banner-title-author" defaultMessage="banner-title-author" values={{ title: title, author: author }} />;
+    return <FormattedMessage id="banner-title-author" defaultMessage="banner-title-author" values={{ title, author }} />;
 }
 
 // App strings
@@ -102,7 +102,7 @@ export const PrintReservationNote = <FormattedMessage id='print-reservation-note
  * @constructor
  */
 export function BookBannerByAuthor(author) {
-    return <FormattedMessage id="book-banner-by-author" defaultMessage="book-banner-by-author" values={{ author: author }} />;
+    return <FormattedMessage id="book-banner-by-author" defaultMessage="book-banner-by-author" values={{ author }} />;
 }
 export const BookBannerWithoutAuthor = <FormattedMessage id='book-banner-without-author' defaultMessage='book-banner-without-author' />;
 

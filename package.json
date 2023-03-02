@@ -22,6 +22,7 @@
         "eslint": "^8.0",
         "eslint-config-standard": "^17.0.0",
         "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-n": "^15.6.1",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^6.0.0",
         "eslint-plugin-react": "^7.31.11",
@@ -129,6 +130,5 @@
             "jest-watch-typeahead/filename",
             "jest-watch-typeahead/testname"
         ]
-    },
-    "dependencies": {}
+    }
 }
