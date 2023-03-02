@@ -60,7 +60,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
   engine:
-    image: node:16
+    image: node:18
     networks:
       - app
     working_dir: /app
@@ -71,7 +71,7 @@ services:
     command: npm run dev
 
   frontend:
-    image: node:16
+    image: node:18
     command: npm run watch
     networks:
       - app
