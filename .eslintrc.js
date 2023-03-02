@@ -18,7 +18,8 @@ module.exports = {
     },
     globals: {
         localStorage: true,
-        alert: true
+        alert: true,
+        Worker: true
     },
     env: {
         jest: true

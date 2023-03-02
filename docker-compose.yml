@@ -31,7 +31,6 @@ services:
       - XDEBUG_SESSION=${XDEBUG_SESSION:-0}
       - PHP_MAX_EXECUTION_TIME=30
       - PHP_MEMORY_LIMIT=256M
-      # - PHP_MAIL=1 # Uncomment to enable mailhog.
       - DOCKER_HOST_DOMAIN=${COMPOSE_DOMAIN}
       - COMPOSER_VERSION=2
       - PHP_IDE_CONFIG=serverName=localhost
@@ -56,9 +55,58 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=frontend"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`)"
-#      HTTPS config - uncomment to enable redirect from :80 to :443
-#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https"
-#      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+  #      HTTPS config - uncomment to enable redirect from :80 to :443
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+  engine:
+    image: node:14
+    networks:
+      - app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./engine:/app
+    command: npm run dev
+
+  frontend:
+    image: node:14
+    command: npm run watch
+    networks:
+      - app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.9.1
+    networks:
+      - app
+    ports:
+      - '28777'
+    volumes:
+      - ./.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./.docker/jvm.options:/usr/share/logstash/config/jvm.options:ro
+      - .docker/pipeline:/usr/share/logstash/pipeline:ro
+
+  redis:
+    image: 'redis:5'
+    networks:
+      - app
+    ports:
+      - '6379'
+
+  memcached:
+    image: 'memcached:latest'
+    networks:
+      - app
+    ports:
+      - '11211'
+    environment:
+      - MEMCACHED_CACHE_SIZE=64
 
   mailhog:
     image: itkdev/mailhog
@@ -71,4 +119,5 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=frontend"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.rule=Host(`${COMPOSE_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}Mailhog.rule=Host(`mailhog-${COMPOSE_DOMAIN}`)"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}Mailhog.loadbalancer.server.port=8025"

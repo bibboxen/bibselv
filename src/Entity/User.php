@@ -19,13 +19,16 @@ class User implements UserInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
      * @Assert\Email()
      */
     private $email;
@@ -46,6 +49,7 @@ class User implements UserInterface
      * Virtual field used in easy admin forms to enter password in plain text.
      *
      * @Assert\NotBlank()
+     *
      * @Assert\Length(min=5, max=128)
      */
     private ?string $plainPassword = null;

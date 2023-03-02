@@ -63,7 +63,7 @@ class AzureAdService
     {
         $provider = $this->providerManager->getProvider(self::AZURE_AD_KEY);
         $session = $this->requestStack->getSession();
-        $boxState = $uniqueId . ':' . $boxState;
+        $boxState = $uniqueId.':'.$boxState;
 
         $nonce = $provider->generateNonce();
         $session->set('oauth2nonce', $nonce);
