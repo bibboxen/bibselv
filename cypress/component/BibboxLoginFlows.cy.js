@@ -138,7 +138,7 @@ describe('Login flows', () => {
             </IntlProvider>
         );
 
-        // Navbar, correct schoole name and "reset button exists"
+        // Navbar, correct school name and "reset button exists"
         cy.get('[data-cy="navbar"]')
             .find('.text')
             .should('have.text', 'Beder Skole');
