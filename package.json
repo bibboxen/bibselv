@@ -19,6 +19,7 @@
         "bootstrap": "^4.6.2",
         "core-js": "^3.26.1",
         "css-loader": "^3.6.0",
+        "cypress": "^12.5.0",
         "eslint": "^6.6.0",
         "eslint-config-standard": "^14.1.1",
         "eslint-plugin-import": "^2.26.0",
@@ -30,6 +31,7 @@
         "postcss-loader": "^7.0.2",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
+        "eslint-plugin-cypress": "^2.12.1",
         "react-bootstrap": "^1.6.6",
         "react-dev-utils": "^12.0.1",
         "react-dom": "^18.2.0",
@@ -55,15 +57,12 @@
         "build": "encore production --progress",
         "extract": "formatjs extract",
         "compile": "formatjs compile",
-        "check-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js'",
-        "check-coding-standards-js": "npm run check-coding-standards-eslint",
-        "check-coding-standards": "npm run check-coding-standards-js",
-        "apply-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js' --fix",
-        "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
-        "apply-coding-standards": "npm run apply-coding-standards-js"
+        "cypress": "cypress open",
+        "check-coding-standards": "eslint --config .eslintrc.js 'assets/**/*.js",
+        "apply-coding-standards": "eslint --config .eslintrc.js 'assets/**/*.js' --fix"
     },
     "engines": {
-        "node": "=14.*"
+        "node": "=16.*"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -129,6 +128,5 @@
             "jest-watch-typeahead/filename",
             "jest-watch-typeahead/testname"
         ]
-    },
-    "dependencies": {}
+    }
 }
