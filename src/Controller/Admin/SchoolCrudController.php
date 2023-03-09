@@ -53,7 +53,7 @@ class SchoolCrudController extends AbstractCrudController
         return $filters
             ->add('name')
             ->add('boxConfigurations')
-            ;
+        ;
     }
 
     /**

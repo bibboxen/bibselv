@@ -15,7 +15,9 @@ class BoxConfiguration
 {
     /**
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      *
      * @Groups("boxConfiguration")
@@ -52,6 +54,7 @@ class BoxConfiguration
 
     /**
      * @ORM\ManyToOne(targetEntity=School::class, inversedBy="boxConfigurations")
+     *
      * @ORM\JoinColumn(nullable=false)
      *
      * @Groups("boxConfiguration")
@@ -94,6 +97,7 @@ class BoxConfiguration
      * The SIP2 account.
      *
      * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
+     *
      * @ORM\JoinColumn(nullable=false)
      *
      * @Groups("boxConfiguration")

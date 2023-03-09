@@ -130,6 +130,6 @@ class BoxConfigurationCrudController extends AbstractCrudController
     {
         return $crud
             ->showEntityActionsInlined()
-            ;
+        ;
     }
 }

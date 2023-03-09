@@ -1,4 +1,4 @@
-# itk-version: 2.0.1
+# itk-version: 3.0.0
 version: "3"
 
 networks:
@@ -31,29 +31,26 @@ services:
       - XDEBUG_SESSION=${XDEBUG_SESSION:-0}
       - PHP_MAX_EXECUTION_TIME=30
       - PHP_MEMORY_LIMIT=256M
-      # - PHP_MAIL=1 # Uncomment to enable mailhog.
-      - PHP_IDE_CONFIG=serverName=localhost
       - DOCKER_HOST_DOMAIN=${COMPOSE_DOMAIN}
       - COMPOSER_VERSION=2
+      - PHP_IDE_CONFIG=serverName=localhost
     depends_on:
       - mariadb
-      - memcached
     volumes:
-      - nfsApp:/app:delegated
+      - .:/app
 
   nginx:
-    image: nginx:latest
+    image: nginxinc/nginx-unprivileged:alpine
     networks:
       - app
       - frontend
     depends_on:
       - phpfpm
-      - engine
     ports:
-      - '80'
+      - '8080'
     volumes:
-      - ${PWD}/.docker/vhost.conf:/etc/nginx/conf.d/default.conf:ro
-      - nfsApp:/app:delegated
+      - ./.docker/vhost.conf:/etc/nginx/conf.d/default.conf:ro
+      - .:/app
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=frontend"
@@ -70,7 +67,7 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
-      - ./engine:/app:delegated
+      - ./engine:/app
     command: npm run dev
 
   frontend:
@@ -82,7 +79,7 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
-      - .:/app:delegated
+      - .:/app
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.9.1
@@ -91,8 +88,8 @@ services:
     ports:
       - '28777'
     volumes:
-      - ${PWD}/.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ${PWD}/.docker/jvm.options:/usr/share/logstash/config/jvm.options:ro
+      - ./.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./.docker/jvm.options:/usr/share/logstash/config/jvm.options:ro
       - .docker/pipeline:/usr/share/logstash/pipeline:ro
 
   redis:
@@ -112,7 +109,7 @@ services:
       - MEMCACHED_CACHE_SIZE=64
 
   mailhog:
-    image: mailhog/mailhog
+    image: itkdev/mailhog
     networks:
       - app
       - frontend
@@ -124,15 +121,3 @@ services:
       - "traefik.docker.network=frontend"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}Mailhog.rule=Host(`mailhog-${COMPOSE_DOMAIN}`)"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}Mailhog.loadbalancer.server.port=8025"
-
-volumes:
-  # Named volume requires that you have NFS shares enabled (performance boost on Macs).
-  # Use `itkdev-docker-compose nfs:enable` to enable NFS shares. If you don't want to use it remove it from here and
-  # change the volume mapping to use normal shares in the containers. See
-  # https://sean-handley.medium.com/how-to-set-up-docker-for-mac-with-native-nfs-145151458adc
-  nfsApp:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
-      device: ":$PWD"

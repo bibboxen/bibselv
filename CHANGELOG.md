@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.8] - 2023-02-02
+- Downgraded setup from PHP 8.1 to 8.0 to match server
+
+## [1.0.7] - 2023-02-02
+- Update composer packages, CVE-2022-24894, CVE-2022-24895
+
+## [1.0.6] - 2023-01-18
+
+- Fixed missing getUserIdentifier() function in User entity
+- Added missing npm install in retsart script
+
+## [1.0.5] - 2023-01-18
+
+- Fixed exception handling for Azure errors
+- Removed phpcs
+- Updated composer packages
+
 ## [1.0.4] - 2022-08-16
 
 - Removed decimals from minutes. Changed layout of text box

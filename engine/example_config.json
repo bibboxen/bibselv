@@ -1,14 +1,14 @@
 {
     "eventTimeout": 1000,
-    "tokenValidationEndPoint": "http://nginx/token/validate/",
-    "tokenGetEndPoint": "http://nginx/token/get/",
-    "tokenRefreshEndPoint": "http://nginx/token/refresh",
+    "tokenValidationEndPoint": "http://nginx:8080/token/validate/",
+    "tokenGetEndPoint": "http://nginx:8080/token/get/",
+    "tokenRefreshEndPoint": "http://nginx:8080/token/refresh",
     "fbsEndPoint": "https://Cicero-fbs.com/rest/sip2/",
     "fbsOnlineCheckConfig": {
         "username": "xxxx",
         "password": "yyyy",
         "agency": "DK-zzzzzz",
-        "endpoint": "http://nginx/test/fake-online-stable",
+        "endpoint": "http://nginx:8080/test/fake-online-stable",
         "threshold": 0.5,
         "requestTimeout": 2000,
         "circuitDuration": 30000,
@@ -16,7 +16,7 @@
         "intervalDuration": 5000
     },
     "boxConfig": {
-        "uri": "http://nginx/box/configuration/"
+        "uri": "http://nginx:8080/box/configuration/"
     },
     "server": {
         "host": "engine",
