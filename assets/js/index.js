@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import '../scss/index.scss';
 import App from './app';
 import socketIOClient from 'socket.io-client';
 
