@@ -93,8 +93,7 @@ export class BarcodeHandler {
                         }
                         break;
                 }
-
-                commandCallback();
+                commandCallback(result.outputCode);
             } else {
                 notCommandCallback(result);
             }
