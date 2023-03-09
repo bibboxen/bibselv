@@ -30,7 +30,7 @@ function BannerList({ items, title, visibleOnPrint, numberOfItems, content }) {
     return (
         <>
             {title && (
-                <div className='banner-list-header'>
+                <div className='banner-list-header' data-cy="banner-list-header">
                     {title}
                     {(items || numberOfItems > 0) && <div className='counter'>{numberOfItems || items.length}</div>}
                 </div>
