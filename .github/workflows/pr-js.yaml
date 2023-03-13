@@ -14,9 +14,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v1
               with:
-                  node-version: '16.x'
+                  node-version: '14.x'
             - name: Cache node modules
               uses: actions/cache@v2
               env:
@@ -40,9 +40,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v3
-            -   uses: actions/setup-node@v3
+            -   uses: actions/setup-node@v1
                 with:
-                    node-version: '16.x'
+                    node-version: '14.x'
             - name: Cache node modules
               uses: actions/cache@v2
               env:
@@ -112,9 +112,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v1
               with:
-                  node-version: '16.x'
+                  node-version: '14.x'
             - name: Cache node modules
               uses: actions/cache@v2
               env:
@@ -131,11 +131,38 @@ jobs:
             - name: React coding standards
               run: npm run check-coding-standards
 
-    cypress-run:
+    cypress:
+        name: Cypress
         runs-on: ubuntu-latest
-        # Docker image with Cypress pre-installed
-        # https://github.com/cypress-io/cypress-docker-images/tree/master/included
-        container: cypress/included:3.8.3
+        strategy:
+            fail-fast: false
+            matrix:
+                browser: ["chrome"]
         steps:
-        - uses: actions/checkout@v3
-        - run: cypress run
+            - uses: actions/checkout@v3
+            - name: Cache node modules
+              uses: actions/cache@v2
+              env:
+                  cache-name: cache-node-modules
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+            - name: Run install and build assets
+              run: |
+                npm install
+                npm run build
+
+            - name: Cypress run
+              run: docker-compose run cypress run --browser ${{ matrix.browser }}
+
+            - name: Archive screenshots
+              if: ${{ failure() }}
+              uses: actions/upload-artifact@v2
+              with:
+                name: cypress-screenshots-${{ matrix.browser }}
+                path: cypress/screenshots
+                retention-days: 7
