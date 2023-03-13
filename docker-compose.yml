@@ -112,6 +112,7 @@ services:
     image: cypress/included:12.7.0
     networks:
       - app
+      - frontend
     depends_on:
       - nginx
     environment:
@@ -121,6 +122,9 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
     working_dir: /e2e
     entrypoint: cypress
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=frontend"
 
   mailhog:
     image: itkdev/mailhog
