@@ -139,14 +139,22 @@ jobs:
             matrix:
                 browser: ["chrome"]
         steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-
-            - name: Setup network
-              run: docker network create frontend
-
-            - name: Install client
-              run: npm install
+            - uses: actions/checkout@v3
+            - name: Cache node modules
+              uses: actions/cache@v2
+              env:
+                  cache-name: cache-node-modules
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+            - name: Run install and build assets
+              run: |
+                npm install
+                npm run build
 
             - name: Cypress run
               run: docker-compose run cypress run --browser ${{ matrix.browser }}
