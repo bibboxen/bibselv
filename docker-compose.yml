@@ -108,6 +108,21 @@ services:
     environment:
       - MEMCACHED_CACHE_SIZE=64
 
+  cypress:
+    image: cypress/included:12.7.0
+    networks:
+      - app
+      - frontend
+    depends_on:
+      - nginx
+    environment:
+      - CYPRESS_VIDEO=false
+    volumes:
+      - .:/e2e
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    working_dir: /e2e
+    entrypoint: cypress
+
   mailhog:
     image: itkdev/mailhog
     networks:
