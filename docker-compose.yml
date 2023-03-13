@@ -112,7 +112,6 @@ services:
     image: cypress/included:12.7.0
     networks:
       - app
-      - frontend
     depends_on:
       - nginx
     environment:
