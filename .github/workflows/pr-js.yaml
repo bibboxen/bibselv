@@ -146,7 +146,7 @@ jobs:
               run: docker network create frontend
 
             - name: Install client
-              run: docker-compose run node yarn
+              run: npm install
 
             - name: Cypress run
               run: docker-compose run cypress run --browser ${{ matrix.browser }}
