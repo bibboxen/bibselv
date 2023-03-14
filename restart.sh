@@ -16,6 +16,7 @@ echo "NPM version:" "$(npm -v)" "/ Node version:" "$(node -v)"
 echo
 npm install --omit=dev
 npm run build
+rm -rf node_modules
 
 # Install engine packages
 echo
