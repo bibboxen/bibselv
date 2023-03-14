@@ -281,6 +281,8 @@ To install and build please run the supplied [restart.sh](restart.sh) script.
 ./restart.sh
 ```
 
+After this make sure the engine is restarted, by restarting supervisor.
+
 ## Translations
 
 The React front end used [formatJS](https://formatjs.io/) to handle translations.
