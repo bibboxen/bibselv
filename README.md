@@ -243,12 +243,22 @@ All tests runs with Github Actions for each PR to develop.
 
 ### Testing frontend
 
-Frontend tests runs with jest.
+The frontend it [component tested](https://docs.cypress.io/guides/core-concepts/testing-types#What-is-Component-Testing) with Cypress.
 
 ```sh
-docker-compose run frontend bash -c 'npm test'
+itkdev-docker-compose run cypress run --component
 ```
 
+To run outside docker: 
+```sh
+# Open mode
+npm run cypress:open
+```
+
+```sh
+# cli
+npm run cypress:run
+```
 ### Testing engine
 
 Engine tests runs with mocha from the `engine/` directory. The tests that
