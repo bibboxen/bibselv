@@ -113,12 +113,12 @@ describe('Check in items', () => {
             'HjælpBrug håndscanneren til at scanne stregkoden på bogen'
         );
 
-        cy.get('[data-cy="banner"]').find('.banner').eq(0).should('have.text', 'Henter informationer123').should('have.css', 'background-color', 'rgb(85, 85, 85)');
-        cy.get('[data-cy="banner"]').find('.banner').eq(1).should('have.text', 'Title renewedTitle renewed af Author').should('have.css', 'background-color', 'rgb(5, 245, 144)');
-        cy.get('[data-cy="banner"]').find('.banner').eq(2).should('have.text', 'Dolor est ut ea natus iusto deserunt inventore.Title renewed and reserved af Author').should('have.css', 'background-color', 'rgb(233, 67, 67)');
-        cy.get('[data-cy="banner"]').find('.banner').eq(3).should('have.text', 'Title reservedTitle reserved af Author').should('have.css', 'background-color', 'rgb(233, 67, 67)');
-        cy.get('[data-cy="banner"]').find('.banner').eq(4).should('have.text', 'FejlTitle error af Author').should('have.css', 'background-color', 'rgb(233, 67, 67)');
-        cy.get('[data-cy="banner"]').find('.banner').eq(5).should('have.text', 'Title checked inTitle checked in af Author').should('have.css', 'background-color', 'rgb(5, 245, 144)');
+        cy.get('[data-cy="banner"]').eq(0).should('have.text', 'Henter informationer123').should('have.css', 'background-color', 'rgb(85, 85, 85)');
+        cy.get('[data-cy="banner"]').eq(1).should('have.text', 'Title renewedTitle renewed af Author').should('have.css', 'background-color', 'rgb(5, 245, 144)');
+        cy.get('[data-cy="banner"]').eq(2).should('have.text', 'Dolor est ut ea natus iusto deserunt inventore.Title renewed and reserved af Author').should('have.css', 'background-color', 'rgb(233, 67, 67)');
+        cy.get('[data-cy="banner"]').eq(3).should('have.text', 'Title reservedTitle reserved af Author').should('have.css', 'background-color', 'rgb(233, 67, 67)');
+        cy.get('[data-cy="banner"]').eq(4).should('have.text', 'FejlTitle error af Author').should('have.css', 'background-color', 'rgb(233, 67, 67)');
+        cy.get('[data-cy="banner"]').eq(5).should('have.text', 'Title checked inTitle checked in af Author').should('have.css', 'background-color', 'rgb(5, 245, 144)');
 
         // // Barcode input: checkInItems should not be called
         cy.get('body').trigger('keypress', { key: '!BA03010!C' });
