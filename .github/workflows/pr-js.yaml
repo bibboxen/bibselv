@@ -14,11 +14,11 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v3
               with:
                   node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -40,11 +40,11 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v3
-            -   uses: actions/setup-node@v1
+            -   uses: actions/setup-node@v3
                 with:
                     node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -92,7 +92,7 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -112,11 +112,11 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v3
               with:
                   node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
