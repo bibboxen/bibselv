@@ -243,13 +243,13 @@ All tests runs with Github Actions for each PR to develop.
 
 ### Testing frontend
 
-The frontend it [component tested](https://docs.cypress.io/guides/core-concepts/testing-types#What-is-Component-Testing) with Cypress.
+The frontend is [component tested](https://docs.cypress.io/guides/core-concepts/testing-types#What-is-Component-Testing) with Cypress.
 
 ```sh
 itkdev-docker-compose run cypress run --component
 ```
 
-To run outside docker: 
+To run outside docker:
 ```sh
 # Open mode
 npm run cypress:open
