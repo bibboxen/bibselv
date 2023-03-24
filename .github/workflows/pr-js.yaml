@@ -132,12 +132,42 @@ jobs:
               run: npm run check-coding-standards
 
     cypress:
+        name: Cypress
         runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                browser: ["chrome"]
         steps:
-            - name: Checkout GitCode
+            - name: Checkout
               uses: actions/checkout@v3
 
+            - name: Setup network
+              run: docker network create frontend
+
+            - name: Install client
+              run: docker-compose run node yarn
+
             - name: Cypress run
-              uses: cypress-io/github-action@v5
+              run: docker-compose run cypress run --browser ${{ matrix.browser }}
+
+            - name: Archive screenshots
+              if: ${{ failure() }}
+              uses: actions/upload-artifact@v3
               with:
-                  component: true
+                  name: cypress-screenhosts-${{ matrix.browser }}
+                  path: cypress/screenshots
+                  retention-days: 7
+
+#    cypress:
+#        runs-on: ubuntu-latest
+#        steps:
+#            - name: Checkout GitCode
+#              uses: actions/checkout@v3
+#
+#            - name: Cypress run
+#              uses: cypress-io/github-action@v5
+#              with:
+#                  component: true
+#                  browser: chrome
+#    # @see https://github.com/cypress-io/github-action#artifacts
