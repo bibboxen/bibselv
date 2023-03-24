@@ -149,7 +149,7 @@ jobs:
               run: docker compose run frontend npm install
 
             - name: Cypress run
-              run: docker compose run cypress run --browser ${{ matrix.browser }}
+              run: docker compose run cypress run --component --browser ${{ matrix.browser }}
 
             - name: Archive screenshots
               if: ${{ failure() }}
