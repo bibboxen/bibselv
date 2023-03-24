@@ -132,37 +132,13 @@ jobs:
               run: npm run check-coding-standards
 
     cypress:
-        name: Cypress
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                browser: ["chrome"]
         steps:
-            - uses: actions/checkout@v3
-            - name: Cache node modules
-              uses: actions/cache@v2
-              env:
-                  cache-name: cache-node-modules
+            - name: Checkout GitCode
+              uses: actions/checkout@v3
+ 
+            - name: Run Cypress Test
+              uses: cypress-io/github-action@v4
               with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
-            - name: Run install and build assets
-              run: |
-                npm install
-                npm run build
-
-            - name: Cypress run
-              run: docker-compose run cypress run --browser ${{ matrix.browser }}
-
-            - name: Archive screenshots
-              if: ${{ failure() }}
-              uses: actions/upload-artifact@v2
-              with:
-                name: cypress-screenshots-${{ matrix.browser }}
-                path: cypress/screenshots
-                retention-days: 7
+                  command: docker-compose run cypress run --component
+                  browser: chrome
