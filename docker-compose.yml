@@ -113,8 +113,6 @@ services:
     networks:
       - app
       - frontend
-    depends_on:
-      - nginx
     environment:
       - CYPRESS_VIDEO=false
     volumes:
