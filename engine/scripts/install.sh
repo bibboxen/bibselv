@@ -15,6 +15,6 @@ for folder in plugins/*; do
     echo '-----------------------'
     echo "==> ${folder}"
     echo '-----------------------'
-    cd $folder; npm install --${1:-production}; cd ../..;
+    cd $folder; npm install --${1:-omit=dev}; cd ../..;
   fi
 done
