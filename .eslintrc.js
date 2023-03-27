@@ -13,16 +13,13 @@ module.exports = {
         'require-jsdoc': ['error']
     },
     settings: {
-        "react": {
-            "version": "detect"
+        react: {
+            version: 'detect'
         }
     },
     globals: {
         localStorage: true,
         alert: true,
         Worker: true
-    },
-    env: {
-        jest: true
     }
 };
