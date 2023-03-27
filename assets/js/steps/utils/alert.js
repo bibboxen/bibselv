@@ -21,7 +21,7 @@ const Alert = ({ message, variant }) => {
     const classes = `alert alert-${variant || 'danger'} m-5`;
 
     return (
-        <div className={classes} style={{ width: '100%' }} role="alert">
+        <div data-cy="alert" className={classes} style={{ width: '100%' }} role="alert">
             {message}
         </div>
     );

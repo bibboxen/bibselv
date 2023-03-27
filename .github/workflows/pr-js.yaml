@@ -13,12 +13,12 @@ jobs:
         name: Engine coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -39,12 +39,12 @@ jobs:
         name: Engine tests
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v2
-            -   uses: actions/setup-node@v1
+            -   uses: actions/checkout@v3
+            -   uses: actions/setup-node@v3
                 with:
                     node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -90,9 +90,9 @@ jobs:
         runs-on: ubuntu-latest
         container: node:14
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -111,12 +111,12 @@ jobs:
         name: Frontend coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -130,3 +130,31 @@ jobs:
               run: npm install
             - name: React coding standards
               run: npm run check-coding-standards
+
+    cypress:
+        name: Cypress
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                browser: ["chrome", "edge"]
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup network
+              run: docker network create frontend
+
+            - name: Install client
+              run: docker compose run frontend npm install
+
+            - name: Cypress run
+              run: docker compose run cypress run --component --browser ${{ matrix.browser }}
+
+            - name: Archive screenshots
+              if: ${{ failure() }}
+              uses: actions/upload-artifact@v3
+              with:
+                  name: cypress-screenhosts-${{ matrix.browser }}
+                  path: cypress/screenshots
+                  retention-days: 7

@@ -17,6 +17,7 @@ import ChangeLoginMethod from './change-login-method';
 import ScanLogin from './login-components/scan-login';
 import ScanPasswordLogin from './login-components/scan-password-login';
 import AzureADLogin from './login-components/azure-ad-login';
+import '../../scss/index.scss';
 
 /**
  * Bibbox app.

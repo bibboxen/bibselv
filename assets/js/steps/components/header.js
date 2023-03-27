@@ -30,8 +30,8 @@ function Header({ header, subheader, type, icon, img }) {
                 <IconBubble type={type} icon={icon} img={img} />
             </div>
             <div className='col-md-8'>
-                <div className='header'>{header}</div>
-                {subheader && <div className='subheader'>{subheader}</div>}
+                <h1 data-cy="page-header" className='header'>{header}</h1>
+                {subheader && <div data-cy="sub-header" className='subheader'>{subheader}</div>}
             </div>
         </>
     );

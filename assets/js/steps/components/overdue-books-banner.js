@@ -30,7 +30,7 @@ function OverdueBooksBanner({ items }) {
     const classNames = classes.join(' ');
 
     return (
-        <div className={classNames}>
+        <div className={classNames} data-cy="overdue-books">
             <div className={'top'}>
                 <span className={'header'}>
                     {icon && <FontAwesomeIcon icon={icon} size={'lg'} className={'mr-2'} />}

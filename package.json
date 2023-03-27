@@ -19,8 +19,10 @@
         "bootstrap": "^4.6.2",
         "core-js": "^3.26.1",
         "css-loader": "^3.6.0",
+        "cypress": "^12.8.1",
         "eslint": "^8.0",
         "eslint-config-standard": "^17.0.0",
+        "eslint-plugin-cypress": "^2.12.1",
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-n": "^15.6.1",
         "eslint-plugin-node": "^11.1.0",
@@ -56,12 +58,10 @@
         "build": "encore production --progress",
         "extract": "formatjs extract",
         "compile": "formatjs compile",
-        "check-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js'",
-        "check-coding-standards-js": "npm run check-coding-standards-eslint",
-        "check-coding-standards": "npm run check-coding-standards-js",
-        "apply-coding-standards-eslint": "eslint --config .eslintrc.js 'assets/**/*.js' --fix",
-        "apply-coding-standards-js": "npm run apply-coding-standards-eslint",
-        "apply-coding-standards": "npm run apply-coding-standards-js"
+        "cypress:run": "cypress run --component",
+        "cypress:open": "cypress open --component",
+        "check-coding-standards": "eslint --config .eslintrc.js 'assets/**/*.js'",
+        "apply-coding-standards": "eslint --config .eslintrc.js 'assets/**/*.js' --fix"
     },
     "engines": {
         "node": "=18.*"

@@ -49,7 +49,7 @@ function Banner({ item, visibleOnPrint = false }) {
     }
 
     return (
-        <div className={classes}>
+        <div className={classes} data-cy="banner">
             {icon && (
                 <div className='icon'>
                     <FontAwesomeIcon icon={icon} />
