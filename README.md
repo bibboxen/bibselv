@@ -265,7 +265,7 @@ Engine tests runs with mocha from the `engine/` directory. The tests that
 call FBS are mocked with nock recordings (see the `test/fixtures` folder).
 
 ```sh
-docker-compose exec engine bash -c 'npm test'
+docker compose exec engine bash -c 'npm test'
 ```
 
 ### Testing symfony
@@ -300,7 +300,7 @@ The React front end used [formatJS](https://formatjs.io/) to handle translations
 To extract new strings in json.
 
 ```sh
-docker-compose exec frontend bash -c "npm run extract -- 'assets/**/*.js*' --out-file public/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
+docker compose exec frontend bash -c "npm run extract -- 'assets/**/*.js*' --out-file public/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
 ```
 
 Make a copy of this file into a new JSON file (public/lang/<LANGCODE>.json) and
@@ -308,19 +308,19 @@ change the strings into your language and compile the json file with the
 following command (substitute <LANGCODE> with your language code):
 
 ```sh
-docker-compose exec frontend bash -c "npm run compile -- public/lang/<LANGCODE>.json --ast --out-file public/lang/<LANGCODE>-comp.json"
+docker compose exec frontend bash -c "npm run compile -- public/lang/<LANGCODE>.json --ast --out-file public/lang/<LANGCODE>-comp.json"
 ```
 
 ### Danish
 
 ```sh
-docker-compose exec frontend bash -c "npm run compile -- public/lang/da.json --ast --out-file public/lang/da-comp.json"
+docker compose exec frontend bash -c "npm run compile -- public/lang/da.json --ast --out-file public/lang/da-comp.json"
 ```
 
 ### English
 
 ```sh
-docker-compose exec frontend bash -c "npm run compile -- public/lang/en.json --ast --out-file public/lang/en-comp.json"
+docker compose exec frontend bash -c "npm run compile -- public/lang/en.json --ast --out-file public/lang/en-comp.json"
 ```
 
 To add the new language, edit `assets/js/app.js` and locate the

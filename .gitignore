@@ -6,6 +6,7 @@
 /var/
 /vendor/
 /bundles/
+/config/secrets/prod/prod.decrypt.private.php
 ###< symfony/framework-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
@@ -15,11 +16,9 @@
 
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
+/.php_cs.cache
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
-
-coverage/
-oldBibbox/
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
@@ -27,19 +26,10 @@ oldBibbox/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-package-lock.json
-.eslintrc.js
+
+###> friendsofphp/php-cs-fixer ###
 .php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
 
-temp/
-
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
-.php_cs.cache
+coverage/
+oldBibbox/

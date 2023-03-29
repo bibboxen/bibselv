@@ -33,7 +33,7 @@
         "supertest": "^4.0.2"
     },
     "scripts": {
-        "prod": "./node_modules/.bin/nodemon app.js",
+        "prod": "node app.js",
         "dev": "DEBUG=bibbox* ./node_modules/.bin/nodemon app.js",
         "check-coding-standards-eslint": "eslint --config .eslintrc.js '**/*.js'",
         "check-coding-standards-js": "npm run check-coding-standards-eslint",
