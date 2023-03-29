@@ -71,7 +71,7 @@ services:
     command: npm run dev
 
   frontend:
-    image: node:14
+    image: node:18
     command: npm run watch
     networks:
       - app
