@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - Removed auto deploy to staging.
+- Re-written tests in cypress.
+- Added clock to main screen.
 
 ## [1.0.8] - 2023-02-02
 - Downgraded setup from PHP 8.1 to 8.0 to match server
