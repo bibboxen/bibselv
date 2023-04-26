@@ -7,15 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Removed
+## [1.1.0] - 2023-04-26
+
 - Removed auto deploy to staging.
 - Re-written tests in cypress.
 - Added clock to main screen.
 
 ## [1.0.8] - 2023-02-02
+
 - Downgraded setup from PHP 8.1 to 8.0 to match server
 
 ## [1.0.7] - 2023-02-02
+
 - Update composer packages, CVE-2022-24894, CVE-2022-24895
 
 ## [1.0.6] - 2023-01-18
