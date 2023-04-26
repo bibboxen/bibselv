@@ -54,7 +54,7 @@ function ChangeLoginMethod({ actionHandler }) {
      */
     function handleChangeLoginMethod(loginMethod) {
         actionHandler('selectLoginMethod', {
-            loginMethod: loginMethod
+            loginMethod
         });
     }
 

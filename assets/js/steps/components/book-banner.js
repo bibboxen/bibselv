@@ -53,7 +53,7 @@ function BookBanner({ item }) {
     const classNames = classes.join(' ');
 
     return (
-        <div className={classNames}>
+        <div className={classNames} data-cy="book-banner">
             {icon && <FontAwesomeIcon icon={icon} className={'icon mr-2 mt-1'}/>}
             <div className={'body'}>
                 {title && <div className='title'>{title}</div>}

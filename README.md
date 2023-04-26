@@ -243,19 +243,29 @@ All tests runs with Github Actions for each PR to develop.
 
 ### Testing frontend
 
-Frontend tests runs with jest.
+The frontend is [component tested](https://docs.cypress.io/guides/core-concepts/testing-types#What-is-Component-Testing) with Cypress.
 
 ```sh
-docker-compose run frontend bash -c 'npm test'
+docker compose run --rm cypress run --component
 ```
 
+To run outside docker:
+```sh
+# Open mode
+npm run cypress:open
+```
+
+```sh
+# cli
+npm run cypress:run
+```
 ### Testing engine
 
 Engine tests runs with mocha from the `engine/` directory. The tests that
 call FBS are mocked with nock recordings (see the `test/fixtures` folder).
 
 ```sh
-docker-compose exec engine bash -c 'npm test'
+docker compose exec engine bash -c 'npm test'
 ```
 
 ### Testing symfony
@@ -281,6 +291,8 @@ To install and build please run the supplied [restart.sh](restart.sh) script.
 ./restart.sh
 ```
 
+After this make sure the engine is restarted, by restarting supervisor.
+
 ## Translations
 
 The React front end used [formatJS](https://formatjs.io/) to handle translations.
@@ -288,7 +300,7 @@ The React front end used [formatJS](https://formatjs.io/) to handle translations
 To extract new strings in json.
 
 ```sh
-docker-compose exec frontend bash -c "npm run extract -- 'assets/**/*.js*' --out-file public/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
+docker compose exec frontend bash -c "npm run extract -- 'assets/**/*.js*' --out-file public/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
 ```
 
 Make a copy of this file into a new JSON file (public/lang/<LANGCODE>.json) and
@@ -296,19 +308,19 @@ change the strings into your language and compile the json file with the
 following command (substitute <LANGCODE> with your language code):
 
 ```sh
-docker-compose exec frontend bash -c "npm run compile -- public/lang/<LANGCODE>.json --ast --out-file public/lang/<LANGCODE>-comp.json"
+docker compose exec frontend bash -c "npm run compile -- public/lang/<LANGCODE>.json --ast --out-file public/lang/<LANGCODE>-comp.json"
 ```
 
 ### Danish
 
 ```sh
-docker-compose exec frontend bash -c "npm run compile -- public/lang/da.json --ast --out-file public/lang/da-comp.json"
+docker compose exec frontend bash -c "npm run compile -- public/lang/da.json --ast --out-file public/lang/da-comp.json"
 ```
 
 ### English
 
 ```sh
-docker-compose exec frontend bash -c "npm run compile -- public/lang/en.json --ast --out-file public/lang/en-comp.json"
+docker compose exec frontend bash -c "npm run compile -- public/lang/en.json --ast --out-file public/lang/en-comp.json"
 ```
 
 To add the new language, edit `assets/js/app.js` and locate the

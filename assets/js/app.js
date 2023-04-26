@@ -1,6 +1,6 @@
 /**
  * @file
- * The main entrypoint of the react application.
+ * The main entrypoint of the React application.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -9,11 +9,17 @@ import PropTypes from 'prop-types';
 import Bibbox from './steps/bibbox';
 import Loading from './steps/loading';
 import { IntlProvider } from 'react-intl';
-import { AppTokenNotValid, ServerError } from './steps/utils/formatted-messages';
+import {
+    AppTokenNotValid,
+    ServerError,
+    SocketIOOffline,
+    SocketIOOfflineAction, SocketIOOfflineInformation
+} from './steps/utils/formatted-messages';
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from './constants';
+import { Spinner } from 'react-bootstrap';
 
 /**
- * App. The main entrypoint of the react application.
+ * App. The main entrypoint of the React application.
  *
  * @param uniqueId
  *   The unique id of the configuration to load.
@@ -27,6 +33,7 @@ function App({ uniqueId, socket }) {
     const reloadTimeout = 30000;
     const refreshTime = 60 * 60;
 
+    const [socketConnected, setSocketConnected] = useState(null);
     const [machineState, setMachineState] = useState();
     const [boxConfig, setBoxConfig] = useState();
     const [connectionState, setConnectionState] = useState(CONNECTION_OFFLINE);
@@ -35,6 +42,7 @@ function App({ uniqueId, socket }) {
     const [language, setLanguage] = useState('en');
     const idleTimerRef = useRef(null);
     const [tokenTimeout, setTokenTimeout] = useState(null);
+    const [currentTime, setCurrentTime] = useState(new Date());
 
     /**
      * Set up application with configuration and socket connections.
@@ -47,15 +55,15 @@ function App({ uniqueId, socket }) {
 
         let token = getToken();
 
-        // Get token. @TODO: Login to ensure
+        // Get token.
         if (token === false) {
             socket.emit('GetToken', {
-                uniqueId: uniqueId
+                uniqueId
             });
         } else {
             // Token that was not expired was found locally and the client is ready for action.
             socket.emit('ClientReady', {
-                token: token
+                token
             });
             setupTokenRefresh();
         }
@@ -74,7 +82,7 @@ function App({ uniqueId, socket }) {
 
             // Signal that the client is ready.
             socket.emit('ClientReady', {
-                token: token
+                token
             });
         });
 
@@ -92,7 +100,7 @@ function App({ uniqueId, socket }) {
 
             // Signal that the frontend has refreshed the token.
             socket.emit('TokenRefreshed', {
-                token: token
+                token
             });
         });
 
@@ -107,8 +115,23 @@ function App({ uniqueId, socket }) {
             }
 
             socket.emit('ClientReady', {
-                token: token
+                token
             });
+        });
+
+        socket.on('connect', () => {
+            setSocketConnected(true);
+        });
+
+        socket.on('disconnect', () => {
+            setSocketConnected(false);
+        });
+
+        socket.on('connect_error', () => {
+            setSocketConnected(false);
+            setTimeout(() => {
+                socket.connect();
+            }, 1000);
         });
 
         // Handle when FBS is online.
@@ -140,6 +163,22 @@ function App({ uniqueId, socket }) {
             }
             setMachineState(data);
         });
+
+        // Interval for updating clock.
+        setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
+        // Add catch all for unhandled exceptions.
+        window.addEventListener('error', function(e) {
+            setErrorMessage('Error occurred: ' + e.error.message);
+            return false;
+        });
+
+        // Add catch all for unhandled promise rejections.
+        window.addEventListener('unhandledrejection', function(e) {
+            setErrorMessage('Error occurred: ' + e.reason.message);
+        });
     }, []);
 
     /**
@@ -166,14 +205,15 @@ function App({ uniqueId, socket }) {
         if (action === 'reset') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: token
+                token
             });
         } else {
-            socket.emit('ClientEvent', {
+            // Volatile to avoid executing a lot of actions when reconnected.
+            socket.volatile.emit('ClientEvent', {
                 name: 'Action',
-                action: action,
-                token: token,
-                data: data
+                action,
+                token,
+                data
             });
         }
     }
@@ -192,7 +232,7 @@ function App({ uniqueId, socket }) {
         if (machineState.step !== 'initial') {
             socket.emit('ClientEvent', {
                 name: 'Reset',
-                token: token
+                token
             });
         } else {
             // Reset the idle timer if already on initial step.
@@ -241,7 +281,7 @@ function App({ uniqueId, socket }) {
 
         const newTimeout = setTimeout(() => {
             socket.emit('RefreshToken', {
-                token: token
+                token
             });
         }, nextRefresh * 1000);
 
@@ -310,7 +350,22 @@ function App({ uniqueId, socket }) {
 
     return (
         <IntlProvider locale={language} messages={messages}>
-            {machineState && boxConfig && (
+            {currentTime && <div className="current-time">
+                {currentTime.toLocaleTimeString()}
+            </div>}
+            {socketConnected === false && (
+                <div className="container">
+                    <div className="alert alert-danger m-5" style={{ width: '100%' }} role="alert">
+                        <h3>{SocketIOOffline}</h3>
+                        <strong>{SocketIOOfflineInformation}</strong>
+                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <div><Spinner animation={'border'} className="m-3" /></div>
+                            <h5>{SocketIOOfflineAction}</h5>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {socketConnected !== false && machineState && boxConfig && (
                 <div>
                     <IdleTimer ref={idleTimerRef}
                         element={document}

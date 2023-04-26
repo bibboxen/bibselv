@@ -156,7 +156,7 @@ This document contains "schemas" for each message that can be sent through the w
             pickupDate: "[latest pickup date]",
             pickupLocation: "[pickup location of the form: DK-00000 - Hovedbiblioteket]",
             title: "[item title]",
-            author: "[item auther]",
+            author: "[item author]",
             GMB: "[GMB]",
             SMB: "[SMB]",
             DK5: "[DK5]"

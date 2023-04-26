@@ -13,12 +13,12 @@ jobs:
         name: Engine coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -39,12 +39,12 @@ jobs:
         name: Engine tests
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v2
-            -   uses: actions/setup-node@v1
+            -   uses: actions/checkout@v3
+            -   uses: actions/setup-node@v3
                 with:
                     node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -54,12 +54,33 @@ jobs:
                       ${{ runner.os }}-build-${{ env.cache-name }}-
                       ${{ runner.os }}-build-
                       ${{ runner.os }}-
-            -   name: install plugins
-                working-directory: engine
-                run: npm run test-install
             -   name: install
                 working-directory: engine
                 run: npm install
+            -   name: 'install plugin: bus'
+                working-directory: engine/plugins/bus
+                run: npm install --production
+            -   name: 'install plugin: client'
+                working-directory: engine/plugins/client
+                run: npm install --production
+            -   name: 'install plugin: config'
+                working-directory: engine/plugins/config
+                run: npm install --production
+            -   name: 'install plugin: fbs'
+                working-directory: engine/plugins/fbs
+                run: npm install --production
+            -   name: 'install plugin: logger'
+                working-directory: engine/plugins/logger
+                run: npm install --production
+            -   name: 'install plugin: queue'
+                working-directory: engine/plugins/queue
+                run: npm install --production
+            -   name: 'install plugin: server'
+                working-directory: engine/plugins/server
+                run: npm install --production
+            -   name: 'install plugin: state_machine'
+                working-directory: engine/plugins/state_machine
+                run: npm install --production
             -   name: JS tests
                 working-directory: engine
                 run: npm test
@@ -69,9 +90,9 @@ jobs:
         runs-on: ubuntu-latest
         container: node:14
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -90,12 +111,12 @@ jobs:
         name: Frontend coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: '14.x'
             - name: Cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               env:
                   cache-name: cache-node-modules
               with:
@@ -110,26 +131,30 @@ jobs:
             - name: React coding standards
               run: npm run check-coding-standards
 
-    frontend-tests:
-        name: Frontend tests
+    cypress:
+        name: Cypress
         runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                browser: ["chrome", "edge"]
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup network
+              run: docker network create frontend
+
+            - name: Install client
+              run: docker compose run frontend npm install
+
+            - name: Cypress run
+              run: docker compose run cypress run --component --browser ${{ matrix.browser }}
+
+            - name: Archive screenshots
+              if: ${{ failure() }}
+              uses: actions/upload-artifact@v3
               with:
-                  node-version: '14.x'
-            - name: Cache node modules
-              uses: actions/cache@v2
-              env:
-                  cache-name: cache-node-modules
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
-            - name: install
-              run: npm install
-            - name: Run tests
-              run: npm run test-ci
+                  name: cypress-screenhosts-${{ matrix.browser }}
+                  path: cypress/screenshots
+                  retention-days: 7

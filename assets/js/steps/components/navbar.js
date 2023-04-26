@@ -45,20 +45,23 @@ function NavBar({ actionHandler }) {
     const classes = step === 'initial' ? 'navbar initial' : 'navbar';
     const components = [
         {
-            class: 'button check-out-items',
+            additionalClass: 'check-out-items',
             data: { flow: 'checkOutItems' },
             label: NavbarButtonCheckOut,
             img: CheckOutIconBlack
         },
         {
-            class: context.connectionState.get === CONNECTION_ONLINE ? 'button status' : 'button offline',
+            additionalClass:
+                context.connectionState.get === CONNECTION_ONLINE
+                    ? 'status'
+                    : 'offline',
             data: { flow: 'status' },
             disabled: context.connectionState.get === CONNECTION_OFFLINE,
             label: NavbarButtonStatus,
             icon: faInfoCircle
         },
         {
-            class: 'button check-in-items',
+            additionalClass: 'check-in-items',
             data: { flow: 'checkInItems' },
             label: NavbarButtonCheckIn,
             img: CheckInIconWhite
@@ -82,64 +85,74 @@ function NavBar({ actionHandler }) {
     }
 
     return (
-        <div className={classes} >
+        <div className={classes} data-cy='navbar'>
             <div className='text-container'>
                 <span className='text'>{school.name}</span>
-                {user && (
-                    <span className='text bold'>
-                        {user.name}
-                    </span>
-                )}
+                {user && <span className='text bold'>{user.name}</span>}
                 {user?.birthdayToday && (
                     <span className='birthday-icon'>
-                        <FontAwesomeIcon icon={faBirthdayCake}/>
+                        <FontAwesomeIcon icon={faBirthdayCake} />
                     </span>
                 )}
                 {debugEnabled && (
                     <span className='text bold'>
                         Debug mode!
-                        <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }}/>
+                        <FontAwesomeIcon icon={faBug} style={{ paddingLeft: '4px', color: 'hotpink' }} />
                     </span>
                 )}
             </div>
             <div className='button-container'>
-                {showStartLoginSessionButton &&
-                <Button
-                    onClick={startLoginSession}
-                    icon={faPlayCircle}
-                    label={NavbarStartLoginSession}
-                    className='button start-session'
-                />
-                }
-                {activeLoginSession &&
-                <Button
-                    onClick={stopLoginSession}
-                    icon={faStopCircle}
-                    label={NavbarStopLoginSession}
-                    className='button stop-session'
-                />
-                }
-                {step !== 'initial' &&
+                {showStartLoginSessionButton && (
+                    <Button
+                        onClick={startLoginSession}
+                        icon={faPlayCircle}
+                        label={NavbarStartLoginSession}
+                        className='button start-session'
+                    />
+                )}
+                {activeLoginSession && (
+                    <Button
+                        onClick={stopLoginSession}
+                        icon={faStopCircle}
+                        label={NavbarStopLoginSession}
+                        className='button stop-session'
+                    />
+                )}
+                {step !== 'initial' && (
                     <>
-                        {['status', 'checkInItems', 'checkOutItems'].includes(step) &&
-                            components.map((button) => (
-                                <Button
-                                    key={button.class}
-                                    label={button.label}
-                                    icon={button.icon}
-                                    disabled={button.disabled}
-                                    onClick={() => actionHandler('changeFlow', button.data)}
-                                    className={button.class}
-                                    img={button.img}
-                                />
-                            ))
-                        }
+                        {['status', 'checkInItems', 'checkOutItems'].includes(
+                            step
+                        ) &&
+                            components.map(
+                                ({
+                                    additionalClass,
+                                    label,
+                                    icon,
+                                    disabled,
+                                    data,
+                                    img
+                                }) => (
+                                    <Button
+                                        key={additionalClass}
+                                        data-cy={additionalClass}
+                                        label={label}
+                                        icon={icon}
+                                        disabled={disabled}
+                                        onClick={() =>
+                                            actionHandler('changeFlow', data)
+                                        }
+                                        className={`button ${additionalClass}`}
+                                        img={img}
+                                    />
+                                )
+                            )}
                     </>
-                }
+                )}
                 <Button
                     label={step === 'initial' ? NavbarButtonReset : NavbarButtonFinish}
                     icon={faSignOutAlt}
                     onClick={() => actionHandler('reset')}
+                    data-cy='logout'
                     className='button logout'
                 />
             </div>

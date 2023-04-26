@@ -15,25 +15,30 @@ class Sip2User
 {
     /**
      * @ORM\Id()
+     *
      * @ORM\GeneratedValue()
+     *
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Groups("boxConfiguration")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Groups("boxConfiguration")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=16)
+     *
      * @Groups("boxConfiguration")
      */
     private $agencyId;
@@ -45,6 +50,7 @@ class Sip2User
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      * @Groups("boxConfiguration")
      */
     private $location;

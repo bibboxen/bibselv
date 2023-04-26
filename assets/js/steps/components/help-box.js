@@ -19,7 +19,7 @@ import { HelpBoxHeader } from '../utils/formatted-messages';
  */
 function HelpBox({ text, header }) {
     return (
-        <div className='help-box'>
+        <div className='help-box' data-cy="help-box">
             <div className='helpbox-header'>
                 <span className='icon-helpbox'>
                     <FontAwesomeIcon icon={faQuestionCircle} />

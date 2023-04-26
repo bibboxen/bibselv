@@ -89,12 +89,15 @@ function Initial({ actionHandler }) {
 
     return (
         <div className='col-md-12'>
-            {!context?.machineState?.get?.processing &&
+            {!context?.machineState?.get?.processing && (
                 <>
-                    <h1 className='mb-5'>
+                    <h1 className='mb-5' data-cy='header'>
                         {InitialHeader}
                     </h1>
-                    <div className='row justify-content-center'>
+                    <div
+                        className='row justify-content-center'
+                        data-cy='bubble-buttons'
+                    >
                         {components.map((component) => (
                             <div key={component.type} className='col-md-3'>
                                 <Bubble
@@ -103,12 +106,19 @@ function Initial({ actionHandler }) {
                                     icon={component.icon}
                                     img={component.img}
                                     disabled={component.disabled}
-                                    onClick={() => actionHandler('enterFlow', { flow: component.type })}
+                                    onClick={() =>
+                                        actionHandler('enterFlow', {
+                                            flow: component.type
+                                        })
+                                    }
                                 />
                             </div>
                         ))}
                     </div>
-                    <div className='row justify-content-center mt-5'>
+                    <div
+                        className='row justify-content-center mt-5'
+                        data-cy='barcodes'
+                    >
                         {components.map((component) => (
                             <div key={component.type} className='col-md-3'>
                                 <Barcode
@@ -120,17 +130,17 @@ function Initial({ actionHandler }) {
                         ))}
                     </div>
                 </>
-            }
-            {context.connectionState?.get === CONNECTION_OFFLINE &&
+            )}
+            {context.connectionState?.get === CONNECTION_OFFLINE && (
                 <div>
                     <Alert variant='warning' message={StatusUnavailable} />
                 </div>
-            }
-            {context.machineState?.get?.loginError &&
+            )}
+            {context.machineState?.get?.loginError && (
                 <div>
                     <Alert message={LoginLoginError} />
                 </div>
-            }
+            )}
         </div>
     );
 }
