@@ -7,10 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Removed
-- Removed auto deploy to staging.
-- Re-written tests in cypress.
+### Changed
+
+* Upgraded engine to node 18.
+
+## [1.1.0] - 2023-04-26
+
+### Added
+
+- Added visual error handling when socket connection is down.
 - Added clock to main screen.
+
+### Changed
+
+- Re-written tests in cypress.
+
+### Removed
+
+- Removed auto deploy to staging.
 
 ## [1.0.8] - 2023-02-02
 - Downgraded setup from PHP 8.1 to 8.0 to match server
