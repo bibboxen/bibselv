@@ -46,7 +46,7 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
 
   engine:
-    image: node:14
+    image: node:18
     restart: unless-stopped
     networks:
       - app
