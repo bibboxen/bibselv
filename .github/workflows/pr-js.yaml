@@ -16,18 +16,8 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                  node-version: '14.x'
-            - name: Cache node modules
-              uses: actions/cache@v3
-              env:
-                  cache-name: cache-node-modules
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
+                  node-version: 18
+                  cache: 'npm'
             - name: install
               working-directory: engine
               run: npm install
@@ -42,18 +32,8 @@ jobs:
             -   uses: actions/checkout@v3
             -   uses: actions/setup-node@v3
                 with:
-                    node-version: '14.x'
-            - name: Cache node modules
-              uses: actions/cache@v3
-              env:
-                  cache-name: cache-node-modules
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
+                    node-version: 18
+                    cache: 'npm'
             -   name: install
                 working-directory: engine
                 run: npm install
@@ -88,21 +68,12 @@ jobs:
     frontend-build:
         name: Frontend build
         runs-on: ubuntu-latest
-        container: node:14
         steps:
             - uses: actions/checkout@v3
-            - name: Cache node modules
-              uses: actions/cache@v3
-              env:
-                  cache-name: cache-node-modules
+            - uses: actions/setup-node@v3
               with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
-            - name: Run install and build assets
+                  node-version: 18
+                  cache: 'npm'
               run: |
                 npm install
                 npm run build
@@ -114,18 +85,8 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                  node-version: '14.x'
-            - name: Cache node modules
-              uses: actions/cache@v3
-              env:
-                  cache-name: cache-node-modules
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
+                  node-version: 18
+                  cache: 'npm'
             - name: install
               run: npm install
             - name: React coding standards
@@ -155,6 +116,6 @@ jobs:
               if: ${{ failure() }}
               uses: actions/upload-artifact@v3
               with:
-                  name: cypress-screenhosts-${{ matrix.browser }}
+                  name: cypress-screenshots-${{ matrix.browser }}
                   path: cypress/screenshots
                   retention-days: 7
