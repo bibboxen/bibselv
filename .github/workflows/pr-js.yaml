@@ -69,20 +69,27 @@ jobs:
         name: Frontend build
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - name: Checkout
+              uses: actions/checkout@v3
+
             - uses: actions/setup-node@v3
               with:
                   node-version: 18
                   cache: 'npm'
-              run: |
-                npm install
-                npm run build
+
+            - name: npm install
+              run: npm install
+
+            - name: npm build
+              run: npm build
 
     frontend-coding-standards:
         name: Frontend coding standards
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - name: Checkout
+              uses: actions/checkout@v3
+
             - uses: actions/setup-node@v3
               with:
                   node-version: 18
