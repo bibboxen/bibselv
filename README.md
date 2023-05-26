@@ -87,7 +87,7 @@ Install database schema for Symfony using migrations, run
 docker-compose exec phpfpm bash -c 'bin/console doctrine:migrations:migrate'
 ```
 
-To populate the databasde with meaningful test data run the doctrine fixtures
+To populate the database with meaningful test data run the doctrine fixtures
 
 ```sh
 docker-compose exec phpfpm bash -c 'bin/console doctrine:fixtures:load'
