@@ -48,6 +48,7 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
 
   engine:
+    user: '1042'
     image: node:18-alpine
     restart: unless-stopped
     networks:
@@ -87,6 +88,7 @@ services:
       - MEMCACHED_CACHE_SIZE=64
 
   frontend:
+    user: '1042'
     image: node:18
     networks:
       - app
