@@ -4,7 +4,7 @@ cd "$(dirname "$0")/.." || exit
 # Install main modules
 echo '-- Install main modules --'
 echo "==> ."
-npm install --${1:-omit=dev}
+npm install --${1:-omit=dev} --force
 echo '-----------------------'
 
 # Install plugin dependencies.
@@ -16,7 +16,7 @@ for folder in plugins/*; do
     echo '-----------------------'
     echo "==> ${folder}"
     echo '-----------------------'
-    cd $folder; npm install --${1:-omit=dev}; cd ../..;
+    cd $folder; npm install --${1:-omit=dev} --force; cd ../..;
     echo '-----------------------'
   fi
 done
