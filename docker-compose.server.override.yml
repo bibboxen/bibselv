@@ -56,11 +56,11 @@ services:
       - frontend
     depends_on:
       - nginx
-    working_dir: /home/node/app
+    working_dir: /app
     environment:
       - NODE_ENV=production
     volumes:
-      - ./engine:/home/node/app
+      - ./engine:/app
     command: npm run prod
 
   logstash:
@@ -89,11 +89,11 @@ services:
 
   frontend:
     user: '1042'
-    image: node:18-alpine
+    image: node:18
     networks:
       - app
-    working_dir: /home/node/app
+    working_dir: /app
     environment:
       - NODE_ENV=prod
     volumes:
-      - .:/home/node/app
+      - .:/app
