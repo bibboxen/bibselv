@@ -50,7 +50,7 @@ cp engine/example_config.json engine/config.json
 Install dependencies for the engine.
 
 ```sh
-docker-compose run engine bash -c './scripts/install.sh --also=dev'
+docker compose run engine bash -c './scripts/install.sh --also=dev'
 ```
 
 ### Environment variables
@@ -276,22 +276,12 @@ docker compose exec engine bash -c 'npm test'
 
 ### Setup symfony
 
-Create a `.env.local` with the correct values for SECRET, DB_USER, DB_PASSWORD, DB_NAME
+To install and build please run the `../scripts/deploy.sh` script on the `prod` server
+and give the tag to deply as argument to the script.
 
 ```sh
-APP_ENV=prod
-APP_SECRET=SECRET
-
-DATABASE_URL=mysql://DB_USER:DB_PASSWORD@mariadb:3306/DB_NAME
+../scripts/deploy.sh <git tag>
 ```
-
-To install and build please run the supplied [restart.sh](restart.sh) script.
-
-```sh
-./restart.sh
-```
-
-After this make sure the engine is restarted, by restarting supervisor.
 
 ## Translations
 
