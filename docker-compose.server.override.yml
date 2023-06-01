@@ -96,6 +96,7 @@ services:
     working_dir: /app
     environment:
       - NODE_ENV=prod
+      - CYPRESS_CACHE_FOLDER=/app/.cypress
       - npm_config_cache=/app/.npm
     volumes:
       - .:/app
