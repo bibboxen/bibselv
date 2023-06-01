@@ -59,6 +59,7 @@ services:
     working_dir: /app
     environment:
       - NODE_ENV=production
+      - npm_config_cache=/app/.npm
     volumes:
       - ./engine:/app
     command: npm run prod
@@ -95,5 +96,6 @@ services:
     working_dir: /app
     environment:
       - NODE_ENV=prod
+      - npm_config_cache=/app/.npm
     volumes:
       - .:/app
