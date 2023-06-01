@@ -4,7 +4,7 @@ cd "$(dirname "$0")/.." || exit
 # Install main modules
 echo '-- Install main modules --'
 echo "==> ."
-npm clean-install --${1:-omit=dev} --cache=/app
+npm clean-install --${1:-omit=dev}
 echo '-----------------------'
 
 # Install plugin dependencies.
@@ -16,7 +16,7 @@ for folder in plugins/*; do
     echo '-----------------------'
     echo "==> ${folder}"
     echo '-----------------------'
-    cd $folder; npm clean-install --${1:-omit=dev} --cache=/app; cd ../..;
+    cd $folder; npm clean-install --${1:-omit=dev}; cd ../..;
     echo '-----------------------'
   fi
 done
