@@ -277,7 +277,7 @@ docker compose exec engine bash -c 'npm test'
 ### Setup symfony
 
 To install and build please run the `../scripts/deploy.sh` script on the `prod` server
-and give the tag to deply as argument to the script.
+and give the tag to deploy as argument to the script.
 
 ```sh
 ../scripts/deploy.sh <git tag>
