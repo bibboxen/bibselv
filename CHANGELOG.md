@@ -23,6 +23,11 @@ Fix error with sound.
 - Debug view improved [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
 
+## [1.2.0] - 2023-mm-dd
+* Upgraded engine to node 18.
+* Upgraded to PHP 8.1
+* Upgraded to latest github actions
+
 ## [1.1.0] - 2023-04-26
 
 ### Added
