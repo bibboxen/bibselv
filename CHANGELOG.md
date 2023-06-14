@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Upgraded engine to node 18.
+* Upgraded to PHP 8.1
+* Upgraded to latest github actions
 
 ## [1.1.0] - 2023-04-26
 

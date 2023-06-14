@@ -1,4 +1,4 @@
-# itk-version: 3.0.0
+# itk-version: 3.1.0
 version: "3"
 
 networks:
@@ -10,10 +10,12 @@ networks:
 
 services:
   phpfpm:
-    image: itkdev/php8.0-fpm:alpine
+    image: itkdev/php8.1-fpm:alpine
     restart: unless-stopped
     networks:
       - app
+    depends_on:
+      - redis
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
@@ -46,13 +48,18 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
 
   engine:
-    image: node:18
+    user: '1042'
+    image: node:18-alpine
     restart: unless-stopped
     networks:
       - app
+      - frontend
+    depends_on:
+      - nginx
     working_dir: /app
     environment:
       - NODE_ENV=production
+      - npm_config_cache=/app/.npm
     volumes:
       - ./engine:/app
     command: npm run prod
@@ -68,15 +75,28 @@ services:
       - .docker/pipeline:/usr/share/logstash/pipeline:ro
 
   redis:
-    image: 'redis:5'
+    image: redis:6-alpine
     restart: unless-stopped
     networks:
       - app
 
   memcached:
-    image: 'memcached:latest'
+    image: memcached:latest
     restart: unless-stopped
     networks:
       - app
     environment:
       - MEMCACHED_CACHE_SIZE=64
+
+  frontend:
+    user: '1042'
+    image: node:18
+    networks:
+      - app
+    working_dir: /app
+    environment:
+      - NODE_ENV=prod
+      - CYPRESS_CACHE_FOLDER=/app/.cypress
+      - npm_config_cache=/app/.npm
+    volumes:
+      - .:/app

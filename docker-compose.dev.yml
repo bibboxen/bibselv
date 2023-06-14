@@ -1,10 +1,10 @@
-# itk-version: 3.0.0
+# itk-version: 3.1.0
 version: "3"
 
 services:
   phpfpm:
     environment:
-      - PHP_SENDMAIL_PATH='/usr/local/bin/mhsendmail --smtp-addr="mailhog:1025"'
+      - PHP_SENDMAIL_PATH=/usr/local/bin/mhsendmail --smtp-addr="mailhog:1025"
 
   nginx:
     labels:
@@ -12,6 +12,7 @@ services:
 
   mailhog:
     image: itkdev/mailhog
+    restart: unless-stopped
     networks:
       - app
       - frontend
