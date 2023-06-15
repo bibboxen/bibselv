@@ -33,8 +33,8 @@ function Alert({ message, variant }) {
 }
 
 Alert.propTypes = {
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    variant: PropTypes.string,
+  message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  variant: PropTypes.string,
 };
 
 export default Alert;

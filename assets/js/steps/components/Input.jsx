@@ -52,11 +52,11 @@ function Input({ name, label, value, activeBanner = false, ...rest }) {
 }
 
 Input.propTypes = {
-    name: PropTypes.string.isRequired,
-    label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    value: PropTypes.string.isRequired,
-    activeBanner: PropTypes.bool,
-    rest: PropTypes.object,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  value: PropTypes.string.isRequired,
+  activeBanner: PropTypes.bool,
+  rest: PropTypes.object,
 };
 
 export default Input;

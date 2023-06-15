@@ -18,25 +18,25 @@ import { HelpBoxHeader } from "../utils/formatted-messages";
  * @constructor
  */
 function HelpBox({ text, header }) {
-    return (
-        <div className="help-box" data-cy="help-box">
-            <div className="helpbox-header">
-                <span className="icon-helpbox">
-                    <FontAwesomeIcon icon={faQuestionCircle} />
-                </span>
-                <span>
-                    {header && header}
-                    {!header && HelpBoxHeader}
-                </span>
-                <p>{text}</p>
-            </div>
-        </div>
-    );
+  return (
+    <div className="help-box" data-cy="help-box">
+      <div className="helpbox-header">
+        <span className="icon-helpbox">
+          <FontAwesomeIcon icon={faQuestionCircle} />
+        </span>
+        <span>
+          {header && header}
+          {!header && HelpBoxHeader}
+        </span>
+        <p>{text}</p>
+      </div>
+    </div>
+  );
 }
 
 HelpBox.propTypes = {
-    text: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    header: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  text: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  header: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 };
 
 export default HelpBox;

@@ -1,0 +1,61 @@
+{
+  "Functional component": {
+    "prefix": "fc",
+    "body": [
+      "import * as React from \"react\";",
+      "import { FC } from \"react\";",
+      "",
+      "export interface ${1:component}Props {}",
+      "",
+      "const ${1:component}: FC<${1:component}Props> = ({}) => {",
+      "return (",
+      "<>",
+      "Hello",
+      "</>",
+      ");",
+      "};",
+      "",
+      "export default ${1:component};"
+    ],
+    "description": "Creates a skeleton for a new functional component in dpl-react style"
+  },
+  "String literal variable": {
+    "scope": "sv",
+    "prefix": "slvdplreact",
+    "body": [
+      "${${1:variable}}",
+    ],
+    "description": "Formats a varaible to be used in a string literal"
+  },
+   "debugger": {
+    "prefix": "db",
+    "body": [
+      "debugger;"
+    ],
+    "description": "Writes basic usestate"
+  },
+   "consolelog": {
+    "prefix": "cs",
+    "body": [
+      "console.log(${1:variable});"
+    ],
+    "description": "Writes console.log();"
+  },
+  "UseEffect": {
+    "prefix": "ue",
+    "body": [
+      "useEffect(() => {",
+      "console.log(${1:variable})",
+      "},",
+      "[${1:variable}]);"
+    ],
+    "description": "Writes basic useeffect"
+  },
+  "usestate": {
+    "prefix": "us",
+    "body": [
+      "const [${1:variable}, set${1:variable}] = useState()"
+    ],
+    "description": "Writes basic usestate"
+  },
+}

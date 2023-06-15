@@ -13,11 +13,11 @@ import { Spinner } from "react-bootstrap";
  * @constructor
  */
 function Loading() {
-    return (
-        <div className="loading-screen">
-            <Spinner animation="border" />
-        </div>
-    );
+  return (
+    <div className="loading-screen">
+      <Spinner animation="border" />
+    </div>
+  );
 }
 
 export default Loading;

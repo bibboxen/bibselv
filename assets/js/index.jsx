@@ -13,10 +13,10 @@ const socket = socketIOClient(rootElement.getAttribute("data-socket-uri"));
 const root = createRoot(rootElement);
 
 root.render(
-    <React.StrictMode>
-        <App
-            uniqueId={rootElement.getAttribute("data-unique-id")}
-            socket={socket}
-        />
-    </React.StrictMode>
+  <React.StrictMode>
+    <App
+      uniqueId={rootElement.getAttribute("data-unique-id")}
+      socket={socket}
+    />
+  </React.StrictMode>
 );

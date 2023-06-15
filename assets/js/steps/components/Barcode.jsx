@@ -20,18 +20,18 @@ import PropTypes from "prop-types";
  * @constructor
  */
 function Barcode({ type, disabled }) {
-    const classes = `barcode ${type.toLowerCase()} ${disabled ? "disabled" : ""}`;
+  const classes = `barcode ${type.toLowerCase()} ${disabled ? "disabled" : ""}`;
 
-    return (
-        <div className={classes}>
-            <div className="barcode-inner" />
-        </div>
-    );
+  return (
+    <div className={classes}>
+      <div className="barcode-inner" />
+    </div>
+  );
 }
 
 Barcode.propTypes = {
-    type: PropTypes.string.isRequired,
-    disabled: PropTypes.bool,
+  type: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default Barcode;

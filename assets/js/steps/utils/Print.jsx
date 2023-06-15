@@ -18,25 +18,25 @@ import { PrintReservationNote } from "./formatted-messages";
  * @constructor
  */
 function Print({ book }) {
-    /**
+  /**
    * Print on load
    */
-    useEffect(() => {
-        window.print();
-    }, []);
+  useEffect(() => {
+    window.print();
+  }, []);
 
-    return (
-        <div key={book.title} className="flex-column visible-on-print">
-            <h1>{PrintReservationNote}</h1>
-            <div>{book.message}</div>
-            <div>{book.title}</div>
-            <div>{book.author}</div>
-        </div>
-    );
+  return (
+    <div key={book.title} className="flex-column visible-on-print">
+      <h1>{PrintReservationNote}</h1>
+      <div>{book.message}</div>
+      <div>{book.title}</div>
+      <div>{book.author}</div>
+    </div>
+  );
 }
 
 Print.propTypes = {
-    book: PropTypes.object.isRequired,
+  book: PropTypes.object.isRequired,
 };
 
 export default Print;

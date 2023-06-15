@@ -41,7 +41,7 @@ function ScanLogin({ actionHandler }) {
     const barcodeCallback = new BarcodeHandler(
       actionHandler,
       [ACTION_RESET],
-      function(result) {
+      function (result) {
         actionHandler("login", {
           username: result.outputCode,
           useDefaultPassword: true,

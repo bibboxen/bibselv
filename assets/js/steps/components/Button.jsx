@@ -38,10 +38,10 @@ function Button({ label, icon, img, disabled, ...rest }) {
 }
 
 Button.propTypes = {
-    label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    icon: PropTypes.object,
-    img: PropTypes.string,
-    disabled: PropTypes.bool,
+  label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  icon: PropTypes.object,
+  img: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default Button;

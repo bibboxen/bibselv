@@ -58,7 +58,7 @@ function QwertyKeyboard({ handleKeyPress }) {
 }
 
 QwertyKeyboard.propTypes = {
-    handleKeyPress: PropTypes.func.isRequired,
+  handleKeyPress: PropTypes.func.isRequired,
 };
 
 export default QwertyKeyboard;

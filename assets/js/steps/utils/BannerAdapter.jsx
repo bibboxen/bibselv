@@ -6,8 +6,8 @@
 
 import BookStatus from "./BookStatus";
 import {
-    BannerAdapterFetchingInfo,
-    BannerTitleAuthor,
+  BannerAdapterFetchingInfo,
+  BannerTitleAuthor,
 } from "./formatted-messages";
 
 /**
@@ -19,43 +19,43 @@ import {
  * @return {[]}
  */
 export function adaptListOfBooksToBanner(
-    listOfBooks,
-    reservedMaterialInstruction
+  listOfBooks,
+  reservedMaterialInstruction
 ) {
-    const items = [];
+  const items = [];
 
-    listOfBooks.forEach((book) => {
-        const displayInfo = {
-            ...book,
-            text:
+  listOfBooks.forEach((book) => {
+    const displayInfo = {
+      ...book,
+      text:
         book.title && book.author
-            ? BannerTitleAuthor(book.title, book.author)
-            : "",
-        };
-        switch (book.status) {
-            case BookStatus.ERROR:
-                displayInfo.title = book.message;
-                break;
-            case BookStatus.IN_PROGRESS:
-                displayInfo.title = BannerAdapterFetchingInfo;
-                displayInfo.text = book.itemIdentifier;
-                break;
-            case BookStatus.CHECKED_IN:
-            case BookStatus.CHECKED_OUT:
-            case BookStatus.RENEWED:
-                if (book.author) {
-                    displayInfo.text = BannerTitleAuthor(book.title, book.author);
-                }
-                if (book.reservedByOtherUser) {
-                    displayInfo.status = BookStatus.RESERVED;
-                    displayInfo.title = reservedMaterialInstruction || book.message;
-                }
-                break;
+          ? BannerTitleAuthor(book.title, book.author)
+          : "",
+    };
+    switch (book.status) {
+      case BookStatus.ERROR:
+        displayInfo.title = book.message;
+        break;
+      case BookStatus.IN_PROGRESS:
+        displayInfo.title = BannerAdapterFetchingInfo;
+        displayInfo.text = book.itemIdentifier;
+        break;
+      case BookStatus.CHECKED_IN:
+      case BookStatus.CHECKED_OUT:
+      case BookStatus.RENEWED:
+        if (book.author) {
+          displayInfo.text = BannerTitleAuthor(book.title, book.author);
         }
+        if (book.reservedByOtherUser) {
+          displayInfo.status = BookStatus.RESERVED;
+          displayInfo.title = reservedMaterialInstruction || book.message;
+        }
+        break;
+    }
 
-        items.push(displayInfo);
-    });
-    return items;
+    items.push(displayInfo);
+  });
+  return items;
 }
 
 /**
@@ -68,15 +68,15 @@ export function adaptListOfBooksToBanner(
  * @return {[]}
  */
 export function adaptListOfBooks(listOfBooks, status, title) {
-    const items = [];
-    listOfBooks.forEach((book) => {
-        const displayInfo = { ...book };
-        displayInfo.status = status || null;
-        displayInfo.title = title || book.title;
-        displayInfo.text = book.author ? BannerTitleAuthor("", book.author) : "";
-        items.push(displayInfo);
-    });
-    return items;
+  const items = [];
+  listOfBooks.forEach((book) => {
+    const displayInfo = { ...book };
+    displayInfo.status = status || null;
+    displayInfo.title = title || book.title;
+    displayInfo.text = book.author ? BannerTitleAuthor("", book.author) : "";
+    items.push(displayInfo);
+  });
+  return items;
 }
 
 /**
@@ -86,7 +86,7 @@ export function adaptListOfBooks(listOfBooks, status, title) {
  * @return {[]}
  */
 export function adaptListOfBooksWithSuccess(listOfBooks) {
-    return adaptListOfBooks(listOfBooks, BookStatus.SUCCESS);
+  return adaptListOfBooks(listOfBooks, BookStatus.SUCCESS);
 }
 
 /**
@@ -97,5 +97,5 @@ export function adaptListOfBooksWithSuccess(listOfBooks) {
  * @return {[]}
  */
 export function adaptListOfBooksWitErrorAndTitle(listOfBooks, title) {
-    return adaptListOfBooks(listOfBooks, BookStatus.ERROR, title);
+  return adaptListOfBooks(listOfBooks, BookStatus.ERROR, title);
 }
