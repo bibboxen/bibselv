@@ -4,6 +4,10 @@ module.exports = {
         'standard',
         'eslint:recommended',
         'plugin:react/recommended',
+        'plugin:cypress/recommended',
+        'airbnb',
+        'prettier',
+        'plugin:prettier/recommended',
         'plugin:cypress/recommended'
     ],
     rules: {
