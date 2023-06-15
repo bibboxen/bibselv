@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react';
-import MachineStateContext from '../utils/machine-state-context';
+import MachineStateContext from '../utils/MachineStateContext';
 import { Spinner } from 'react-bootstrap';
 
 /**

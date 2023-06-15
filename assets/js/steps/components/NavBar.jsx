@@ -4,8 +4,8 @@
  */
 
 import React, { useContext } from 'react';
-import Button from './button';
-import MachineStateContext from '../utils/machine-state-context';
+import Button from './Button';
+import MachineStateContext from '../utils/MachineStateContext';
 import {
     faInfoCircle,
     faPlayCircle,
@@ -32,7 +32,8 @@ import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from '../../constants';
 /**
  * NavBar.
  *
- * @param actionHandler
+ * @param {object} props - the props.
+ * @param {function} props.actionHandler
  *  As the state can only be changed by the statemachine, the actionHandler
  *  calls the statemachine if a user requests a state change.
  * @return {*}

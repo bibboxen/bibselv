@@ -61,8 +61,8 @@
         "compile": "formatjs compile",
         "cypress:run": "cypress run --component",
         "cypress:open": "cypress open --component",
-        "check-coding-standards": "eslint --config .eslintrc.js 'assets/**/*.js'",
-        "apply-coding-standards": "eslint --config .eslintrc.js 'assets/**/*.js' --fix"
+        "check-coding-standards": "eslint --config .eslintrc.json 'assets/**/*.{js, jsx}'",
+        "apply-coding-standards": "eslint --config .eslintrc.json 'assets/**/*.{js, jsx}' --fix"
     },
     "engines": {
         "node": "=18.*"

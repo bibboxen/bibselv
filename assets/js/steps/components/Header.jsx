@@ -5,7 +5,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import IconBubble from "./icon-bubble";
+import IconBubble from "./IconBubble";
 
 /**
  * Header.

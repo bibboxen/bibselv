@@ -7,7 +7,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Banner from "./banner";
+import Banner from "./Banner";
 
 /**
  * BannerList.

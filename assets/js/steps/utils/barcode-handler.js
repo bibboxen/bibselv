@@ -4,12 +4,12 @@
  */
 
 import {
-    BARCODE_COMMAND_CHECKIN,
-    BARCODE_COMMAND_CHECKOUT,
-    BARCODE_COMMAND_FINISH,
-    BARCODE_COMMAND_PRINT,
-    BARCODE_COMMAND_STATUS,
-    BARCODE_TYPE_COMMAND,
+  BARCODE_COMMAND_CHECKIN,
+  BARCODE_COMMAND_CHECKOUT,
+  BARCODE_COMMAND_FINISH,
+  BARCODE_COMMAND_PRINT,
+  BARCODE_COMMAND_STATUS,
+  BARCODE_TYPE_COMMAND,
 } from "../../constants";
 
 /**
@@ -18,7 +18,7 @@ import {
  * Class to handle barcode results.
  */
 export class BarcodeHandler {
-    /**
+  /**
    * BarcodeHandler constructor.
    *
    * @param allowedActions
@@ -34,91 +34,93 @@ export class BarcodeHandler {
    * @param commandCallback
    *   Callback that is called after executing a command.
    */
-    constructor(
-        allowedActions = [],
-        actionHandler,
-        notCommandCallback = () => {},
-        commandCallback = () => {}
-    ) {
-        this.allowedActions = allowedActions;
-        this.actionHandler = actionHandler;
-        this.notCommandCallback = notCommandCallback;
-        this.commandCallback = commandCallback;
-    }
+  constructor(
+    actionHandler,
+    allowedActions = [],
+    notCommandCallback = () => {},
+    commandCallback = () => {}
+  ) {
+    this.allowedActions = allowedActions;
+    this.actionHandler = actionHandler;
+    this.notCommandCallback = notCommandCallback;
+    this.commandCallback = commandCallback;
+  }
 
-    /**
+  /**
    * Create a callback function for the barcode scanner.
    */
-    createCallback() {
-        const { actionHandler } = this;
-        const { allowedActions } = this;
-        const { notCommandCallback } = this;
-        const { commandCallback } = this;
+  createCallback() {
+    const { actionHandler } = this;
+    const { allowedActions } = this;
+    const { notCommandCallback } = this;
+    const { commandCallback } = this;
 
-        return function(result) {
-            // Reject non-coded results.
-            if (!result.codedBarcodeScanner) {
-                return;
+    return function (result) {
+      // Reject non-coded results.
+      if (!result.codedBarcodeScanner) {
+        return;
+      }
+
+      if (result.type === BARCODE_TYPE_COMMAND) {
+        switch (result.outputCode) {
+          case BARCODE_COMMAND_FINISH:
+            if (allowedActions.includes("reset")) {
+              actionHandler("reset");
             }
-
-            if (result.type === BARCODE_TYPE_COMMAND) {
-                switch (result.outputCode) {
-                    case BARCODE_COMMAND_FINISH:
-                        if (allowedActions.includes("reset")) {
-                            actionHandler("reset");
-                        }
-                        break;
-                    case BARCODE_COMMAND_CHECKOUT:
-                        if (
-                            allowedActions.includes("enterFlowCheckOut") ||
+            break;
+          case BARCODE_COMMAND_CHECKOUT:
+            if (
+              allowedActions.includes("enterFlowCheckOut") ||
               allowedActions.includes("changeFlowCheckOut")
-                        ) {
-                            const action = allowedActions.includes("enterFlowCheckOut")
-                                ? "enterFlow"
-                                : "changeFlow";
-                            actionHandler(action, {
-                                flow: "checkOutItems",
-                            });
-                        }
-                        break;
-                    case BARCODE_COMMAND_CHECKIN:
-                        if (
-                            allowedActions.includes("enterFlowCheckIn") ||
-              allowedActions.includes("changeFlowCheckIn")
-                        ) {
-                            const action = allowedActions.includes("enterFlowCheckIn")
-                                ? "enterFlow"
-                                : "changeFlow";
-                            actionHandler(action, {
-                                flow: "checkInItems",
-                            });
-                        }
-                        break;
-                    case BARCODE_COMMAND_STATUS:
-                        if (
-                            allowedActions.includes("enterFlowStatus") ||
-              allowedActions.includes("changeFlowStatus")
-                        ) {
-                            const action = allowedActions.includes("enterFlowStatus")
-                                ? "enterFlow"
-                                : "changeFlow";
-                            actionHandler(action, {
-                                flow: "status",
-                            });
-                        }
-                        break;
-                    case BARCODE_COMMAND_PRINT:
-                        if (allowedActions.includes("print")) {
-                            window.print();
-                        }
-                        break;
-                }
-                commandCallback(result.outputCode);
-            } else {
-                notCommandCallback(result);
+            ) {
+              const action = allowedActions.includes("enterFlowCheckOut")
+                ? "enterFlow"
+                : "changeFlow";
+              actionHandler(action, {
+                flow: "checkOutItems",
+              });
             }
-        };
-    }
+            break;
+          case BARCODE_COMMAND_CHECKIN:
+            if (
+              allowedActions.includes("enterFlowCheckIn") ||
+              allowedActions.includes("changeFlowCheckIn")
+            ) {
+              const action = allowedActions.includes("enterFlowCheckIn")
+                ? "enterFlow"
+                : "changeFlow";
+              actionHandler(action, {
+                flow: "checkInItems",
+              });
+            }
+            break;
+          case BARCODE_COMMAND_STATUS:
+            if (
+              allowedActions.includes("enterFlowStatus") ||
+              allowedActions.includes("changeFlowStatus")
+            ) {
+              const action = allowedActions.includes("enterFlowStatus")
+                ? "enterFlow"
+                : "changeFlow";
+              actionHandler(action, {
+                flow: "status",
+              });
+            }
+            break;
+          case BARCODE_COMMAND_PRINT:
+            if (allowedActions.includes("print")) {
+              window.print();
+            }
+            break;
+          default:
+            return;
+        }
+        commandCallback(result.outputCode);
+      } else {
+        notCommandCallback(result);
+      }
+    };
+  }
 }
 
 export default BarcodeHandler;

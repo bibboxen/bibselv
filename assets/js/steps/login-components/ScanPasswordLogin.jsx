@@ -4,12 +4,12 @@
  */
 
 import React, { useState, useEffect, useContext } from 'react';
-import Header from '../components/header';
+import Header from '../components/Header';
 import PropTypes from 'prop-types';
 import { faExclamationTriangle, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import BarcodeScanner from '../utils/barcode-scanner';
-import QwertyKeyboard from '../utils/qwerty-keyboard';
-import MachineStateContext from '../utils/machine-state-context';
+import QwertyKeyboard from '../utils/QwertyKeyboard';
+import MachineStateContext from '../utils/MachineStateContext';
 import {
     ScanPasswordLoginFirstSubheader,
     ScanPasswordLoginSecondSubheader,
@@ -44,9 +44,9 @@ function ScanPasswordLogin({ actionHandler }) {
      */
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(context.boxConfig.get.barcodeTimeout ?? BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (new BarcodeHandler([
+        const barcodeCallback = (new BarcodeHandler(actionHandler, () => {},[
             ACTION_RESET
-        ], actionHandler, () => {}, function(outputCode) {
+        ], function(outputCode) {
             handleUsernameInput(outputCode);
         })).createCallback();
 

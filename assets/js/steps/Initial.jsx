@@ -6,8 +6,8 @@
 import React, { useContext, useEffect } from 'react';
 import BarcodeScanner from './utils/barcode-scanner';
 import PropTypes from 'prop-types';
-import Bubble from './components/bubble';
-import Barcode from './components/barcode';
+import Bubble from './components/Bubble';
+import Barcode from './components/Barcode';
 import {
     ACTION_ENTER_FLOW_CHECKIN,
     ACTION_ENTER_FLOW_CHECKOUT,
@@ -24,8 +24,8 @@ import {
 import BarcodeHandler from './utils/barcode-handler';
 import CheckInIconPurple from '../../scss/images/check-in-purple.svg';
 import CheckOutYellow from '../../scss/images/check-out-yellow.svg';
-import MachineStateContext from './utils/machine-state-context';
-import Alert from './utils/alert';
+import MachineStateContext from './utils/MachineStateContext';
+import Alert from './utils/Alert';
 
 /**
  * Initial component.
@@ -73,9 +73,9 @@ function Initial({ actionHandler }) {
     // Setup barcode scanner.
     useEffect(() => {
         const barcodeScanner = new BarcodeScanner(context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT);
-        const barcodeCallback = (new BarcodeHandler([
+        const barcodeCallback = (new BarcodeHandler( actionHandler,[
             ACTION_ENTER_FLOW_CHECKIN, ACTION_ENTER_FLOW_CHECKOUT, ACTION_ENTER_FLOW_STATUS, ACTION_RESET
-        ], actionHandler, function(result) {
+        ], function(result) {
             // If hasFrontpageCheckIn enabled in the box configuration, go to checkIn flow and pass
             // the scanned items for instant check in.
             if (context.boxConfig?.get?.hasFrontpageCheckIn && !activeLoginSession) {

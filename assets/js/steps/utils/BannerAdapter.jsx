@@ -4,7 +4,7 @@
  *
  */
 
-import BookStatus from "./book-status";
+import BookStatus from "./BookStatus";
 import {
     BannerAdapterFetchingInfo,
     BannerTitleAuthor,

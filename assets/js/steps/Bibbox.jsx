@@ -4,19 +4,19 @@
  */
 
 import React, { useEffect } from 'react';
-import Initial from './initial';
-import Status from './status';
-import Alert from './utils/alert';
-import CheckInItems from './check-in-items';
-import NavBar from './components/navbar';
-import CheckOutItems from './check-out-items';
+import Initial from './Initial';
+import Status from './Status';
+import Alert from './utils/Alert';
+import CheckInItems from './CheckInItems';
+import NavBar from './components/NavBar';
+import CheckOutItems from './CheckOutItems';
 import PropTypes from 'prop-types';
-import MachineStateContext from './utils/machine-state-context';
+import MachineStateContext from './utils/MachineStateContext';
 import { Sound } from './utils/sound';
-import ChangeLoginMethod from './change-login-method';
-import ScanLogin from './login-components/scan-login';
-import ScanPasswordLogin from './login-components/scan-password-login';
-import AzureADLogin from './login-components/azure-ad-login';
+import ChangeLoginMethod from './ChangeLoginMethod';
+import ScanLogin from './login-components/ScanLogin';
+import ScanPasswordLogin from './login-components/ScanPasswordLogin';
+import AzureADLogin from './login-components/AzureAdLogin';
 import '../../scss/index.scss';
 
 /**

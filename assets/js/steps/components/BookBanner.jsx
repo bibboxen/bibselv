@@ -1,6 +1,6 @@
 /**
  * @file
- * Banner component.
+ * BookBanner component.
  *
  * Displays a book banner (error, inprogress, neutral or success).
  */
@@ -13,56 +13,62 @@ import {
   faSpinner,
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
-import BookStatus from "../utils/book-status";
+import BookStatus from "../utils/BookStatus";
+import {
+    BookBannerByAuthor,
+    BookBannerWithoutAuthor,
+} from "../utils/formatted-messages";
 
 /**
- * Banner.
+ * BookBanner.
  *
  * @param item
  *   Item to be displayed by the banner components
- * @param visibleOnPrint
- *   Display on print output?
+ *
  * @return {*}
  * @constructor
  */
-function Banner({ item, visibleOnPrint = false }) {
-    let classes = visibleOnPrint ? "banner visibe-on-print " : "banner ";
-    let { text, title, status, itemIdentifier } = item;
+function BookBanner({ item }) {
+    const classes = ["book-banner"];
+
+    let { author, title, status, id } = item;
     let icon = null;
+
     switch (status) {
         case BookStatus.ERROR:
         case BookStatus.RESERVED:
-            classes += "danger";
+            classes.push("danger");
             icon = faExclamationTriangle;
             break;
         case BookStatus.IN_PROGRESS:
             icon = faSpinner;
-            text = `${itemIdentifier}`;
+            title = `${id}`;
             break;
         case BookStatus.RENEWED:
         case BookStatus.CHECKED_OUT:
         case BookStatus.CHECKED_IN:
         case BookStatus.SUCCESS:
-            classes += "success";
+            classes.push("success");
             icon = faCheck;
             break;
     }
 
+    const classNames = classes.join(" ");
+
     return (
-        <div className={classes} data-cy="banner">
-            {icon && (
-                <div className="icon">
-                    <FontAwesomeIcon icon={icon} />
-                </div>
-            )}
-            <span className="header">{title}</span>
-            {text && <span className="text">{text}</span>}
+        <div className={classNames} data-cy="book-banner">
+            {icon && <FontAwesomeIcon icon={icon} className="icon mr-2 mt-1" />}
+            <div className="body">
+                {title && <div className="title">{title}</div>}
+                {author && <div className="author">{BookBannerByAuthor(author)}</div>}
+                {!author && <div className="author">{BookBannerWithoutAuthor}</div>}
+            </div>
         </div>
     );
 }
-Banner.propTypes = {
+
+BookBanner.propTypes = {
     item: PropTypes.object.isRequired,
-    visibleOnPrint: PropTypes.bool,
 };
 
-export default Banner;
+export default BookBanner;
