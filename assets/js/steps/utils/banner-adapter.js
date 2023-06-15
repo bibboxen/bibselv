@@ -4,8 +4,11 @@
  *
  */
 
-import BookStatus from './book-status';
-import { BannerAdapterFetchingInfo, BannerTitleAuthor } from './formatted-messages';
+import BookStatus from "./book-status";
+import {
+    BannerAdapterFetchingInfo,
+    BannerTitleAuthor,
+} from "./formatted-messages";
 
 /**
  * Adapts books from state machine to the banner component from checkinitems
@@ -15,15 +18,19 @@ import { BannerAdapterFetchingInfo, BannerTitleAuthor } from './formatted-messag
  * @param reservedMaterialInstruction
  * @return {[]}
  */
-export function adaptListOfBooksToBanner(listOfBooks, reservedMaterialInstruction) {
+export function adaptListOfBooksToBanner(
+    listOfBooks,
+    reservedMaterialInstruction
+) {
     const items = [];
 
     listOfBooks.forEach((book) => {
         const displayInfo = {
             ...book,
-            text: book.title && book.author
-                ? BannerTitleAuthor(book.title, book.author)
-                : ''
+            text:
+        book.title && book.author
+            ? BannerTitleAuthor(book.title, book.author)
+            : "",
         };
         switch (book.status) {
             case BookStatus.ERROR:
@@ -66,7 +73,7 @@ export function adaptListOfBooks(listOfBooks, status, title) {
         const displayInfo = { ...book };
         displayInfo.status = status || null;
         displayInfo.title = title || book.title;
-        displayInfo.text = book.author ? BannerTitleAuthor('', book.author) : '';
+        displayInfo.text = book.author ? BannerTitleAuthor("", book.author) : "";
         items.push(displayInfo);
     });
     return items;

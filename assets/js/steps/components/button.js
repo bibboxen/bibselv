@@ -3,9 +3,9 @@
  * The button component is used to display a button on screen.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 /**
  * Button.
@@ -22,36 +22,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  * @return {*}
  * @constructor
  */
-const Button = ({ label, icon, img, disabled, ...rest }) => {
-    return (
-        <button
-            type='button'
-            disabled={disabled}
-            {...rest}
-        >
-            <span>
-                <div className='icon'>
-                    {img &&
-                    <img src={img} height={18} />
-                    }
-                    {icon &&
-                    <FontAwesomeIcon icon={icon} />
-                    }
-                </div>
-                {label}</span>
-            <div className="button-barcode"></div>
-        </button>
-    );
-};
+function Button({ label, icon, img, disabled, ...rest }) {
+  return (
+    <button type="button" disabled={disabled} {...rest}>
+      <span>
+        <div className="icon">
+          {img && <img src={img} height={18} />}
+          {icon && <FontAwesomeIcon icon={icon} />}
+        </div>
+        {label}
+      </span>
+      <div className="button-barcode" />
+    </button>
+  );
+}
 
 Button.propTypes = {
-    label: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.string
-    ]),
+    label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     icon: PropTypes.object,
     img: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
 };
 
 export default Button;

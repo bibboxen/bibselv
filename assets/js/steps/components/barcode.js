@@ -5,8 +5,8 @@
  * Display a barcode for manoeuvring via the scanner, CheckInItems, CheckOutItems or Status.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Barcode.
@@ -20,18 +20,18 @@ import PropTypes from 'prop-types';
  * @constructor
  */
 function Barcode({ type, disabled }) {
-    const classes = `barcode ${type.toLowerCase()} ${disabled ? 'disabled' : ''}`;
+    const classes = `barcode ${type.toLowerCase()} ${disabled ? "disabled" : ""}`;
 
     return (
         <div className={classes}>
-            <div className='barcode-inner' />
+            <div className="barcode-inner" />
         </div>
     );
 }
 
 Barcode.propTypes = {
     type: PropTypes.string.isRequired,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
 };
 
 export default Barcode;

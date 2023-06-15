@@ -5,9 +5,9 @@
  * Displays a list of items with the banner component and with optional header.
  */
 
-import React from 'react';
-import Banner from './banner';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import Banner from "./banner";
 
 /**
  * BannerList.
@@ -30,27 +30,31 @@ function BannerList({ items, title, visibleOnPrint, numberOfItems, content }) {
     return (
         <>
             {title && (
-                <div className='banner-list-header' data-cy="banner-list-header">
+                <div className="banner-list-header" data-cy="banner-list-header">
                     {title}
-                    {(items || numberOfItems > 0) && <div className='counter'>{numberOfItems || items.length}</div>}
+                    {(items || numberOfItems > 0) && (
+                        <div className="counter">{numberOfItems || items.length}</div>
+                    )}
                 </div>
             )}
             {content}
-            {items && items.map((item) => (
-                <Banner item={item} key={item.id || item.itemIdentifier} visibleOnPrint={visibleOnPrint} />
-            ))}
+            {items &&
+        items.map((item) => (
+            <Banner
+                item={item}
+                key={item.id || item.itemIdentifier}
+                visibleOnPrint={visibleOnPrint}
+            />
+        ))}
         </>
     );
 }
 BannerList.propTypes = {
     items: PropTypes.array,
-    title: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.string
-    ]),
+    title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     content: PropTypes.any,
     numberOfItems: PropTypes.number,
-    visibleOnPrint: PropTypes.bool
+    visibleOnPrint: PropTypes.bool,
 };
 
 export default BannerList;

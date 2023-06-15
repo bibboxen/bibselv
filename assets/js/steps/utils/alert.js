@@ -3,8 +3,8 @@
  * Alert.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Alert.
@@ -17,19 +17,24 @@ import PropTypes from 'prop-types';
  * @return {*}
  * @constructor
  */
-const Alert = ({ message, variant }) => {
-    const classes = `alert alert-${variant || 'danger'} m-5`;
+function Alert({ message, variant }) {
+  const classes = `alert alert-${variant || "danger"} m-5`;
 
-    return (
-        <div data-cy="alert" className={classes} style={{ width: '100%' }} role="alert">
-            {message}
-        </div>
-    );
-};
+  return (
+    <div
+      data-cy="alert"
+      className={classes}
+      style={{ width: "100%" }}
+      role="alert"
+    >
+      {message}
+    </div>
+  );
+}
 
 Alert.propTypes = {
     message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    variant: PropTypes.string
+    variant: PropTypes.string,
 };
 
 export default Alert;

@@ -9,8 +9,8 @@ import {
     BARCODE_SCANNING_TIMEOUT,
     BARCODE_TYPE_2OF5,
     BARCODE_TYPE_COMMAND,
-    BARCODE_TYPE_DEFAULT
-} from '../../constants';
+    BARCODE_TYPE_DEFAULT,
+} from "../../constants";
 
 // Barcode pattern.
 const pattern = /(!B[A-Z]\d{2})(?<code>\w+)!C/g;
@@ -28,17 +28,17 @@ const pattern = /(!B[A-Z]\d{2})(?<code>\w+)!C/g;
  */
 export class BarcodeScanner {
     /**
-     * BarcodeScanner constructor.
-     *
-     * @param timeoutLimit {int|null}
-     * @constructor
-     */
+   * BarcodeScanner constructor.
+   *
+   * @param timeoutLimit {int|null}
+   * @constructor
+   */
     constructor(timeoutLimit = BARCODE_SCANNING_TIMEOUT) {
         if (timeoutLimit !== null && !Number.isInteger(timeoutLimit)) {
-            throw new Error('timeoutLimit must be an integer');
+            throw new Error("timeoutLimit must be an integer");
         }
 
-        this.code = '';
+        this.code = "";
         this.timeoutLimit = timeoutLimit;
         this.resultCallback = null;
         this.timeout = null;
@@ -48,8 +48,8 @@ export class BarcodeScanner {
     }
 
     /**
-     * Handles result of scanning.
-     */
+   * Handles result of scanning.
+   */
     result() {
         if (this.resultCallback === null) {
             return;
@@ -64,7 +64,7 @@ export class BarcodeScanner {
             const matches = [...input.matchAll(pattern)];
 
             // Make callback for each match.
-            matches.forEach(match => {
+            matches.forEach((match) => {
                 let barcodeType = BARCODE_TYPE_DEFAULT;
                 let codedBarcodeScanner = false;
                 let callbackCode = this.code;
@@ -92,23 +92,23 @@ export class BarcodeScanner {
                     type: barcodeType,
                     codedBarcodeScanner,
                     code: match ? match[0] : input,
-                    outputCode: callbackCode
+                    outputCode: callbackCode,
                 };
 
                 this.resultCallback(callbackObject);
             });
 
-            this.code = '';
+            this.code = "";
         } else {
-            this.code = '';
+            this.code = "";
         }
     }
 
     /**
-     * Registers key presses.
-     *
-     * @param event
-     */
+   * Registers key presses.
+   *
+   * @param event
+   */
     handleKeypress(event) {
         this.code += event.key;
 
@@ -119,22 +119,22 @@ export class BarcodeScanner {
     }
 
     /**
-     * Start listening for key presses.
-     *
-     * @param resultCallback
-     *   The callback function to invoke when a result has been registered.
-     */
+   * Start listening for key presses.
+   *
+   * @param resultCallback
+   *   The callback function to invoke when a result has been registered.
+   */
     start(resultCallback) {
-        this.code = '';
+        this.code = "";
         this.resultCallback = resultCallback;
-        document.addEventListener('keypress', this.handleKeypress);
+        document.addEventListener("keypress", this.handleKeypress);
     }
 
     /**
-     * Stop listening for key presses.
-     */
+   * Stop listening for key presses.
+   */
     stop() {
-        document.removeEventListener('keypress', this.handleKeypress);
+        document.removeEventListener("keypress", this.handleKeypress);
         this.resultCallback = null;
 
         if (this.timeout !== null) {
