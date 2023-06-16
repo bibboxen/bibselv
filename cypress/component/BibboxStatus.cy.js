@@ -3,7 +3,6 @@ import Bibbox from "../../assets/js/steps/bibbox";
 import { CONNECTION_ONLINE } from "../../assets/js/constants";
 import messages from "../../public/lang/da-comp.json";
 import { IntlProvider } from "react-intl";
-import BookStatus from "../../assets/js/steps/utils/book-status";
 
 describe("Status", () => {
   it("Status is rendered and responds to mouse interaction", () => {
