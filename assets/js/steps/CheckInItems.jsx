@@ -7,9 +7,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import BarcodeScanner from "./utils/barcode-scanner";
 import PropTypes from "prop-types";
-import HelpBox from "./components/help-box";
-import BannerList from "./components/banner-list";
-import Header from "./components/header";
+import HelpBox from "./components/HelpBox";
+import BannerList from "./components/BannerList";
+import Header from "./components/Header";
 import { adaptListOfBooksToBanner } from "./utils/BannerAdapter";
 import NumPad from "./utils/NumPad";
 import Print from "./utils/Print";

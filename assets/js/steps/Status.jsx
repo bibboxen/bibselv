@@ -4,8 +4,8 @@
  */
 
 import React, { useContext, useEffect } from "react";
-import BannerList from "./components/banner-list";
-import Header from "./components/header";
+import BannerList from "./components/BannerList";
+import Header from "./components/Header";
 import MachineStateContext from "./utils/MachineStateContext";
 import BarcodeScanner from "./utils/barcode-scanner";
 import PropTypes from "prop-types";
@@ -31,9 +31,9 @@ import {
   CONNECTION_ONLINE,
 } from "../constants";
 import Alert from "./utils/Alert";
-import BookBanner from "./components/book-banner";
+import BookBanner from "./components/BookBanner";
 import BookStatus from "./utils/book-status";
-import OverdueBooksBanner from "./components/overdue-books-banner";
+import OverdueBooksBanner from "./components/OverdueBooksBanner";
 import Button from "./components/button";
 /**
  * Status.

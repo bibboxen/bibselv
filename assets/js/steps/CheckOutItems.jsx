@@ -14,9 +14,9 @@ import {
   BARCODE_SCANNING_TIMEOUT,
 } from "../constants";
 import MachineStateContext from "./utils/MachineStateContext";
-import HelpBox from "./components/help-box";
-import BannerList from "./components/banner-list";
-import Header from "./components/header";
+import HelpBox from "./components/HelpBox";
+import BannerList from "./components/BannerList";
+import Header from "./components/Header";
 import { adaptListOfBooksToBanner } from "./utils/BannerAdapter";
 import NumPad from "./utils/NumPad";
 import Sound from "./utils/sound";

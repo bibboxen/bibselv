@@ -6,7 +6,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import Bubble from "./components/bubble";
-import HelpBox from "./components/help-box";
+import HelpBox from "./components/HelpBox";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import {
   ChangeLoginMethodPickLoginMethodHeader,
@@ -18,7 +18,7 @@ import {
   ChangeLoginMethodUsername,
 } from "./utils/formatted-messages";
 import MachineStateContext from "./utils/MachineStateContext";
-import Header from "./components/header";
+import Header from "./components/Header";
 
 /**
  * Change login method.

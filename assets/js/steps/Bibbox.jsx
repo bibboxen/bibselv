@@ -5,10 +5,10 @@
 
 import React, { useEffect } from "react";
 import Initial from "./Initial";
-import Status from "./status";
+import Status from "./Status";
 import Alert from "./utils/Alert";
 import CheckInItems from "./CheckInItems";
-import NavBar from "./components/navbar";
+import NavBar from "./components/NavBar";
 import CheckOutItems from "./CheckOutItems";
 import PropTypes from "prop-types";
 import MachineStateContext from "./utils/MachineStateContext";

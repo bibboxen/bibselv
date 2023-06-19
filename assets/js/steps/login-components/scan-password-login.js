@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useContext } from "react";
-import Header from "../components/header";
+import Header from "../components/Header";
 import PropTypes from "prop-types";
 import {
   faExclamationTriangle,

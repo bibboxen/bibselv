@@ -6,7 +6,7 @@
 import React, { useEffect, useContext } from "react";
 import BarcodeScanner from "../utils/barcode-scanner";
 import PropTypes from "prop-types";
-import Header from "../components/header";
+import Header from "../components/Header";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import MachineStateContext from "../utils/MachineStateContext";
 import {
