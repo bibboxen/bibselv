@@ -56,6 +56,7 @@ function CheckInItems({ actionHandler }) {
 
   const [scannedBarcode, setScannedBarcode] = useState("");
   const [handledReservations, setHandledReservations] = useState([]);
+  const [displayedItems, setDisplayedItems] = useState(null);
   const [newReservation, setNewReservation] = useState(null);
   const [checkedInBooksLength, setCheckedInBooksLength] = useState(0);
   const [errorsLength, setErrorLength] = useState(0);
@@ -193,13 +194,13 @@ function CheckInItems({ actionHandler }) {
     }
   }, [soundEnabled, soundToPlay]);
 
-  let localItems;
-  if (items) {
-    localItems = adaptListOfBooksToBanner(items, reservedMaterialInstruction);
-
-    // Sort items according to timestamp.
-    localItems.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
-  }
+  useEffect(() => {
+    setDisplayedItems(
+      adaptListOfBooksToBanner(items, reservedMaterialInstruction).sort(
+        (a, b) => (a.timestamp < b.timestamp ? 1 : -1)
+      )
+    );
+  }, [items, reservedMaterialInstruction]);
 
   return (
     <>
@@ -217,7 +218,7 @@ function CheckInItems({ actionHandler }) {
       </div>
       <div className="col-md-1" />
       <div className="col-md-8">
-        {localItems && <BannerList items={localItems} />}
+        {displayedItems && <BannerList items={displayedItems} />}
       </div>
       {debugEnabled && (
         <Card className="col-md-12 m-5">
