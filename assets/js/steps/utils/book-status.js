@@ -4,13 +4,13 @@
  */
 
 const BookStatus = {
-    RENEWED: 'renewed',
-    ERROR: 'error',
-    IN_PROGRESS: 'inProgress',
-    CHECKED_OUT: 'checkedOut',
-    CHECKED_IN: 'checkedIn',
-    RESERVED: 'reserved',
-    SUCCESS: 'success'
+  RENEWED: "renewed",
+  ERROR: "error",
+  IN_PROGRESS: "inProgress",
+  CHECKED_OUT: "checkedOut",
+  CHECKED_IN: "checkedIn",
+  RESERVED: "reserved",
+  SUCCESS: "success",
 };
 
 export default BookStatus;
