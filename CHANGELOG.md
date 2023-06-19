@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+https://github.com/bibboxen/bibselv/pull/130
+Ignore vscode files
+
 - Change linting and files extensions, add changelog to actions check
 
 ### Changed
