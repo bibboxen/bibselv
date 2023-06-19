@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import IdleTimer from "react-idle-timer";
 import PropTypes from "prop-types";
-import Bibbox from "./steps/bibbox";
+import Bibbox from "./steps/Bibbox";
 import Loading from "./steps/Loading";
 import { IntlProvider } from "react-intl";
 import {
