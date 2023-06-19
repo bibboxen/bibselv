@@ -142,11 +142,13 @@ function CheckOutItems({ actionHandler }) {
   }, [checkedOutBooksLength, errorsLength, items]);
 
   useEffect(() => {
-    setDisplayedItems(
-      adaptListOfBooksToBanner(items).sort((a, b) =>
-        a.timestamp < b.timestamp ? 1 : -1
-      )
-    );
+    if (items && items.length > 0) {
+      setDisplayedItems(
+        adaptListOfBooksToBanner(items).sort((a, b) =>
+          a.timestamp < b.timestamp ? 1 : -1
+        )
+      );
+    }
   }, [items]);
 
   /**
