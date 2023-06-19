@@ -1,0 +1,14 @@
+.debug-terminal {
+  display: flex;
+  max-height: 300px;
+  position: fixed;
+  bottom: 0;
+  margin: 20px;
+  justify-content: space-around;
+  width: 100%;
+
+  div > pre {
+    overflow: scroll;
+    height: 100%;
+  }
+}

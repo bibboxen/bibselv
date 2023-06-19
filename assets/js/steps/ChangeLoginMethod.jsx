@@ -29,8 +29,9 @@ import Header from "./components/Header";
  * @constructor
  */
 function ChangeLoginMethod({ actionHandler }) {
-  const context = useContext(MachineStateContext);
-  const { loginSessionMethods, loginSessionTimeout } = context.boxConfig.get;
+  const {
+    boxConfig: { loginSessionMethods, loginSessionTimeout },
+  } = useContext(MachineStateContext);
   const components = [];
 
   if (loginSessionMethods.includes("login_barcode_password")) {

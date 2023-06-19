@@ -40,9 +40,11 @@ import Alert from "./utils/Alert";
  * @constructor
  */
 function Initial({ actionHandler }) {
-  const context = useContext(MachineStateContext);
-  const activeLoginSession =
-    context?.machineState?.get?.activeLoginSession ?? false;
+  const {
+    machineState: { activeLoginSession = false, processing, loginError },
+    boxConfig: { barcodeTimeout, hasFrontpageCheckIn },
+    connectionState,
+  } = useContext(MachineStateContext);
 
   const components = [
     {
@@ -53,7 +55,7 @@ function Initial({ actionHandler }) {
     {
       type: "status",
       label: InitialButtonStatus,
-      disabled: context.connectionState?.get === CONNECTION_OFFLINE,
+      disabled: connectionState === CONNECTION_OFFLINE,
       icon: faInfoCircle,
     },
     {
@@ -78,7 +80,7 @@ function Initial({ actionHandler }) {
   // Setup barcode scanner.
   useEffect(() => {
     const barcodeScanner = new BarcodeScanner(
-      context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT
+      barcodeTimeout || BARCODE_SCANNING_TIMEOUT
     );
     const barcodeCallback = new BarcodeHandler(
       [
@@ -91,10 +93,7 @@ function Initial({ actionHandler }) {
       function (result) {
         // If hasFrontpageCheckIn enabled in the box configuration, go to checkIn flow and pass
         // the scanned items for instant check in.
-        if (
-          context.boxConfig?.get?.hasFrontpageCheckIn &&
-          !activeLoginSession
-        ) {
+        if (hasFrontpageCheckIn && !activeLoginSession) {
           handleItemCheckIn(result.code);
         }
       }
@@ -108,7 +107,7 @@ function Initial({ actionHandler }) {
 
   return (
     <div className="col-md-12">
-      {!context?.machineState?.get?.processing && (
+      {!processing && (
         <>
           <h1 className="mb-5" data-cy="header">
             {InitialHeader}
@@ -144,12 +143,12 @@ function Initial({ actionHandler }) {
           </div>
         </>
       )}
-      {context.connectionState?.get === CONNECTION_OFFLINE && (
+      {connectionState === CONNECTION_OFFLINE && (
         <div>
           <Alert variant="warning" message={StatusUnavailable} />
         </div>
       )}
-      {context.machineState?.get?.loginError && (
+      {loginError && (
         <div>
           <Alert message={LoginLoginError} />
         </div>

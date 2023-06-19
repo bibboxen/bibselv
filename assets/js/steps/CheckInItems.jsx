@@ -4,7 +4,7 @@
  * This component creates af view of the books that the user hands in (returns).
  */
 
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import BarcodeScanner from "./utils/barcode-scanner";
 import PropTypes from "prop-types";
 import HelpBox from "./components/HelpBox";
@@ -43,13 +43,23 @@ import { Card } from "react-bootstrap";
  * @constructor
  */
 function CheckInItems({ actionHandler }) {
-  const context = useContext(MachineStateContext);
+  const {
+    machineState: { items },
+    boxConfig: {
+      barcodeTimeout,
+      soundEnabled,
+      reservedMaterialInstruction,
+      hasPrinter,
+      debugEnabled,
+    },
+  } = useContext(MachineStateContext);
+
   const [scannedBarcode, setScannedBarcode] = useState("");
   const [handledReservations, setHandledReservations] = useState([]);
   const [newReservation, setNewReservation] = useState(null);
   const [checkedInBooksLength, setCheckedInBooksLength] = useState(0);
   const [errorsLength, setErrorLength] = useState(0);
-  const sound = new Sound();
+  const [soundToPlay, setSoundToPlay] = useState("");
 
   /**
    * Handles numpad presses.
@@ -75,22 +85,25 @@ function CheckInItems({ actionHandler }) {
   /**
    * Handles keyboard inputs.
    */
-  const handleItemCheckIn = (barcode) => {
-    // Ignore empty check ins.
-    if (barcode && barcode.length > 0) {
-      actionHandler("checkInItem", {
-        itemIdentifier: barcode,
-      });
-      setScannedBarcode("");
-    }
-  };
+  const handleItemCheckIn = useCallback(
+    (barcode) => {
+      // Ignore empty check ins.
+      if (barcode && barcode.length > 0) {
+        actionHandler("checkInItem", {
+          itemIdentifier: barcode,
+        });
+        setScannedBarcode("");
+      }
+    },
+    [actionHandler]
+  );
 
   /**
    * Set up barcode scanner listener.
    */
   useEffect(() => {
     const barcodeScanner = new BarcodeScanner(
-      context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT
+      barcodeTimeout || BARCODE_SCANNING_TIMEOUT
     );
     const barcodeCallback = new BarcodeHandler(
       [ACTION_CHANGE_FLOW_CHECKOUT, ACTION_CHANGE_FLOW_STATUS, ACTION_RESET],
@@ -104,7 +117,7 @@ function CheckInItems({ actionHandler }) {
     return () => {
       barcodeScanner.stop();
     };
-  }, [actionHandler]);
+  }, [actionHandler, barcodeTimeout, handleItemCheckIn]);
 
   /**
    * Clear new reservation.
@@ -117,34 +130,35 @@ function CheckInItems({ actionHandler }) {
    * Determines whether to play a sound and which to play.
    */
   useEffect(() => {
-    if (context.machineState.get.items === undefined) return;
-    let soundToPlay = null;
+    if (items === undefined) return;
     let newReservedBook = null;
 
     /**
      * Evaluate if a new checked-in book is reserved by another user.
      */
-    context.machineState.get.items.forEach((book) => {
+    items.forEach((book, { itemIdentifier, reservedByOtherUser, message }) => {
       if (
-        book.reservedByOtherUser &&
-        !handledReservations.includes(book.itemIdentifier)
+        reservedByOtherUser &&
+        !handledReservations.includes(itemIdentifier)
       ) {
         const newBook = { ...book };
-        newBook.message =
-          context.boxConfig.get.reservedMaterialInstruction || book.message;
+        newBook.message = reservedMaterialInstruction || message;
         newReservedBook = newBook;
 
         const newHandledReservations = handledReservations;
-        newHandledReservations.push(book.itemIdentifier);
+        newHandledReservations.push(itemIdentifier);
         setHandledReservations(newHandledReservations);
-        soundToPlay = "reserved";
+        setSoundToPlay("reserved");
+        if (newReservedBook !== null) {
+          setNewReservation(newReservedBook);
+        }
       }
     });
 
     /**
      * Handle successful checkin.
      */
-    let booksLength = context.machineState.get.items.filter(
+    let booksLength = items.filter(
       (book) =>
         book.status === BookStatus.CHECKED_IN && book.message !== "Reserveret"
     ).length;
@@ -155,52 +169,41 @@ function CheckInItems({ actionHandler }) {
     /**
      * Play sound for check-in error.
      */
-    booksLength = context.machineState.get.items.filter(
-      (book) => book.status === BookStatus.ERROR
+    booksLength = items.filter(
+      ({ status }) => status === BookStatus.ERROR
     ).length;
     if (booksLength > errorsLength) {
       setErrorLength(booksLength);
-      soundToPlay = "error";
+      setSoundToPlay("error");
     }
+  }, [
+    checkedInBooksLength,
+    errorsLength,
+    handledReservations,
+    items,
+    reservedMaterialInstruction,
+  ]);
 
-    /**
-     * Play sound.
-     */
-    if (context.boxConfig.get.soundEnabled && soundToPlay) {
-      sound
-        .playSound(soundToPlay)
-        .then(() => {
-          if (newReservedBook !== null) {
-            setNewReservation(newReservedBook);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          if (newReservedBook !== null) {
-            setNewReservation(newReservedBook);
-          }
-        });
-    } else {
-      if (newReservedBook !== null) {
-        setNewReservation(newReservedBook);
-      }
+  /**
+   * Play sound.
+   */
+  useEffect(() => {
+    if (soundEnabled && soundToPlay !== "") {
+      new Sound().playSound(soundToPlay);
     }
-  }, [context.machineState.get.items]);
+  }, [soundEnabled, soundToPlay]);
 
-  let items;
-  if (context.machineState.get.items) {
-    items = adaptListOfBooksToBanner(
-      context.machineState.get.items,
-      context.boxConfig.get.reservedMaterialInstruction
-    );
+  let localItems;
+  if (items) {
+    localItems = adaptListOfBooksToBanner(items, reservedMaterialInstruction);
 
     // Sort items according to timestamp.
-    items.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
+    localItems.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
   }
 
   return (
     <>
-      {newReservation !== null && context.boxConfig.get.hasPrinter && (
+      {newReservation !== null && hasPrinter && (
         <Print key={newReservation.title} book={newReservation} />
       )}
       <Header
@@ -214,7 +217,7 @@ function CheckInItems({ actionHandler }) {
       </div>
       <div className="col-md-1" />
       <div className="col-md-8">{items && <BannerList items={items} />}</div>
-      {context.boxConfig.get.debugEnabled && (
+      {debugEnabled && (
         <Card className="col-md-12 m-5">
           <Card.Body className="row">
             <div className="col-md-6">

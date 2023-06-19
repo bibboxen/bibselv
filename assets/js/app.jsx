@@ -3,7 +3,13 @@
  * The main entrypoint of the React application.
  */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import IdleTimer from "react-idle-timer";
 import PropTypes from "prop-types";
 import Bibbox from "./steps/Bibbox";
@@ -18,6 +24,9 @@ import {
 } from "./steps/utils/formatted-messages";
 import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from "./constants";
 import { Spinner } from "react-bootstrap";
+import MachineStateContext from "./steps/utils/MachineStateContext";
+import Clock from "./steps/utils/Clock";
+import "./app.scss";
 
 /**
  * App. The main entrypoint of the React application.
@@ -34,16 +43,29 @@ function App({ uniqueId, socket }) {
   const reloadTimeout = 30000;
   const refreshTime = 60 * 60;
 
+  const [action, setAction] = useState("");
+  const [data, setData] = useState("");
   const [socketConnected, setSocketConnected] = useState(null);
   const [machineState, setMachineState] = useState();
+  const [debugEnabled, setDebugEnabled] = useState(false);
   const [boxConfig, setBoxConfig] = useState();
-  const [connectionState, setConnectionState] = useState(CONNECTION_OFFLINE);
-  const [messages, setMessages] = useState();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [connectionState, setConnectionState] = useState(CONNECTION_OFFLINE);
+
+  const machineStateContext = useMemo(
+    () => ({
+      machineState,
+      boxConfig,
+      errorMessage,
+      connectionState,
+    }),
+    [machineState, boxConfig, errorMessage, connectionState]
+  );
+
+  const [messages, setMessages] = useState();
   const [language, setLanguage] = useState("en");
   const idleTimerRef = useRef(null);
   const [tokenTimeout, setTokenTimeout] = useState(null);
-  const [currentTime, setCurrentTime] = useState(new Date());
 
   /**
    * Set up application with configuration and socket connections.
@@ -106,7 +128,7 @@ function App({ uniqueId, socket }) {
     });
 
     // Handle socket reconnections, by sending 'ClientReady' event.
-    socket.on("reconnect", (data) => {
+    socket.on("reconnect", () => {
       const token = getToken();
 
       if (token === false) {
@@ -154,6 +176,7 @@ function App({ uniqueId, socket }) {
     socket.on("Configuration", (data) => {
       loadTranslations(data.defaultLanguageCode);
       setBoxConfig(data);
+      setDebugEnabled(data.debugEnabled);
     });
 
     // Listen for changes to machine state.
@@ -164,11 +187,6 @@ function App({ uniqueId, socket }) {
       }
       setMachineState(data);
     });
-
-    // Interval for updating clock.
-    setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
 
     // Add catch all for unhandled exceptions.
     window.addEventListener("error", function (e) {
@@ -190,34 +208,40 @@ function App({ uniqueId, socket }) {
    * @param data
    *   Data for the action
    */
-  function handleAction(action, data) {
-    const token = getToken();
-    if (token === false) {
-      setErrorMessage(AppTokenNotValid);
-      return;
-    }
+  const handleAction = useCallback(
+    (action, data) => {
+      if (debugEnabled) {
+        setAction(action);
+        setData(data);
+      }
+      const token = getToken();
+      if (token === false) {
+        setErrorMessage(AppTokenNotValid);
+        return;
+      }
+      // Reset idle timer.
+      if (idleTimerRef.current !== null) {
+        idleTimerRef.current.reset();
+      }
 
-    // Reset idle timer.
-    if (idleTimerRef.current !== null) {
-      idleTimerRef.current.reset();
-    }
-
-    // If the action is reset, send Reset event, otherwise send Action event.
-    if (action === "reset") {
-      socket.emit("ClientEvent", {
-        name: "Reset",
-        token,
-      });
-    } else {
-      // Volatile to avoid executing a lot of actions when reconnected.
-      socket.volatile.emit("ClientEvent", {
-        name: "Action",
-        action,
-        token,
-        data,
-      });
-    }
-  }
+      // If the action is reset, send Reset event, otherwise send Action event.
+      if (action === "reset") {
+        socket.emit("ClientEvent", {
+          name: "Reset",
+          token,
+        });
+      } else {
+        // Volatile to avoid executing a lot of actions when reconnected.
+        socket.volatile.emit("ClientEvent", {
+          name: "Action",
+          action,
+          token,
+          data,
+        });
+      }
+    },
+    [debugEnabled, socket]
+  );
 
   /**
    * Handle user being idle.
@@ -357,55 +381,79 @@ function App({ uniqueId, socket }) {
   }
 
   return (
-    <IntlProvider locale={language} messages={messages}>
-      {currentTime && (
-        <div className="current-time">{currentTime.toLocaleTimeString()}</div>
-      )}
-      {socketConnected === false && (
-        <div className="container">
-          <div
-            className="alert alert-danger m-5"
-            style={{ width: "100%" }}
-            role="alert"
-          >
-            <h3>{SocketIOOffline}</h3>
-            <strong>{SocketIOOfflineInformation}</strong>
+    <>
+      <Clock></Clock>
+      <IntlProvider locale={language} messages={messages}>
+        {socketConnected === false && (
+          <div className="container">
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
+              className="alert alert-danger m-5"
+              style={{ width: "100%" }}
+              role="alert"
             >
-              <div>
-                <Spinner animation={"border"} className="m-3" />
+              <h3>{SocketIOOffline}</h3>
+              <strong>{SocketIOOfflineInformation}</strong>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <div>
+                  <Spinner animation={"border"} className="m-3" />
+                </div>
+                <h5>{SocketIOOfflineAction}</h5>
               </div>
-              <h5>{SocketIOOfflineAction}</h5>
             </div>
           </div>
-        </div>
-      )}
-      {socketConnected !== false && machineState && boxConfig && (
-        <div>
-          <IdleTimer
-            ref={idleTimerRef}
-            element={document}
-            onIdle={handleIdle}
-            debounce={500}
-            eventsThrottle={500}
-            timeout={boxConfig.inactivityTimeOut}
-          />
-          <Bibbox
-            boxConfigurationInput={boxConfig}
-            machineStateInput={machineState}
-            errorMessage={errorMessage}
-            connectionState={connectionState}
-            actionHandler={handleAction}
-          />
-        </div>
-      )}
-      {!machineState && !boxConfig && <Loading />}
-    </IntlProvider>
+        )}
+        {socketConnected !== false && machineState && boxConfig && (
+          <div>
+            <IdleTimer
+              ref={idleTimerRef}
+              element={document}
+              onIdle={handleIdle}
+              debounce={500}
+              eventsThrottle={500}
+              timeout={boxConfig.inactivityTimeOut}
+            />
+            <MachineStateContext.Provider value={machineStateContext}>
+              <Bibbox actionHandler={handleAction} />
+            </MachineStateContext.Provider>
+          </div>
+        )}
+        {debugEnabled && (
+          <div className="debug-terminal">
+            <div>
+              <label>Action:</label>
+              <pre
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify(action, null, 2),
+                }}
+              />
+            </div>
+            <div>
+              <label>data</label>
+              <pre
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify(data, null, 2),
+                }}
+              />
+            </div>
+            <div>
+              <label>machinestate</label>
+              <pre
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify(machineState, null, 2),
+                }}
+              />
+            </div>
+          </div>
+        )}
+        {!machineState && !boxConfig && <Loading />}
+      </IntlProvider>
+    </>
   );
 }
 

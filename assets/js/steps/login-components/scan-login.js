@@ -29,14 +29,16 @@ import BarcodeScannerIcon from "../../../scss/images/barcode-scanner.svg";
  * @constructor
  */
 function ScanLogin({ actionHandler }) {
-  const context = useContext(MachineStateContext);
+  const {
+    boxConfig: { barcodeTimeout },
+  } = useContext(MachineStateContext);
 
   /**
    * Setup barcode scanner.
    */
   useEffect(() => {
     const barcodeScanner = new BarcodeScanner(
-      context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT
+      barcodeTimeout || BARCODE_SCANNING_TIMEOUT
     );
     const barcodeCallback = new BarcodeHandler(
       [ACTION_RESET],

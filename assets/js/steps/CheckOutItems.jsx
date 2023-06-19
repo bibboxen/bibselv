@@ -4,7 +4,7 @@
  * This component creates a view of the books that the user checks out (borrows).
  */
 
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { BarcodeScanner } from "./utils/barcode-scanner";
 import {
@@ -45,18 +45,34 @@ import { Card } from "react-bootstrap";
  * @constructor
  */
 function CheckOutItems({ actionHandler }) {
-  const context = useContext(MachineStateContext);
+  const {
+    boxConfig: { barcodeTimeout, soundEnabled, debugEnabled },
+    machineState: { items },
+  } = useContext(MachineStateContext);
   const [scannedBarcode, setScannedBarcode] = useState("");
   const [checkedOutBooksLength, setCheckedOutBooksLength] = useState(0);
   const [errorsLength, setErrorLength] = useState(0);
-  const sound = new Sound();
+  const [soundToPlay, setSoundToPlay] = useState("");
+
+  /**
+   * Handles keyboard inputs.
+   */
+  const handleItemCheckOut = useCallback(
+    (scannedBarcode) => {
+      actionHandler("checkOutItem", {
+        itemIdentifier: scannedBarcode,
+      });
+      setScannedBarcode("");
+    },
+    [actionHandler]
+  );
 
   /**
    * Set up barcode scanner listener.
    */
   useEffect(() => {
     const barcodeScanner = new BarcodeScanner(
-      context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT
+      barcodeTimeout || BARCODE_SCANNING_TIMEOUT
     );
     const barcodeCallback = new BarcodeHandler(
       [ACTION_CHANGE_FLOW_STATUS, ACTION_CHANGE_FLOW_CHECKIN, ACTION_RESET],
@@ -71,7 +87,7 @@ function CheckOutItems({ actionHandler }) {
     return () => {
       barcodeScanner.stop();
     };
-  }, [actionHandler]);
+  }, [actionHandler, barcodeTimeout, handleItemCheckOut]);
 
   /**
    * Handles numpad presses.
@@ -95,26 +111,15 @@ function CheckOutItems({ actionHandler }) {
   }
 
   /**
-   * Handles keyboard inputs.
-   */
-  function handleItemCheckOut(scannedBarcode) {
-    actionHandler("checkOutItem", {
-      itemIdentifier: scannedBarcode,
-    });
-    setScannedBarcode("");
-  }
-
-  /**
    * Play sound for successful checkout.
    */
   useEffect(() => {
-    if (context.machineState.get.items === undefined) return;
-    let soundToPlay = null;
+    if (items === undefined) return;
 
     /**
      * Handle successful checkout.
      */
-    let booksLength = context.machineState.get.items.filter(
+    let booksLength = items.filter(
       (book) =>
         book.status === BookStatus.CHECKED_OUT ||
         book.status === BookStatus.RENEWED
@@ -126,29 +131,31 @@ function CheckOutItems({ actionHandler }) {
     /**
      * Play sound for erring checkout.
      */
-    booksLength = context.machineState.get.items.filter(
+    booksLength = items.filter(
       (book) => book.status === BookStatus.ERROR
     ).length;
     if (booksLength > errorsLength) {
       setErrorLength(booksLength);
-      soundToPlay = "error";
+      setSoundToPlay("error");
     }
+  }, [checkedOutBooksLength, errorsLength, items]);
 
-    /**
-     * Play sound.
-     */
-    if (context.boxConfig.get.soundEnabled && soundToPlay) {
-      sound.playSound(soundToPlay);
-    }
-  }, [context.machineState.get.items]);
-
-  let items = [];
-  if (context.machineState.get.items) {
-    items = adaptListOfBooksToBanner(context.machineState.get.items);
+  let localItems = [];
+  if (items) {
+    localItems = adaptListOfBooksToBanner(items);
 
     // Sort items according to timestamp.
-    items.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
+    localItems.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
   }
+
+  /**
+   * Play sound.
+   */
+  useEffect(() => {
+    if (soundToPlay !== "" && soundEnabled) {
+      new Sound.playSound(soundToPlay);
+    }
+  }, [soundEnabled, soundToPlay]);
 
   return (
     <>
@@ -163,7 +170,7 @@ function CheckOutItems({ actionHandler }) {
       </div>
       <div className="col-md-1" />
       <div className="col-md-8">{items && <BannerList items={items} />}</div>
-      {context.boxConfig.get.debugEnabled && (
+      {debugEnabled && (
         <Card className="col-md-12 m-5">
           <Card.Body className="row">
             <div className="col-md-6">
