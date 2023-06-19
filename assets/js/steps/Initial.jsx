@@ -29,7 +29,7 @@ import BarcodeHandler from "./utils/barcode-handler";
 import CheckInIconPurple from "../../scss/images/check-in-purple.svg";
 import CheckOutYellow from "../../scss/images/check-out-yellow.svg";
 import MachineStateContext from "./utils/MachineStateContext";
-import Alert from "./utils/alert";
+import Alert from "./utils/Alert";
 
 /**
  * Initial component.

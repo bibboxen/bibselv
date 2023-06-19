@@ -30,7 +30,7 @@ import {
   CONNECTION_OFFLINE,
   CONNECTION_ONLINE,
 } from "../constants";
-import Alert from "./utils/alert";
+import Alert from "./utils/Alert";
 import BookBanner from "./components/book-banner";
 import BookStatus from "./utils/book-status";
 import OverdueBooksBanner from "./components/overdue-books-banner";

@@ -6,7 +6,7 @@
 import React, { useEffect } from "react";
 import Initial from "./Initial";
 import Status from "./status";
-import Alert from "./utils/alert";
+import Alert from "./utils/Alert";
 import CheckInItems from "./CheckInItems";
 import NavBar from "./components/navbar";
 import CheckOutItems from "./CheckOutItems";

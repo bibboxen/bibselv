@@ -12,7 +12,7 @@ import BannerList from "./components/banner-list";
 import Header from "./components/header";
 import { adaptListOfBooksToBanner } from "./utils/BannerAdapter";
 import NumPad from "./utils/NumPad";
-import Print from "./utils/print";
+import Print from "./utils/Print";
 import Sound from "./utils/sound";
 import BookStatus from "./utils/book-status";
 import MachineStateContext from "./utils/MachineStateContext";

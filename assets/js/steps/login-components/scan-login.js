@@ -8,7 +8,7 @@ import BarcodeScanner from "../utils/barcode-scanner";
 import PropTypes from "prop-types";
 import Header from "../components/header";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import MachineStateContext from "../utils/machine-state-context";
+import MachineStateContext from "../utils/MachineStateContext";
 import {
   ScanLoginHeader,
   ScanLoginSubheader,
