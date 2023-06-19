@@ -32,7 +32,7 @@ function Bibbox({ actionHandler }) {
   const {
     errorMessage,
     machineState: { step },
-    boxConfig,
+    boxConfig: { soundEnabled },
     user,
   } = useContext(MachineStateContext);
 
@@ -40,7 +40,7 @@ function Bibbox({ actionHandler }) {
    * Play birthday music if user has birthday.
    */
   useEffect(() => {
-    if (user === undefined || !boxConfig.soundEnabled) return;
+    if (user === undefined || !soundEnabled) return;
 
     // @TODO: Add configuration option to disable birthday sound.
     const lastPlayed = window.localStorage.getItem(user.id);
@@ -55,7 +55,7 @@ function Bibbox({ actionHandler }) {
       window.localStorage.setItem(user.id, Date.now());
       new Sound().playSound("birthday");
     }
-  }, [boxConfig.soundEnabled, user]);
+  }, [soundEnabled, user]);
 
   /**
    * renderStep determines which component to render based on the step
