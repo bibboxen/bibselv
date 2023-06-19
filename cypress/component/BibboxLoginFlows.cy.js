@@ -1,5 +1,5 @@
 import React from "react";
-import Bibbox from "../../assets/js/steps/bibbox";
+import Bibbox from "../../assets/js/steps/Bibbox";
 import { CONNECTION_ONLINE } from "../../assets/js/constants";
 import messages from "../../public/lang/da-comp.json";
 import { IntlProvider } from "react-intl";
