@@ -3,8 +3,6 @@
  * Contains class for playing sounds.
  */
 
-/* global Audio */
-
 /**
  * Sound.
  */

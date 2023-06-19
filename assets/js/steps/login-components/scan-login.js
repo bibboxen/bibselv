@@ -8,7 +8,7 @@ import BarcodeScanner from "../utils/barcode-scanner";
 import PropTypes from "prop-types";
 import Header from "../components/header";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import MachineStateContext from "../utils/MachineStateContext";
+import MachineStateContext from "../utils/machine-state-context";
 import {
   ScanLoginHeader,
   ScanLoginSubheader,
@@ -53,6 +53,8 @@ function ScanLogin({ actionHandler }) {
     return () => {
       barcodeScanner.stop();
     };
+    // todo, below
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionHandler]);
 
   return (

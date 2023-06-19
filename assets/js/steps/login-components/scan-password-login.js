@@ -62,6 +62,8 @@ function ScanPasswordLogin({ actionHandler }) {
     return () => {
       barcodeScanner.stop();
     };
+    // todo, below
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionHandler]);
 
   /**
@@ -107,6 +109,8 @@ function ScanPasswordLogin({ actionHandler }) {
   useEffect(() => {
     window.addEventListener("keydown", enterFunction);
     return () => window.removeEventListener("keydown", enterFunction);
+    // todo, below
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password]);
 
   /**
