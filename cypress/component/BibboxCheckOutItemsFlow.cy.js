@@ -3,6 +3,7 @@ import Bibbox from "../../assets/js/steps/Bibbox";
 import { CONNECTION_ONLINE } from "../../assets/js/constants";
 import messages from "../../public/lang/da-comp.json";
 import { IntlProvider } from "react-intl";
+import MachineStateContext from "../../assets/js/steps/utils/MachineStateContext";
 
 describe("Check out items", () => {
   it("Check out items is rendered and responds to mouse interaction", () => {
@@ -14,82 +15,85 @@ describe("Check out items", () => {
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
     cy.mount(
       <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
-            id: 25,
-            hasPrinter: false,
-            reservedMaterialInstruction:
-              "Dolor est ut ea natus iusto deserunt inventore.",
-            inactivityTimeOut: 360000,
-            soundEnabled: false,
-            school: {
-              name: "Beder Skole",
+        <MachineStateContext.Provider
+          value={{
+            errorMessage: null,
+            connectionState: CONNECTION_ONLINE,
+            boxConfig: {
+              id: 25,
+              hasPrinter: false,
+              reservedMaterialInstruction:
+                "Dolor est ut ea natus iusto deserunt inventore.",
+              inactivityTimeOut: 360000,
+              soundEnabled: false,
+              school: {
+                name: "Beder Skole",
+              },
+              loginMethod: "azure_ad_login",
+              adLoginState: {
+                state: "checkoutitems",
+                accountType: "student",
+                userName: "test1234",
+              },
+              hasTouch: false,
+              hasKeyboard: true,
+              sip2User: {
+                username: "test_test",
+                password: "12345678",
+                agencyId: "DK-718680",
+                location: "Kalvehave",
+              },
+              defaultPassword: "0000",
+              debugEnabled: false,
+              defaultLanguageCode: "da",
+              hasFrontpageCheckIn: true,
             },
-            loginMethod: "azure_ad_login",
-            adLoginState: {
-              state: "checkoutitems",
-              accountType: "student",
-              userName: "test1234",
+            machineState: {
+              step: "checkOutItems",
+              flow: "checkOutItems",
+              items: [
+                {
+                  timestamp: 1635120000000,
+                  itemIdentifier: "1",
+                  title: "Title 1",
+                  author: "Author 1",
+                  renewalOk: "message",
+                  message: "Check out message",
+                  status: "inProgress",
+                },
+                {
+                  timestamp: 1635120000000,
+                  itemIdentifier: "2",
+                  title: "Title 2",
+                  author: "Author 2",
+                  renewalOk: "message",
+                  message: "Check out message",
+                  status: "error",
+                },
+                {
+                  timestamp: 1635120000000,
+                  itemIdentifier: "3",
+                  title: "Title 3",
+                  author: "Author 3",
+                  renewalOk: "message",
+                  message: "Check out message",
+                  status: "renewed",
+                },
+                {
+                  timestamp: 1635120000000,
+                  itemIdentifier: "4",
+                  title: "Title 4",
+                  author: "Author 4",
+                  renewalOk: "message",
+                  message: "Check out message",
+                  status: "checkedOut",
+                },
+              ],
             },
-            hasTouch: false,
-            hasKeyboard: true,
-            sip2User: {
-              username: "test_test",
-              password: "12345678",
-              agencyId: "DK-718680",
-              location: "Kalvehave",
-            },
-            defaultPassword: "0000",
-            debugEnabled: false,
-            defaultLanguageCode: "da",
-            hasFrontpageCheckIn: true,
           }}
-          machineStateInput={{
-            step: "checkOutItems",
-            flow: "checkOutItems",
-            items: [
-              {
-                timestamp: 1635120000000,
-                itemIdentifier: "1",
-                title: "Title 1",
-                author: "Author 1",
-                renewalOk: "message",
-                message: "Check out message",
-                status: "inProgress",
-              },
-              {
-                timestamp: 1635120000000,
-                itemIdentifier: "2",
-                title: "Title 2",
-                author: "Author 2",
-                renewalOk: "message",
-                message: "Check out message",
-                status: "error",
-              },
-              {
-                timestamp: 1635120000000,
-                itemIdentifier: "3",
-                title: "Title 3",
-                author: "Author 3",
-                renewalOk: "message",
-                message: "Check out message",
-                status: "renewed",
-              },
-              {
-                timestamp: 1635120000000,
-                itemIdentifier: "4",
-                title: "Title 4",
-                author: "Author 4",
-                renewalOk: "message",
-                message: "Check out message",
-                status: "checkedOut",
-              },
-            ],
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
+        >
+          <Bibbox actionHandler={mock.actionHandler} />
+        </MachineStateContext.Provider>
       </IntlProvider>
     );
     cy.get('[data-cy="navbar"]')
@@ -148,44 +152,47 @@ describe("Check out items", () => {
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
     cy.mount(
       <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
-            id: 25,
-            hasPrinter: false,
-            reservedMaterialInstruction:
-              "Dolor est ut ea natus iusto deserunt inventore.",
-            inactivityTimeOut: 360000,
-            soundEnabled: false,
-            school: {
-              name: "Beder Skole",
+        <MachineStateContext.Provider
+          value={{
+            errorMessage: null,
+            connectionState: CONNECTION_ONLINE,
+            boxConfig: {
+              id: 25,
+              hasPrinter: false,
+              reservedMaterialInstruction:
+                "Dolor est ut ea natus iusto deserunt inventore.",
+              inactivityTimeOut: 360000,
+              soundEnabled: false,
+              school: {
+                name: "Beder Skole",
+              },
+              loginMethod: "azure_ad_login",
+              adLoginState: {
+                state: "checkoutitems",
+                accountType: "student",
+                userName: "test1234",
+              },
+              hasTouch: false,
+              hasKeyboard: true,
+              sip2User: {
+                username: "test_test",
+                password: "12345678",
+                agencyId: "DK-718680",
+                location: "Kalvehave",
+              },
+              defaultPassword: "0000",
+              debugEnabled: false,
+              defaultLanguageCode: "da",
+              hasFrontpageCheckIn: true,
             },
-            loginMethod: "azure_ad_login",
-            adLoginState: {
-              state: "checkoutitems",
-              accountType: "student",
-              userName: "test1234",
+            machineState: {
+              step: "checkOutItems",
+              flow: "checkOutItems",
             },
-            hasTouch: false,
-            hasKeyboard: true,
-            sip2User: {
-              username: "test_test",
-              password: "12345678",
-              agencyId: "DK-718680",
-              location: "Kalvehave",
-            },
-            defaultPassword: "0000",
-            debugEnabled: false,
-            defaultLanguageCode: "da",
-            hasFrontpageCheckIn: true,
           }}
-          machineStateInput={{
-            step: "checkOutItems",
-            flow: "checkOutItems",
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
+        >
+          <Bibbox actionHandler={mock.actionHandler} />
+        </MachineStateContext.Provider>
       </IntlProvider>
     );
 

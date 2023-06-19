@@ -3,6 +3,7 @@ import Bibbox from "../../assets/js/steps/Bibbox";
 import { CONNECTION_ONLINE } from "../../assets/js/constants";
 import messages from "../../public/lang/da-comp.json";
 import { IntlProvider } from "react-intl";
+import MachineStateContext from "../../assets/js/steps/utils/MachineStateContext";
 
 describe("Status", () => {
   it("Status is rendered and responds to mouse interaction", () => {
@@ -14,9 +15,11 @@ describe("Status", () => {
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
 
     cy.mount(
-      <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
+      <MachineStateContext.Provider
+        value={{
+          errorMessage: null,
+          connectionState: CONNECTION_ONLINE,
+          boxConfig: {
             id: 25,
             hasPrinter: false,
             reservedMaterialInstruction:
@@ -44,8 +47,8 @@ describe("Status", () => {
             debugEnabled: false,
             defaultLanguageCode: "da",
             hasFrontpageCheckIn: true,
-          }}
-          machineStateInput={{
+          },
+          machineState: {
             step: "status",
             flow: "status",
             user: {
@@ -112,12 +115,13 @@ describe("Status", () => {
               },
             ],
             recallItems: [],
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
-      </IntlProvider>
+          },
+        }}
+      >
+        <IntlProvider locale="da" messages={messages}>
+          <Bibbox actionHandler={mock.actionHandler} />
+        </IntlProvider>
+      </MachineStateContext.Provider>
     );
     cy.get('[data-cy="navbar"]')
       .find(".text")
@@ -198,9 +202,11 @@ describe("Status", () => {
     };
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
     cy.mount(
-      <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
+      <MachineStateContext.Provider
+        value={{
+          errorMessage: null,
+          connectionState: CONNECTION_ONLINE,
+          boxConfig: {
             id: 25,
             hasPrinter: false,
             reservedMaterialInstruction:
@@ -228,8 +234,8 @@ describe("Status", () => {
             debugEnabled: false,
             defaultLanguageCode: "da",
             hasFrontpageCheckIn: true,
-          }}
-          machineStateInput={{
+          },
+          machineState: {
             step: "status",
             flow: "status",
             user: {
@@ -296,12 +302,13 @@ describe("Status", () => {
               },
             ],
             recallItems: [],
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
-      </IntlProvider>
+          },
+        }}
+      >
+        <IntlProvider locale="da" messages={messages}>
+          <Bibbox actionHandler={mock.actionHandler} />
+        </IntlProvider>
+      </MachineStateContext.Provider>
     );
 
     // Barcode input: status

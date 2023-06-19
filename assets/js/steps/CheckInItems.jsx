@@ -216,7 +216,9 @@ function CheckInItems({ actionHandler }) {
         <HelpBox text={CheckInItemsHelpBoxText} />
       </div>
       <div className="col-md-1" />
-      <div className="col-md-8">{items && <BannerList items={items} />}</div>
+      <div className="col-md-8">
+        {localItems && <BannerList items={localItems} />}
+      </div>
       {debugEnabled && (
         <Card className="col-md-12 m-5">
           <Card.Body className="row">

@@ -36,7 +36,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  * @constructor
  */
 function ScanPasswordLogin({ actionHandler }) {
-  const context = useContext(MachineStateContext);
+  const {
+    boxConfig: { barcodeTimeout, debugEnabled, hasTouch },
+    machineState: { loginError },
+  } = useContext(MachineStateContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [subheader, setSubheader] = useState(ScanPasswordLoginFirstSubheader);
@@ -47,7 +50,7 @@ function ScanPasswordLogin({ actionHandler }) {
    */
   useEffect(() => {
     const barcodeScanner = new BarcodeScanner(
-      context.boxConfig.get.barcodeTimeout ?? BARCODE_SCANNING_TIMEOUT
+      barcodeTimeout ?? BARCODE_SCANNING_TIMEOUT
     );
     const barcodeCallback = new BarcodeHandler(
       [ACTION_RESET],
@@ -133,8 +136,6 @@ function ScanPasswordLogin({ actionHandler }) {
     });
   }
 
-  const loginError = context?.machineState?.get?.loginError;
-
   return (
     <>
       <Header
@@ -176,11 +177,9 @@ function ScanPasswordLogin({ actionHandler }) {
         )}
       </div>
       <div className="col-md-5">
-        {usernameScanned &&
-          (context.boxConfig.get.debugEnabled ||
-            context.boxConfig.get.hasTouch) && (
-            <QwertyKeyboard handleKeyPress={onInput} />
-          )}
+        {usernameScanned && (debugEnabled || hasTouch) && (
+          <QwertyKeyboard handleKeyPress={onInput} />
+        )}
       </div>
     </>
   );
