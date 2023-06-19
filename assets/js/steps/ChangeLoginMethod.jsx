@@ -5,7 +5,7 @@
 
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import Bubble from "./components/bubble";
+import Bubble from "./components/Bubble";
 import HelpBox from "./components/HelpBox";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import {
