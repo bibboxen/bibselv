@@ -6,8 +6,8 @@
 import React, { useContext, useEffect } from "react";
 import BarcodeScanner from "./utils/barcode-scanner";
 import PropTypes from "prop-types";
-import Bubble from "./components/bubble";
-import Barcode from "./components/barcode";
+import Bubble from "./components/Bubble";
+import Barcode from "./components/Barcode";
 import {
   ACTION_ENTER_FLOW_CHECKIN,
   ACTION_ENTER_FLOW_CHECKOUT,

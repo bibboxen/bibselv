@@ -34,7 +34,7 @@ import Alert from "./utils/Alert";
 import BookBanner from "./components/BookBanner";
 import BookStatus from "./utils/book-status";
 import OverdueBooksBanner from "./components/OverdueBooksBanner";
-import Button from "./components/button";
+import Button from "./components/Button";
 /**
  * Status.
  *

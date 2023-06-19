@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from "react";
-import Button from "./button";
+import Button from "./Button";
 import MachineStateContext from "../utils/MachineStateContext";
 import {
   faInfoCircle,
