@@ -4,6 +4,7 @@ import { CONNECTION_ONLINE } from "../../assets/js/constants";
 import messages from "../../public/lang/da-comp.json";
 import { IntlProvider } from "react-intl";
 import BookStatus from "../../assets/js/steps/utils/book-status";
+import MachineStateContext from "../../assets/js/steps/utils/MachineStateContext";
 
 describe("Check in items", () => {
   it("Check in items is rendered and responds to mouse interaction", () => {
@@ -15,79 +16,82 @@ describe("Check in items", () => {
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
     cy.mount(
       <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
-            id: 25,
-            hasPrinter: false,
-            reservedMaterialInstruction:
-              "Dolor est ut ea natus iusto deserunt inventore.",
-            inactivityTimeOut: 360000,
-            soundEnabled: false,
-            school: {
-              name: "Beder Skole",
+        <MachineStateContext.Provider
+          value={{
+            errorMessage: null,
+            connectionState: CONNECTION_ONLINE,
+            boxConfig: {
+              id: 25,
+              hasPrinter: false,
+              reservedMaterialInstruction:
+                "Dolor est ut ea natus iusto deserunt inventore.",
+              inactivityTimeOut: 360000,
+              soundEnabled: false,
+              school: {
+                name: "Beder Skole",
+              },
+              loginMethod: "azure_ad_login",
+              adLoginState: {
+                state: "checkoutitems",
+                accountType: "student",
+                userName: "test1234",
+              },
+              hasTouch: false,
+              hasKeyboard: true,
+              sip2User: {
+                username: "test_test",
+                password: "12345678",
+                agencyId: "DK-718680",
+                location: "Kalvehave",
+              },
+              defaultPassword: "0000",
+              debugEnabled: false,
+              defaultLanguageCode: "da",
+              hasFrontpageCheckIn: true,
             },
-            loginMethod: "azure_ad_login",
-            adLoginState: {
-              state: "checkoutitems",
-              accountType: "student",
-              userName: "test1234",
+            machineState: {
+              step: "checkInItems",
+              flow: "checkInItems",
+              items: [
+                {
+                  title: "Title checked in",
+                  author: "Author",
+                  status: BookStatus.CHECKED_IN,
+                },
+                {
+                  title: "Title error",
+                  author: "Author",
+                  status: BookStatus.ERROR,
+                  message: "Fejl",
+                },
+                {
+                  title: "Title reserved",
+                  author: "Author",
+                  status: BookStatus.RESERVED,
+                },
+                {
+                  title: "Title renewed and reserved",
+                  author: "Author",
+                  status: BookStatus.RENEWED,
+                  reservedByOtherUser: true,
+                },
+                {
+                  title: "Title renewed",
+                  author: "Author",
+                  status: BookStatus.RENEWED,
+                },
+                {
+                  title: "Title in progress",
+                  author: "Author",
+                  itemIdentifier: "123",
+                  status: BookStatus.IN_PROGRESS,
+                },
+              ],
             },
-            hasTouch: false,
-            hasKeyboard: true,
-            sip2User: {
-              username: "test_test",
-              password: "12345678",
-              agencyId: "DK-718680",
-              location: "Kalvehave",
-            },
-            defaultPassword: "0000",
-            debugEnabled: false,
-            defaultLanguageCode: "da",
-            hasFrontpageCheckIn: true,
           }}
-          machineStateInput={{
-            step: "checkInItems",
-            flow: "checkInItems",
-            items: [
-              {
-                title: "Title checked in",
-                author: "Author",
-                status: BookStatus.CHECKED_IN,
-              },
-              {
-                title: "Title error",
-                author: "Author",
-                status: BookStatus.ERROR,
-                message: "Fejl",
-              },
-              {
-                title: "Title reserved",
-                author: "Author",
-                status: BookStatus.RESERVED,
-              },
-              {
-                title: "Title renewed and reserved",
-                author: "Author",
-                status: BookStatus.RENEWED,
-                reservedByOtherUser: true,
-              },
-              {
-                title: "Title renewed",
-                author: "Author",
-                status: BookStatus.RENEWED,
-              },
-              {
-                title: "Title in progress",
-                author: "Author",
-                itemIdentifier: "123",
-                status: BookStatus.IN_PROGRESS,
-              },
-            ],
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
+        >
+          <Bibbox actionHandler={mock.actionHandler} />
+        </MachineStateContext.Provider>
       </IntlProvider>
     );
     cy.get('[data-cy="navbar"]')
@@ -161,84 +165,87 @@ describe("Check in items", () => {
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
     cy.mount(
       <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
-            id: 25,
-            hasPrinter: false,
-            reservedMaterialInstruction:
-              "Dolor est ut ea natus iusto deserunt inventore.",
-            inactivityTimeOut: 360000,
-            soundEnabled: false,
-            school: {
-              name: "Beder Skole",
+        <MachineStateContext.Provider
+          value={{
+            errorMessage: null,
+            connectionState: CONNECTION_ONLINE,
+            boxConfig: {
+              id: 25,
+              hasPrinter: false,
+              reservedMaterialInstruction:
+                "Dolor est ut ea natus iusto deserunt inventore.",
+              inactivityTimeOut: 360000,
+              soundEnabled: false,
+              school: {
+                name: "Beder Skole",
+              },
+              loginMethod: "azure_ad_login",
+              adLoginState: {
+                state: "checkoutitems",
+                accountType: "student",
+                userName: "test1234",
+              },
+              hasTouch: false,
+              hasKeyboard: true,
+              sip2User: {
+                username: "test_test",
+                password: "12345678",
+                agencyId: "DK-718680",
+                location: "Kalvehave",
+              },
+              defaultPassword: "0000",
+              debugEnabled: false,
+              defaultLanguageCode: "da",
+              hasFrontpageCheckIn: true,
             },
-            loginMethod: "azure_ad_login",
-            adLoginState: {
-              state: "checkoutitems",
-              accountType: "student",
-              userName: "test1234",
+            machineState: {
+              step: "checkInItems",
+              flow: "checkInItems",
+              items: [
+                {
+                  title: "Title checked in",
+                  author: "Author",
+                  status: BookStatus.CHECKED_IN,
+                  itemIdentifier: 1,
+                },
+                {
+                  title: "Title error",
+                  author: "Author",
+                  status: BookStatus.ERROR,
+                  message: "Fejl",
+                  itemIdentifier: 2,
+                },
+                {
+                  title: "Title reserved",
+                  author: "Author",
+                  status: BookStatus.RESERVED,
+                  itemIdentifier: 3,
+                },
+                {
+                  title: "Title renewed and reserved",
+                  author: "Author",
+                  status: BookStatus.RENEWED,
+                  reservedByOtherUser: true,
+                  itemIdentifier: 4,
+                },
+                {
+                  title: "Title renewed",
+                  author: "Author",
+                  status: BookStatus.RENEWED,
+                  itemIdentifier: 5,
+                },
+                {
+                  title: "Title in progress",
+                  author: "Author",
+                  status: BookStatus.IN_PROGRESS,
+                  itemIdentifier: 6,
+                },
+              ],
             },
-            hasTouch: false,
-            hasKeyboard: true,
-            sip2User: {
-              username: "test_test",
-              password: "12345678",
-              agencyId: "DK-718680",
-              location: "Kalvehave",
-            },
-            defaultPassword: "0000",
-            debugEnabled: false,
-            defaultLanguageCode: "da",
-            hasFrontpageCheckIn: true,
           }}
-          machineStateInput={{
-            step: "checkInItems",
-            flow: "checkInItems",
-            items: [
-              {
-                title: "Title checked in",
-                author: "Author",
-                status: BookStatus.CHECKED_IN,
-                itemIdentifier: 1,
-              },
-              {
-                title: "Title error",
-                author: "Author",
-                status: BookStatus.ERROR,
-                message: "Fejl",
-                itemIdentifier: 2,
-              },
-              {
-                title: "Title reserved",
-                author: "Author",
-                status: BookStatus.RESERVED,
-                itemIdentifier: 3,
-              },
-              {
-                title: "Title renewed and reserved",
-                author: "Author",
-                status: BookStatus.RENEWED,
-                reservedByOtherUser: true,
-                itemIdentifier: 4,
-              },
-              {
-                title: "Title renewed",
-                author: "Author",
-                status: BookStatus.RENEWED,
-                itemIdentifier: 5,
-              },
-              {
-                title: "Title in progress",
-                author: "Author",
-                status: BookStatus.IN_PROGRESS,
-                itemIdentifier: 6,
-              },
-            ],
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
+        >
+          <Bibbox actionHandler={mock.actionHandler} />
+        </MachineStateContext.Provider>
       </IntlProvider>
     );
 

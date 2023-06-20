@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 https://github.com/bibboxen/bibselv/pull/130
 Ignore vscode files
 
+https://github.com/bibboxen/bibselv/pull/129
+
+- Performance improvements: usememo, usecallback
+- Debug view improved
+
 - Change linting and files extensions, add changelog to actions check
 
 ### Changed

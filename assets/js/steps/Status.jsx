@@ -3,7 +3,7 @@
  * The status component displays the status from the machinestate for the user.
  */
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BannerList from "./components/BannerList";
 import Header from "./components/Header";
 import MachineStateContext from "./utils/MachineStateContext";
@@ -45,14 +45,24 @@ import Button from "./components/Button";
  * @constructor
  */
 function Status({ actionHandler }) {
-  const context = useContext(MachineStateContext);
+  const [loanedItems, setLoanedItems] = useState([]);
+  const {
+    connectionState,
+    boxConfig: { barcodeTimeout, hasPrinter },
+    machineState: {
+      holdItems,
+      unavailableHoldItems,
+      overdueItems,
+      chargedItems,
+    },
+  } = useContext(MachineStateContext);
 
   /**
    * Set up barcode scanner listener.
    */
   useEffect(() => {
     const barcodeScanner = new BarcodeScanner(
-      context.boxConfig.get.barcodeTimeout || BARCODE_SCANNING_TIMEOUT
+      barcodeTimeout || BARCODE_SCANNING_TIMEOUT
     );
     const barcodeCallback = new BarcodeHandler(
       [
@@ -68,7 +78,7 @@ function Status({ actionHandler }) {
     return () => {
       barcodeScanner.stop();
     };
-  }, [actionHandler]);
+  }, [actionHandler, barcodeTimeout]);
 
   /**
    * Prints the page, available in status component.
@@ -77,62 +87,16 @@ function Status({ actionHandler }) {
     window.print();
   }
 
-  const holdItems = [...context.machineState.get.holdItems];
-  const unavailableHoldItems = [
-    ...context.machineState.get.unavailableHoldItems,
-  ];
-  const overdueItems = [...context.machineState.get.overdueItems];
-  let loanedItems = [...context.machineState.get.chargedItems];
-
-  // Filter out loaned items that are not in overdueItems.
-  loanedItems = loanedItems.filter(function (obj) {
-    return !overdueItems.some(function (obj2) {
-      return obj.id === obj2.id;
-    });
-  });
-
-  const currentLoansContent = (
-    <>
-      {overdueItems && overdueItems.length > 0 && (
-        <OverdueBooksBanner items={overdueItems} />
-      )}
-      {loanedItems &&
-        loanedItems.map((item) => (
-          <BookBanner
-            item={item}
-            key={"loanedItem" + item.id || item.itemIdentifier}
-          />
-        ))}
-    </>
-  );
-
-  const reservationsContent = (
-    <>
-      {unavailableHoldItems &&
-        unavailableHoldItems.map((item) => (
-          <BookBanner
-            item={item}
-            key={"unavailableHoldItem" + item.id || item.itemIdentifier}
-          />
-        ))}
-    </>
-  );
-
-  const readyForPickupContent = (
-    <>
-      {holdItems &&
-        holdItems.map((item) => {
-          item.status = BookStatus.SUCCESS;
-          return (
-            <BookBanner
-              item={item}
-              key={"holdItem" + item.id || item.itemIdentifier}
-              visibleOnPrint={true}
-            />
-          );
-        })}
-    </>
-  );
+  useEffect(() => {
+    // Filter out loaned items that are not in overdueItems.
+    setLoanedItems(
+      chargedItems.filter(function ({ id: obj1Id }) {
+        return !overdueItems.some(function ({ id: obj2Id }) {
+          return obj1Id === obj2Id;
+        });
+      })
+    );
+  }, [chargedItems, overdueItems]);
 
   return (
     <>
@@ -143,7 +107,7 @@ function Status({ actionHandler }) {
         icon={faInfoCircle}
       />
       <div className="col-md-2">
-        {context.boxConfig.get.hasPrinter && (
+        {hasPrinter && (
           <Button
             label={StatusButtonPrint}
             icon={faPrint}
@@ -152,37 +116,73 @@ function Status({ actionHandler }) {
           />
         )}
       </div>
-      {context.connectionState.get === CONNECTION_OFFLINE && (
+      {connectionState === CONNECTION_OFFLINE && (
         <div className="status-container">
           <Alert message={StatusUnavailable} />
         </div>
       )}
-      {context.connectionState.get === CONNECTION_ONLINE && (
+      {connectionState === CONNECTION_ONLINE && (
         <div className="status-container">
           <h1>{StatusHeaderPrint}</h1>
           <div className="col-md-4 mt-4">
             <BannerList
               title={StatusHeaderCurrentLoans}
               numberOfItems={loanedItems.length + overdueItems.length}
-              content={currentLoansContent}
               visibleOnPrint={true}
-            />
+            >
+              <>
+                {overdueItems && overdueItems.length > 0 && (
+                  <OverdueBooksBanner items={overdueItems} />
+                )}
+                {loanedItems &&
+                  loanedItems.map((item) => (
+                    <BookBanner
+                      item={item}
+                      key={"loanedItem" + item.id || item.itemIdentifier}
+                    />
+                  ))}
+              </>
+            </BannerList>
           </div>
           <div className="col-md-4 mt-4">
             <BannerList
               title={StatusHeaderReservations}
               numberOfItems={unavailableHoldItems.length}
-              content={reservationsContent}
               visibleOnPrint={true}
-            />
+            >
+              <>
+                {unavailableHoldItems &&
+                  unavailableHoldItems.map((item) => (
+                    <BookBanner
+                      item={item}
+                      key={
+                        "unavailableHoldItem" + item.id || item.itemIdentifier
+                      }
+                    />
+                  ))}
+              </>
+            </BannerList>
           </div>
           <div className="col-md-4 mt-4">
             <BannerList
               title={StatusHeaderReadyForPickup}
               numberOfItems={holdItems.length}
-              content={readyForPickupContent}
               visibleOnPrint={true}
-            />
+            >
+              <>
+                {holdItems &&
+                  holdItems.map((item) => {
+                    item.status = BookStatus.SUCCESS;
+                    return (
+                      <BookBanner
+                        item={item}
+                        key={"holdItem" + item.id || item.itemIdentifier}
+                        visibleOnPrint={true}
+                      />
+                    );
+                  })}
+              </>
+            </BannerList>
           </div>
         </div>
       )}

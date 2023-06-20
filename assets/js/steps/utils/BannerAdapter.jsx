@@ -44,6 +44,8 @@ export function adaptListOfBooksToBanner(
       case BookStatus.CHECKED_OUT:
       case BookStatus.RENEWED:
         if (book.author) {
+          console.log("here");
+          console.log(BannerTitleAuthor(book.title, book.author));
           displayInfo.text = BannerTitleAuthor(book.title, book.author);
         }
         if (book.reservedByOtherUser) {
@@ -77,25 +79,4 @@ export function adaptListOfBooks(listOfBooks, status, title) {
     items.push(displayInfo);
   });
   return items;
-}
-
-/**
- * Adapts books from state machine with success (green banner) to the banner component.
- *
- * @param listOfBooks
- * @return {[]}
- */
-export function adaptListOfBooksWithSuccess(listOfBooks) {
-  return adaptListOfBooks(listOfBooks, BookStatus.SUCCESS);
-}
-
-/**
- * Adapts books from state machine with error (red banner) to the banner component and title.
- *
- * @param listOfBooks
- * @param title
- * @return {[]}
- */
-export function adaptListOfBooksWitErrorAndTitle(listOfBooks, title) {
-  return adaptListOfBooks(listOfBooks, BookStatus.ERROR, title);
 }

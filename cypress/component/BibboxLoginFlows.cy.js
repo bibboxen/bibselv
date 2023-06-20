@@ -3,6 +3,7 @@ import Bibbox from "../../assets/js/steps/Bibbox";
 import { CONNECTION_ONLINE } from "../../assets/js/constants";
 import messages from "../../public/lang/da-comp.json";
 import { IntlProvider } from "react-intl";
+import MachineStateContext from "../../assets/js/steps/utils/MachineStateContext";
 
 describe("Login flows", () => {
   it("loginScanUsernamePassword is rendered and responds to barcode interaction", () => {
@@ -13,9 +14,11 @@ describe("Login flows", () => {
     };
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
     cy.mount(
-      <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
+      <MachineStateContext.Provider
+        value={{
+          errorMessage: null,
+          connectionState: CONNECTION_ONLINE,
+          boxConfig: {
             barcodeTimeout: 0,
             id: 25,
             hasPrinter: true,
@@ -44,16 +47,17 @@ describe("Login flows", () => {
             debugEnabled: false,
             defaultLanguageCode: "da",
             hasFrontpageCheckIn: true,
-          }}
-          machineStateInput={{
+          },
+          machineState: {
             step: "loginScanUsernamePassword",
             flow: "status",
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
-      </IntlProvider>
+          },
+        }}
+      >
+        <IntlProvider locale="da" messages={messages}>
+          <Bibbox actionHandler={mock.actionHandler} />
+        </IntlProvider>
+      </MachineStateContext.Provider>
     );
 
     // Navbar, correct schoole name and "reset button exists"
@@ -100,45 +104,48 @@ describe("Login flows", () => {
     cy.stub(mock, "actionHandler").as("actionHandlerStub");
     cy.mount(
       <IntlProvider locale="da" messages={messages}>
-        <Bibbox
-          boxConfigurationInput={{
-            barcodeTimeout: 0,
-            id: 25,
-            hasPrinter: true,
-            reservedMaterialInstruction:
-              "Dolor est ut ea natus iusto deserunt inventore.",
-            inactivityTimeOut: 360000,
-            soundEnabled: false,
-            school: {
-              name: "Beder Skole",
+        <MachineStateContext.Provider
+          value={{
+            errorMessage: null,
+            connectionState: CONNECTION_ONLINE,
+            boxConfig: {
+              barcodeTimeout: 0,
+              id: 25,
+              hasPrinter: true,
+              reservedMaterialInstruction:
+                "Dolor est ut ea natus iusto deserunt inventore.",
+              inactivityTimeOut: 360000,
+              soundEnabled: false,
+              school: {
+                name: "Beder Skole",
+              },
+              loginMethod: "azure_ad_login",
+              adLoginState: {
+                state: "checkoutitems",
+                accountType: "student",
+                userName: "test1234",
+              },
+              hasTouch: false,
+              hasKeyboard: true,
+              sip2User: {
+                username: "test_test",
+                password: "12345678",
+                agencyId: "DK-718680",
+                location: "Kalvehave",
+              },
+              defaultPassword: "0000",
+              debugEnabled: false,
+              defaultLanguageCode: "da",
+              hasFrontpageCheckIn: true,
             },
-            loginMethod: "azure_ad_login",
-            adLoginState: {
-              state: "checkoutitems",
-              accountType: "student",
-              userName: "test1234",
+            machineState: {
+              step: "loginScanUsername",
+              flow: "status",
             },
-            hasTouch: false,
-            hasKeyboard: true,
-            sip2User: {
-              username: "test_test",
-              password: "12345678",
-              agencyId: "DK-718680",
-              location: "Kalvehave",
-            },
-            defaultPassword: "0000",
-            debugEnabled: false,
-            defaultLanguageCode: "da",
-            hasFrontpageCheckIn: true,
           }}
-          machineStateInput={{
-            step: "loginScanUsername",
-            flow: "status",
-          }}
-          errorMessage={null}
-          connectionState={CONNECTION_ONLINE}
-          actionHandler={mock.actionHandler}
-        />
+        >
+          <Bibbox actionHandler={mock.actionHandler} />
+        </MachineStateContext.Provider>
       </IntlProvider>
     );
 

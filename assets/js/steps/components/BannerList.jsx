@@ -20,13 +20,13 @@ import PropTypes from "prop-types";
  *   Visible on print.
  * @param numberOfItems
  *   Number of items. Will be inferred from items.length, if not set.
- * @param content
- *   Child content
+ * @param children
+ *   Children
  *
  * @return {*}
  * @constructor
  */
-function BannerList({ items, title, visibleOnPrint, numberOfItems, content }) {
+function BannerList({ items, title, visibleOnPrint, numberOfItems, children }) {
   return (
     <>
       {title && (
@@ -37,7 +37,7 @@ function BannerList({ items, title, visibleOnPrint, numberOfItems, content }) {
           )}
         </div>
       )}
-      {content}
+      {children}
       {items &&
         items.map((item) => (
           <Banner
@@ -52,7 +52,7 @@ function BannerList({ items, title, visibleOnPrint, numberOfItems, content }) {
 BannerList.propTypes = {
   items: PropTypes.array,
   title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  content: PropTypes.any,
+  children: PropTypes.ReactNode,
   numberOfItems: PropTypes.number,
   visibleOnPrint: PropTypes.bool,
 };

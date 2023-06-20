@@ -39,10 +39,17 @@ import { CONNECTION_OFFLINE, CONNECTION_ONLINE } from "../../constants";
  * @constructor
  */
 function NavBar({ actionHandler }) {
-  const context = useContext(MachineStateContext);
-  const { step, activeLoginSession, user } = context.machineState.get;
-  const { loginSessionEnabled, school, loginSessionMethods, debugEnabled } =
-    context.boxConfig.get;
+  const {
+    connectionState,
+    boxConfig: {
+      loginSessionEnabled,
+      school,
+      loginSessionMethods,
+      debugEnabled,
+    },
+    machineState: { step, activeLoginSession, user },
+  } = useContext(MachineStateContext);
+
   const classes = step === "initial" ? "navbar initial" : "navbar";
   const components = [
     {
@@ -53,11 +60,9 @@ function NavBar({ actionHandler }) {
     },
     {
       additionalClass:
-        context.connectionState.get === CONNECTION_ONLINE
-          ? "status"
-          : "offline",
+        connectionState === CONNECTION_ONLINE ? "status" : "offline",
       data: { flow: "status" },
-      disabled: context.connectionState.get === CONNECTION_OFFLINE,
+      disabled: connectionState === CONNECTION_OFFLINE,
       label: NavbarButtonStatus,
       icon: faInfoCircle,
     },
