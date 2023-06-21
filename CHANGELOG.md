@@ -10,9 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 ## [1.2.0] - 2023-mm-dd
-* Upgraded engine to node 18.
-* Upgraded to PHP 8.1
-* Upgraded to latest github actions
+- Upgraded engine to node 18.
+- Upgraded to PHP 8.1
+- Upgraded to latest github actions
+- Change linting and files extensions, add changelog to actions check [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Performance improvements: usememo, usecallback [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Debug view improved [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
 
 ## [1.1.0] - 2023-04-26
 
@@ -30,9 +34,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed auto deploy to staging.
 
 ## [1.0.8] - 2023-02-02
+
 - Downgraded setup from PHP 8.1 to 8.0 to match server
 
 ## [1.0.7] - 2023-02-02
+
 - Update composer packages, CVE-2022-24894, CVE-2022-24895
 
 ## [1.0.6] - 2023-01-18
