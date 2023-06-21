@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-mm-dd 
+
 ### Changed
 
-## [1.2.0] - 2023-mm-dd
 - Upgraded engine to node 18.
 - Upgraded to PHP 8.1
 - Upgraded to latest github actions
