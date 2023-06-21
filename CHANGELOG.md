@@ -13,6 +13,8 @@ Add "other permanent location instruction" for books that should be sent to a di
 https://github.com/bibboxen/bibselv/pull/131
 Fix error with sound.
 
+## [1.2.0] - 2023-mm-dd 
+
 ### Changed
 
 - Upgraded engine to node 18.
