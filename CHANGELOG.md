@@ -7,21 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-https://github.com/bibboxen/bibselv/pull/130
-Ignore vscode files
-
-https://github.com/bibboxen/bibselv/pull/129
-
-- Performance improvements: usememo, usecallback
-- Debug view improved
-
-- Change linting and files extensions, add changelog to actions check
-
 ### Changed
 
 - Upgraded engine to node 18.
 - Upgraded to PHP 8.1
 - Upgraded to latest github actions
+- Change linting and files extensions, add changelog to actions check [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Performance improvements: usememo, usecallback [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Debug view improved [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
 
 ## [1.1.0] - 2023-04-26
 
