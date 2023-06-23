@@ -53,7 +53,8 @@ function Bibbox({ actionHandler }) {
       lastPlayedDate?.getFullYear() !== today.getFullYear()
     ) {
       window.localStorage.setItem(user.id, Date.now());
-      new Sound().playSound("birthday");
+      let sound = new Sound();
+      sound.playSound("birthday");
     }
   }, [soundEnabled, user]);
 

@@ -156,7 +156,8 @@ function CheckOutItems({ actionHandler }) {
    */
   useEffect(() => {
     if (soundToPlay !== "" && soundEnabled) {
-      new Sound.playSound(soundToPlay);
+      let sound = new Sound();
+      sound.playSound(soundToPlay);
     }
   }, [soundEnabled, soundToPlay]);
 

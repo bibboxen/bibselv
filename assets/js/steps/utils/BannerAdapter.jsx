@@ -44,8 +44,6 @@ export function adaptListOfBooksToBanner(
       case BookStatus.CHECKED_OUT:
       case BookStatus.RENEWED:
         if (book.author) {
-          console.log("here");
-          console.log(BannerTitleAuthor(book.title, book.author));
           displayInfo.text = BannerTitleAuthor(book.title, book.author);
         }
         if (book.reservedByOtherUser) {

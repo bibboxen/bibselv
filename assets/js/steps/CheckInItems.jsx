@@ -190,7 +190,8 @@ function CheckInItems({ actionHandler }) {
    */
   useEffect(() => {
     if (soundEnabled && soundToPlay !== "") {
-      new Sound().playSound(soundToPlay);
+      let sound = new Sound();
+      sound.playSound(soundToPlay);
     }
   }, [soundEnabled, soundToPlay]);
 
