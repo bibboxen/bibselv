@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+https://github.com/bibboxen/bibselv/pull/132
+Add "other permanent location instruction" for books that should be sent to a different library.
+
 https://github.com/bibboxen/bibselv/pull/131
 Fix error with sound.
 
