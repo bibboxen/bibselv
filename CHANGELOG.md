@@ -7,12 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-https://github.com/bibboxen/bibselv/pull/132
-Add "other permanent location instruction" for books that should be sent to a different library.
-
-https://github.com/bibboxen/bibselv/pull/131
-Fix error with sound.
-
 ## [1.2.0] - 2023-mm-dd 
 
 ### Changed
@@ -24,6 +18,8 @@ Fix error with sound.
 - Performance improvements: usememo, usecallback [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Debug view improved [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
+- Add "other permanent location instruction" for books that should be sent to a different library [#132](https://github.com/bibboxen/bibselv/pull/132).
+- Fix error with sound [#131](https://github.com/bibboxen/bibselv/pull/131).
 
 ## [1.2.0] - 2023-mm-dd
 * Upgraded engine to node 18.
