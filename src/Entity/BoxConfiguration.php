@@ -242,6 +242,7 @@ class BoxConfiguration
 
         return $this;
     }
+
     /**
      * Get instruction for material with another permanent location.
      *

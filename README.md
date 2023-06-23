@@ -236,7 +236,10 @@ The same commands apply as frontend, be should be run from the `engine/` folder.
 
 ### Code linting Symfony
 
-@TODO: Setup coding standards for the Symfony/PHP code.
+```sh
+docker compose exec phpfpm composer coding-standards-check
+docker compose exec phpfpm composer coding-standards-apply
+```
 
 ## Testing
 
