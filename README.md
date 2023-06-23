@@ -159,6 +159,7 @@ Endpoint for box configuration. If there is a cached `AdLoginState` object it lo
     "id": 25,
     "hasPrinter": true,
     "reservedMaterialInstruction": "Dolor est ut ea natus iusto deserunt inventore.",
+    "otherPermanentLocationInstruction": "Deserunt inventore.",
     "inactivityTimeOut": 360000,
     "soundEnabled": false,
     "school": {
