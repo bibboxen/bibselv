@@ -159,6 +159,7 @@ Endpoint for box configuration. If there is a cached `AdLoginState` object it lo
     "id": 25,
     "hasPrinter": true,
     "reservedMaterialInstruction": "Dolor est ut ea natus iusto deserunt inventore.",
+    "otherPermanentLocationInstruction": "Deserunt inventore.",
     "inactivityTimeOut": 360000,
     "soundEnabled": false,
     "school": {
@@ -235,7 +236,10 @@ The same commands apply as frontend, be should be run from the `engine/` folder.
 
 ### Code linting Symfony
 
-@TODO: Setup coding standards for the Symfony/PHP code.
+```sh
+docker compose exec phpfpm composer coding-standards-check
+docker compose exec phpfpm composer coding-standards-apply
+```
 
 ## Testing
 
