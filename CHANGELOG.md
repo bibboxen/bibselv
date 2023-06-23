@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+https://github.com/bibboxen/bibselv/pull/131
+Fix error with sound.
+
 ### Changed
 
 - Upgraded engine to node 18.
