@@ -39,6 +39,13 @@ class BoxConfiguration
     private $reservedMaterialInstruction;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Groups("boxConfiguration")
+     */
+    private $otherPermanentLocationInstruction;
+
+    /**
      * @ORM\Column(type="integer")
      *
      * @Groups("boxConfiguration")
@@ -232,6 +239,29 @@ class BoxConfiguration
     public function setReservedMaterialInstruction(string $reservedMaterialInstruction): self
     {
         $this->reservedMaterialInstruction = $reservedMaterialInstruction;
+
+        return $this;
+    }
+    /**
+     * Get instruction for material with another permanent location.
+     *
+     * @return string|null
+     */
+    public function getOtherPermanentLocationInstruction(): ?string
+    {
+        return $this->otherPermanentLocationInstruction;
+    }
+
+    /**
+     * Set instruction for material with another permanent location.
+     *
+     * @param string $otherPermanentLocationInstruction
+     *
+     * @return $this
+     */
+    public function setOtherPermanentLocationInstruction(string $otherPermanentLocationInstruction): self
+    {
+        $this->otherPermanentLocationInstruction = $otherPermanentLocationInstruction;
 
         return $this;
     }
