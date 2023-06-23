@@ -39,7 +39,7 @@ class BoxConfiguration
     private $reservedMaterialInstruction;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Groups("boxConfiguration")
      */
