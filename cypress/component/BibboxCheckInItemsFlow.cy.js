@@ -25,6 +25,7 @@ describe("Check in items", () => {
               hasPrinter: false,
               reservedMaterialInstruction:
                 "Dolor est ut ea natus iusto deserunt inventore.",
+              otherPermanentLocationInstruction: "Lorem ipsum.",
               inactivityTimeOut: 360000,
               soundEnabled: false,
               school: {
@@ -86,6 +87,12 @@ describe("Check in items", () => {
                   itemIdentifier: "123",
                   status: BookStatus.IN_PROGRESS,
                 },
+                {
+                  title: "Send book",
+                  author: "Author",
+                  status: BookStatus.CHECKED_IN,
+                  message: "Sendes til",
+                },
               ],
             },
           }}
@@ -125,29 +132,33 @@ describe("Check in items", () => {
 
     cy.get('[data-cy="banner"]')
       .eq(0)
+      .should("have.text", "Lorem ipsum.Send book af Author")
+      .should("have.css", "background-color", "rgb(5, 245, 144)");
+    cy.get('[data-cy="banner"]')
+      .eq(1)
       .should("have.text", "Henter informationer123")
       .should("have.css", "background-color", "rgb(85, 85, 85)");
     cy.get('[data-cy="banner"]')
-      .eq(1)
+      .eq(2)
       .should("have.text", "Title renewedTitle renewed af Author")
       .should("have.css", "background-color", "rgb(5, 245, 144)");
     cy.get('[data-cy="banner"]')
-      .eq(2)
+      .eq(3)
       .should(
         "have.text",
         "Dolor est ut ea natus iusto deserunt inventore.Title renewed and reserved af Author"
       )
       .should("have.css", "background-color", "rgb(233, 67, 67)");
     cy.get('[data-cy="banner"]')
-      .eq(3)
+      .eq(4)
       .should("have.text", "Title reservedTitle reserved af Author")
       .should("have.css", "background-color", "rgb(233, 67, 67)");
     cy.get('[data-cy="banner"]')
-      .eq(4)
+      .eq(5)
       .should("have.text", "FejlTitle error af Author")
       .should("have.css", "background-color", "rgb(233, 67, 67)");
     cy.get('[data-cy="banner"]')
-      .eq(5)
+      .eq(6)
       .should("have.text", "Title checked inTitle checked in af Author")
       .should("have.css", "background-color", "rgb(5, 245, 144)");
 
@@ -174,6 +185,7 @@ describe("Check in items", () => {
               hasPrinter: false,
               reservedMaterialInstruction:
                 "Dolor est ut ea natus iusto deserunt inventore.",
+              otherPermanentLocationInstruction: "Lorem ipsum.",
               inactivityTimeOut: 360000,
               soundEnabled: false,
               school: {
@@ -207,6 +219,13 @@ describe("Check in items", () => {
                   author: "Author",
                   status: BookStatus.CHECKED_IN,
                   itemIdentifier: 1,
+                },
+                {
+                  title: "Title checked in",
+                  author: "Author",
+                  status: BookStatus.CHECKED_IN,
+                  itemIdentifier: 1,
+                  message: "Sendes til",
                 },
                 {
                   title: "Title error",
