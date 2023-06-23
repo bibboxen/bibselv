@@ -49,6 +49,7 @@ function CheckInItems({ actionHandler }) {
       barcodeTimeout,
       soundEnabled,
       reservedMaterialInstruction,
+      otherPermanentLocationInstruction,
       hasPrinter,
       debugEnabled,
     },
@@ -198,12 +199,14 @@ function CheckInItems({ actionHandler }) {
   useEffect(() => {
     if (items && items.length > 0) {
       setDisplayedItems(
-        adaptListOfBooksToBanner(items, reservedMaterialInstruction).sort(
-          (a, b) => (a.timestamp < b.timestamp ? 1 : -1)
-        )
+        adaptListOfBooksToBanner(
+          items,
+          reservedMaterialInstruction,
+          otherPermanentLocationInstruction
+        ).sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1))
       );
     }
-  }, [items, reservedMaterialInstruction]);
+  }, [items, otherPermanentLocationInstruction, reservedMaterialInstruction]);
 
   return (
     <>
