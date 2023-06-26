@@ -22,11 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix error with sound [#131](https://github.com/bibboxen/bibselv/pull/131).
 - Added clearInterval to Clock component [#132](https://github.com/bibboxen/bibselv/pull/132).
 
-## [1.2.0] - 2023-mm-dd
-* Upgraded engine to node 18.
-* Upgraded to PHP 8.1
-* Upgraded to latest github actions
-
 ## [1.1.0] - 2023-04-26
 
 ### Added
