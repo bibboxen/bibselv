@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 
 const Clock = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    }
   }, []);
 
   return (

@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
 - Add "other permanent location instruction" for books that should be sent to a different library [#132](https://github.com/bibboxen/bibselv/pull/132).
 - Fix error with sound [#131](https://github.com/bibboxen/bibselv/pull/131).
+- Added clearInterval to Clock component [#132](https://github.com/bibboxen/bibselv/pull/132).
 
 ## [1.2.0] - 2023-mm-dd
 * Upgraded engine to node 18.
