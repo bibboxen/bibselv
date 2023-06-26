@@ -16,11 +16,13 @@ import {
  *
  * @param listOfBooks
  * @param reservedMaterialInstruction
+ * @param otherPermanentLocationInstruction
  * @return {[]}
  */
 export function adaptListOfBooksToBanner(
   listOfBooks,
-  reservedMaterialInstruction
+  reservedMaterialInstruction,
+  otherPermanentLocationInstruction
 ) {
   const items = [];
 
@@ -44,13 +46,19 @@ export function adaptListOfBooksToBanner(
       case BookStatus.CHECKED_OUT:
       case BookStatus.RENEWED:
         if (book.author) {
-          console.log("here");
-          console.log(BannerTitleAuthor(book.title, book.author));
           displayInfo.text = BannerTitleAuthor(book.title, book.author);
         }
         if (book.reservedByOtherUser) {
           displayInfo.status = BookStatus.RESERVED;
           displayInfo.title = reservedMaterialInstruction || book.message;
+        }
+        // This solution...
+        // Fbs returns a string if a book should be sent to another
+        // library, containing something like this: "Sendes til Mårslet bibliotek"
+        // So, this is not a good solution, but this is what we can do if we would
+        // like to create a custom message in this situation.
+        if (book.message && book.message.indexOf("Sendes til") > -1) {
+          displayInfo.title = otherPermanentLocationInstruction;
         }
         break;
     }
