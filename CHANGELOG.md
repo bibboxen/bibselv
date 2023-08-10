@@ -7,11 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-https://github.com/bibboxen/bibselv/pull/132
-Add "other permanent location instruction" for books that should be sent to a different library.
+### Added
 
-https://github.com/bibboxen/bibselv/pull/131
-Fix error with sound.
+Add "other permanent location instruction" for books that should be sent to a different library [#132](https://github.com/bibboxen/bibselv/pull/132)
 
 ### Changed
 
@@ -22,6 +20,8 @@ Fix error with sound.
 - Performance improvements: usememo, usecallback [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Debug view improved [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
+- Fixed error with sound [#131](https://github.com/bibboxen/bibselv/pull/131)
+- Update to newest symfony 5.4 [#134]((https://github.com/bibboxen/bibselv/pull/134)
 
 ## [1.1.0] - 2023-04-26
 
