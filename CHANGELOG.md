@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.0] - 2023-mm-dd 
 
+### Added
+
+- Add "other permanent location instruction" for books that should be sent to a different library [#132](https://github.com/bibboxen/bibselv/pull/132)
+- Added clearInterval to Clock component [#133](https://github.com/bibboxen/bibselv/pull/133).
+
 ### Changed
 
 - Upgraded engine to node 18.
@@ -18,9 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Performance improvements: usememo, usecallback [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Debug view improved [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
-- Add "other permanent location instruction" for books that should be sent to a different library [#132](https://github.com/bibboxen/bibselv/pull/132).
 - Fix error with sound [#131](https://github.com/bibboxen/bibselv/pull/131).
-- Added clearInterval to Clock component [#132](https://github.com/bibboxen/bibselv/pull/132).
+- Fixed error with sound [#131](https://github.com/bibboxen/bibselv/pull/131)
+- Update to newest symfony 5.4 [#134]((https://github.com/bibboxen/bibselv/pull/134)
 
 ## [1.1.0] - 2023-04-26
 
