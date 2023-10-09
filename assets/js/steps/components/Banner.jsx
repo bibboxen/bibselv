@@ -27,7 +27,7 @@ import {
  */
 function Banner({ item, visibleOnPrint = false }) {
   let classes = visibleOnPrint ? "banner visibe-on-print " : "banner ";
-  let { text, title, status, itemIdentifier } = item;
+  let { text, title, status, itemIdentifier, message } = item;
   let icon = null;
   switch (status) {
     case BookStatus.ERROR:
@@ -43,8 +43,13 @@ function Banner({ item, visibleOnPrint = false }) {
     case BookStatus.CHECKED_OUT:
     case BookStatus.CHECKED_IN:
     case BookStatus.SUCCESS:
-      classes += "success";
-      icon = faCheck;
+      if (message?.indexOf("Sendes til") === 0) {
+        classes += "warning";
+      } else {
+        classes += "success";
+        icon = faCheck;
+      }
+
       break;
   }
 

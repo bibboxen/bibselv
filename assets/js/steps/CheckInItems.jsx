@@ -160,22 +160,24 @@ function CheckInItems({ actionHandler }) {
     /**
      * Handle successful checkin.
      */
-    let booksLength = items.filter(
+    const newCheckInLength = items.filter(
       (book) =>
         book.status === BookStatus.CHECKED_IN && book.message !== "Reserveret"
     ).length;
-    if (booksLength > checkedInBooksLength) {
-      setCheckedInBooksLength(booksLength);
+
+    if (newCheckInLength !== checkedInBooksLength) {
+      setCheckedInBooksLength(newCheckInLength);
     }
 
     /**
-     * Play sound for check-in error.
+     * Play sound for check-in error or if the item should be delivered to another library.
      */
-    booksLength = items.filter(
-      ({ status }) => status === BookStatus.ERROR
+    const newErrorsLength = items.filter(
+      ({ status, message }) => status === BookStatus.ERROR || message?.indexOf("Sendes til") === 0
     ).length;
-    if (booksLength > errorsLength) {
-      setErrorLength(booksLength);
+
+    if (newErrorsLength !== errorsLength) {
+      setErrorLength(newErrorsLength);
       setSoundToPlay("error");
     }
   }, [

@@ -47,6 +47,12 @@
         border-color: $success-border;
     }
 
+    &.warning {
+        // Color
+        background-color: $warning;
+        border-color: $warning-border;
+    }
+
     >.icon {
         // Display & position
         display: flex;

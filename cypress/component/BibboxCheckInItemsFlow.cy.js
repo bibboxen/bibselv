@@ -89,7 +89,7 @@ describe("Check in items", () => {
                 },
                 {
                   title: "Send book",
-                  author: "Author",
+                  author: "Author123",
                   status: BookStatus.CHECKED_IN,
                   message: "Sendes til",
                 },
@@ -132,8 +132,9 @@ describe("Check in items", () => {
 
     cy.get('[data-cy="banner"]')
       .eq(0)
-      .should("have.text", "Lorem ipsum.Send book af Author")
-      .should("have.css", "background-color", "rgb(5, 245, 144)");
+      .should("have.class", "warning")
+      .should("have.text", "Lorem ipsum.Send book af Author123")
+      .should("have.css", "background-color", "rgb(255, 218, 31)");
     cy.get('[data-cy="banner"]')
       .eq(1)
       .should("have.text", "Henter informationer123")

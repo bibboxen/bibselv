@@ -8,6 +8,7 @@ $status-color: #006cd0;
 // Danger/success
 $danger: #e94343;
 $success: #04c373;
+$warning: #ffda1f;
 
 // Shades
 $white: #fff;
@@ -23,6 +24,7 @@ $font-color: $neutral-darkest;
 $success-light: lighten($success, 10%);
 $success-border: darken($success, 10%);
 $danger-border: darken($danger, 10%);
+$warning-border: darken($warning, 10%);
 $grey-border: $neutral-lighter;
 
 @mixin box-shadow($top: 0px, $left: 0px, $blur: 20px, $size: 1px, $color: rgba(0, 0, 0, 0.3)) {
