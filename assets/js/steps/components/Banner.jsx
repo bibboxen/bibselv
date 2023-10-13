@@ -44,7 +44,7 @@ function Banner({ item, visibleOnPrint = false }) {
     case BookStatus.CHECKED_IN:
     case BookStatus.SUCCESS:
       if (message?.indexOf("Sendes til") === 0) {
-        classes += "warning";
+        classes += "danger";
       } else {
         classes += "success";
         icon = faCheck;

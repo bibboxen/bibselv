@@ -132,9 +132,9 @@ describe("Check in items", () => {
 
     cy.get('[data-cy="banner"]')
       .eq(0)
-      .should("have.class", "warning")
+      .should("have.class", "danger")
       .should("have.text", "Lorem ipsum.Send book af Author123")
-      .should("have.css", "background-color", "rgb(255, 218, 31)");
+      .should("have.css", "background-color", "rgb(233, 67, 67)");
     cy.get('[data-cy="banner"]')
       .eq(1)
       .should("have.text", "Henter informationer123")
