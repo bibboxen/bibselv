@@ -29,7 +29,7 @@ import {
   ACTION_CHANGE_FLOW_CHECKOUT,
   ACTION_CHANGE_FLOW_STATUS,
   ACTION_RESET,
-  BARCODE_SCANNING_TIMEOUT,
+  BARCODE_SCANNING_TIMEOUT, CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX,
 } from "../constants";
 import CheckInWhite from "../../scss/images/check-in-white.svg";
 import { Card } from "react-bootstrap";
@@ -171,9 +171,12 @@ function CheckInItems({ actionHandler }) {
 
     /**
      * Play sound for check-in error or if the item should be delivered to another library.
+     *
+     * Fbs returns a string if a book should be sent to another
+     * library, containing something like this: "Sendes til X bibliotek"
      */
     const newErrorsLength = items.filter(
-      ({ status, message }) => status === BookStatus.ERROR || message?.indexOf("Sendes til") === 0
+      ({ status, message }) => status === BookStatus.ERROR || message?.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) === 0
     ).length;
 
     if (newErrorsLength !== errorsLength) {

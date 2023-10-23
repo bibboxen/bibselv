@@ -14,6 +14,7 @@ import {
   faSpinner,
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
+import {CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX} from "../../constants";
 
 /**
  * Banner.
@@ -43,7 +44,9 @@ function Banner({ item, visibleOnPrint = false }) {
     case BookStatus.CHECKED_OUT:
     case BookStatus.CHECKED_IN:
     case BookStatus.SUCCESS:
-      if (message?.indexOf("Sendes til") === 0) {
+      // Fbs returns a string if a book should be sent to another
+      // library, containing something like this: "Sendes til X bibliotek"
+      if (message?.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) === 0) {
         classes += "danger";
       } else {
         classes += "success";
