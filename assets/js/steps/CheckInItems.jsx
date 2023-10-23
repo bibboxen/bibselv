@@ -174,6 +174,7 @@ function CheckInItems({ actionHandler }) {
      *
      * Fbs returns a string if a book should be sent to another
      * library, containing something like this: "Sendes til X bibliotek"
+     * TODO: Handle this in engine instead.
      */
     const newErrorsLength = items.filter(
       ({ status, message }) => status === BookStatus.ERROR || message?.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) === 0

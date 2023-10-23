@@ -56,7 +56,8 @@ export function adaptListOfBooksToBanner(
 
         // Fbs returns a string if a book should be sent to another
         // library, containing something like this: "Sendes til X bibliotek"
-        if (book.message && book.message.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) > -1) {
+        // TODO: Handle this in engine instead.
+        if (book.message && book.message.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) === 0) {
           displayInfo.title = otherPermanentLocationInstruction;
         }
         break;
