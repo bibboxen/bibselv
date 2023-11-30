@@ -29,7 +29,7 @@ import {
   ACTION_CHANGE_FLOW_CHECKOUT,
   ACTION_CHANGE_FLOW_STATUS,
   ACTION_RESET,
-  BARCODE_SCANNING_TIMEOUT,
+  BARCODE_SCANNING_TIMEOUT, CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX,
 } from "../constants";
 import CheckInWhite from "../../scss/images/check-in-white.svg";
 import { Card } from "react-bootstrap";
@@ -160,22 +160,28 @@ function CheckInItems({ actionHandler }) {
     /**
      * Handle successful checkin.
      */
-    let booksLength = items.filter(
+    const newCheckInLength = items.filter(
       (book) =>
         book.status === BookStatus.CHECKED_IN && book.message !== "Reserveret"
     ).length;
-    if (booksLength > checkedInBooksLength) {
-      setCheckedInBooksLength(booksLength);
+
+    if (newCheckInLength !== checkedInBooksLength) {
+      setCheckedInBooksLength(newCheckInLength);
     }
 
     /**
-     * Play sound for check-in error.
+     * Play sound for check-in error or if the item should be delivered to another library.
+     *
+     * Fbs returns a string if a book should be sent to another
+     * library, containing something like this: "Sendes til X bibliotek"
+     * TODO: Handle this in engine instead.
      */
-    booksLength = items.filter(
-      ({ status }) => status === BookStatus.ERROR
+    const newErrorsLength = items.filter(
+      ({ status, message }) => status === BookStatus.ERROR || message?.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) === 0
     ).length;
-    if (booksLength > errorsLength) {
-      setErrorLength(booksLength);
+
+    if (newErrorsLength !== errorsLength) {
+      setErrorLength(newErrorsLength);
       setSoundToPlay("error");
     }
   }, [

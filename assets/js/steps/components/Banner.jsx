@@ -14,6 +14,7 @@ import {
   faSpinner,
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
+import {CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX} from "../../constants";
 
 /**
  * Banner.
@@ -27,7 +28,7 @@ import {
  */
 function Banner({ item, visibleOnPrint = false }) {
   let classes = visibleOnPrint ? "banner visibe-on-print " : "banner ";
-  let { text, title, status, itemIdentifier } = item;
+  let { text, title, status, itemIdentifier, message } = item;
   let icon = null;
   switch (status) {
     case BookStatus.ERROR:
@@ -43,8 +44,16 @@ function Banner({ item, visibleOnPrint = false }) {
     case BookStatus.CHECKED_OUT:
     case BookStatus.CHECKED_IN:
     case BookStatus.SUCCESS:
-      classes += "success";
-      icon = faCheck;
+      // Fbs returns a string if a book should be sent to another
+      // library, containing something like this: "Sendes til X bibliotek"
+      // TODO: Handle this in engine instead.
+      if (message?.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) === 0) {
+        classes += "danger";
+      } else {
+        classes += "success";
+        icon = faCheck;
+      }
+
       break;
   }
 

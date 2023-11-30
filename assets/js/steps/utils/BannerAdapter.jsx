@@ -9,6 +9,7 @@ import {
   BannerAdapterFetchingInfo,
   BannerTitleAuthor,
 } from "./formatted-messages";
+import {CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX} from "../../constants";
 
 /**
  * Adapts books from state machine to the banner component from checkinitems
@@ -52,12 +53,11 @@ export function adaptListOfBooksToBanner(
           displayInfo.status = BookStatus.RESERVED;
           displayInfo.title = reservedMaterialInstruction || book.message;
         }
-        // This solution...
+
         // Fbs returns a string if a book should be sent to another
-        // library, containing something like this: "Sendes til Mårslet bibliotek"
-        // So, this is not a good solution, but this is what we can do if we would
-        // like to create a custom message in this situation.
-        if (book.message && book.message.indexOf("Sendes til") > -1) {
+        // library, containing something like this: "Sendes til X bibliotek"
+        // TODO: Handle this in engine instead.
+        if (book.message && book.message.indexOf(CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX) === 0) {
           displayInfo.title = otherPermanentLocationInstruction;
         }
         break;
