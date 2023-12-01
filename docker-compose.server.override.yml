@@ -21,8 +21,6 @@ services:
     networks:
       - app
       - frontend
-    depends_on:
-      - nginx
     working_dir: /app
     environment:
       - NODE_ENV=production
