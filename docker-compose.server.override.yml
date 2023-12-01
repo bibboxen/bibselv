@@ -3,29 +3,8 @@ version: "3"
 
 services:
   phpfpm:
-<<<<<<< HEAD
-    image: itkdev/php8.1-fpm:alpine
-=======
-<<<<<<< Updated upstream
-    image: itkdev/php8.0-fpm:alpine
->>>>>>> 011a0eb (SUPPORT-1347: Updated docker setup)
-    restart: unless-stopped
-    networks:
-      - app
     depends_on:
       - redis
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    environment:
-      - PHP_MAX_EXECUTION_TIME=30
-      - PHP_MEMORY_LIMIT=128M
-      - COMPOSER_VERSION=2
-    volumes:
-      - .:/app
-=======
-    depends_on:
-      - redis
->>>>>>> Stashed changes
 
   nginx:
     networks:
@@ -41,16 +20,9 @@ services:
     restart: unless-stopped
     networks:
       - app
-<<<<<<< HEAD
       - frontend
     depends_on:
       - nginx
-=======
-<<<<<<< Updated upstream
-=======
-      - frontend
->>>>>>> Stashed changes
->>>>>>> 011a0eb (SUPPORT-1347: Updated docker setup)
     working_dir: /app
     environment:
       - NODE_ENV=production
