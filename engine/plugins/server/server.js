@@ -259,7 +259,6 @@ module.exports = function(options, imports, register) {
          * Note that every request requires the attribute "token" in the json request.
          */
         socket.on('ClientEvent', (data) => {
-            console.log(data);
             if (Object.prototype.hasOwnProperty.call(data, 'token')) {
                 if (isTokenValid && data.token === token) {
                     // Token found and matched by initial connection token.
