@@ -116,8 +116,26 @@ module.exports = function(options, imports, register) {
             socket.emit('Online');
         });
 
-        // Get latest FBS connection state.
+        // Get the latest FBS connection state.
         bus.emit('fbs.connection_state');
+
+        /**
+         * Get token.
+         *
+         * @TODO: This should be changed to use some form of authentication.
+         */
+        socket.on('GetToken', (data) => {
+            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => {
+                if (res.status !== 200) {
+                    socket.emit('Token', {
+                        err: true,
+                        message: res.message
+                    });
+                } else {
+                    res.json().then(data => socket.emit('Token', data));
+                }
+            });
+        });
 
         /**
          * Request a fresh token.
@@ -137,24 +155,6 @@ module.exports = function(options, imports, register) {
                     });
                 } else {
                     res.json().then(data => socket.emit('RefreshedToken', data));
-                }
-            });
-        });
-
-        /**
-         * Get token.
-         *
-         * @TODO: This should be changed to use some form of authentication.
-         */
-        socket.on('GetToken', (data) => {
-            fetch(options.tokenGetEndPoint + data.uniqueId).then(res => {
-                if (res.status !== 200) {
-                    socket.emit('Token', {
-                        err: true,
-                        message: res.message
-                    });
-                } else {
-                    res.json().then(data => socket.emit('Token', data));
                 }
             });
         });
