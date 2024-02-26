@@ -52,9 +52,8 @@ function BannerList({ items, title, visibleOnPrint, numberOfItems, children }) {
 BannerList.propTypes = {
   items: PropTypes.array,
   title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  children: PropTypes.ReactNode,
-  numberOfItems: PropTypes.number,
   visibleOnPrint: PropTypes.bool,
+  numberOfItems: PropTypes.number,
 };
 
 export default BannerList;
