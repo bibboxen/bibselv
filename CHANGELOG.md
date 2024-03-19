@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix error with sound [#131](https://github.com/bibboxen/bibselv/pull/131).
 - Fixed error with sound [#131](https://github.com/bibboxen/bibselv/pull/131)
 - Update to newest symfony 5.4 [#134]((https://github.com/bibboxen/bibselv/pull/134)
+- Composer update [#136](https://github.com/bibboxen/bibselv/pull/136).
 
 ## [1.1.0] - 2023-04-26
 
