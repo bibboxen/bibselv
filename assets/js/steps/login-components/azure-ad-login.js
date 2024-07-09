@@ -16,9 +16,10 @@ import { Spinner } from "react-bootstrap";
  * @constructor
  */
 function AzureADLogin() {
-  const context = useContext(MachineStateContext);
-  const flow = context?.machineState?.get?.flow;
-  const uniqueId = context?.boxConfig?.get?.uniqueId;
+  const {
+    machineState: { flow },
+    boxConfig: { uniqueId },
+  } = useContext(MachineStateContext);
 
   window.location.assign(`/box/ad-login/${uniqueId}/${flow}`);
 
