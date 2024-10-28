@@ -13,8 +13,8 @@ Add "other permanent location instruction" for books that should be sent to a di
 
 ### Changed
 
-- Upgraded engine to node 18.
-- Upgraded to PHP 8.1
+- Upgraded engine to node 22.
+- Upgraded to PHP 8.3
 - Upgraded to latest github actions
 - Change linting and files extensions, add changelog to actions check [#129](https://github.com/bibboxen/bibselv/pull/129)
 - Performance improvements: usememo, usecallback [#129](https://github.com/bibboxen/bibselv/pull/129)

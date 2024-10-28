@@ -9,7 +9,8 @@ networks:
 
 services:
   engine:
-    image: node:18
+    image: node:22
+    platform: linux/amd64
     networks:
       - app
     working_dir: /app
@@ -20,7 +21,7 @@ services:
     command: npm run dev
 
   frontend:
-    image: node:18
+    image: node:22
     command: npm run watch
     networks:
       - app
