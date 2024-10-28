@@ -1,0 +1,74 @@
+# itk-version: 3.2.1
+
+networks:
+  frontend:
+    external: true
+  app:
+    driver: bridge
+    internal: false
+
+services:
+  engine:
+    image: node:18
+    networks:
+      - app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./engine:/app
+    command: npm run dev
+
+  frontend:
+    image: node:18
+    command: npm run watch
+    networks:
+      - app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.9.1
+    networks:
+      - app
+    ports:
+      - '28777'
+    volumes:
+      - ./.docker/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./.docker/jvm.options:/usr/share/logstash/config/jvm.options:ro
+      - .docker/pipeline:/usr/share/logstash/pipeline:ro
+
+  redis:
+    image: 'redis:6'
+    networks:
+      - app
+    ports:
+      - '6379'
+
+  memcached:
+    image: 'memcached:latest'
+    networks:
+      - app
+    ports:
+      - '11211'
+    environment:
+      - MEMCACHED_CACHE_SIZE=64
+
+  cypress:
+    image: cypress/included:12.7.0
+    networks:
+      - app
+      - frontend
+    environment:
+      - CYPRESS_VIDEO=false
+    volumes:
+      - .:/e2e
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    working_dir: /e2e
+    entrypoint: cypress
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=frontend"
