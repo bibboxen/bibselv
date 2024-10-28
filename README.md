@@ -22,10 +22,10 @@ The engine then changes the machines state and sends it back to the frontend.
 
 ## Tech stack
 
-- Node.js 14.x
+- Node.js 22.x
 - Symfony 5.x
-- PHP 7.4
-- React 16.x
+- PHP 8.3
+- React 18.x
 
 ## Development setup
 
@@ -50,7 +50,7 @@ cp engine/example_config.json engine/config.json
 Install dependencies for the engine.
 
 ```sh
-docker compose run engine bash -c './scripts/install.sh --also=dev'
+docker compose run --rm engine bash -c './scripts/install.sh --also=dev'
 ```
 
 ### Environment variables
@@ -70,7 +70,7 @@ CLI_REDIRECT=APP_CLI_REDIRECT_URI       # Redirect route for CLI login
 Install the frontend react dependencies.
 
 ```sh
-docker-compose run frontend bash -c 'npm install'
+docker-compose run --rm frontend bash -c 'npm install'
 ```
 
 ### Symfony
@@ -221,13 +221,13 @@ When PRs are created towards the develop branch all coding styles are checked by
 To check for coding standards, run the following:
 
 ```sh
-docker-compose run frontend bash -c 'npm run check-coding-standards'
+docker-compose run --rm frontend bash -c 'npm run check-coding-standards'
 ```
 
 To automatically apply coding standards, run:
 
 ```sh
-docker-compose run frontend bash -c 'npm run apply-coding-standards'
+docker-compose run --rm frontend bash -c 'npm run apply-coding-standards'
 ```
 
 ### Code linting Engine

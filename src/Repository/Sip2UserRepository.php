@@ -17,7 +17,7 @@ class Sip2UserRepository extends ServiceEntityRepository
     /**
      * Sip2UserRepository constructor.
      *
-     * @param managerRegistry $registry
+     * @param ManagerRegistry $registry
      *   The manager registry
      */
     public function __construct(ManagerRegistry $registry)
