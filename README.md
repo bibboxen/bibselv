@@ -22,10 +22,10 @@ The engine then changes the machines state and sends it back to the frontend.
 
 ## Tech stack
 
-- Node.js 14.x
+- Node.js 18.x
 - Symfony 5.x
-- PHP 7.4
-- React 16.x
+- PHP 8.3
+- React 18.x
 
 ## Development setup
 

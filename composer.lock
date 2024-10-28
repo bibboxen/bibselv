@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a158776914aecd0708de26daa9c1ec2d",
+    "content-hash": "e033a2125dd562720c0acd4a311bf1ca",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1584,25 +1584,31 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v5.5.1",
+            "version": "v6.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6"
+                "reference": "500501c2ce893c824c801da135d02661199f60c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/83b609028194aa042ea33b5af2d41a7427de80e6",
-                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/500501c2ce893c824c801da135d02661199f60c5",
+                "reference": "500501c2ce893c824c801da135d02661199f60c5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": "^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.8 <=9"
+                "guzzlehttp/guzzle": "^7.4",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.5",
+                "psr/cache": "^2.0||^3.0",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0"
             },
             "suggest": {
+                "ext-sodium": "Support EdDSA (Ed25519) signatures",
                 "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
             },
             "type": "library",
@@ -1635,9 +1641,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.10.1"
             },
-            "time": "2021-11-08T20:18:51+00:00"
+            "time": "2024-05-18T18:05:11+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1966,33 +1972,35 @@
         },
         {
             "name": "itk-dev/openid-connect",
-            "version": "2.3.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itk-dev/openid-connect.git",
-                "reference": "0ab19aa7a7a8534e38c70e5e8b105e9c964c3e57"
+                "reference": "7bea58e5d8b338a1e0d260653ccf3f72fc2a4c2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itk-dev/openid-connect/zipball/0ab19aa7a7a8534e38c70e5e8b105e9c964c3e57",
-                "reference": "0ab19aa7a7a8534e38c70e5e8b105e9c964c3e57",
+                "url": "https://api.github.com/repos/itk-dev/openid-connect/zipball/7bea58e5d8b338a1e0d260653ccf3f72fc2a4c2d",
+                "reference": "7bea58e5d8b338a1e0d260653ccf3f72fc2a4c2d",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
-                "firebase/php-jwt": "^5.2",
+                "firebase/php-jwt": "^6.8",
                 "league/oauth2-client": "^2.6",
-                "php": "^7.3|^8.0",
-                "psr/cache": "^1.0",
+                "php": "^8.1",
+                "psr/cache": "^2.0 || ^3.0",
+                "psr/http-client": "^1.0",
                 "robrichards/xmlseclibs": "^3.1"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
                 "escapestudios/symfony2-coding-standard": "^3.12",
                 "mockery/mockery": "^1.4",
+                "phpunit/php-code-coverage": "^9.2",
                 "phpunit/phpunit": "^9.5",
-                "vimeo/psalm": "^4.7"
+                "vimeo/psalm": "^5.0"
             },
             "type": "library",
             "autoload": {
@@ -2021,41 +2029,45 @@
             "description": "OpenID connect configuration package",
             "support": {
                 "issues": "https://github.com/itk-dev/openid-connect/issues",
-                "source": "https://github.com/itk-dev/openid-connect/tree/2.3.0"
+                "source": "https://github.com/itk-dev/openid-connect/tree/3.2.1"
             },
-            "time": "2021-12-07T12:11:13+00:00"
+            "time": "2023-09-18T10:24:50+00:00"
         },
         {
             "name": "itk-dev/openid-connect-bundle",
-            "version": "1.1.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/itk-dev/openid-connect-bundle.git",
-                "reference": "fc26ba9eacf6b5c986e906295ce85448e58c3fa1"
+                "reference": "8ab0b9ccbe900571f0dd1c9854cd462c991b31e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/itk-dev/openid-connect-bundle/zipball/fc26ba9eacf6b5c986e906295ce85448e58c3fa1",
-                "reference": "fc26ba9eacf6b5c986e906295ce85448e58c3fa1",
+                "url": "https://api.github.com/repos/itk-dev/openid-connect-bundle/zipball/8ab0b9ccbe900571f0dd1c9854cd462c991b31e3",
+                "reference": "8ab0b9ccbe900571f0dd1c9854cd462c991b31e3",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^2.8",
                 "ext-json": "*",
                 "ext-openssl": "*",
-                "itk-dev/openid-connect": "^2.3",
-                "php": "^7.3|^8.0",
-                "symfony/cache": "^5.2",
-                "symfony/framework-bundle": "^5.2",
-                "symfony/security-bundle": "^5.2",
-                "symfony/uid": "^5.2",
-                "symfony/yaml": "^5.2"
+                "itk-dev/openid-connect": "^3.1",
+                "php": "^8.1",
+                "symfony/cache": "^5.4|^6.0",
+                "symfony/framework-bundle": "^5.4|^6.0",
+                "symfony/security-bundle": "^5.4|^6.0",
+                "symfony/uid": "^5.4|^6.0",
+                "symfony/yaml": "^5.4|^6.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+                "ergebnis/composer-normalize": "^2.28",
                 "escapestudios/symfony2-coding-standard": "^3.12",
+                "friendsofphp/php-cs-fixer": "^3.11",
+                "kubawerlos/php-cs-fixer-custom-fixers": "^3.11",
                 "phpunit/phpunit": "^9.5",
-                "vimeo/psalm": "^4.7"
+                "psalm/plugin-symfony": "^5.0",
+                "rector/rector": "^0.14.2",
+                "vimeo/psalm": "^5.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -2080,9 +2092,9 @@
             "description": "Symfony bundle for openid-connect",
             "support": {
                 "issues": "https://github.com/itk-dev/openid-connect-bundle/issues",
-                "source": "https://github.com/itk-dev/openid-connect-bundle/tree/1.1.0"
+                "source": "https://github.com/itk-dev/openid-connect-bundle/tree/3.1.0"
             },
-            "time": "2021-12-08T12:54:20+00:00"
+            "time": "2023-08-03T12:08:33+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -2258,20 +2270,20 @@
         },
         {
             "name": "psr/cache",
-            "version": "1.0.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/cache.git",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
+                "reference": "213f9dbc5b9bfbc4f8db86d2838dc968752ce13b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
@@ -2291,7 +2303,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for caching libraries",
@@ -2301,9 +2313,9 @@
                 "psr-6"
             ],
             "support": {
-                "source": "https://github.com/php-fig/cache/tree/master"
+                "source": "https://github.com/php-fig/cache/tree/2.0.0"
             },
-            "time": "2016-08-06T20:24:11+00:00"
+            "time": "2021-02-03T23:23:37+00:00"
         },
         {
             "name": "psr/container",
