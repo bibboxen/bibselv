@@ -63,7 +63,7 @@ class TokenService
      * @param string $token
      *   The token to get config for
      *
-     * @return boxConfiguration|null
+     * @return BoxConfiguration|null
      *   Box configuration or null if not found
      */
     public function getBoxConfiguration(string $token): ?BoxConfiguration
@@ -84,7 +84,7 @@ class TokenService
      * @param string $token
      *   Token to load entity for
      *
-     * @return token|null
+     * @return Token|null
      *   Token entity if found else null
      */
     public function getToken(string $token): ?Token
@@ -95,10 +95,10 @@ class TokenService
     /**
      * Create new token.
      *
-     * @param boxConfiguration $boxConfiguration
+     * @param BoxConfiguration $boxConfiguration
      *   Box configuration to link to the token
      *
-     * @return token
+     * @return Token
      *   Token entity
      *
      * @throws \Exception
@@ -120,10 +120,10 @@ class TokenService
     /**
      * Refresh token.
      *
-     * @param token $token
+     * @param Token $token
      *   The token to refresh
      *
-     * @return token
+     * @return Token
      *   Token entity
      */
     public function refresh(Token $token): Token
