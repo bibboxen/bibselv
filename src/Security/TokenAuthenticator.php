@@ -28,7 +28,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * TokenAuthenticator constructor.
      *
-     * @param TokenService $tokenService
+     * @param tokenService $tokenService
      *  Token service for token handling
      */
     public function __construct(TokenService $tokenService)
@@ -39,7 +39,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * {@inheritdoc}
      */
-    public function start(Request $request, ?AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null)
     {
         $data = [
             'message' => 'Authentication Required',

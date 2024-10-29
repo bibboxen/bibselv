@@ -25,7 +25,7 @@ class TokenCleanUpCommand extends Command
     /**
      * TokenCleanUpCommand constructor.
      *
-     * @param TokenService $tokenService
+     * @param tokenService $tokenService
      *   Service to handle tokens
      */
     public function __construct(TokenService $tokenService)

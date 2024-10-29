@@ -2,8 +2,7 @@ itkdev_openid_connect:
     cache_options:
         cache_pool: 'cache.app' # Cache item pool for caching discovery document and CLI login tokens
     cli_login_options:
-        route: '%env(CLI_REDIRECT)%' # Redirect route for CLI login
-    user_provider: 'security.user.provider.concrete.users_in_memory'
+        cli_redirect: '%env(CLI_REDIRECT)%' # Redirect route for CLI login
     openid_providers:
         AzureAd:
             options:

@@ -24,7 +24,7 @@ class UserCrudController extends AbstractCrudController
     /**
      * UserCrudController constructor.
      *
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param userPasswordEncoderInterface $passwordEncoder
      *   Password encoder
      */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -53,8 +53,8 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             FormField::addPanel('User'),
-            TextField::new('email'),
-            TextField::new('plainPassword', 'Password')->hideOnIndex()->setRequired(true),
+                TextField::new('email'),
+                TextField::new('plainPassword', 'Password')->hideOnIndex()->setRequired(true),
         ];
     }
 
@@ -89,7 +89,7 @@ class UserCrudController extends AbstractCrudController
     /**
      * Set encoded user password on entity.
      *
-     * @param User $user
+     * @param user $user
      *   The user entity to set encoded password on
      */
     private function setUserPassword(User $user)

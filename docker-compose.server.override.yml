@@ -15,7 +15,7 @@ services:
 
   engine:
     user: '1042'
-    image: node:22-alpine
+    image: node:18-alpine
     restart: unless-stopped
     networks:
       - app
@@ -56,7 +56,7 @@ services:
 
   frontend:
     user: '1042'
-    image: node:22
+    image: node:18
     networks:
       - app
     working_dir: /app

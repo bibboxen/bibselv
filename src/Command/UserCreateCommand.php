@@ -30,7 +30,7 @@ class UserCreateCommand extends Command
     /**
      * TokenCleanUpCommand constructor.
      *
-     * @param UserRepository $userRepository
+     * @param userRepository $userRepository
      *   Handle users in the database
      * @param EntityManagerInterface $entityManager
      *   Database entity manager

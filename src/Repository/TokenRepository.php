@@ -17,7 +17,7 @@ class TokenRepository extends ServiceEntityRepository
     /**
      * TokenRepository constructor.
      *
-     * @param ManagerRegistry $registry
+     * @param managerRegistry $registry
      *   The manager registry
      */
     public function __construct(ManagerRegistry $registry)

@@ -25,9 +25,9 @@ class TokenController extends AbstractController
     /**
      * TokenController constructor.
      *
-     * @param TokenService $tokenService
+     * @param tokenService $tokenService
      *   Token service to validate tokens and more
-     * @param BoxConfigurationRepository $boxConfigurationRepository
+     * @param boxConfigurationRepository $boxConfigurationRepository
      *   Box configuration repository to load configuration
      */
     public function __construct(TokenService $tokenService, BoxConfigurationRepository $boxConfigurationRepository)
@@ -90,7 +90,7 @@ class TokenController extends AbstractController
     /**
      * @Route("/token/refresh", name="refresh_token", methods={"POST"})
      *
-     * @param Request $request
+     * @param request $request
      *   The request
      *
      * @return JsonResponse
