@@ -26,11 +26,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix error with sound [#131](https://github.com/bibboxen/bibselv/pull/131).
 - Fixed error with sound [#131](https://github.com/bibboxen/bibselv/pull/131)
 - Update to newest symfony 5.4 [#134]((https://github.com/bibboxen/bibselv/pull/134)
+- Updated docker server setup
 
 ## [1.1.0] - 2023-04-26
 
 ### Added
 
+- Removed auto deploy to staging.
+- Re-written tests in cypress.
 - Added visual error handling when socket connection is down.
 - Added clock to main screen.
 
