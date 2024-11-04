@@ -7,13 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.2.0] - 2023-mm-dd 
+## [1.2.0] - 2024-11-04
 
 ### Added
 
 - Add "other permanent location instruction" for books that should be sent to a different library [#132](https://github.com/bibboxen/bibselv/pull/132)
 - Added clearInterval to Clock component [#133](https://github.com/bibboxen/bibselv/pull/133).
 - Added handling of reconnecte event and display socket "error" message in frontend
+
 ### Changed
 
 - Upgraded engine to node 18.
