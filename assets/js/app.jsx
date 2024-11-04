@@ -128,8 +128,9 @@ function App({ uniqueId, socket }) {
     });
 
     // Handle socket reconnections, by sending 'ClientReady' event.
-    socket.on("reconnect", () => {
+    socket.io.on("reconnect", (attempt) => {
       const token = getToken();
+      console.log('Reconnected with server on attempt: ' + attempt);
 
       if (token === false) {
         setErrorMessage(AppTokenNotValid);
@@ -143,6 +144,7 @@ function App({ uniqueId, socket }) {
     });
 
     socket.on("connect", () => {
+      console.log('Connected to server');
       setSocketConnected(true);
     });
 
@@ -170,6 +172,12 @@ function App({ uniqueId, socket }) {
     // Out of order from backend
     socket.on("OutOfOrder", () => {
       setErrorMessage(ServerError);
+    });
+
+    // The backend may send an error message.
+    socket.on("error", (data) => {
+      setErrorMessage("Error occurred: " + data.message);
+      console.log('Error:' + data.message + '(code: ' + data.code + ')');
     });
 
     // Configuration received from backend.

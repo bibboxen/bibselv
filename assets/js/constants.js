@@ -29,3 +29,6 @@ export const ACTION_CHANGE_FLOW_STATUS = "changeFlowStatus";
 // Connection constants
 export const CONNECTION_ONLINE = "online";
 export const CONNECTION_OFFLINE = "offline";
+
+// Message constants.
+export const CHECKIN_MESSAGE_SEND_TO_OTHER_LIBRARY_PREFIX = "Sendes til";
