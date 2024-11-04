@@ -80,6 +80,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
             IntegerField::new('barcodeTimeout')->hideOnIndex()
                 ->setHelp('Set delay before barcode is committed. Defaults to 500 ms.'),
             TextField::new('reservedMaterialInstruction')->hideOnIndex(),
+            TextField::new('otherPermanentLocationInstruction')->hideOnIndex(),
             ChoiceField::new('defaultLanguageCode')
                 ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))
                 ->hideOnIndex(),

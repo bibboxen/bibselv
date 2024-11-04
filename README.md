@@ -50,7 +50,7 @@ cp engine/example_config.json engine/config.json
 Install dependencies for the engine.
 
 ```sh
-docker-compose run engine bash -c './scripts/install.sh --also=dev'
+docker compose run engine bash -c './scripts/install.sh --also=dev'
 ```
 
 ### Environment variables
@@ -87,7 +87,7 @@ Install database schema for Symfony using migrations, run
 docker-compose exec phpfpm bash -c 'bin/console doctrine:migrations:migrate'
 ```
 
-To populate the databasde with meaningful test data run the doctrine fixtures
+To populate the database with meaningful test data run the doctrine fixtures
 
 ```sh
 docker-compose exec phpfpm bash -c 'bin/console doctrine:fixtures:load'
@@ -159,6 +159,7 @@ Endpoint for box configuration. If there is a cached `AdLoginState` object it lo
     "id": 25,
     "hasPrinter": true,
     "reservedMaterialInstruction": "Dolor est ut ea natus iusto deserunt inventore.",
+    "otherPermanentLocationInstruction": "Deserunt inventore.",
     "inactivityTimeOut": 360000,
     "soundEnabled": false,
     "school": {
@@ -235,7 +236,10 @@ The same commands apply as frontend, be should be run from the `engine/` folder.
 
 ### Code linting Symfony
 
-@TODO: Setup coding standards for the Symfony/PHP code.
+```sh
+docker compose exec phpfpm composer coding-standards-check
+docker compose exec phpfpm composer coding-standards-apply
+```
 
 ## Testing
 
@@ -276,22 +280,12 @@ docker compose exec engine bash -c 'npm test'
 
 ### Setup symfony
 
-Create a `.env.local` with the correct values for SECRET, DB_USER, DB_PASSWORD, DB_NAME
+To install and build please run the `../scripts/deploy.sh` script on the `prod` server
+and give the tag to deploy as argument to the script.
 
 ```sh
-APP_ENV=prod
-APP_SECRET=SECRET
-
-DATABASE_URL=mysql://DB_USER:DB_PASSWORD@mariadb:3306/DB_NAME
+../scripts/deploy.sh <git tag>
 ```
-
-To install and build please run the supplied [restart.sh](restart.sh) script.
-
-```sh
-./restart.sh
-```
-
-After this make sure the engine is restarted, by restarting supervisor.
 
 ## Translations
 

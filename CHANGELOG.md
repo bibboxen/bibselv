@@ -7,11 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-11-04
+
+### Added
+
+- Add "other permanent location instruction" for books that should be sent to a different library [#132](https://github.com/bibboxen/bibselv/pull/132)
+- Added clearInterval to Clock component [#133](https://github.com/bibboxen/bibselv/pull/133).
+- Added handling of reconnecte event and display socket "error" message in frontend
+
+### Changed
+
+- Upgraded engine to node 18.
+- Upgraded to PHP 8.1
+- Upgraded to latest github actions
+- Change linting and files extensions, add changelog to actions check [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Performance improvements: usememo, usecallback [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Debug view improved [#129](https://github.com/bibboxen/bibselv/pull/129)
+- Ignore vscode files [#130](https://github.com/bibboxen/bibselv/pull/130)
+- Fix error with sound [#131](https://github.com/bibboxen/bibselv/pull/131).
+- Fixed error with sound [#131](https://github.com/bibboxen/bibselv/pull/131)
+- Update to newest symfony 5.4 [#134]((https://github.com/bibboxen/bibselv/pull/134)
+- Updated docker server setup
+
 ## [1.1.0] - 2023-04-26
+
+### Added
 
 - Removed auto deploy to staging.
 - Re-written tests in cypress.
+- Added visual error handling when socket connection is down.
 - Added clock to main screen.
+
+### Changed
+
+- Re-written tests in cypress.
+
+### Removed
+
+- Removed auto deploy to staging.
 
 ## [1.0.8] - 2023-02-02
 
