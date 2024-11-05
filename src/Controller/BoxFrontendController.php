@@ -13,8 +13,9 @@ use App\Repository\BoxConfigurationRepository;
 use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-#[\Symfony\Component\Routing\Attribute\Route(path: '/box', name: 'box_frontend_')]
+#[Route(path: '/box', name: 'box_frontend_')]
 class BoxFrontendController extends AbstractController
 {
     /**
@@ -37,7 +38,7 @@ class BoxFrontendController extends AbstractController
      *
      * @throws \Exception
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/', name: 'index')]
+    #[Route(path: '/', name: 'index')]
     public function index(): never
     {
         throw $this->createNotFoundException('Bad request: Missing configuration id');
@@ -52,7 +53,7 @@ class BoxFrontendController extends AbstractController
      *
      * @throws \Exception
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/{uniqueId}', name: 'load')]
+    #[Route(path: '/{uniqueId}', name: 'load')]
     public function load(string $uniqueId): Response
     {
         // Check that configuration exists.

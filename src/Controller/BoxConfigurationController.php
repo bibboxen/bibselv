@@ -19,6 +19,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class BoxConfigurationController.
@@ -47,7 +48,7 @@ class BoxConfigurationController extends AbstractController
      *
      * @throws InvalidArgumentException
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/box/configuration/{uniqueId}', name: 'box_configuration')]
+    #[Route(path: '/box/configuration/{uniqueId}', name: 'box_configuration')]
     final public function index(SessionInterface $session, string $uniqueId): JsonResponse
     {
         $boxConfiguration = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);

@@ -8,6 +8,7 @@ use App\Repository\BoxConfigurationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -31,7 +32,7 @@ class BoxErrorController extends AbstractController
      *
      * @return Response
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/box/error', name: 'app_box_error')]
+    #[Route(path: '/box/error', name: 'app_box_error')]
     public function index(SessionInterface $session): Response
     {
         $uniqueId = $session->get('boxId');

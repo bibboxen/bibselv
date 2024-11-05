@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Service\AzureAdService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * class BoxAdLogoutController.
@@ -37,7 +38,7 @@ class BoxAdLogoutController extends AbstractController
      *
      * @return RedirectResponse
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/box/ad-logout', name: 'box_ad_logout')]
+    #[Route(path: '/box/ad-logout', name: 'box_ad_logout')]
     public function index(): RedirectResponse
     {
         $authUrl = $this->azureAdService->getLogoutUrl();

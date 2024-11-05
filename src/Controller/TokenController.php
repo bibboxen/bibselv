@@ -14,6 +14,7 @@ use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class TokenController.
@@ -38,7 +39,7 @@ class TokenController extends AbstractController
      *
      * @return JsonResponse
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/token/validate/{token}', name: 'validate_token')]
+    #[Route(path: '/token/validate/{token}', name: 'validate_token')]
     public function validateToken(string $token): JsonResponse
     {
         if (!$this->tokenService->isValid($token)) {
@@ -63,7 +64,7 @@ class TokenController extends AbstractController
      *
      * @throws \Exception
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/token/get/{uniqueId}', name: 'get_token')]
+    #[Route(path: '/token/get/{uniqueId}', name: 'get_token')]
     public function getToken(string $uniqueId): JsonResponse
     {
         if (empty($uniqueId)) {
@@ -92,7 +93,7 @@ class TokenController extends AbstractController
      *     "expire": "Timestamp in seconds for token expire"
      *   }
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/token/refresh', name: 'refresh_token', methods: ['POST'])]
+    #[Route(path: '/token/refresh', name: 'refresh_token', methods: ['POST'])]
     public function refreshToken(Request $request): JsonResponse
     {
         try {

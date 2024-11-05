@@ -10,7 +10,6 @@ use Rector\Symfony\Set\SymfonySetList;
 return RectorConfig::configure()
     ->withPaths([
         __DIR__.'/config',
-        __DIR__.'/engine',
         __DIR__.'/public',
         __DIR__.'/src',
     ])

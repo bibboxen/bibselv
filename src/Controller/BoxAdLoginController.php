@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * class BoxAdLoginController.
@@ -50,7 +51,7 @@ class BoxAdLoginController extends AbstractController
      *
      * @return RedirectResponse
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/box/ad-login/{uniqueId}/{boxState}', name: 'box_ad_login')]
+    #[Route(path: '/box/ad-login/{uniqueId}/{boxState}', name: 'box_ad_login')]
     public function index(SessionInterface $session, string $uniqueId, string $boxState): RedirectResponse
     {
         try {
@@ -78,7 +79,7 @@ class BoxAdLoginController extends AbstractController
      *
      * @return RedirectResponse
      */
-    #[\Symfony\Component\Routing\Attribute\Route(path: '/oidc', name: 'box_ad_redirect_uri')]
+    #[Route(path: '/oidc', name: 'box_ad_redirect_uri')]
     public function oidc(Request $request, SessionInterface $session): RedirectResponse
     {
         try {
