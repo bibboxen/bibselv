@@ -1,8 +1,8 @@
 {
     "name": "bibboxen/bibbox-configuration-management",
     "description": "Application to manage configuration for chromebox bibbox machines.",
-    "type": "project",
     "license": "AGPL-3.0-or-later",
+    "type": "project",
     "require": {
         "php": "^8.1",
         "ext-ctype": "*",
@@ -30,23 +30,29 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "ergebnis/composer-normalize": "^2.44",
         "escapestudios/symfony2-coding-standard": "^3.11",
         "fakerphp/faker": "^1.16",
         "friendsofphp/php-cs-fixer": "^3.1",
+        "psalm/plugin-symfony": "^5.2",
         "rector/rector": "*",
         "symfony/maker-bundle": "^1.21",
         "symfony/stopwatch": "^5.4",
-        "symfony/web-profiler-bundle": "^5.4"
+        "symfony/web-profiler-bundle": "^5.4",
+        "vimeo/psalm": "^5.26",
+        "weirdan/doctrine-psalm-plugin": "^2.9"
     },
-    "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true,
-        "allow-plugins": {
-            "symfony/flex": true,
-            "symfony/runtime": true
-        }
+    "replace": {
+        "paragonie/random_compat": "^2.0",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php56": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php72": "*"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
     },
     "autoload": {
         "psr-4": {
@@ -58,46 +64,47 @@
             "App\\Tests\\": "tests/"
         }
     },
-    "replace": {
-        "paragonie/random_compat": "2.*",
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
         },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ],
-        "coding-standards-apply": [
-            "vendor/bin/php-cs-fixer fix --allow-risky=yes"
-        ],
-        "coding-standards-check": [
-            "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
-        ],
-        "prepare-code": [
-            "bin/console doctrine:schema:validate",
-            "vendor/bin/rector",
-            "@coding-standards-apply"
-        ],
-        "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'"
-    },
-    "conflict": {
-        "symfony/symfony": "*"
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
     },
     "extra": {
         "symfony": {
             "allow-contrib": true,
             "require": "5.4.*"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "coding-standards-apply": [
+            "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+        ],
+        "coding-standards-check": [
+            "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
+        ],
+        "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'",
+        "prepare-code": [
+            "composer normalize",
+            "bin/console doctrine:schema:validate",
+            "vendor/bin/rector",
+            "vendor/bin/psalm",
+            "@coding-standards-apply"
+        ]
     }
 }
