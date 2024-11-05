@@ -10,9 +10,9 @@ use App\Utils\Types\BoxFlowStates;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
 use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use ItkDev\OpenIdConnectBundle\Security\OpenIdConfigurationProviderManager;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -28,12 +28,15 @@ class AzureAdService
      *
      * @param OpenIdConfigurationProviderManager $providerManager
      * @param RequestStack $requestStack
-     * @param AdapterInterface $cache
+     * @param CacheItemPoolInterface $cache
      * @param LoggerInterface $securityLogger
-     * @param int $leeway
      */
-    public function __construct(private readonly OpenIdConfigurationProviderManager $providerManager, private readonly RequestStack $requestStack, private readonly AdapterInterface $cache, private readonly LoggerInterface $securityLogger, private readonly int $leeway = 10)
-    {
+    public function __construct(
+        private readonly OpenIdConfigurationProviderManager $providerManager,
+        private readonly RequestStack $requestStack,
+        private readonly CacheItemPoolInterface $cache,
+        private readonly LoggerInterface $securityLogger,
+    ) {
     }
 
     /**
@@ -162,8 +165,8 @@ class AzureAdService
      */
     private function getCredentials(Request $request): array
     {
+        $session = $this->requestStack->getSession();
         try {
-            $session = $this->requestStack->getSession();
             $provider = $this->providerManager->getProvider(self::AZURE_AD_KEY);
 
             $idToken = $request->query->get('id_token');
