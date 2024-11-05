@@ -4,7 +4,7 @@ framework:
     #csrf_protection: true
     http_method_override: false
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
-
+    handle_all_throwables: true
     default_locale: 'en'
     translator:
         default_path: '%kernel.project_dir%/translations'

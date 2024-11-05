@@ -11,7 +11,7 @@ namespace App\Controller\Test;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/test', name: 'test_')]
 class TestController extends AbstractController
