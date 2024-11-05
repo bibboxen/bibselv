@@ -92,10 +92,10 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "coding-standards-apply": [
-            "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+            "vendor/bin/php-cs-fixer fix"
         ],
         "coding-standards-check": [
-            "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
+            "vendor/bin/php-cs-fixer fix --dry-run"
         ],
         "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'",
         "prepare-code": [

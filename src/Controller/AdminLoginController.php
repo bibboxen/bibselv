@@ -22,21 +22,15 @@ class AdminLoginController extends AbstractController
     #[Route(path: '/login', name: 'admin_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('admin');
-        }
-
-        // Get login error if there is one.
+        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // Get last username entered by the user.
+        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('@EasyAdmin/page/login.html.twig', [
             'csrf_token_intention' => 'authenticate',
             'forgot_password_enabled' => true,
-            'username_parameter' => 'email',
-            'password_parameter' => 'password',
             'last_username' => $lastUsername,
             'error' => $error,
         ]);

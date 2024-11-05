@@ -26,13 +26,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            guard:
-                authenticators:
-                    - App\Security\AdminAuthenticator
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
             logout:
                 path: admin_logout
-                # where to redirect after logout
-                # target: app_any_route
 
         box:
             provider: users_in_memory

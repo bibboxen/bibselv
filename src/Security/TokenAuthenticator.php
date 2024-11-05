@@ -10,98 +10,59 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Exception\UnsupportedCredentialsTypeException;
+use App\Repository\TokenRepository;
 use App\Service\TokenService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 /**
  * Class TokenAuthenticator.
  */
-class TokenAuthenticator extends AbstractGuardAuthenticator
+class TokenAuthenticator extends AbstractAuthenticator
 {
-    /**
-     * TokenAuthenticator constructor.
-     *
-     * @param TokenService $tokenService
-     *  Token service for token handling
-     */
+    private const AUTHORIZATION_HEADER = 'authorization';
+
     public function __construct(private readonly TokenService $tokenService)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function start(Request $request, ?AuthenticationException $authException = null)
+    public function supports(Request $request): ?bool
     {
-        $data = [
-            'message' => 'Authentication Required',
-        ];
-
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+        return $request->headers->has(self::AUTHORIZATION_HEADER);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Request $request)
+    public function authenticate(Request $request): Passport
     {
-        return $request->headers->has('authorization');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCredentials(Request $request)
-    {
-        return $request->headers->get('authorization');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        if (null === $credentials) {
+        $authorizationHeader = $request->headers->get(self::AUTHORIZATION_HEADER);
+        if (null === $authorizationHeader) {
             // The token header was empty, authentication fails with HTTP Status
             // Code 401 "Unauthorized"
-            return null;
+            throw new CustomUserMessageAuthenticationException('No authorization header set');
         }
 
-        // Token form the request headers.
-        $token = $this->getToken($credentials);
+        $tokenString = $this->getTokenStringFromHeader($authorizationHeader);
 
-        $user = null;
-        if ($this->tokenService->isValid($token)) {
-            $entity = $this->tokenService->getToken($token);
-            $user = new TokenUser();
-            $user->setToken($entity->getToken());
-            $user->setExpires($entity->getTokenExpires());
+        if (!$this->tokenService->isValid($tokenString)) {
+            throw new CustomUserMessageAuthenticationException('Token not valid');
         }
 
-        return $user;
+        return new SelfValidatingPassport(new UserBadge($tokenString));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function checkCredentials($credentials, UserInterface $user)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // In case of a token, no credential check is needed.
-        // Return `true` to cause authentication success
-        return true;
+        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $data = [
             'message' => 'Authentication failed',
@@ -111,25 +72,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsRememberMe()
-    {
-        return false;
-    }
-
-    /**
      * Get the bearer token from credentials.
      *
-     * @param mixed $credentials
+     * @param string $credentials
      *   Request credentials
      *
      * @return string|null
@@ -137,16 +82,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      *
      * @throws UnsupportedCredentialsTypeException
      */
-    private function getToken(mixed $credentials): ?string
+    private function getTokenStringFromHeader(string $credentials): ?string
     {
-        if (null === $credentials) {
-            // The token header was empty, authentication fails with HTTP Status
-            // Code 401 "Unauthorized"
-            return null;
-        }
-
         // Parse token information from the bearer authorization header.
-        if (is_string($credentials) && 1 === preg_match('/Bearer\s(\w+)/', $credentials, $matches)) {
+        if (1 === preg_match('/Bearer\s(\w+)/', $credentials, $matches)) {
             return $matches[1];
         }
 

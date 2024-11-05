@@ -198,25 +198,9 @@
     </RiskyTruthyFalsyComparison>
   </file>
   <file src="src/Security/TokenAuthenticator.php">
-    <DeprecatedClass>
-      <code><![CDATA[AbstractGuardAuthenticator]]></code>
-    </DeprecatedClass>
     <PossiblyNullArgument>
-      <code><![CDATA[$entity->getToken()]]></code>
       <code><![CDATA[$token]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullReference>
-      <code><![CDATA[getToken]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Security/TokenUser.php">
-    <MissingConstructor>
-      <code><![CDATA[$expires]]></code>
-      <code><![CDATA[$token]]></code>
-    </MissingConstructor>
-    <MissingReturnType>
-      <code><![CDATA[eraseCredentials]]></code>
-    </MissingReturnType>
   </file>
   <file src="src/Service/AzureAdService.php">
     <DocblockTypeContradiction>
