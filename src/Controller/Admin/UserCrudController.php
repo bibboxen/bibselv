@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Handle User entities in the easy admin interface.
@@ -19,17 +21,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserCrudController extends AbstractCrudController
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
-
     /**
      * UserCrudController constructor.
      *
-     * @param userPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordEncoderInterface $passwordEncoder
      *   Password encoder
      */
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(private readonly UserPasswordEncoderInterface $passwordEncoder)
     {
-        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -53,8 +52,8 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             FormField::addPanel('User'),
-                TextField::new('email'),
-                TextField::new('plainPassword', 'Password')->hideOnIndex()->setRequired(true),
+            TextField::new('email'),
+            TextField::new('plainPassword', 'Password')->hideOnIndex()->setRequired(true),
         ];
     }
 
@@ -89,7 +88,7 @@ class UserCrudController extends AbstractCrudController
     /**
      * Set encoded user password on entity.
      *
-     * @param user $user
+     * @param User $user
      *   The user entity to set encoded password on
      */
     private function setUserPassword(User $user)

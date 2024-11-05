@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Handle authentication base on token.
@@ -23,23 +25,20 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    private TokenService $tokenService;
-
     /**
      * TokenAuthenticator constructor.
      *
-     * @param tokenService $tokenService
+     * @param TokenService $tokenService
      *  Token service for token handling
      */
-    public function __construct(TokenService $tokenService)
+    public function __construct(private readonly TokenService $tokenService)
     {
-        $this->tokenService = $tokenService;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, ?AuthenticationException $authException = null)
     {
         $data = [
             'message' => 'Authentication Required',
@@ -138,7 +137,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      *
      * @throws UnsupportedCredentialsTypeException
      */
-    private function getToken($credentials): ?string
+    private function getToken(mixed $credentials): ?string
     {
         if (null === $credentials) {
             // The token header was empty, authentication fails with HTTP Status

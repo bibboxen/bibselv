@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Types;
 
 /**
@@ -20,7 +22,7 @@ class LoginMethods
      */
     public static function getLoginMethodList(): array
     {
-        $oClass = new \ReflectionClass(__CLASS__);
+        $oClass = new \ReflectionClass(self::class);
 
         return $oClass->getConstants();
     }

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Repository\BoxConfigurationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -14,27 +15,23 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class BoxErrorController extends AbstractController
 {
-    private BoxConfigurationRepository $boxConfigurationRepository;
-
     /**
      * BoxErrorController constructor.
      *
      * @param BoxConfigurationRepository $boxConfigurationRepository
      */
-    public function __construct(BoxConfigurationRepository $boxConfigurationRepository)
+    public function __construct(private readonly BoxConfigurationRepository $boxConfigurationRepository)
     {
-        $this->boxConfigurationRepository = $boxConfigurationRepository;
     }
 
     /**
      * Error page for failed AD logins.
      *
-     * @Route("/box/error", name="app_box_error")
-     *
      * @param SessionInterface $session
      *
      * @return Response
      */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/box/error', name: 'app_box_error')]
     public function index(SessionInterface $session): Response
     {
         $uniqueId = $session->get('boxId');

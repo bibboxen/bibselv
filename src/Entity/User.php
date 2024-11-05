@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * User entity used by the admin authenticator for access to "/admin" paths.
@@ -12,46 +14,32 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     *
-     * @Assert\Email()
-     */
-    private $email;
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 180, unique: true)]
+    #[Assert\Email]
+    private ?string $email = null;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::JSON)]
     private $roles = ['ROLE_ADMIN'];
 
     /**
      * @var string The hashed password
-     *
-     * @ORM\Column(type="string")
      */
-    private $password;
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING)]
+    private ?string $password = null;
 
     /**
      * Virtual field used in easy admin forms to enter password in plain text.
-     *
-     * @Assert\NotBlank()
-     *
-     * @Assert\Length(min=5, max=128)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 5, max: 128)]
     private ?string $plainPassword = null;
 
     /**

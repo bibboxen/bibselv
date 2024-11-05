@@ -13,14 +13,14 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "easycorp/easyadmin-bundle": "^4.2",
-        "itk-dev/openid-connect-bundle": "^1.0",
+        "itk-dev/openid-connect-bundle": "^3.1",
         "symfony/console": "^5.4",
         "symfony/dotenv": "^5.4",
         "symfony/expression-language": "^5.4",
         "symfony/flex": "^2.4",
         "symfony/framework-bundle": "^5.4",
         "symfony/monolog-bundle": "^3.8",
-        "symfony/runtime": "5.4.*",
+        "symfony/runtime": "^5.4",
         "symfony/security-bundle": "^5.4",
         "symfony/serializer": "^5.4",
         "symfony/twig-bundle": "^5.4",
@@ -33,9 +33,10 @@
         "escapestudios/symfony2-coding-standard": "^3.11",
         "fakerphp/faker": "^1.16",
         "friendsofphp/php-cs-fixer": "^3.1",
+        "rector/rector": "*",
         "symfony/maker-bundle": "^1.21",
-        "symfony/stopwatch": "5.4.*",
-        "symfony/web-profiler-bundle": "5.4.*"
+        "symfony/stopwatch": "^5.4",
+        "symfony/web-profiler-bundle": "^5.4"
     },
     "config": {
         "preferred-install": {
@@ -78,10 +79,15 @@
             "@auto-scripts"
         ],
         "coding-standards-apply": [
-            "vendor/bin/php-cs-fixer fix --format=checkstyle"
+            "vendor/bin/php-cs-fixer fix --allow-risky=yes"
         ],
         "coding-standards-check": [
-            "vendor/bin/php-cs-fixer fix --format=checkstyle --dry-run"
+            "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
+        ],
+        "prepare-code": [
+            "bin/console doctrine:schema:validate",
+            "vendor/bin/rector",
+            "@coding-standards-apply"
         ],
         "frontend-test": "docker-compose exec -T frontend bash -c 'npm run test-ci'"
     },

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\SchoolRepository;
@@ -8,31 +10,23 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=SchoolRepository::class)
- */
-class School
+#[ORM\Entity(repositoryClass: SchoolRepository::class)]
+class School implements \Stringable
 {
-    /**
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue()
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    private ?int $id = null;
+
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[Groups('boxConfiguration')]
+    private ?string $name = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups("boxConfiguration")
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Entity\BoxConfiguration>
      */
-    private $name;
-
-    /**
-     * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="school")
-     */
-    private $boxConfigurations;
+    #[ORM\OneToMany(targetEntity: BoxConfiguration::class, mappedBy: 'school')]
+    private Collection $boxConfigurations;
 
     /**
      * School constructor.
@@ -47,9 +41,9 @@ class School
      *
      * @return mixed
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
@@ -13,12 +14,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AdminLoginController extends AbstractController
 {
     /**
-     * @Route("/login", name="admin_login")
-     *
      * @param AuthenticationUtils $authenticationUtils
      *
      * @return Response
      */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/login', name: 'admin_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -41,9 +41,7 @@ class AdminLoginController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/logout", name="admin_logout")
-     */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/logout', name: 'admin_logout')]
     public function logout()
     {
     }

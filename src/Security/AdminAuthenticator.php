@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Authenticator for "/admin" user login.
@@ -34,11 +36,6 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public const LOGIN_ROUTE = 'admin_login';
 
-    private EntityManagerInterface $entityManager;
-    private UrlGeneratorInterface $urlGenerator;
-    private CsrfTokenManagerInterface $csrfTokenManager;
-    private UserPasswordEncoderInterface $passwordEncoder;
-
     /**
      * AdminAuthenticator constructor.
      *
@@ -47,12 +44,8 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator implements Passw
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(private EntityManagerInterface $entityManager, private UrlGeneratorInterface $urlGenerator, private CsrfTokenManagerInterface $csrfTokenManager, private UserPasswordEncoderInterface $passwordEncoder)
     {
-        $this->entityManager = $entityManager;
-        $this->urlGenerator = $urlGenerator;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Box frontend controller for managing Azure AD login flow.
@@ -16,7 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * class BoxAdLoginController.
@@ -25,19 +26,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BoxAdLoginController extends AbstractController
 {
-    private AzureAdService $azureAdService;
-    private LoggerInterface $securityLogger;
-
     /**
      * BoxAdLoginController constructor.
      *
      * @param AzureAdService $azureAdService
      * @param LoggerInterface $securityLogger
      */
-    public function __construct(AzureAdService $azureAdService, LoggerInterface $securityLogger)
+    public function __construct(private readonly AzureAdService $azureAdService, private readonly LoggerInterface $securityLogger)
     {
-        $this->azureAdService = $azureAdService;
-        $this->securityLogger = $securityLogger;
     }
 
     /**
@@ -45,8 +41,6 @@ class BoxAdLoginController extends AbstractController
      *
      * Sets the unique id and box state in the openid connect state
      * and redirects to Azure AD for login
-     *
-     * @Route("/box/ad-login/{uniqueId}/{boxState}", name="box_ad_login")
      *
      * @param SessionInterface $session
      * @param string $uniqueId
@@ -56,6 +50,7 @@ class BoxAdLoginController extends AbstractController
      *
      * @return RedirectResponse
      */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/box/ad-login/{uniqueId}/{boxState}', name: 'box_ad_login')]
     public function index(SessionInterface $session, string $uniqueId, string $boxState): RedirectResponse
     {
         try {
@@ -78,13 +73,12 @@ class BoxAdLoginController extends AbstractController
      * Validates and gets credentials, sets them on the session and redirects to the
      * specific box URL
      *
-     * @Route("/oidc", name="box_ad_redirect_uri")
-     *
      * @param Request $request
      * @param SessionInterface $session
      *
      * @return RedirectResponse
      */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/oidc', name: 'box_ad_redirect_uri')]
     public function oidc(Request $request, SessionInterface $session): RedirectResponse
     {
         try {

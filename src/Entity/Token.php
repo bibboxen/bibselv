@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Token entity.
@@ -10,34 +12,22 @@ namespace App\Entity;
 use App\Repository\TokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=TokenRepository::class)
- */
+#[ORM\Entity(repositoryClass: TokenRepository::class)]
 class Token
 {
-    /**
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=32)
-     */
-    private $token;
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 32)]
+    private ?string $token = null;
 
-    /**
-     * @ORM\Column(type="integer", options={"default" = 0})
-     */
-    private $tokenExpires = 0;
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER, options: ['default' => 0])]
+    private ?int $tokenExpires = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=BoxConfiguration::class)
-     */
-    private $boxConfiguration;
+    #[ORM\ManyToOne(targetEntity: BoxConfiguration::class)]
+    private ?BoxConfiguration $boxConfiguration = null;
 
     /**
      * @return int|null

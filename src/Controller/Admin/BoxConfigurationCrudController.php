@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\BoxConfiguration;
@@ -22,17 +24,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class BoxConfigurationCrudController extends AbstractCrudController
 {
-    private UrlGeneratorInterface $router;
-
     /**
      * BoxConfigurationCrudController constructor.
      *
      * @param UrlGeneratorInterface $router
      *   Url generator
      */
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(private readonly UrlGeneratorInterface $router)
     {
-        $this->router = $router;
     }
 
     /**
@@ -64,9 +63,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 ->setLabel('Url')
                 ->setDisabled(true)
                 // This only applies to index and detail pages.
-                ->formatValue(function ($value) {
-                    return $this->router->generate('box_frontend_load', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL);
-                }),
+                ->formatValue(fn ($value) => $this->router->generate('box_frontend_load', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL)),
             FormField::addPanel('Options'),
             BooleanField::new('hasTouch')->hideOnIndex(),
             BooleanField::new('hasKeyboard')->hideOnIndex(),

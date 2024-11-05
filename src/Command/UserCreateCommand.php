@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Command to create user in the database.
@@ -21,28 +23,20 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserCreateCommand extends Command
 {
-    private UserRepository $userRepository;
-    private EntityManagerInterface $entityManager;
-    private UserPasswordEncoderInterface $passwordEncoder;
-
     protected static $defaultName = 'app:user:create';
 
     /**
      * TokenCleanUpCommand constructor.
      *
-     * @param userRepository $userRepository
+     * @param UserRepository $userRepository
      *   Handle users in the database
      * @param EntityManagerInterface $entityManager
      *   Database entity manager
      * @param UserPasswordEncoderInterface $passwordEncoder
      *   Password encoder
      */
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(private readonly UserRepository $userRepository, private readonly EntityManagerInterface $entityManager, private readonly UserPasswordEncoderInterface $passwordEncoder)
     {
-        $this->userRepository = $userRepository;
-        $this->entityManager = $entityManager;
-        $this->passwordEncoder = $passwordEncoder;
-
         parent::__construct();
     }
 

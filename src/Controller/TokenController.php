@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Token request controller.
@@ -12,38 +14,31 @@ use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class TokenController.
  */
 class TokenController extends AbstractController
 {
-    private TokenService $tokenService;
-    private BoxConfigurationRepository $boxConfigurationRepository;
-
     /**
      * TokenController constructor.
      *
-     * @param tokenService $tokenService
+     * @param TokenService $tokenService
      *   Token service to validate tokens and more
-     * @param boxConfigurationRepository $boxConfigurationRepository
+     * @param BoxConfigurationRepository $boxConfigurationRepository
      *   Box configuration repository to load configuration
      */
-    public function __construct(TokenService $tokenService, BoxConfigurationRepository $boxConfigurationRepository)
+    public function __construct(private readonly TokenService $tokenService, private readonly BoxConfigurationRepository $boxConfigurationRepository)
     {
-        $this->tokenService = $tokenService;
-        $this->boxConfigurationRepository = $boxConfigurationRepository;
     }
 
     /**
-     * @Route("/token/validate/{token}", name="validate_token")
-     *
      * @param string $token
      *   Token to validate
      *
      * @return JsonResponse
      */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/token/validate/{token}', name: 'validate_token')]
     public function validateToken(string $token): JsonResponse
     {
         if (!$this->tokenService->isValid($token)) {
@@ -56,8 +51,6 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/token/get/{uniqueId}", name="get_token")
-     *
      * @param string $uniqueId
      *   Box configuration ID to create token for
      *
@@ -70,16 +63,17 @@ class TokenController extends AbstractController
      *
      * @throws \Exception
      */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/token/get/{uniqueId}', name: 'get_token')]
     public function getToken(string $uniqueId): JsonResponse
     {
         if (empty($uniqueId)) {
-            return new JsonResponse(['message' => 'Bad request: Missing configuration id'], 400);
+            return new JsonResponse(['message' => 'Bad request: Missing configuration id'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
         }
 
         // Check that configuration exists.
         $boxConfig = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);
         if (is_null($boxConfig)) {
-            return new JsonResponse(['message' => 'Bad request: Wrong configuration id'], 400);
+            return new JsonResponse(['message' => 'Bad request: Wrong configuration id'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
         }
 
         $token = $this->tokenService->create($boxConfig);
@@ -88,9 +82,7 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/token/refresh", name="refresh_token", methods={"POST"})
-     *
-     * @param request $request
+     * @param Request $request
      *   The request
      *
      * @return JsonResponse
@@ -100,6 +92,7 @@ class TokenController extends AbstractController
      *     "expire": "Timestamp in seconds for token expire"
      *   }
      */
+    #[\Symfony\Component\Routing\Attribute\Route(path: '/token/refresh', name: 'refresh_token', methods: ['POST'])]
     public function refreshToken(Request $request): JsonResponse
     {
         try {
@@ -108,20 +101,20 @@ class TokenController extends AbstractController
             $token = $body->token ?? null;
 
             if (empty($token)) {
-                return new JsonResponse(['message' => 'Bad request: Missing token'], 400);
+                return new JsonResponse(['message' => 'Bad request: Missing token'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
             }
 
             // Check that token exists.
             $token = $this->tokenService->getToken($token);
             if (is_null($token)) {
-                return new JsonResponse(['message' => 'Bad request: Wrong token'], 400);
+                return new JsonResponse(['message' => 'Bad request: Wrong token'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
             }
 
             $token = $this->tokenService->refresh($token);
 
             return new JsonResponse(['token' => $token->getToken(), 'expire' => $token->getTokenExpires()]);
-        } catch (\JsonException $exception) {
-            return new JsonResponse(['message' => 'Bad request: Error parsing json'], 400);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Bad request: Error parsing json'], \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST);
         }
     }
 }

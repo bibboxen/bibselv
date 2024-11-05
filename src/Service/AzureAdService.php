@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Exception\AzureAdException;
@@ -21,12 +23,6 @@ class AzureAdService
 {
     private const AZURE_AD_KEY = 'AzureAd';
 
-    private OpenIdConfigurationProviderManager $providerManager;
-    private RequestStack $requestStack;
-    private AdapterInterface $cache;
-    private LoggerInterface $securityLogger;
-    private int $leeway;
-
     /**
      * AzureAdService constructor.
      *
@@ -36,13 +32,8 @@ class AzureAdService
      * @param LoggerInterface $securityLogger
      * @param int $leeway
      */
-    public function __construct(OpenIdConfigurationProviderManager $providerManager, RequestStack $requestStack, AdapterInterface $cache, LoggerInterface $securityLogger, int $leeway = 10)
+    public function __construct(private readonly OpenIdConfigurationProviderManager $providerManager, private readonly RequestStack $requestStack, private readonly AdapterInterface $cache, private readonly LoggerInterface $securityLogger, private readonly int $leeway = 10)
     {
-        $this->providerManager = $providerManager;
-        $this->requestStack = $requestStack;
-        $this->cache = $cache;
-        $this->securityLogger = $securityLogger;
-        $this->leeway = $leeway;
     }
 
     /**
@@ -190,7 +181,7 @@ class AzureAdService
                 throw new AzureAdException('oauth2 nonce not found.');
             }
 
-            $claims = $provider->validateIdToken($idToken, $oauth2nonce, $this->leeway);
+            $claims = $provider->validateIdToken($idToken, $oauth2nonce);
 
             if (!property_exists($claims, 'AccountType')) {
                 throw new AzureAdException('AccountType not set in claims');
