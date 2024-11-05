@@ -51,7 +51,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            FormField::addPanel('User'),
+            FormField::addFieldset('User'),
             TextField::new('email'),
             TextField::new('plainPassword', 'Password')->hideOnIndex()->setRequired(true),
         ];

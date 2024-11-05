@@ -54,7 +54,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            FormField::addPanel('Details'),
+            FormField::addFieldset('Details'),
             IdField::new('id')->hideOnForm()->hideOnIndex(),
             TextField::new('name'),
             AssociationField::new('school'),
@@ -64,7 +64,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 ->setDisabled(true)
                 // This only applies to index and detail pages.
                 ->formatValue(fn ($value) => $this->router->generate('box_frontend_load', ['uniqueId' => $value], UrlGeneratorInterface::ABSOLUTE_URL)),
-            FormField::addPanel('Options'),
+            FormField::addFieldset('Options'),
             BooleanField::new('hasTouch')->hideOnIndex(),
             BooleanField::new('hasKeyboard')->hideOnIndex(),
             BooleanField::new('hasPrinter')->hideOnIndex(),
@@ -82,7 +82,7 @@ class BoxConfigurationCrudController extends AbstractCrudController
                 ->setChoices(array_flip(LanguageCodes::getLanguageCodeList()))
                 ->hideOnIndex(),
 
-            FormField::addPanel('Login'),
+            FormField::addFieldset('Login'),
             ChoiceField::new('loginMethod')
                 ->setHelp('Standard login option')
                 ->setChoices(LoginMethods::getLoginMethodList())

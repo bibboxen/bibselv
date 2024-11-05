@@ -36,7 +36,7 @@ class Sip2UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            FormField::addPanel('SIP2user'),
+            FormField::addFieldset('SIP2user'),
             TextField::new('username'),
             TextField::new('password')->hideOnIndex(),
             TextField::new('agencyId'),
