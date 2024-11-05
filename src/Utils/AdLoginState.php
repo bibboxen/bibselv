@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * class AdLoginState
  * Represents the current user logged in and action on a box.
  */
-class AdLoginState implements \Serializable
+class AdLoginState
 {
     public string $boxId;
 
@@ -23,27 +23,21 @@ class AdLoginState implements \Serializable
     #[Groups('boxConfiguration')]
     public string $userName;
 
-    /**
-     * {@inheritDoc}
-     */
-    final public function serialize(): ?string
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->boxId,
-                $this->state,
-                $this->accountType,
-                $this->userName,
-            ]
-        );
+        return [
+            $this->boxId,
+            $this->state,
+            $this->accountType,
+            $this->userName,
+        ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    final public function unserialize($data): void
+    public function __unserialize(array $data): void
     {
-        $list = unserialize($data);
-        [$this->boxId, $this->state, $this->accountType, $this->userName] = $list;
+        $this->boxId = $data['boxId'];
+        $this->state = $data['state'];
+        $this->accountType = $data['accountType'];
+        $this->userName = $data['userName'];
     }
 }

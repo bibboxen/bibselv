@@ -14,7 +14,6 @@ use App\Service\AzureAdService;
 use App\Utils\Types\LoginMethods;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -31,12 +30,13 @@ class BoxConfigurationController extends AbstractController
      *
      * @param BoxConfigurationRepository $boxConfigurationRepository
      * @param AzureAdService $azureAdService
-     * @param SessionInterface $session
-     * @param AdapterInterface $cache
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(private readonly BoxConfigurationRepository $boxConfigurationRepository, private readonly AzureAdService $azureAdService, private readonly SessionInterface $session, private readonly AdapterInterface $cache, private readonly EventDispatcherInterface $dispatcher)
-    {
+    public function __construct(
+        private readonly BoxConfigurationRepository $boxConfigurationRepository,
+        private readonly AzureAdService $azureAdService,
+        private readonly EventDispatcherInterface $dispatcher,
+    ) {
     }
 
     /**
@@ -49,7 +49,7 @@ class BoxConfigurationController extends AbstractController
      * @throws InvalidArgumentException
      */
     #[Route(path: '/box/configuration/{uniqueId}', name: 'box_configuration')]
-    final public function index(SessionInterface $session, string $uniqueId): JsonResponse
+    final public function index(string $uniqueId): JsonResponse
     {
         $boxConfiguration = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);
 

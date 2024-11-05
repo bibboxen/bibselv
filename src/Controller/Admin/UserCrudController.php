@@ -14,40 +14,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- * Class UserCrudController.
- */
 class UserCrudController extends AbstractCrudController
 {
-    /**
-     * UserCrudController constructor.
-     *
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     *   Password encoder
-     */
-    public function __construct(private readonly UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher)
     {
     }
 
-    /**
-     * Get entity fqcn.
-     *
-     * @return string
-     */
     public static function getEntityFqcn(): string
     {
         return User::class;
     }
 
-    /**
-     * Configure fields.
-     *
-     * @param string $pageName
-     *
-     * @return iterable
-     */
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -57,11 +37,6 @@ class UserCrudController extends AbstractCrudController
         ];
     }
 
-    /**
-     * Encode password on user save.
-     *
-     * {@inheritdoc}
-     */
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if (is_a($entityInstance, User::class)) {
@@ -71,11 +46,6 @@ class UserCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $entityInstance);
     }
 
-    /**
-     * Encode password on user update.
-     *
-     * {@inheritdoc}
-     */
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if (is_a($entityInstance, User::class)) {
@@ -85,15 +55,9 @@ class UserCrudController extends AbstractCrudController
         parent::updateEntity($entityManager, $entityInstance);
     }
 
-    /**
-     * Set encoded user password on entity.
-     *
-     * @param User $user
-     *   The user entity to set encoded password on
-     */
-    private function setUserPassword(User $user)
+    private function setUserPassword(User $user): void
     {
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
+        $encodedPassword = $this->userPasswordHasher->hashPassword($user, $user->getPlainPassword());
         $user->setPassword($encodedPassword);
     }
 }
