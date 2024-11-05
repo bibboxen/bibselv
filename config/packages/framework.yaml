@@ -5,6 +5,11 @@ framework:
     http_method_override: false
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
 
+    default_locale: 'en'
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+
+
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
