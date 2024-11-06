@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
-  <file src="src/Command/TokenCleanUpCommand.php">
-    <MissingReturnType>
-      <code><![CDATA[configure]]></code>
-    </MissingReturnType>
-  </file>
   <file src="src/Command/UserCreateCommand.php">
-    <DeprecatedInterface>
-      <code><![CDATA[UserPasswordEncoderInterface]]></code>
-    </DeprecatedInterface>
-    <MissingReturnType>
-      <code><![CDATA[configure]]></code>
-    </MissingReturnType>
     <PossiblyNullArgument>
       <code><![CDATA[$email]]></code>
     </PossiblyNullArgument>
@@ -28,9 +17,6 @@
     <LessSpecificImplementedReturnType>
       <code><![CDATA[iterable]]></code>
     </LessSpecificImplementedReturnType>
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
   </file>
   <file src="src/Controller/Admin/SchoolCrudController.php">
     <LessSpecificImplementedReturnType>
@@ -43,19 +29,10 @@
     </LessSpecificImplementedReturnType>
   </file>
   <file src="src/Controller/Admin/UserCrudController.php">
-    <DeprecatedInterface>
-      <code><![CDATA[UserPasswordEncoderInterface]]></code>
-    </DeprecatedInterface>
-    <LessSpecificImplementedReturnType>
-      <code><![CDATA[iterable]]></code>
-    </LessSpecificImplementedReturnType>
     <MissingParamType>
       <code><![CDATA[$entityInstance]]></code>
       <code><![CDATA[$entityInstance]]></code>
     </MissingParamType>
-    <MissingReturnType>
-      <code><![CDATA[setUserPassword]]></code>
-    </MissingReturnType>
     <PossiblyNullArgument>
       <code><![CDATA[$user->getPlainPassword()]]></code>
     </PossiblyNullArgument>
@@ -64,10 +41,6 @@
     <MissingReturnType>
       <code><![CDATA[logout]]></code>
     </MissingReturnType>
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
   </file>
   <file src="src/Controller/BoxAdLoginController.php">
     <InvalidArgument>
@@ -76,48 +49,22 @@
     <PossiblyNullArgument>
       <code><![CDATA[$request->query->get('error_description')]]></code>
     </PossiblyNullArgument>
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
-  </file>
-  <file src="src/Controller/BoxAdLogoutController.php">
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
   </file>
   <file src="src/Controller/BoxConfigurationController.php">
     <PossiblyNullArgument>
       <code><![CDATA[$boxConfiguration->getUniqueId()]]></code>
       <code><![CDATA[$uniqueId]]></code>
     </PossiblyNullArgument>
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
   </file>
   <file src="src/Controller/BoxErrorController.php">
     <PossiblyNullReference>
       <code><![CDATA[getName]]></code>
     </PossiblyNullReference>
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
   </file>
   <file src="src/Controller/BoxFrontendController.php">
     <MismatchingDocblockReturnType>
       <code><![CDATA[Response]]></code>
     </MismatchingDocblockReturnType>
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
-  </file>
-  <file src="src/Controller/Test/TestController.php">
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
   </file>
   <file src="src/Controller/TokenController.php">
     <PossiblyNullReference>
@@ -126,11 +73,6 @@
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[empty($token)]]></code>
     </RiskyTruthyFalsyComparison>
-    <UndefinedAttributeClass>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-      <code><![CDATA[\Symfony\Component\Routing\Attribute\Route]]></code>
-    </UndefinedAttributeClass>
   </file>
   <file src="src/Entity/BoxConfiguration.php">
     <InvalidNullableReturnType>
@@ -170,9 +112,6 @@
     <MissingPropertyType>
       <code><![CDATA[$roles]]></code>
     </MissingPropertyType>
-    <MissingReturnType>
-      <code><![CDATA[eraseCredentials]]></code>
-    </MissingReturnType>
   </file>
   <file src="src/EventSubscriber/BoxConfigurationEventListener.php">
     <InvalidArgument>
@@ -185,30 +124,13 @@
       <code><![CDATA[setUniqueId]]></code>
     </MissingReturnType>
   </file>
-  <file src="src/Security/AdminAuthenticator.php">
-    <DeprecatedClass>
-      <code><![CDATA[AbstractFormLoginAuthenticator]]></code>
-    </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[AdminAuthenticator]]></code>
-      <code><![CDATA[UserPasswordEncoderInterface]]></code>
-    </DeprecatedInterface>
-    <RiskyTruthyFalsyComparison>
-      <code><![CDATA[$targetPath = $this->getTargetPath($request->getSession(), $providerKey)]]></code>
-    </RiskyTruthyFalsyComparison>
-  </file>
   <file src="src/Security/TokenAuthenticator.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$token]]></code>
-    </PossiblyNullArgument>
+    <PossiblyNullArgument/>
   </file>
   <file src="src/Service/AzureAdService.php">
     <DocblockTypeContradiction>
       <code><![CDATA[is_string($idToken)]]></code>
     </DocblockTypeContradiction>
-    <PossiblyUndefinedVariable>
-      <code><![CDATA[$session]]></code>
-    </PossiblyUndefinedVariable>
     <RiskyTruthyFalsyComparison>
       <code><![CDATA[$state]]></code>
     </RiskyTruthyFalsyComparison>

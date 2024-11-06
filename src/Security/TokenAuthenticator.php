@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Exception\UnsupportedCredentialsTypeException;
-use App\Repository\TokenRepository;
 use App\Service\TokenService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +27,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
  */
 class TokenAuthenticator extends AbstractAuthenticator
 {
-    private const AUTHORIZATION_HEADER = 'authorization';
+    private const string AUTHORIZATION_HEADER = 'authorization';
 
     public function __construct(private readonly TokenService $tokenService)
     {
@@ -77,12 +76,12 @@ class TokenAuthenticator extends AbstractAuthenticator
      * @param string $credentials
      *   Request credentials
      *
-     * @return string|null
-     *   Token string if found, null if no token or empty credentials
+     * @return string
+     *   Token string if found. Otherwise, throw and exception.
      *
      * @throws UnsupportedCredentialsTypeException
      */
-    private function getTokenStringFromHeader(string $credentials): ?string
+    private function getTokenStringFromHeader(string $credentials): string
     {
         // Parse token information from the bearer authorization header.
         if (1 === preg_match('/Bearer\s(\w+)/', $credentials, $matches)) {
