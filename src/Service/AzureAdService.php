@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AzureAdService
 {
-    private const AZURE_AD_KEY = 'AzureAd';
+    private const string AZURE_AD_KEY = 'AzureAd';
 
     /**
      * AzureAdService constructor.
