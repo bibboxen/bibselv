@@ -13,8 +13,5 @@ const socket = socketIOClient(rootElement.getAttribute("data-socket-uri"));
 const root = createRoot(rootElement);
 
 root.render(
-    <App
-      uniqueId={rootElement.getAttribute("data-unique-id")}
-      socket={socket}
-    />
+  <App uniqueId={rootElement.getAttribute("data-unique-id")} socket={socket} />
 );
