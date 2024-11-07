@@ -9,8 +9,8 @@ namespace App\Utils\Types;
  */
 class BoxFlowStates
 {
-    public const CHECK_OUT_ITEMS = 'checkoutitems';
-    public const STATUS = 'status';
+    public const string CHECK_OUT_ITEMS = 'checkoutitems';
+    public const string STATUS = 'status';
 
     /**
      * Get array of all defined flow states.

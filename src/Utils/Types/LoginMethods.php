@@ -9,9 +9,9 @@ namespace App\Utils\Types;
  */
 class LoginMethods
 {
-    public const LOGIN_BARCODE = 'login_barcode';
-    public const LOGIN_BARCODE_PASSWORD = 'login_barcode_password';
-    public const AZURE_AD_LOGIN = 'azure_ad_login';
+    public const string LOGIN_BARCODE = 'login_barcode';
+    public const string LOGIN_BARCODE_PASSWORD = 'login_barcode_password';
+    public const string AZURE_AD_LOGIN = 'azure_ad_login';
 
     /**
      * Get array of all defined login methods.

@@ -14,8 +14,8 @@ namespace App\Utils\Types;
  */
 class LanguageCodes
 {
-    public const EN = 'English';
-    public const DA = 'Dansk';
+    public const string EN = 'English';
+    public const string DA = 'Dansk';
 
     /**
      * Get array of all defined language codes.

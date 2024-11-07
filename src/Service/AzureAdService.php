@@ -154,7 +154,7 @@ class AzureAdService
         return $adLoginState;
     }
 
-    private function getCacheKey($boxId): string
+    private function getCacheKey(string $boxId): string
     {
         return self::AZURE_AD_KEY.$boxId;
     }

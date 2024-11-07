@@ -62,6 +62,6 @@ class AdLoginState implements \Serializable
     final public function unserialize($data): void
     {
         $list = unserialize($data);
-        list($this->boxId, $this->state, $this->accountType, $this->userName) = $list;
+        [$this->boxId, $this->state, $this->accountType, $this->userName] = $list;
     }
 }
