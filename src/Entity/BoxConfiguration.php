@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\BoxConfigurationRepository;
 use App\Utils\AdLoginState;
 use App\Utils\Types\LoginMethods;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -15,27 +16,27 @@ class BoxConfiguration implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     #[Groups('boxConfiguration')]
     private ?int $id = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     #[Groups('boxConfiguration')]
     private ?bool $hasPrinter = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Groups('boxConfiguration')]
     private ?string $reservedMaterialInstruction = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     #[Groups('boxConfiguration')]
     private ?string $otherPermanentLocationInstruction = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER)]
     #[Groups('boxConfiguration')]
     private ?int $inactivityTimeOut = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     #[Groups('boxConfiguration')]
     private ?bool $soundEnabled = null;
 
@@ -44,21 +45,21 @@ class BoxConfiguration implements \Stringable
     #[Groups('boxConfiguration')]
     private ?School $school = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 25, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 25, nullable: true)]
     #[Groups('boxConfiguration')]
     private ?string $loginMethod = null;
 
     #[Groups('boxConfiguration')]
     private ?AdLoginState $adLoginState = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     #[Groups('boxConfiguration')]
     private ?bool $hasTouch = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     #[Groups('boxConfiguration')]
     private ?bool $hasKeyboard = null;
 
@@ -72,38 +73,39 @@ class BoxConfiguration implements \Stringable
     private ?Sip2User $sip2User = null;
     // phpcs:enable
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 32)]
+    #[ORM\Column(type: Types::STRING, length: 32)]
     #[Groups('boxConfiguration')]
     private ?string $defaultPassword = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, options: ['default' => false])]
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     #[Groups('boxConfiguration')]
     private ?bool $debugEnabled = false;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 2, nullable: true, options: ['default' => 'EN'])] // @Groups("boxConfiguration")
+    #[ORM\Column(type: Types::STRING, length: 2, nullable: true, options: ['default' => 'EN'])]
+    #[Groups('boxConfiguration')]
     private ?string $defaultLanguageCode = 'EN';
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     #[Groups('boxConfiguration')]
     private ?string $uniqueId = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN, nullable: true, options: ['default' => '1'])]
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true, options: ['default' => '1'])]
     #[Groups('boxConfiguration')]
     private ?bool $hasFrontpageCheckIn = true;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true)]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Groups('boxConfiguration')]
     private ?int $loginSessionTimeout = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::BOOLEAN)]
+    #[ORM\Column(type: Types::BOOLEAN)]
     #[Groups('boxConfiguration')]
     private ?bool $loginSessionEnabled = null;
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::JSON, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     #[Groups('boxConfiguration')]
     private $loginSessionMethods = [];
 
-    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::INTEGER, nullable: true)]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Groups('boxConfiguration')]
     private ?int $barcodeTimeout = null;
 

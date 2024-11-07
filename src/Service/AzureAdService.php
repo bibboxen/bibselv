@@ -28,13 +28,13 @@ class AzureAdService
      *
      * @param OpenIdConfigurationProviderManager $providerManager
      * @param RequestStack $requestStack
-     * @param CacheItemPoolInterface $cache
+     * @param CacheItemPoolInterface $boxAdStateCache,
      * @param LoggerInterface $securityLogger
      */
     public function __construct(
         private readonly OpenIdConfigurationProviderManager $providerManager,
         private readonly RequestStack $requestStack,
-        private readonly CacheItemPoolInterface $cache,
+        private readonly CacheItemPoolInterface $boxAdStateCache,
         private readonly LoggerInterface $securityLogger,
     ) {
     }
@@ -115,12 +115,12 @@ class AzureAdService
      */
     public function saveBoxLoginState(AdLoginState $adLoginState): void
     {
-        $item = $this->cache->getItem($adLoginState->boxId);
+        $item = $this->boxAdStateCache->getItem($this->getCacheKey($adLoginState->boxId));
         $item->set($adLoginState)->expiresAfter(100);
-        $this->cache->save($item);
+        $this->boxAdStateCache->save($item);
     }
 
-    /**
+    /*
      * Remove the login state from cache.
      *
      * @param string $boxId
@@ -129,7 +129,7 @@ class AzureAdService
      */
     public function removeLoginState(string $boxId): void
     {
-        $this->cache->deleteItem($boxId);
+        $this->boxAdStateCache->deleteItem($this->getCacheKey($boxId));
     }
 
     /**
@@ -145,13 +145,18 @@ class AzureAdService
     {
         $adLoginState = null;
 
-        $item = $this->cache->getItem($uniqueId);
+        $item = $this->boxAdStateCache->getItem($this->getCacheKey($uniqueId));
         if ($item->isHit()) {
             $adLoginState = $item->get();
             assert($adLoginState instanceof AdLoginState);
         }
 
         return $adLoginState;
+    }
+
+    private function getCacheKey($boxId): string
+    {
+        return self::AZURE_AD_KEY.$boxId;
     }
 
     /**
