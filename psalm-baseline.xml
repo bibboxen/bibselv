@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+  <file src="src/Command/UserCreateCommand.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$email]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Controller/Admin/BoxConfigurationCrudController.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[iterable]]></code>
+    </LessSpecificImplementedReturnType>
+    <MissingClosureParamType>
+      <code><![CDATA[$value]]></code>
+    </MissingClosureParamType>
+  </file>
+  <file src="src/Controller/Admin/DashboardController.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[iterable]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Controller/Admin/SchoolCrudController.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[iterable]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Controller/Admin/Sip2UserCrudController.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[iterable]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
+  <file src="src/Controller/Admin/UserCrudController.php">
+    <MissingParamType>
+      <code><![CDATA[$entityInstance]]></code>
+      <code><![CDATA[$entityInstance]]></code>
+    </MissingParamType>
+    <PossiblyNullArgument>
+      <code><![CDATA[$user->getPlainPassword()]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Controller/AdminLoginController.php">
+    <MissingReturnType>
+      <code><![CDATA[logout]]></code>
+    </MissingReturnType>
+  </file>
+  <file src="src/Controller/BoxAdLoginController.php">
+    <InvalidArgument>
+      <code><![CDATA[$request]]></code>
+    </InvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$request->query->get('error_description')]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Controller/BoxConfigurationController.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$boxConfiguration->getUniqueId()]]></code>
+      <code><![CDATA[$uniqueId]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Controller/BoxErrorController.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getName]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Controller/BoxFrontendController.php">
+    <MismatchingDocblockReturnType>
+      <code><![CDATA[Response]]></code>
+    </MismatchingDocblockReturnType>
+  </file>
+  <file src="src/Controller/TokenController.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getUniqueId]]></code>
+    </PossiblyNullReference>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[empty($token)]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Entity/BoxConfiguration.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <MissingPropertyType>
+      <code><![CDATA[$loginSessionMethods]]></code>
+    </MissingPropertyType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->debugEnabled]]></code>
+      <code><![CDATA[$this->defaultLanguageCode]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/Entity/School.php">
+    <MismatchingDocblockReturnType>
+      <code><![CDATA[Collection|BoxConfiguration[]]]></code>
+    </MismatchingDocblockReturnType>
+  </file>
+  <file src="src/Entity/Sip2User.php">
+    <MismatchingDocblockReturnType>
+      <code><![CDATA[Collection|BoxConfiguration[]]]></code>
+    </MismatchingDocblockReturnType>
+  </file>
+  <file src="src/Entity/Token.php">
+    <InvalidNullableReturnType>
+      <code><![CDATA[int]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->tokenExpires]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/Entity/User.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array]]></code>
+    </LessSpecificImplementedReturnType>
+    <MissingPropertyType>
+      <code><![CDATA[$roles]]></code>
+    </MissingPropertyType>
+  </file>
+  <file src="src/EventSubscriber/BoxConfigurationEventListener.php">
+    <InvalidArgument>
+      <code><![CDATA[time()]]></code>
+    </InvalidArgument>
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[array|\string[][]]]></code>
+    </LessSpecificImplementedReturnType>
+    <MissingReturnType>
+      <code><![CDATA[setUniqueId]]></code>
+    </MissingReturnType>
+  </file>
+  <file src="src/Security/TokenAuthenticator.php">
+    <PossiblyNullArgument/>
+  </file>
+  <file src="src/Service/AzureAdService.php">
+    <DocblockTypeContradiction>
+      <code><![CDATA[is_string($idToken)]]></code>
+    </DocblockTypeContradiction>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[$state]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Service/TokenService.php">
+    <DeprecatedClass>
+      <code><![CDATA[$q->iterate()]]></code>
+    </DeprecatedClass>
+    <DeprecatedMethod>
+      <code><![CDATA[iterate]]></code>
+    </DeprecatedMethod>
+    <MissingReturnType>
+      <code><![CDATA[removeToken]]></code>
+    </MissingReturnType>
+    <PossiblyNullArgument>
+      <code><![CDATA[$entity]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Utils/AdLoginState.php">
+    <MissingConstructor>
+      <code><![CDATA[$accountType]]></code>
+      <code><![CDATA[$boxId]]></code>
+      <code><![CDATA[$state]]></code>
+      <code><![CDATA[$userName]]></code>
+    </MissingConstructor>
+  </file>
+</files>

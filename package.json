@@ -66,7 +66,7 @@
         "apply-coding-standards": "eslint --config .eslintrc.json 'assets/**/*.{js, jsx}' --fix && eslint --config .eslintrc.json 'cypress/**/*.cy.js' --fix"
     },
     "engines": {
-        "node": "=18.*"
+        "node": "=20.*"
     },
     "eslintConfig": {
         "extends": "react-app"

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Command to clean-up the token database table.
@@ -18,20 +20,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class TokenCleanUpCommand extends Command
 {
-    private TokenService $tokenService;
-
     protected static $defaultName = 'app:token:cleanup';
 
     /**
      * TokenCleanUpCommand constructor.
      *
-     * @param tokenService $tokenService
+     * @param TokenService $tokenService
      *   Service to handle tokens
      */
-    public function __construct(TokenService $tokenService)
+    public function __construct(private readonly TokenService $tokenService)
     {
-        $this->tokenService = $tokenService;
-
         parent::__construct();
     }
 

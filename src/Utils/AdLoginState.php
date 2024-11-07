@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -12,20 +14,32 @@ class AdLoginState implements \Serializable
 {
     public string $boxId;
 
-    /**
-     * @Groups("boxConfiguration")
-     */
+    #[Groups('boxConfiguration')]
     public string $state;
 
-    /**
-     * @Groups("boxConfiguration")
-     */
+    #[Groups('boxConfiguration')]
     public string $accountType;
 
-    /**
-     * @Groups("boxConfiguration")
-     */
+    #[Groups('boxConfiguration')]
     public string $userName;
+
+    public function __serialize(): array
+    {
+        return [
+            'boxId' => $this->boxId,
+            'state' => $this->state,
+            'accountType' => $this->accountType,
+            'userName' => $this->userName,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->boxId = $data['boxId'];
+        $this->state = $data['state'];
+        $this->accountType = $data['accountType'];
+        $this->userName = $data['userName'];
+    }
 
     /**
      * {@inheritDoc}
@@ -48,11 +62,6 @@ class AdLoginState implements \Serializable
     final public function unserialize($data): void
     {
         $list = unserialize($data);
-        list(
-            $this->boxId,
-            $this->state,
-            $this->accountType,
-            $this->userName
-        ) = $list;
+        [$this->boxId, $this->state, $this->accountType, $this->userName] = $list;
     }
 }

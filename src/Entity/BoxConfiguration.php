@@ -1,188 +1,122 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\BoxConfigurationRepository;
 use App\Utils\AdLoginState;
 use App\Utils\Types\LoginMethods;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=BoxConfigurationRepository::class)
- */
-class BoxConfiguration
+#[ORM\Entity(repositoryClass: BoxConfigurationRepository::class)]
+class BoxConfiguration implements \Stringable
 {
-    /**
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue()
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Groups('boxConfiguration')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $hasPrinter;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('boxConfiguration')]
+    private ?bool $hasPrinter = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $reservedMaterialInstruction;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups('boxConfiguration')]
+    private ?string $reservedMaterialInstruction = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $otherPermanentLocationInstruction;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Groups('boxConfiguration')]
+    private ?string $otherPermanentLocationInstruction = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $inactivityTimeOut;
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Groups('boxConfiguration')]
+    private ?int $inactivityTimeOut = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $soundEnabled;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('boxConfiguration')]
+    private ?bool $soundEnabled = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=School::class, inversedBy="boxConfigurations")
-     *
-     * @ORM\JoinColumn(nullable=false)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $school;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'boxConfigurations')]
+    #[Groups('boxConfiguration')]
+    private ?School $school = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $name;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="string", length=25, nullable=true)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $loginMethod;
+    #[ORM\Column(type: Types::STRING, length: 25, nullable: true)]
+    #[Groups('boxConfiguration')]
+    private ?string $loginMethod = null;
 
-    /**
-     * @Groups("boxConfiguration")
-     */
+    #[Groups('boxConfiguration')]
     private ?AdLoginState $adLoginState = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $hasTouch;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('boxConfiguration')]
+    private ?bool $hasTouch = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $hasKeyboard;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('boxConfiguration')]
+    private ?bool $hasKeyboard = null;
 
     // phpcs:disable Zend.NamingConventions.ValidVariableName.MemberVarContainsNumbers
     /**
      * The SIP2 account.
-     *
-     * @ORM\ManyToOne(targetEntity=Sip2User::class, inversedBy="boxConfigurations")
-     *
-     * @ORM\JoinColumn(nullable=false)
-     *
-     * @Groups("boxConfiguration")
      */
-    private $sip2User;
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Sip2User::class, inversedBy: 'boxConfigurations')]
+    #[Groups('boxConfiguration')]
+    private ?Sip2User $sip2User = null;
     // phpcs:enable
 
-    /**
-     * @ORM\Column(type="string", length=32)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $defaultPassword;
+    #[ORM\Column(type: Types::STRING, length: 32)]
+    #[Groups('boxConfiguration')]
+    private ?string $defaultPassword = null;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $debugEnabled = false;
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    #[Groups('boxConfiguration')]
+    private ?bool $debugEnabled = false;
 
-    /**
-     * @ORM\Column(type="string", length=2, nullable=true, options={"default": "EN"}))
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $defaultLanguageCode = 'EN';
+    #[ORM\Column(type: Types::STRING, length: 2, nullable: true, options: ['default' => 'EN'])]
+    #[Groups('boxConfiguration')]
+    private ?string $defaultLanguageCode = 'EN';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $uniqueId;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups('boxConfiguration')]
+    private ?string $uniqueId = null;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true, options={"default":"1"})
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $hasFrontpageCheckIn = true;
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true, options: ['default' => '1'])]
+    #[Groups('boxConfiguration')]
+    private ?bool $hasFrontpageCheckIn = true;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $loginSessionTimeout;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Groups('boxConfiguration')]
+    private ?int $loginSessionTimeout = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $loginSessionEnabled;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    #[Groups('boxConfiguration')]
+    private ?bool $loginSessionEnabled = null;
 
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     *
-     * @Groups("boxConfiguration")
-     */
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[Groups('boxConfiguration')]
     private $loginSessionMethods = [];
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $barcodeTimeout;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Groups('boxConfiguration')]
+    private ?int $barcodeTimeout = null;
 
     /**
      * BoxConfiguration toString.
      *
      * @return mixed
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     /**
