@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Language codes - translations available.
@@ -12,8 +14,8 @@ namespace App\Utils\Types;
  */
 class LanguageCodes
 {
-    public const EN = 'English';
-    public const DA = 'Dansk';
+    public const string EN = 'English';
+    public const string DA = 'Dansk';
 
     /**
      * Get array of all defined language codes.
@@ -24,7 +26,7 @@ class LanguageCodes
      */
     public static function getLanguageCodeList(): array
     {
-        $oClass = new \ReflectionClass(__CLASS__);
+        $oClass = new \ReflectionClass(self::class);
 
         return $oClass->getConstants();
     }

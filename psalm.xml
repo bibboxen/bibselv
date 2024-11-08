@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<psalm
+        errorLevel="2"
+        resolveFromConfigFile="true"
+        findUnusedBaselineEntry="true"
+        findUnusedCode="false"
+        errorBaseline="psalm-baseline.xml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+            <file name="src/Kernel.php"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="App\Repository\*Repository" />
+            </errorLevel>
+        </UndefinedClass>
+    </issueHandlers>
+    <plugins>
+        <pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin"/>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+    </plugins>
+</psalm>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Box configuration callback controller.
@@ -12,45 +14,32 @@ use App\Service\AzureAdService;
 use App\Utils\Types\LoginMethods;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Class BoxConfigurationController.
  */
 class BoxConfigurationController extends AbstractController
 {
-    private BoxConfigurationRepository $boxConfigurationRepository;
-    private AzureAdService $azureAdService;
-    private SessionInterface $session;
-    private AdapterInterface $cache;
-    private EventDispatcherInterface $dispatcher;
-
     /**
      * BoxConfigurationController constructor.
      *
      * @param BoxConfigurationRepository $boxConfigurationRepository
      * @param AzureAdService $azureAdService
-     * @param SessionInterface $session
-     * @param AdapterInterface $boxAdStateCache
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(BoxConfigurationRepository $boxConfigurationRepository, AzureAdService $azureAdService, SessionInterface $session, AdapterInterface $boxAdStateCache, EventDispatcherInterface $dispatcher)
-    {
-        $this->boxConfigurationRepository = $boxConfigurationRepository;
-        $this->azureAdService = $azureAdService;
-        $this->session = $session;
-        $this->cache = $boxAdStateCache;
-        $this->dispatcher = $dispatcher;
+    public function __construct(
+        private readonly BoxConfigurationRepository $boxConfigurationRepository,
+        private readonly AzureAdService $azureAdService,
+        private readonly EventDispatcherInterface $dispatcher,
+    ) {
     }
 
     /**
-     * @Route("/box/configuration/{uniqueId}", name="box_configuration")
-     *
      * @param SessionInterface $session
      * @param string $uniqueId
      *   Box configuration unique id
@@ -59,7 +48,8 @@ class BoxConfigurationController extends AbstractController
      *
      * @throws InvalidArgumentException
      */
-    final public function index(SessionInterface $session, string $uniqueId): JsonResponse
+    #[Route(path: '/box/configuration/{uniqueId}', name: 'box_configuration')]
+    final public function index(string $uniqueId): JsonResponse
     {
         $boxConfiguration = $this->boxConfigurationRepository->findOneBy(['uniqueId' => $uniqueId]);
 
@@ -78,7 +68,7 @@ class BoxConfigurationController extends AbstractController
             $uniqueId = $boxConfiguration->getUniqueId();
             $this->dispatcher->addListener(
                 KernelEvents::TERMINATE,
-                function () use ($uniqueId) {
+                function () use ($uniqueId): void {
                     $this->azureAdService->removeLoginState($uniqueId);
                 }
             );

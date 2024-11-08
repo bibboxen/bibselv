@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Service to handle tokens.
@@ -17,10 +19,6 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class TokenService
 {
-    private EntityManagerInterface $entityManager;
-    private TokenRepository $tokenRepository;
-    private int $tokenExpireSeconds;
-
     /**
      * TokenService constructor.
      *
@@ -31,11 +29,8 @@ class TokenService
      * @param int $bindTokenExpireSeconds
      *   The token expire in seconds
      */
-    public function __construct(EntityManagerInterface $entityManager, TokenRepository $tokenRepository, int $bindTokenExpireSeconds)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly TokenRepository $tokenRepository, private readonly int $bindTokenExpireSeconds)
     {
-        $this->entityManager = $entityManager;
-        $this->tokenRepository = $tokenRepository;
-        $this->tokenExpireSeconds = $bindTokenExpireSeconds;
     }
 
     /**
@@ -63,7 +58,7 @@ class TokenService
      * @param string $token
      *   The token to get config for
      *
-     * @return boxConfiguration|null
+     * @return BoxConfiguration|null
      *   Box configuration or null if not found
      */
     public function getBoxConfiguration(string $token): ?BoxConfiguration
@@ -84,7 +79,7 @@ class TokenService
      * @param string $token
      *   Token to load entity for
      *
-     * @return token|null
+     * @return Token|null
      *   Token entity if found else null
      */
     public function getToken(string $token): ?Token
@@ -95,10 +90,10 @@ class TokenService
     /**
      * Create new token.
      *
-     * @param boxConfiguration $boxConfiguration
+     * @param BoxConfiguration $boxConfiguration
      *   Box configuration to link to the token
      *
-     * @return token
+     * @return Token
      *   Token entity
      *
      * @throws \Exception
@@ -107,7 +102,7 @@ class TokenService
     {
         $token = new Token();
         $token->setToken($this->generate())
-            ->setTokenExpires(time() + $this->tokenExpireSeconds)
+            ->setTokenExpires(time() + $this->bindTokenExpireSeconds)
             ->setBoxConfiguration($boxConfiguration);
 
         // Make it sticky in the database.
@@ -120,16 +115,16 @@ class TokenService
     /**
      * Refresh token.
      *
-     * @param token $token
+     * @param Token $token
      *   The token to refresh
      *
-     * @return token
+     * @return Token
      *   Token entity
      */
     public function refresh(Token $token): Token
     {
         // Set new expire.
-        $token->setTokenExpires(time() + $this->tokenExpireSeconds);
+        $token->setTokenExpires(time() + $this->bindTokenExpireSeconds);
 
         // Make it sticky in the database.
         $this->entityManager->flush();

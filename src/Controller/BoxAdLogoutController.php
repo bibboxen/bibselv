@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Box frontend controller for managing Azure AD logout flow.
@@ -10,7 +12,7 @@ namespace App\Controller;
 use App\Service\AzureAdService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * class BoxAdLogoutController.
@@ -19,16 +21,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BoxAdLogoutController extends AbstractController
 {
-    private AzureAdService $azureAdService;
-
     /**
      * BoxAdLogoutController constructor.
      *
      * @param AzureAdService $azureAdService
      */
-    public function __construct(AzureAdService $azureAdService)
+    public function __construct(private readonly AzureAdService $azureAdService)
     {
-        $this->azureAdService = $azureAdService;
     }
 
     /**
@@ -37,10 +36,9 @@ class BoxAdLogoutController extends AbstractController
      * Sets the unique id and box state in the openid connect state
      * and redirects to Azure AD for login
      *
-     * @Route("/box/ad-logout", name="box_ad_logout")
-     *
      * @return RedirectResponse
      */
+    #[Route(path: '/box/ad-logout', name: 'box_ad_logout')]
     public function index(): RedirectResponse
     {
         $authUrl = $this->azureAdService->getLogoutUrl();

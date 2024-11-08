@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Contains event listener for creating unique id for each box configuration.
@@ -17,16 +19,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class BoxConfigurationEventListener implements EventSubscriberInterface
 {
-    private BoxConfigurationRepository $boxConfigurationRepository;
-
     /**
      * BoxConfigurationEventListener constructor.
      *
      * @param BoxConfigurationRepository $boxConfigurationRepository
      */
-    public function __construct(BoxConfigurationRepository $boxConfigurationRepository)
+    public function __construct(private readonly BoxConfigurationRepository $boxConfigurationRepository)
     {
-        $this->boxConfigurationRepository = $boxConfigurationRepository;
     }
 
     /**
@@ -65,7 +64,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
                 if (0 === \count($entitiesFound)) {
                     $uniqueId = $hash;
                 }
-            } catch (\Exception $e) {
+            } catch (\Exception) {
             }
         } while (null === $uniqueId);
 

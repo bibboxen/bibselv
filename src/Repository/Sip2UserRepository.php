@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Sip2User;
@@ -17,7 +19,7 @@ class Sip2UserRepository extends ServiceEntityRepository
     /**
      * Sip2UserRepository constructor.
      *
-     * @param managerRegistry $registry
+     * @param ManagerRegistry $registry
      *   The manager registry
      */
     public function __construct(ManagerRegistry $registry)

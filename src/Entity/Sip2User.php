@@ -1,59 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\Sip2UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=Sip2UserRepository::class)
- */
-class Sip2User
+#[ORM\Entity(repositoryClass: Sip2UserRepository::class)]
+class Sip2User implements \Stringable
 {
-    /**
-     * @ORM\Id()
-     *
-     * @ORM\GeneratedValue()
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups('boxConfiguration')]
+    private ?string $username = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups('boxConfiguration')]
+    private ?string $password = null;
+
+    #[ORM\Column(type: Types::STRING, length: 16)]
+    #[Groups('boxConfiguration')]
+    private ?string $agencyId = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups("boxConfiguration")
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Entity\BoxConfiguration>
      */
-    private $username;
+    #[ORM\OneToMany(targetEntity: BoxConfiguration::class, mappedBy: 'sip2User')]
+    private Collection $boxConfigurations;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $password;
-
-    /**
-     * @ORM\Column(type="string", length=16)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $agencyId;
-
-    /**
-     * @ORM\OneToMany(targetEntity=BoxConfiguration::class, mappedBy="sip2User")
-     */
-    private $boxConfigurations;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @Groups("boxConfiguration")
-     */
-    private $location;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Groups('boxConfiguration')]
+    private ?string $location = null;
 
     /**
      * Sip2User constructor.
@@ -68,9 +54,9 @@ class Sip2User
      *
      * @return mixed
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->username;
+        return (string) $this->username;
     }
 
     /**

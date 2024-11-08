@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2024-11-07
+
+- Upgraded to latest symfony 6.4.
+- Npm audit.
+- Changed from annotations to attributes.
+
 ## [1.2.0] - 2024-11-04
 
 ### Added
