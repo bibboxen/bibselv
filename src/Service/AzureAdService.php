@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Exception\AzureAdException;
@@ -8,9 +10,9 @@ use App\Utils\Types\BoxFlowStates;
 use ItkDev\OpenIdConnect\Exception\ItkOpenIdConnectException;
 use ItkDev\OpenIdConnectBundle\Exception\InvalidProviderException;
 use ItkDev\OpenIdConnectBundle\Security\OpenIdConfigurationProviderManager;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -19,30 +21,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AzureAdService
 {
-    private const AZURE_AD_KEY = 'AzureAd';
-
-    private OpenIdConfigurationProviderManager $providerManager;
-    private RequestStack $requestStack;
-    private AdapterInterface $cache;
-    private LoggerInterface $securityLogger;
-    private int $leeway;
+    private const string AZURE_AD_KEY = 'AzureAd';
 
     /**
      * AzureAdService constructor.
      *
      * @param OpenIdConfigurationProviderManager $providerManager
      * @param RequestStack $requestStack
-     * @param AdapterInterface $cache
+     * @param CacheItemPoolInterface $boxAdStateCache,
      * @param LoggerInterface $securityLogger
-     * @param int $leeway
      */
-    public function __construct(OpenIdConfigurationProviderManager $providerManager, RequestStack $requestStack, AdapterInterface $cache, LoggerInterface $securityLogger, int $leeway = 10)
-    {
-        $this->providerManager = $providerManager;
-        $this->requestStack = $requestStack;
-        $this->cache = $cache;
-        $this->securityLogger = $securityLogger;
-        $this->leeway = $leeway;
+    public function __construct(
+        private readonly OpenIdConfigurationProviderManager $providerManager,
+        private readonly RequestStack $requestStack,
+        private readonly CacheItemPoolInterface $boxAdStateCache,
+        private readonly LoggerInterface $securityLogger,
+    ) {
     }
 
     /**
@@ -121,12 +115,12 @@ class AzureAdService
      */
     public function saveBoxLoginState(AdLoginState $adLoginState): void
     {
-        $item = $this->cache->getItem($adLoginState->boxId);
+        $item = $this->boxAdStateCache->getItem($this->getCacheKey($adLoginState->boxId));
         $item->set($adLoginState)->expiresAfter(100);
-        $this->cache->save($item);
+        $this->boxAdStateCache->save($item);
     }
 
-    /**
+    /*
      * Remove the login state from cache.
      *
      * @param string $boxId
@@ -135,7 +129,7 @@ class AzureAdService
      */
     public function removeLoginState(string $boxId): void
     {
-        $this->cache->deleteItem($boxId);
+        $this->boxAdStateCache->deleteItem($this->getCacheKey($boxId));
     }
 
     /**
@@ -151,13 +145,18 @@ class AzureAdService
     {
         $adLoginState = null;
 
-        $item = $this->cache->getItem($uniqueId);
+        $item = $this->boxAdStateCache->getItem($this->getCacheKey($uniqueId));
         if ($item->isHit()) {
             $adLoginState = $item->get();
             assert($adLoginState instanceof AdLoginState);
         }
 
         return $adLoginState;
+    }
+
+    private function getCacheKey(string $boxId): string
+    {
+        return self::AZURE_AD_KEY.$boxId;
     }
 
     /**
@@ -171,8 +170,8 @@ class AzureAdService
      */
     private function getCredentials(Request $request): array
     {
+        $session = $this->requestStack->getSession();
         try {
-            $session = $this->requestStack->getSession();
             $provider = $this->providerManager->getProvider(self::AZURE_AD_KEY);
 
             $idToken = $request->query->get('id_token');
@@ -190,7 +189,7 @@ class AzureAdService
                 throw new AzureAdException('oauth2 nonce not found.');
             }
 
-            $claims = $provider->validateIdToken($idToken, $oauth2nonce, $this->leeway);
+            $claims = $provider->validateIdToken($idToken, $oauth2nonce);
 
             if (!property_exists($claims, 'AccountType')) {
                 throw new AzureAdException('AccountType not set in claims');

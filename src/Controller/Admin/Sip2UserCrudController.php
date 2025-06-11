@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\Sip2User;
@@ -34,12 +36,12 @@ class Sip2UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            FormField::addPanel('SIP2user'),
-                TextField::new('username'),
-                TextField::new('password')->hideOnIndex(),
-                TextField::new('agencyId'),
-                TextField::new('location'),
-                AssociationField::new('boxConfigurations'),
+            FormField::addFieldset('SIP2user'),
+            TextField::new('username'),
+            TextField::new('password')->hideOnIndex(),
+            TextField::new('agencyId'),
+            TextField::new('location'),
+            AssociationField::new('boxConfigurations'),
         ];
     }
 

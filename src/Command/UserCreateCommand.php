@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Command to create user in the database.
@@ -14,35 +16,30 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserCreateCommand.
  */
 class UserCreateCommand extends Command
 {
-    private UserRepository $userRepository;
-    private EntityManagerInterface $entityManager;
-    private UserPasswordEncoderInterface $passwordEncoder;
-
     protected static $defaultName = 'app:user:create';
 
     /**
      * TokenCleanUpCommand constructor.
      *
-     * @param userRepository $userRepository
+     * @param UserRepository $userRepository
      *   Handle users in the database
      * @param EntityManagerInterface $entityManager
      *   Database entity manager
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $userPasswordHasher
      *   Password encoder
      */
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher)
     {
-        $this->userRepository = $userRepository;
-        $this->entityManager = $entityManager;
-        $this->passwordEncoder = $passwordEncoder;
-
         parent::__construct();
     }
 
@@ -79,7 +76,7 @@ class UserCreateCommand extends Command
 
         $user = new User();
         $user->setEmail($email);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, $password));
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

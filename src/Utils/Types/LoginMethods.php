@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Types;
 
 /**
@@ -7,9 +9,9 @@ namespace App\Utils\Types;
  */
 class LoginMethods
 {
-    public const LOGIN_BARCODE = 'login_barcode';
-    public const LOGIN_BARCODE_PASSWORD = 'login_barcode_password';
-    public const AZURE_AD_LOGIN = 'azure_ad_login';
+    public const string LOGIN_BARCODE = 'login_barcode';
+    public const string LOGIN_BARCODE_PASSWORD = 'login_barcode_password';
+    public const string AZURE_AD_LOGIN = 'azure_ad_login';
 
     /**
      * Get array of all defined login methods.
@@ -20,7 +22,7 @@ class LoginMethods
      */
     public static function getLoginMethodList(): array
     {
-        $oClass = new \ReflectionClass(__CLASS__);
+        $oClass = new \ReflectionClass(self::class);
 
         return $oClass->getConstants();
     }

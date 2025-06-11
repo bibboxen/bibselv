@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\School;
@@ -17,7 +19,7 @@ class SchoolRepository extends ServiceEntityRepository
     /**
      * SchoolRepository constructor.
      *
-     * @param managerRegistry $registry
+     * @param ManagerRegistry $registry
      *   The manager registry
      */
     public function __construct(ManagerRegistry $registry)

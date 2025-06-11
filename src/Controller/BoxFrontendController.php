@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Front end controller mainly loading the index page.
@@ -11,17 +13,11 @@ use App\Repository\BoxConfigurationRepository;
 use App\Service\TokenService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/box", name="box_frontend_")
- */
+#[Route(path: '/box', name: 'box_frontend_')]
 class BoxFrontendController extends AbstractController
 {
-    private BoxConfigurationRepository $boxConfigurationRepository;
-    private string $engineSocketURI = '';
-    private TokenService $tokenService;
-
     /**
      * FrontendController constructor.
      *
@@ -32,29 +28,23 @@ class BoxFrontendController extends AbstractController
      * @param string $bindEngineSocketURI
      *   URI for the websocket from the environment
      */
-    public function __construct(BoxConfigurationRepository $boxConfigurationRepository, TokenService $tokenService, string $bindEngineSocketURI)
+    public function __construct(private readonly BoxConfigurationRepository $boxConfigurationRepository, private readonly TokenService $tokenService, private readonly string $bindEngineSocketURI)
     {
-        $this->boxConfigurationRepository = $boxConfigurationRepository;
-        $this->engineSocketURI = $bindEngineSocketURI;
-        $this->tokenService = $tokenService;
     }
 
     /**
-     * @Route("/", name="index")
-     *
      * @return Response
      *   Http response
      *
      * @throws \Exception
      */
-    public function index()
+    #[Route(path: '/', name: 'index')]
+    public function index(): never
     {
         throw $this->createNotFoundException('Bad request: Missing configuration id');
     }
 
     /**
-     * @Route("/{uniqueId}", name="load")
-     *
      * @param string $uniqueId
      *   The unique id of the configuration
      *
@@ -63,6 +53,7 @@ class BoxFrontendController extends AbstractController
      *
      * @throws \Exception
      */
+    #[Route(path: '/{uniqueId}', name: 'load')]
     public function load(string $uniqueId): Response
     {
         // Check that configuration exists.
@@ -75,7 +66,7 @@ class BoxFrontendController extends AbstractController
             'box/frontend.html.twig',
             [
                 'uniqueId' => $uniqueId,
-                'socketUri' => $this->engineSocketURI,
+                'socketUri' => $this->bindEngineSocketURI,
             ]
         );
     }
