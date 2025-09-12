@@ -46,9 +46,6 @@
     <InvalidArgument>
       <code><![CDATA[$request]]></code>
     </InvalidArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$request->query->get('error_description')]]></code>
-    </PossiblyNullArgument>
   </file>
   <file src="src/Controller/BoxConfigurationController.php">
     <PossiblyNullArgument>
