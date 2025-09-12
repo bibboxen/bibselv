@@ -84,6 +84,9 @@ function App({ uniqueId, socket }) {
         uniqueId,
       });
     } else {
+      // Remove error messages when client is ready.
+      setErrorMessage(null);
+
       // Token that was not expired was found locally and the client is ready for action.
       socket.emit("ClientReady", {
         token,
@@ -102,6 +105,9 @@ function App({ uniqueId, socket }) {
       token = data.token;
       storeToken(token, data.expire);
       setupTokenRefresh();
+
+      // Remove error messages when client is ready.
+      setErrorMessage(null);
 
       // Signal that the client is ready.
       socket.emit("ClientReady", {
@@ -137,6 +143,9 @@ function App({ uniqueId, socket }) {
         setTimeout(window.location.reload.bind(window.location), reloadTimeout);
         return;
       }
+
+      // Remove error messages when client is ready.
+      setErrorMessage(null);
 
       socket.emit("ClientReady", {
         token,
@@ -178,6 +187,16 @@ function App({ uniqueId, socket }) {
     socket.on("error", (data) => {
       setErrorMessage("Error occurred: " + data.message);
       console.log('Error:' + data.message + '(code: ' + data.code + ')');
+
+      // If the error relates to invalid or missing token, get a new token.
+      if ([405, 418].includes(data?.code)) {
+        socket.emit("GetToken", {
+          uniqueId,
+        });
+      } else if (data?.code === 401) {
+        // Connection has been shut down. Reload the browser to start a new session.
+        setTimeout(window.location.reload.bind(window.location), reloadTimeout);
+      }
     });
 
     // Configuration received from backend.

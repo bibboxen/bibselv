@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added calls to getToken when missing or invalid token.
+- Added reload browser when connection has been shut down by the server.
+
 ## [1.3.0] - 2024-11-07
 
 - Upgraded to latest symfony 6.4.
