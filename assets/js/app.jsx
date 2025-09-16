@@ -188,8 +188,8 @@ function App({ uniqueId, socket }) {
       setErrorMessage("Error occurred: " + data.message);
       console.log('Error:' + data.message + '(code: ' + data.code + ')');
 
-      // If the error relates to invalid or missing token, get a new token.
-      if ([405, 418].includes(data?.code)) {
+      if (data?.code === 418) {
+        // If the error is invalid token, get a new token.
         socket.emit("GetToken", {
           uniqueId,
         });
