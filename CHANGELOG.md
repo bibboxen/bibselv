@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2025-09-18
+
 - Added calls to getToken when missing or invalid token.
 - Added reload browser when connection has been shut down by the server.
 - Fixed urldecode of null error in oidc error handling.
