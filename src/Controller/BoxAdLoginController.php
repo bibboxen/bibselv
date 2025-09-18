@@ -90,8 +90,8 @@ class BoxAdLoginController extends AbstractController
 
             return new RedirectResponse($boxUrl);
         } catch (\Exception|InvalidArgumentException $exception) {
-            $error = $request->query->get('error');
-            $errorDescription = urldecode($request->query->get('error_description'));
+            $error = $request->query->get('error', '');
+            $errorDescription = urldecode($request->query->get('error_description', ''));
 
             $session->set('exceptionMessage', $exception->getMessage());
             $session->set('error', 'Azure Ad: '.$error);
