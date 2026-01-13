@@ -19,12 +19,12 @@ const Response = require('./response.js');
  * @param config
  *   FBS connection config.
  */
-var Request = function Request(bus, config) {
-    var self = this;
+const Request = function Request(bus, config) {
+    const self = this;
     self.bus = bus;
 
-    // Load template used for the XMl request.
-    var source = fs.readFileSync(path.join(__dirname, 'templates/sip2_message.xml'), 'utf8');
+    // Load the template used for the XMl request.
+    const source = fs.readFileSync(path.join(__dirname, 'templates/sip2_message.xml'), 'utf8');
     self.template = handlebars.compile(source);
 
     self.username = config.username;
@@ -35,7 +35,7 @@ var Request = function Request(bus, config) {
 };
 
 /**
- * Zero pad (one zero) number.
+ * Zero pads (one zero) number.
  *
  * Helper function to create sip2 timestamp.
  *
@@ -52,7 +52,7 @@ Request.prototype.zeroPad = function zeroPad(number) {
 /**
  * Encode timestamp into sip2 date format.
  *
- * @param timestamp
+ * @param {int|null} timestamp
  *   Javascript timestamp.
  *
  * @returns {string}
@@ -62,13 +62,13 @@ Request.prototype.encodeTime = function encodeTime(timestamp) {
     if (!timestamp) {
         timestamp = new Date().getTime();
     }
-    var d = new Date(timestamp);
+    const d = new Date(timestamp);
 
     return '' + d.getFullYear() + this.zeroPad(d.getMonth() + 1) + this.zeroPad(d.getDate()) + '    ' + this.zeroPad(d.getHours()) + this.zeroPad(d.getMinutes()) + this.zeroPad(d.getSeconds());
 };
 
 /**
- * Use template to build XML message.
+ * Use template to build an XML message.
  *
  * @param message
  *   Message to wrap in XML.
@@ -77,7 +77,7 @@ Request.prototype.encodeTime = function encodeTime(timestamp) {
  *   XML message.
  */
 Request.prototype.buildXML = function buildXML(message) {
-    var self = this;
+    const self = this;
     return self.template({
         username: self.username,
         password: self.password,
@@ -86,7 +86,7 @@ Request.prototype.buildXML = function buildXML(message) {
 };
 
 /**
- * Send request to FBS.
+ * Send a request to FBS.
  *
  * @param message
  *   The message to send.
@@ -94,18 +94,18 @@ Request.prototype.buildXML = function buildXML(message) {
  *   The first variable expected in the response.
  * @param callback
  *   Function to execute when data is fetched and parsed. Takes a Message object
- *   as parameter.
+ *   as a parameter.
  */
 Request.prototype.send = function send(message, firstVar, callback) {
-    var self = this;
+    const self = this;
 
     // Build XML message.
-    var xml = self.buildXML(message);
+    const xml = self.buildXML(message);
 
-    // Log message before sending it.
-    self.bus.emit('logger.info', { type: 'FBS', message: message, xml: xml });
+    // Log the message before sending it.
+    self.bus.emit('logger.info', {type: 'FBS', message: message, xml: xml});
 
-    var options = {
+    const options = {
         method: 'POST',
         url: self.endpoint,
         headers: {
@@ -116,9 +116,29 @@ Request.prototype.send = function send(message, firstVar, callback) {
     };
 
     try {
+        // TODO: Replace with alternative to request module.
+        /*
+                fetch(self.endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'User-Agent': 'bibbox',
+                        'Content-Type': 'application/xml'
+                    },
+                    body: xml
+                })
+                    .then(r => {
+
+                        return r.text();
+                    })
+                    .then(text => console.log(text))
+                    .catch((error) => {
+                        self.bus.emit('logger.info', {type: 'FBS', message: error.message});
+                        callback(new Error('FBS is offline'), null);
+                    });
+        */
         var err = null;
         var request = require('request');
-        request.post(options, function(error, response, body) {
+        request.post(options, function (error, response, body) {
             var res = null;
             if (error || response.statusCode !== 200) {
                 if (!error) {
@@ -130,7 +150,7 @@ Request.prototype.send = function send(message, firstVar, callback) {
                     }
                 }
                 // Log error message from FBS.
-                self.bus.emit('logger.err', { type: 'FBS', message: error });
+                self.bus.emit('logger.err', {type: 'FBS', message: error});
                 callback(new Error('FBS is offline'), null);
             } else {
                 // Send debug message.
@@ -139,7 +159,7 @@ Request.prototype.send = function send(message, firstVar, callback) {
                 res = new Response(body, firstVar);
                 if (res.hasError()) {
                     err = new Error(res.getError());
-                    self.bus.emit('logger.err', { type: 'FBS', message: err });
+                    self.bus.emit('logger.err', {type: 'FBS', message: err});
                 }
 
                 // Process the data.
@@ -153,23 +173,23 @@ Request.prototype.send = function send(message, firstVar, callback) {
                     var sip2 = body.match(/<response>(.*)<\/response>/);
                     sip2message = sip2[1];
                 }
-                self.bus.emit('logger.info', { type: 'FBS', message: sip2message, xml: body });
+                self.bus.emit('logger.info', {type: 'FBS', message: sip2message, xml: body});
             }
         });
     } catch (error) {
-        self.bus.emit('logger.info', { type: 'FBS', message: error.message });
+        self.bus.emit('logger.info', {type: 'FBS', message: error.message});
         callback(new Error('FBS is offline'), null);
     }
 };
 
 /**
- * Send status message to FBS.
+ * Send the status message to FBS.
  *
  * @param callback
  *   Function to call when completed request to FBS.
  */
 Request.prototype.libraryStatus = function libraryStatus(callback) {
-    var self = this;
+    const self = this;
     self.send('990xxx2.00', 'AO', callback);
 };
 
@@ -184,9 +204,9 @@ Request.prototype.libraryStatus = function libraryStatus(callback) {
  *   Function to call when completed request to FBS.
  */
 Request.prototype.patronStatus = function patronStatus(patronId, patronPassword, callback) {
-    var self = this;
-    var transactionDate = self.encodeTime();
-    var message = '23009' + transactionDate + '|AO' + self.agency + '|AA' + patronId + '|AC|AD' + patronPassword + '|';
+    const self = this;
+    const transactionDate = self.encodeTime();
+    const message = '23009' + transactionDate + '|AO' + self.agency + '|AA' + patronId + '|AC|AD' + patronPassword + '|';
 
     self.send(message, 'AO', callback);
 };
@@ -202,9 +222,9 @@ Request.prototype.patronStatus = function patronStatus(patronId, patronPassword,
  *   Function to call when completed request to FBS.
  */
 Request.prototype.patronInformation = function patronInformation(patronId, patronPassword, callback) {
-    var self = this;
-    var transactionDate = self.encodeTime();
-    var message = '63009' + transactionDate + new Array(10).join('Y') + '|AO' + self.agency + '|AA' + patronId + '|AC|AD' + patronPassword + '|';
+    const self = this;
+    const transactionDate = self.encodeTime();
+    const message = '63009' + transactionDate + new Array(10).join('Y') + '|AO' + self.agency + '|AA' + patronId + '|AC|AD' + patronPassword + '|';
 
     self.send(message, 'AO', callback);
 };
@@ -217,21 +237,21 @@ Request.prototype.patronInformation = function patronInformation(patronId, patro
  * @param patronPassword
  *   Pin code/password for the patron.
  * @param itemIdentifier
- *   The item to checkout.
+ *   The item to check out.
  * @param noBlockDueDate
  *   Timestamp for the time the book should be returned (when noBlock is true).
  * @param {bool} noBlock
- *   If true the check-out cannot be rejected by FBS.
+ *   If true, FBS cannot reject the check-out.
  * @param {number} transactionDate
  *   Timestamp for when the user preformed the action.
  * @param {function} callback
  *   Function to call when completed request to FBS.
  */
 Request.prototype.checkout = function checkout(patronId, patronPassword, itemIdentifier, noBlockDueDate, noBlock, transactionDate, callback) {
-    var self = this;
-    var transactionDateEncoded = self.encodeTime(transactionDate);
-    var noBlockDueDateEncoded = self.encodeTime(noBlockDueDate);
-    var message = '11N' + (noBlock ? 'Y' : 'N') + transactionDateEncoded + noBlockDueDateEncoded + '|AO' + self.agency + '|AA' + patronId + '|AB' + itemIdentifier + '|AC|CH|AD' + patronPassword + '|';
+    const self = this;
+    const transactionDateEncoded = self.encodeTime(transactionDate);
+    const noBlockDueDateEncoded = self.encodeTime(noBlockDueDate);
+    const message = '11N' + (noBlock ? 'Y' : 'N') + transactionDateEncoded + noBlockDueDateEncoded + '|AO' + self.agency + '|AA' + patronId + '|AB' + itemIdentifier + '|AC|CH|AD' + patronPassword + '|';
 
     self.send(message, 'AO', callback);
 };
@@ -240,18 +260,18 @@ Request.prototype.checkout = function checkout(patronId, patronPassword, itemIde
  * Check in item.
  *
  * @param itemIdentifier
- *   The item to checkout.
+ *   The item to check in.
  * @param checkedInDate
  *   Timestamp for the time that the item was returned.
  * @param noBlock
- *   If true the check-in cannot be rejected by FBS.
+ *   If true, FBS cannot reject the check-in.
  * @param callback
  *   Function to call when completed request to FBS.
  */
 Request.prototype.checkIn = function checkIn(itemIdentifier, checkedInDate, noBlock, callback) {
-    var self = this;
-    var checkedInDateEncoded = self.encodeTime(checkedInDate);
-    var message = '09' + (noBlock ? 'Y' : 'N') + checkedInDateEncoded + checkedInDateEncoded + '|AP' + self.location + '|AO' + self.agency + '|AB' + itemIdentifier + '|AC|CH|';
+    const self = this;
+    const checkedInDateEncoded = self.encodeTime(checkedInDate);
+    const message = '09' + (noBlock ? 'Y' : 'N') + checkedInDateEncoded + checkedInDateEncoded + '|AP' + self.location + '|AO' + self.agency + '|AB' + itemIdentifier + '|AC|CH|';
 
     self.send(message, 'AO', callback);
 };
@@ -269,9 +289,9 @@ Request.prototype.checkIn = function checkIn(itemIdentifier, checkedInDate, noBl
  *   Function to call when completed request to FBS.
  */
 Request.prototype.renew = function renew(patronId, patronPassword, itemIdentifier, callback) {
-    var self = this;
-    var transactionDate = self.encodeTime();
-    var message = '29NN' + transactionDate + transactionDate + '|AO' + self.agency + '|AA' + patronId + '|AD' + patronPassword + '|AB' + itemIdentifier + '|';
+    const self = this;
+    const transactionDate = self.encodeTime();
+    const message = '29NN' + transactionDate + transactionDate + '|AO' + self.agency + '|AA' + patronId + '|AD' + patronPassword + '|AB' + itemIdentifier + '|';
 
     self.send(message, 'AO', callback);
 };
@@ -287,9 +307,9 @@ Request.prototype.renew = function renew(patronId, patronPassword, itemIdentifie
  *   Function to call when completed request to FBS.
  */
 Request.prototype.renewAll = function renewAll(patronId, patronPassword, callback) {
-    var self = this;
-    var transactionDate = self.encodeTime();
-    var message = '65' + transactionDate + '|AO' + self.agency + '|AA' + patronId + '|AD' + patronPassword + '|';
+    const self = this;
+    const transactionDate = self.encodeTime();
+    const message = '65' + transactionDate + '|AO' + self.agency + '|AA' + patronId + '|AD' + patronPassword + '|';
 
     self.send(message, 'AO', callback);
 };
@@ -297,19 +317,19 @@ Request.prototype.renewAll = function renewAll(patronId, patronPassword, callbac
 /**
  * Block patron.
  *
- * Note: that there is not response form SIP2 on this call.
+ * Note: that there is no response from SIP2 on this call.
  *
  * @param patronId
  *   Patron card number or CPR number.
  * @param reason
- *   Message with reason for the user being blocked.
+ *   Message with the reason for the user being blocked.
  * @param callback
  *   Function to call when completed request to FBS.
  */
 Request.prototype.blockPatron = function blockPatron(patronId, reason, callback) {
-    var self = this;
-    var transactionDate = self.encodeTime();
-    var message = '01N' + transactionDate + '|AO' + self.agency + '|AL' + reason + '|AA' + patronId + '|';
+    const self = this;
+    const transactionDate = self.encodeTime();
+    const message = '01N' + transactionDate + '|AO' + self.agency + '|AL' + reason + '|AA' + patronId + '|';
 
     self.send(message, 'AO', callback);
 };
