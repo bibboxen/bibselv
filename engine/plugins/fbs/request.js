@@ -58,7 +58,7 @@ Request.prototype.zeroPad = function zeroPad(number) {
  * @returns {string}
  *   The time as sip2 time string.
  */
-Request.prototype.encodeTime = function encodeTime(timestamp) {
+Request.prototype.encodeTime = function encodeTime(timestamp = null) {
     if (!timestamp) {
         timestamp = new Date().getTime();
     }
@@ -105,81 +105,46 @@ Request.prototype.send = function send(message, firstVar, callback) {
     // Log the message before sending it.
     self.bus.emit('logger.info', {type: 'FBS', message: message, xml: xml});
 
-    const options = {
+    let status;
+
+    fetch(self.endpoint, {
         method: 'POST',
-        url: self.endpoint,
         headers: {
             'User-Agent': 'bibbox',
             'Content-Type': 'application/xml'
         },
         body: xml
-    };
+    })
+        .then(response => {
+            status = response.status;
 
-    try {
-        // TODO: Replace with alternative to request module.
-        /*
-                fetch(self.endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'User-Agent': 'bibbox',
-                        'Content-Type': 'application/xml'
-                    },
-                    body: xml
-                })
-                    .then(r => {
+            return response.text();
+        })
+        .then(body => {
+            const res = new Response(body, firstVar);
+            let sip2message;
 
-                        return r.text();
-                    })
-                    .then(text => console.log(text))
-                    .catch((error) => {
-                        self.bus.emit('logger.info', {type: 'FBS', message: error.message});
-                        callback(new Error('FBS is offline'), null);
-                    });
-        */
-        var err = null;
-        var request = require('request');
-        request.post(options, function (error, response, body) {
-            var res = null;
-            if (error || response.statusCode !== 200) {
-                if (!error) {
-                    res = new Response(body, firstVar);
-                    if (res.hasError()) {
-                        error = new Error(res.getError());
-                    } else {
-                        error = new Error('Unknown error', response.statusCode());
-                    }
-                }
-                // Log error message from FBS.
-                self.bus.emit('logger.err', {type: 'FBS', message: error});
+            if (res.hasError()) {
+                sip2message = res.getError();
                 callback(new Error('FBS is offline'), null);
             } else {
-                // Send debug message.
-                debug(response.statusCode + ':' + message.substr(0, 2));
+                // Log debug message.
+                debug(status + ':' + message.substr(0, 2));
 
-                res = new Response(body, firstVar);
-                if (res.hasError()) {
-                    err = new Error(res.getError());
-                    self.bus.emit('logger.err', {type: 'FBS', message: err});
-                }
+                const sip2 = body.match(/<response>(.*)<\/response>/);
+                sip2message = sip2[1];
 
                 // Process the data.
-                callback(err, res);
-
-                // Log message from FBS.
-                var sip2message = 'No message';
-                if (res.hasError()) {
-                    sip2message = res.getError();
-                } else {
-                    var sip2 = body.match(/<response>(.*)<\/response>/);
-                    sip2message = sip2[1];
-                }
-                self.bus.emit('logger.info', {type: 'FBS', message: sip2message, xml: body});
+                callback(null, res);
             }
+
+            // Log message from FBS.
+            self.bus.emit('logger.info', {type: 'FBS', message: sip2message, xml: body});
+        })
+        .catch((error) => {
+            self.bus.emit('logger.info', {type: 'FBS', message: error.message});
+            callback(new Error('FBS is offline'), null);
         });
-    } catch (error) {
-        self.bus.emit('logger.info', {type: 'FBS', message: error.message});
-        callback(new Error('FBS is offline'), null);
-    }
 };
 
 /**
