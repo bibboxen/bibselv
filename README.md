@@ -28,6 +28,11 @@ The engine then changes the machine state and sends it back to the frontend.
 - PHP 8.3
 - React 18.x
 
+#### Socket.io
+
+**Important!** If upgrading socket.io the version in `package.json -> "socket.io-client"` must match the version in
+`engine/plugins/server/package.json -> "socket.io"`.
+
 ## Development setup
 
 A docker-based development setup is provided with the project.
