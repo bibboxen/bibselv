@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   nginx:
     depends_on:

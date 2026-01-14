@@ -112,10 +112,10 @@ jobs:
               run: docker network create frontend
 
             - name: Install client
-              run: docker compose run frontend npm install
+              run: docker compose run --rm frontend npm install
 
             - name: Cypress run
-              run: docker compose run cypress run --component --browser chrome
+              run: docker compose run --rm cypress run --component --browser chrome
 
             - name: Archive screenshots
               if: ${{ failure() }}

@@ -51,7 +51,7 @@ cp engine/example_config.json engine/config.json
 Install dependencies for the engine.
 
 ```sh
-docker compose run engine bash -c './scripts/install.sh --include=dev'
+docker compose run --rm engine bash -c './scripts/install.sh --include=dev'
 ```
 
 This script installs all dependencies for the engine and all the engine plugins.
@@ -73,7 +73,7 @@ CLI_REDIRECT=APP_CLI_REDIRECT_URI       # Redirect route for CLI login
 Install the frontend dependencies:
 
 ```sh
-docker compose run frontend bash -c 'npm install'
+docker compose run --rm frontend bash -c 'npm install'
 ```
 
 ### Symfony
@@ -230,13 +230,13 @@ When PRs are created towards the `develop`-branch GitHub Actions check all codin
 To check for coding standards, run the following:
 
 ```sh
-docker compose run frontend bash -c 'npm run check-coding-standards'
+docker compose run --rm frontend bash -c 'npm run check-coding-standards'
 ```
 
 To automatically apply coding standards, run:
 
 ```sh
-docker compose run frontend bash -c 'npm run apply-coding-standards'
+docker compose run --rm frontend bash -c 'npm run apply-coding-standards'
 ```
 
 ### Code linting Engine
