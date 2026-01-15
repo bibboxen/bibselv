@@ -122,11 +122,13 @@ Request.prototype.send = function send(message, firstVar, callback) {
         })
         .then(body => {
             const res = new Response(body, firstVar);
+            let result = null;
+            let error = null;
             let sip2message;
 
             if (res.hasError()) {
                 sip2message = res.getError();
-                callback(new Error('FBS is offline'), null);
+                error = res.getError();
             } else {
                 // Log debug message.
                 debug(status + ':' + message.substr(0, 2));
@@ -134,16 +136,18 @@ Request.prototype.send = function send(message, firstVar, callback) {
                 const sip2 = body.match(/<response>(.*)<\/response>/);
                 sip2message = sip2[1];
 
-                // Process the data.
-                callback(null, res);
+                result = res;
             }
 
             // Log message from FBS.
             self.bus.emit('logger.info', {type: 'FBS', message: sip2message, xml: body});
+
+            // Process the data.
+            callback(error, result);
         })
         .catch((error) => {
             self.bus.emit('logger.info', {type: 'FBS', message: error.message});
-            callback(new Error('FBS is offline'), null);
+            callback(new Error(error), null);
         });
 };
 
