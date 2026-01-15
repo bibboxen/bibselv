@@ -103,7 +103,7 @@ Request.prototype.send = function send(message, firstVar, callback) {
     const xml = self.buildXML(message);
 
     // Log the message before sending it.
-    self.bus.emit('logger.info', {type: 'FBS', message: message, xml: xml});
+    self.bus.emit('logger.info', { type: 'FBS', message: message, xml: xml });
 
     let status;
 
@@ -140,13 +140,13 @@ Request.prototype.send = function send(message, firstVar, callback) {
             }
 
             // Log message from FBS.
-            self.bus.emit('logger.info', {type: 'FBS', message: sip2message, xml: body});
+            self.bus.emit('logger.info', { type: 'FBS', message: sip2message, xml: body });
 
             // Process the data.
             callback(error, result);
         })
         .catch((error) => {
-            self.bus.emit('logger.info', {type: 'FBS', message: error.message});
+            self.bus.emit('logger.info', { type: 'FBS', message: error.message });
             callback(new Error(error), null);
         });
 };
