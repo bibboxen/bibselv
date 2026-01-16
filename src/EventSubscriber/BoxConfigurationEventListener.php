@@ -31,7 +31,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
     /**
      * Register events.
      *
-     * @return array|\string[][]
+     * @return array|string[][]
      */
     public static function getSubscribedEvents()
     {

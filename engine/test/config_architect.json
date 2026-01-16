@@ -2,7 +2,7 @@
     "eventTimeout": 1000,
     "tokenValidationEndPoint" : "http://nginx/token/validate/",
     "tokenGetEndPoint" : "http://nginx/token/get/",
-    "fbsEndPoint": "https://Cicero-fbs.com/rest/sip2/",
+    "fbsEndPoint": "http://localhost/rest/sip2/",
     "fbsOnlineCheckConfig": {
         "username": "xxxx",
         "password": "xxx",

@@ -17,7 +17,7 @@
     "dependencies": {
         "express": "^4.21",
         "node-fetch": "^2.6",
-        "socket.io": "^4.6",
+        "socket.io": "4.8.3",
         "uniqid": "^5.2"
     }
 }

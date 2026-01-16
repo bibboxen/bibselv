@@ -1,14 +1,15 @@
-# Bibbox Website
+# Bibselv
 
-A centralized Bibbox that runs as web-pages.
+A website for library self-service through FBS (Fælles bibliotekssystem) through the sip2 protocol.
 
 ## Description
 
-This project a provides library self-service from a website. It consists of the following parts:
+This project provides a library self-service from a website. It consists of the following parts:
 
 - A frontend that exposes the library functions available to the user (React).
 - An administration interface (for configuring machines) and website provider for the frontend (Symfony/PHP).
-- An engine that handles communication between the frontend and FBS (Fælles bibliotekssystem) and handles state for each machine (Node.js).
+- An engine that handles communication between the frontend and FBS and handles state for each
+  machine (Node.js).
 
 A user can load a machine by a unique URL that is tied to a machine configuration.
 
@@ -17,19 +18,26 @@ A user can load a machine by a unique URL that is tied to a machine configuratio
 The frontend communicates with the engine through a web socket.
 The machine state flows from the engine to the frontend.
 The frontend reflects the given machine state.
-User actions passes from the frontend to the engine.
-The engine then changes the machines state and sends it back to the frontend.
+User actions are passed from the frontend to the engine.
+The engine then changes the machine state and sends it back to the frontend.
 
 ## Tech stack
 
-- Node.js 14.x
-- Symfony 5.x
-- PHP 7.4
-- React 16.x
+- Node.js 22.x
+- Symfony 6.x
+- PHP 8.3
+- React 18.x
+
+#### Socket.io
+
+**Important!** If upgrading socket.io the version in `package.json -> "socket.io-client"` must match the version in
+`engine/plugins/server/package.json -> "socket.io"`.
 
 ## Development setup
 
-A docker based development setup is provided with the project. So first step is to start the docker compose stack to install the required PHP and NodeJs packages, set configuration files and then restart the stack to make it work corretly.
+A docker-based development setup is provided with the project.
+The first step is to start the docker compose stack to install the required PHP and node.js packages,
+set up configuration files and then restart the stack to make it work correctly.
 
 ```sh
 docker-compose up --detach
@@ -37,7 +45,7 @@ docker-compose up --detach
 
 ### Engine
 
-We start by getting engine dependencies and set it's basic configuration.
+We start by installing engine dependencies and set the basic configuration.
 
 Copy engine configuration files:
 
@@ -45,13 +53,13 @@ Copy engine configuration files:
 cp engine/example_config.json engine/config.json
 ```
 
-@TODO: __Note__ that the config.json contains FBS configuration at this point, but will later version be loaded from the Symfony administration backend as box configuration. So this is an hack for now.
-
 Install dependencies for the engine.
 
 ```sh
-docker compose run engine bash -c './scripts/install.sh --also=dev'
+docker compose run --rm engine bash -c './scripts/install.sh --include=dev'
 ```
+
+This script installs all dependencies for the engine and all the engine plugins.
 
 ### Environment variables
 
@@ -67,84 +75,89 @@ CLI_REDIRECT=APP_CLI_REDIRECT_URI       # Redirect route for CLI login
 
 ### Frontend
 
-Install the frontend react dependencies.
+Install the frontend dependencies:
 
 ```sh
-docker-compose run frontend bash -c 'npm install'
+docker compose run --rm frontend bash -c 'npm install'
 ```
 
 ### Symfony
 
-Install composer packages.
+Install composer packages:
 
 ```sh
-docker-compose exec phpfpm composer install
+docker compose exec phpfpm composer install
 ```
 
-Install database schema for Symfony using migrations, run
+Install database schema for Symfony using migrations, run:
 
 ```sh
-docker-compose exec phpfpm bash -c 'bin/console doctrine:migrations:migrate'
+docker compose exec phpfpm bash -c 'bin/console doctrine:migrations:migrate'
 ```
 
-To populate the database with meaningful test data run the doctrine fixtures
+To populate the database with meaningful test data, run the doctrine fixtures:
 
 ```sh
-docker-compose exec phpfpm bash -c 'bin/console doctrine:fixtures:load'
+docker compose exec phpfpm bash -c 'bin/console doctrine:fixtures:load'
 ```
 
-To create a test user run
+To create a test user, run:
 
 ```sh
-docker-compose exec phpfpm bash -c 'bin/console app:user:create --email=admin@example.com --password=admin'
+docker compose exec phpfpm bash -c 'bin/console app:user:create --email=admin@example.com --password=admin'
 ```
-
-
 
 ### Restart
 
-Now that we have installed all the dependencies need by the frontend and engine, we need to restart the docker container to ensure that everything gets loaded, run
+Now that we have installed all the dependencies for the frontend and engine, we need to restart the docker container to
+ensure that everything gets loaded:
 
 ```sh
-docker-compose restart engine
+docker compose restart engine
 ```
 
 ## Using the system
 
-To get a running frontend you need to first goto the administration interface and setup a box configuration. Start by adding an SIP2 user, then a school an lastly a bibbox box configuration where you select the other two.
+To get a running frontend, you need to first go to the administration interface and set up a box configuration.
+Start by adding a SIP2 user, then a school and a box configuration where you select the other two.
 
 Get url for the administration:
 
 ```sh
-open http://$(docker-compose port nginx 80)/admin
+open http://$(docker compose port nginx 80)/admin
 ```
 
 Before logging into the box configuration administrative interface, create an administrative user:
 
 ```sh
-docker-compose exec phpfpm bash -c 'bin/console app:user:create --email=admin@itkdev.dk --password=admin'
+docker compose exec phpfpm bash -c 'bin/console app:user:create --email=admin@itkdev.dk --password=admin'
 ```
 
-Next access the React frontend where `x` below is the id of the configuration entity you just created in the administrative interface.
+Next access the React frontend where `x` below is the id of the configuration entity you just created in the
+administrative interface.
 
 ```sh
-open http://$(docker-compose port nginx 80)?id=x
+open http://$(docker compose port nginx 80)?id=x
 ```
 
 ### Azure AD login
 
-To test locally see "Bibselv OpenIDConnect" credentials in 1Password.
+To test locally, see "Bibselv OpenIDConnect" credentials in 1Password.
 
 Login flow is as follows:
-Box frontend -> Symfony (route: box_ad_login) -> Azure -> Symfony (route: box_ad_redirect_uri) -> Box frontend (calls config w. state)
+Box frontend -> Symfony (route: box_ad_login) -> Azure -> Symfony (route: box_ad_redirect_uri) -> Box frontend (calls
+config w. state)
 
 #### Symfony (route: box_ad_login)
 
-Receives the box id `uniqueId` and the `boxState` to indicate if the box entered "check out" or "status". Then adds this to the Azure AD login url as openid state, before redirecting to Azure.
+Receives the box id `uniqueId` and the `boxState` to indicate if the box entered "check out" or "status". Then adds this
+to the Azure AD login url as openid state, before redirecting to Azure.
 
 #### Symfony (route: box_ad_redirect_uri)
 
-Receives the redirect back from Azure after login, validates the credentials and gets username and type. Gets box id and box state from openid connect state and caches it all as a `AdLoginState` keyed by the box id. Then redirects to the box URL.
+Receives the redirect back from Azure after login, validates the credentials and gets username and type. Gets box id and
+box state from openid connect state and caches it all as a `AdLoginState` keyed by the box id. Then redirects to the box
+URL.
 
 #### Symfony (route: box_frontend_load)
 
@@ -152,7 +165,8 @@ Endpoint for the individual box. Loads the box. Then the box calls the config bo
 
 #### Symfony (route: box_configuration)
 
-Endpoint for box configuration. If there is a cached `AdLoginState` object it loads this and includes it in the config as `adLoginState`. If no state is cached `adLoginState` is set to `null`
+Endpoint for box configuration. If there is a cached `AdLoginState` object it loads this and includes it in the config
+as `adLoginState`. If no state is cached `adLoginState` is set to `null`
 
 ```json
 {
@@ -196,7 +210,7 @@ Endpoint for box configuration. If there is a cached `AdLoginState` object it lo
 
 #### Frontend box
 
-Loads the config and enters flow based on exposed state.
+Loads the config and enters flow based on the exposed state.
 
 ## Logging
 
@@ -206,7 +220,7 @@ The engine uses logstash to log messages, and these can be seen in the docker se
 idc logs -f logstash
 ```
 
-Which will show lines as json objects eg.
+Which will show lines as JSON objects e.g.
 
 ```json
 {"@version":"1","level":"info","name":"Unknown","message":"Listening on port 3000","@timestamp":"2020-09-15T09:20:11.838Z","type":"server","location":"Unknown"}
@@ -214,20 +228,20 @@ Which will show lines as json objects eg.
 
 ## Code Linting
 
-When PRs are created towards the develop branch all coding styles are checked by Github Actions.
+When PRs are created towards the `develop`-branch GitHub Actions check all coding styles.
 
 ### Code linting frontend
 
 To check for coding standards, run the following:
 
 ```sh
-docker-compose run frontend bash -c 'npm run check-coding-standards'
+docker compose run --rm frontend bash -c 'npm run check-coding-standards'
 ```
 
 To automatically apply coding standards, run:
 
 ```sh
-docker-compose run frontend bash -c 'npm run apply-coding-standards'
+docker compose run --rm frontend bash -c 'npm run apply-coding-standards'
 ```
 
 ### Code linting Engine
@@ -243,11 +257,12 @@ docker compose exec phpfpm composer coding-standards-apply
 
 ## Testing
 
-All tests runs with Github Actions for each PR to develop.
+All tests are run with GitHub Actions for each PR to develop.
 
 ### Testing frontend
 
-The frontend is [component tested](https://docs.cypress.io/guides/core-concepts/testing-types#What-is-Component-Testing) with Cypress.
+The frontend is [component tested](https://docs.cypress.io/guides/core-concepts/testing-types#What-is-Component-Testing)
+with Cypress.
 
 ```sh
 docker compose run --rm cypress run --component
@@ -263,6 +278,7 @@ npm run cypress:open
 # cli
 npm run cypress:run
 ```
+
 ### Testing engine
 
 Engine tests runs with mocha from the `engine/` directory. The tests that
@@ -272,15 +288,11 @@ call FBS are mocked with nock recordings (see the `test/fixtures` folder).
 docker compose exec engine bash -c 'npm test'
 ```
 
-### Testing symfony
-
-@TODO: Setup tests for the Symfony/PHP code.
-
 ## Production
 
 ### Setup symfony
 
-To install and build please run the `../scripts/deploy.sh` script on the `prod` server
+To install and build, please run the `../scripts/deploy.sh` script on the `prod` server
 and give the tag to deploy as argument to the script.
 
 ```sh
@@ -291,14 +303,14 @@ and give the tag to deploy as argument to the script.
 
 The React front end used [formatJS](https://formatjs.io/) to handle translations.
 
-To extract new strings in json.
+To extract new strings in JSON.
 
 ```sh
 docker compose exec frontend bash -c "npm run extract -- 'assets/**/*.js*' --out-file public/lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'"
 ```
 
 Make a copy of this file into a new JSON file (public/lang/<LANGCODE>.json) and
-change the strings into your language and compile the json file with the
+change the strings into your language and compile the JSON file with the
 following command (substitute <LANGCODE> with your language code):
 
 ```sh
