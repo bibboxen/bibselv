@@ -51,6 +51,8 @@ services:
       - app
     environment:
       - MEMCACHED_CACHE_SIZE=64
+    deploy:
+      replicas: 0
 
   frontend:
     user: '1042'
