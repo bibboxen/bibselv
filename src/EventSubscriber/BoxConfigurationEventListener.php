@@ -57,7 +57,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
 
         do {
             try {
-                $hash = substr(sha1(time()), 0, 10);
+                $hash = substr(sha1((string)time()), 0, 10);
 
                 // Test for uniqueness.
                 $entitiesFound = $this->boxConfigurationRepository->findBy(['uniqueId' => $hash]);
