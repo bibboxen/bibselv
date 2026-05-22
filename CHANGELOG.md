@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded to node 22 and fixed npm audit issues.
 - Replaced use of request module.
 
+## [1.3.2] - 2026-05-22
+
+- Security updates.
+
 ## [1.3.1] - 2025-09-18
 
 - Added calls to getToken when missing or invalid token.
