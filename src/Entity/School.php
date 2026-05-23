@@ -24,7 +24,7 @@ class School implements \Stringable
     private ?string $name = null;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<int, \App\Entity\BoxConfiguration>
+     * @var Collection<int, BoxConfiguration>
      */
     #[ORM\OneToMany(targetEntity: BoxConfiguration::class, mappedBy: 'school')]
     private Collection $boxConfigurations;

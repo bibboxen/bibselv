@@ -31,7 +31,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
     /**
      * Register events.
      *
-     * @return array|\string[][]
+     * @return array|string[][]
      */
     public static function getSubscribedEvents()
     {
@@ -57,7 +57,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
 
         do {
             try {
-                $hash = substr(sha1(time()), 0, 10);
+                $hash = substr(sha1((string)time()), 0, 10);
 
                 // Test for uniqueness.
                 $entitiesFound = $this->boxConfigurationRepository->findBy(['uniqueId' => $hash]);

@@ -1,14 +1,14 @@
 var nock = require('nock');
 
-nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
+nock('http://localhost', { encodedQueryParams: true })
     .post('/rest/sip2/DK-775100', /<request>11NN\d{8}\s{4}\d{6}\d{8}\s{4}\d{6}\|AODK-775100\|AA3210\d{6}\|AB3274626533\|AC\|CH\|AD\d{5}\|<\/request>/)
     .reply(200, '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>121NUY20170619    125152AODK-775100|AA3210519784|AB3274626533|AJ06850537|AH20170720    000000|CHHelbred dit liv%Hay, Louise L.%a%xx%61.36|BK19adc5e7-2734-4aeb-b255-d259c68928a5|</response></ns2:sip>');
 
-nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
+nock('http://localhost', { encodedQueryParams: true })
     .post('/rest/sip2/DK-775100', /<request>09N\d{8}\s{4}\d{6}\d{8}\s{4}\d{6}\|APhb\|AODK-775100\|AB3274626533\|AC\|CH\|<\/request>/)
     .reply(200, '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>101YUN20170619    125154AODK-775100|AB3274626533|AQHovedbiblioteket%Voksen%%|AJ06850537|AALN:C0016351730|CHHelbred dit liv%Hay, Louise L.%a%xx%61.36|</response></ns2:sip>');
 
-nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
+nock('http://localhost', { encodedQueryParams: true })
     .post('/rest/sip2/DK-775100', /<request>63009\d{8}\s{4}\d{6}YYYYYYYYY\|AODK-775100\|AA3210\d{6}\|AC\|AD\d{5}\|<\/request>/)
     .times(4)
     .reply(200,
@@ -25,7 +25,7 @@ nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
         'CD12345%3843081016%20250720%Three computer games%A. Writer%a%xx%80.41|' +
         'BDTest Testesen%TestAdresse 1%8000%Aarhus%DK|BEtest@test.dk|PB20000405|</response></ns2:sip>');
 
-nock('https://cicero-fbs.com:443', { encodedQueryParams: true })
+nock('http://localhost', { encodedQueryParams: true })
     .post('/rest/sip2/DK-775100', /<request>63009\d{8}\s{4}\d{6}YYYYYYYYY\|AODK-775100\|AA3210\d{6}\|AC\|AD\d{5}\|<\/request>/)
     .reply(200,
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:sip xmlns:ns2="http://axiell.com/Schema/sip.xsd"><response>64              00920170619    125152000000000006000000000000AODK-775100|AALN:3210000000|AETestkort Mickey Mouse|BZ9999|CA9999|CB9999|BLY|CQY|BHDKK|BV0.00|CC220.00|' +

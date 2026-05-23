@@ -1,28 +1,22 @@
 #!/usr/bin/env bash
 cd "$(dirname "$0")/.." || exit
 
-# Audit main modules
-echo '-- Audit main modules --'
+# Install main modules
+echo '-- Install main modules --'
 echo "==> ."
-rm -rf node_modules
-npm install --${1:-omit=dev}
-npm audit --omit=dev
+npm clean-install
 echo '-----------------------'
 
-# Audit plugin dependencies.
+# Install plugin dependencies.
 echo
-echo '-- Audit plugin dependencies --'
+echo '-- Install plugin dependencies --'
 for folder in plugins/*; do
   if [ -d $folder ]; then
     echo
     echo '-----------------------'
     echo "==> ${folder}"
     echo '-----------------------'
-    cd $folder
-    rm -rf node_modules
-    npm install --${1:-omit=dev}
-    npm audit --omit=dev
-    cd ../..
+    cd $folder; npm clean-install; cd ../..;
     echo '-----------------------'
   fi
 done

@@ -6,7 +6,7 @@ echo '-- Audit main modules --'
 echo "==> ."
 rm -rf node_modules
 npm install --${1:-omit=dev}
-npm audit --omit=dev
+npm audit --omit=dev fix
 echo '-----------------------'
 
 # Audit plugin dependencies.
@@ -21,7 +21,7 @@ for folder in plugins/*; do
     cd $folder
     rm -rf node_modules
     npm install --${1:-omit=dev}
-    npm audit --omit=dev
+    npm audit --omit=dev fix
     cd ../..
     echo '-----------------------'
   fi
