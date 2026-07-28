@@ -15,7 +15,7 @@ services:
 
   engine:
     user: '1042'
-    image: node:20-alpine
+    image: node:22-alpine
     restart: unless-stopped
     networks:
       - app
@@ -51,10 +51,12 @@ services:
       - app
     environment:
       - MEMCACHED_CACHE_SIZE=64
+    deploy:
+      replicas: 0
 
   frontend:
     user: '1042'
-    image: node:20
+    image: node:22
     networks:
       - app
     working_dir: /app

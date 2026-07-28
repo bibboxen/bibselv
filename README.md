@@ -2,6 +2,30 @@
 
 A website for library self-service through FBS (Fælles bibliotekssystem) through the sip2 protocol.
 
+## Audit
+
+Check for audit issues with:
+
+```
+# PHP
+docker compose run --rm phpfpm composer audit
+# Frontend
+docker compose run --rm frontend bash -c 'npm audit --omit=dev'
+# Engine
+docker compose run --rm engine bash -c './scripts/audit.sh'
+```
+
+Fix audit issues with:
+
+```
+# PHP
+docker compose run --rm phpfpm composer update --with-all-dependencies
+# Frontend
+docker compose run --rm frontend bash -c 'npm audit fix --omit=dev'
+# Engine
+docker compose run --rm engine bash -c './scripts/audit-fix.sh'
+```
+
 ## Description
 
 This project provides a library self-service from a website. It consists of the following parts:
