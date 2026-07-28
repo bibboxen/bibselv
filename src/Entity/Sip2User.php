@@ -32,7 +32,7 @@ class Sip2User implements \Stringable
     private ?string $agencyId = null;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<int, \App\Entity\BoxConfiguration>
+     * @var Collection<int, BoxConfiguration>
      */
     #[ORM\OneToMany(targetEntity: BoxConfiguration::class, mappedBy: 'sip2User')]
     private Collection $boxConfigurations;

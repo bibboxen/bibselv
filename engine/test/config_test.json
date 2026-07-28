@@ -5,7 +5,7 @@
     "fbs": {
         "username": "xxxx",
         "password": "xxx",
-        "endpoint": "https://cicero-fbs.com/rest/sip2/DK-775100",
+        "endpoint": "http://localhost/rest/sip2/DK-775100",
         "agency": "DK-775100",
         "location": "hb",
         "defaultPassword": "00000",
