@@ -49,7 +49,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof BoxConfiguration)) {
+        if (!$entity instanceof BoxConfiguration) {
             return;
         }
 
@@ -57,7 +57,7 @@ class BoxConfigurationEventListener implements EventSubscriberInterface
 
         do {
             try {
-                $hash = substr(sha1((string)time()), 0, 10);
+                $hash = substr(sha1((string) time()), 0, 10);
 
                 // Test for uniqueness.
                 $entitiesFound = $this->boxConfigurationRepository->findBy(['uniqueId' => $hash]);
