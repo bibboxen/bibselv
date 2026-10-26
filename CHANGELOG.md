@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-10-26
+
+- Switched to maintained nginx/nginx-unprivileged docker image.
+
 ## [1.4.0] - 2026-01-16
 
 - Upgraded to node 22 and fixed npm audit issues.
